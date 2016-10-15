@@ -1,0 +1,329 @@
+\ifx\wholebook\relax\else
+\input{../Common.tex}
+\input{../macroes.tex}
+\begin{document}
+\fi
+
+\chapter{Inheritance: Reusing and Extending Behavior}\label{cha:inheritance}
+
+In the previous chapter we presented objects and classes. Objects are entities that communicate by exclusively sending and receiving messages. Objects are described by classes that are factories of objects. All the objects instances of the same class share the same behavior but have its own private state. Class define behavior and structure of all their instances. 
+
+In this Chapter we present the fundamental concept of \index{inheritance} \emph{inheritance} that allows a class to reuse and extend the behavior of another class. The idea is that as a class programmer we do not want to rewrite from scratch a functionality if another class already offers it. We would prefer to express the difference between the implemented behavior and the new behavior we want. This is this difference between classes that inheritance lets us express. 
+
+To illustrate the important points we start by studying the class \ct{Flasher}. Later we define a subclass of the class \ct{Flasher} to illustrate the points we learned. Finally we will explain the issue of instance initialization. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Studying the \ct{Flasher} class}
+The class \ct{Flasher} creates simple graphical objects that flash, \ie\ change color at a regular time interval. We suggest you to first create a flasher executing the following expression \ct{Flasher newStandAlone openInWorld}.
+
+You can also browse the class \ct{Flasher}. This class defines one instance variable named \ct{onColor} and 5 methods (see Figure~\ref{fig:flasher}). These methods makes sure that the morph is flashing and that we can change the color of the morph. Bring an inspector on the morph (red halo, menu \menu{debug...}, menu item \menu{inspect morph}) and execute the following expression \ct{self onColor: Color green}.
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=3.5cm]{flasher}
+\caption{The class \ct{Flasher} and two instances.\label{fig:flasher}}
+\end{center}
+\end{figure}
+
+
+The class definition (\ref{flasherdef}) shows that the class defines a new instance variable named \ct{onColor}. However the methods defined in the class \ct{Flasher} are not enough to define the complex behavior of a Morph. For example, the fact that we can drag and drop it, change its size, change its border, or even that it is a circle. All this behavior is reused from other classes. The definition shows another key information: the fact that the class \ct{Flasher} is a subclass from \ct{EllipseMorph}.
+
+\begin{classdef}\label{flasherdef}
+\bold{EllipseMorph subclass: #Flasher}   instanceVariableNames: '\bold{onColor}'   classVariableNames: ''   poolDictionaries: ''   category: 'Morphic-Demo'
+\end{classdef}
+
+
+Inheritance allows one to define a new class by only specifying the missing delta between a superclass behavior and the expected behavior. A class that inherits from another one is called a \emph{subclass} of the previous one which is called its \emph{superclass} as shown by Figure~\ref{fig:simplesupersubclass}.  The class \ct{Ellipse} is the \emph{superclass} of the class \ct{Flasher}. The class \ct{Flasher} reuses and extends the behavior defined by the class \ct{Flasher}. Instances of the class \ct{Ellipse} have a different behavior than the ones of the class \ct{Flasher}.
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=6cm]{simplesupersubclass}
+\caption{The class \ct{Ellipse} is the superclass of the class \ct{Flasher}. The class \ct{Flasher} reuses and extends its behavior. Instances of the class \ct{Ellipse} have a different behavior than the ones of the class \ct{Flasher}. \label{fig:simplesupersubclass}}
+\end{center}
+\end{figure}
+
+
+Inheritance is not limited to only one level as shown by Figure~\ref{fig:supersubclass}. The class \ct{EllipseMorph} is not defined from scratch but inherits from the class \ct{BorderedMorph}. The class \ct{EllipseMorph} defines in particular how the morph is drawn and how to know whether it contains a given point. Again the class \ct{BorderedMorph} which defines morph having a border inherits from the class \ct{Morph}. Finally the class \ct{Morph} which defines all the basic behavior of the graphical object inherits from the class \ct{Object}. The class \ct{Object} defines all the basic behavior that all the objects have to know. The class \ct{Object} is the root of the inheritance tree in \st. 
+
+As Figure~\ref{fig:supersubclass} shows it, while a class has only one superclass, a class may have multiple subclasses. Here \ct{BorderedMorph} has two subclasses \ct{EllipseMorph} and \ct{EyeMorph}.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=5cm]{supersubclass}
+\caption{The complete inheritance hierarchy of \ct{Flasher}. The class \ct{Object} is root to the inheritance hierarchy.\label{fig:supersubclass}}
+\end{center}
+\end{figure}
+
+You can open an hierarchical browser to see the inheritance hierarchy. For this select the class \ct{Flasher} then bring the menu and choose the menu \menu{browse hierarchy}. You should get the browser shown in Figure~\ref{fig:flasherInheritanceBrowser}. This browser shows all the superclasses of the class \ct{Flasher}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=12cm]{flasherInheritanceBrowser}
+\caption{A hierarchy browser opened on the \ct{Flasher} class. You can browse its superclass by clicking on them.\label{fig:flasherInheritanceBrowser}}
+\end{center}
+\end{figure}
+
+
+\largecadre{A class inherits behavior and state from superclasses. It just have to define new and different behavior.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Different Kinds of Incremental Definition}
+With inheritance a class is not defined from scratch but in the context of its superclass. While defining a class we can add state, define new behavior, extend inherited behavior, or change inherited behavior of the superclass. We now look at each scenario on the class \ct{Flasher}.
+
+\paragraph{Adding State.} A subclass may need some extra state to implement a new behavior. It defines new instance variables. The new class then has the instance variables of its superclass and the new ones. The class \ct{Flasher} adds the \ct{onColor} instance variable that represents the flasher color when it is on. The idea is that the \ct{onColor} instance variable acts as a binary flag telling at each step whether the \ct{onColor} is the color of the morph or not (See method~\ref{mth:Flasherstep2}). 
+
+
+There are some simple rules that control the addition of instance variables.  The name of an instance variable should be unique among the superclass chain, \ie\ if a class defines a given instance variable \ct{bounds}, a subclass cannot define another instance variable with the same name. 
+
+The System Browser allows one to see all the instance variables defined in an inheritance branch. Select the class \ct{Flasher}, then select the menu item \menu{show hierarchy}. You should get the information displayed in Figure~\ref{fig:flasherInheritance}, where each line represents a class and the list of instance variables is shown in parentheses. 
+We see that the class \ct{BorderedMorph} defines two instance variables: \ct{borderWidth} and \ct{borderColor}, that the class \ct{EllipseMorph} does not define new instance variable and that the class \ct{Flasher} defines one instance variable \ct{onColor}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=10cm]{flasherInheritance}
+\caption{.\label{fig:flasherInheritance}}
+\end{center}
+\end{figure}
+
+Note that we can also ask the class itself for all its instance variable names as follow:
+
+\begin{scriptwithtitle}{Asking a class all its instance variables}
+ \ct{Flasher} allInsVarNames.
+returns
+#('bounds' 'owner' 'submorphs' 'fullBounds' 'color' 'extension' 
+'borderWidth' 'borderColor' 'onColor')
+\end{scriptwithtitle}
+
+
+\paragraph{Adding Behavior.} The class \ct{Flasher} adds flashing behavior to the \ct{EllipseMorph} class. The methods \ct{onColor}, \ct{onColor:} are only defined for the the \ct{Flasher}. Instances of the class \ct{Flasher} understand it while instances of the class \ct{EllipseMorph} do not understand these messages for reasons that we  explain below.
+
+\paragraph{Changing Behavior.} By defining a method in a subclass we can change the behavior inherited from a superclass. For example the method \ct{stepTime} has the  responsibility is to return the number of milliseconds between to call to the method \ct{step}. The class \ct{Flasher} redefines the method \ct{stepTime} inherited from the class \ct{Morph}. Here the redefinition is simple it just returns a different amount of time that is used as basis to make the morph flash. In object-oriented programming jargon we called this practice \emph{overriding} as the new method hides the inherited one.
+
+\begin{method}
+Flasher>>stepTime   "Answer the desired time between steps, in milliseconds."   ^ 500
+\end{method}
+
+\paragraph{Extending Behavior.} Sometimes we just want to extend the inherited behavior. We define a method that is overriding an inherited method as shown in the previous point but we want to also invoke the hidden method. 
+This way the overridden method is executed and we are able to define extra behavior. Invoking an overriden method is done by using not \ct{self} but \ct{super} to send a message. \ct{super} as \ct{self} refers to the receiving object but it makes the method lookup does not start in the receiver class but in its direct superclass as explained in Section~\ref{sec:lookup}.
+
+ The method \ct{step} is invoked regularly by the \sq environment and is used to perform morph animation. The method \ct{step} \ref{mth:Flasherstep2} of the class \ct{Flasher} 
+is responsible of making the morph flash. The expression \ct{super step} invokes the \ct{step} behavior defined in the \ct{Flasher}'s superclasses then make the color flashes by comparing whether the color should change. When the onColor the same as the morph's color, then the color is changed to be slightly darker, when the colors are not the same then the morph takes back its original color.
+
+\begin{method}\label{mth:Flasherstep2}
+Flasher>>\bold{step}   "Perform my standard periodic action"   \bold{super step.}   self color = self onColor      ifTrue: [self color: (onColor alphaMixed: 0.5 with: Color black)]      ifFalse: [self color: onColor]
+ \end{method}
+
+\largecadre{A class can add behavior, state in addition to the ones it inherits. It can also redefine or extend inherited behavior.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Method Inheritance and Method Lookup}\label{sec:lookup}
+Besides inheriting the state of its superclasses a subclass also inherits its behavior and can modify it. To understand how behavior inheritance works we have to explain what happens when an object receives a message. When an object receives a message the corresponding method should be found. This is phase is called the \emph{method lookup}\index{method lookup}. Let us look at the way  method lookup works.
+
+When an object receives a message the \index{method lookup} lookup for a method with the same selector start in the receiver class. 
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=5cm]{lookupEssence}\caption{When a message is sent, a method is looked up in the \emph{class} of the receiver.}
+\end{center}\end{figure}
+
+
+If the method is found in the class it is executed (for example \ct{onColor:} in Figure~\ref{fig:basicLookup1} left), else the lookup continue in the superclasses (see \ct{containsPoint:} in Figure~\ref{fig:basicLookup1} left). When the method is found it is executed. If the lookup fails on the class \obj, the root of the inheritance, this means that the method is not defined for this receiver and an error is generated (see Figure~\ref{fig:basicLookup1} right) and a dialog box pops up and ask us if we want to open a debugger. 
+
+\paragraph{Examples.}
+As shown in Figure~\ref{fig:basicLookup1} when an instance of the class \ct{Flasher} receives the message \ct{onColor: Color green}, the lookup of the method that should be executed starts in the class of the receiver, here \ct{Flasher}. The method is defined in this class so it is executed. 
+When an instance of the class \ct{Flasher} receives the message \ct{containsPoint: 10@10}, the lookup of the method \ct{containsPoint:} starts in the class of the receiver, the class \ct{Flasher}. The method is not defined there so it continues in the superclass of \ct{Flasher}, \ie\ the class \ct{EllipseMorph}, where the method \ct{containsPoint:} is defined.
+
+\begin{figure}[ht]
+\centerline{\includegraphics[width=6cm]{basicLookup1}\includegraphics[width=6cm]{basicLookup2}}\caption{\textbf{Left:} An instance of the class \ct{Flasher} receives the message \ct{onColor: Color green}. The lookup of the method that should be executed starts in the class of the receiver, here \ct{Flasher}. The method is defined in this class so it is executed. An instance of the class \ct{Flasher} receives the message \ct{containsPoint:}. The lookup of the method that should be executed starts in the class of the receiver, here \ct{EllipseMorph}. The method is not defined in this class so it is lookep up in the superclass \ct{EllipseMorph}. 
+\textbf{Right:} An instance of the class \ct{Flasher} receives the message \ct{foo}. This method is not defined in the class \ct{Flasher} nor in any of its superclasses, therefore an error is raised.\label{fig:basicLookup1}}\end{figure}
+
+\paragraph{Methods Added on Subclasses.} 
+The method lookup shows the way a method is found when a message is sent to an object. A direct consequence is that while a subclass inherits the behavior of its superclasses the opposite is not true: This is not because a subclass defines a new method that an instance of its superclasses can understand it. The methods added on a classes are only available for the instances of this class or its subclasses not its superclasses. As shown by Figure~\ref{fig:basicLookup3} when an instance of the class \ct{EllipseMorph} receives the message \ct{onColor:},  the method lookup starts in the class of the receiver \ct{EllipseMorph}. The method is not defined in this class so it  continues in the superclasses and eventually generates an error.
+
+
+
+\begin{figure}[h]
+\centerline{\includegraphics[width=5cm]{basicLookup3}} \caption{An instance of the class \ct{EllipseMorph} receives the message \ct{onColor:}. The method lookup starts in the class of the receiver \ct{EllipseMorph}. The method is not defined in this class so it  continues in the superclasses and eventually generates an error. \label{fig:basicLookup3}}\end{figure}
+
+\largecadre{When an object receives a message the lookup for a method with the same selector start \emph{in the  class of the receiver}. }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hiding Superclass Method}
+As the method lookup starts in the class of the receiver, it is possible to define a new behavior for the inherited definition of a given method in a subclass. We just have to define a method with the same name that the one of the method in the subclass. Such a practice is called \emph{method hidding}\index{method hidding}, \emph{method redefinition}\index{method redefinition} or \index{method overridding}\emph{method overridding}. This practice is commonly used to let a subclass defines its own specific behavior. For example the class \ct{Morph} defines the method \ct{stepTime} that returns the period of time at which the \ct{step} method is called as shown in~\mthref{mth:MorphstepTime}, while the class \ct{Flasher} redefines this method as shown in~\mthref{mth:MorphstepTime}.
+
+Figure~\ref{fig:basicLookup4} shows how the two different \ct{stepTime} methods defined on different classes are looked up.  As we already repeated multiple times, finding the right method is based on the fact that the lookup starts in the class of the receiver then continues in the class superclasses.
+
+\begin{figure}
+\centerline{\includegraphics[width=7cm]{basicLookup4}} \caption{Method hidding or redefinition. An instance of the class \ct{Flasher} executes a different method \ct{stepTime} than an instance of the class \ct{Morph}.\label{fig:basicLookup4}}\end{figure}
+
+\begin{method}\label{mth:FlasherHerestepTime}
+Flasher>>stepTime   "Answer the desired time between steps, in milliseconds."   ^ 500
+\end{method}
+
+\begin{method}\label{mth:MorphstepTime}
+Morph>>stepTime   "Answer the desired time between steps in milliseconds. This 
+   default implementation requests that the 'step' method be 
+   called once every second."   ^ self topRendererOrSelf player ifNotNil: [10] ifNil: [1000]
+\end{method}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Dynamic Aspect of Self Sends}
+
+The variable \ct{self} represents the receiver of the message. This has a subtle but really powerful consequence. Even if \ct{self} is used in a method found in a superclass of the receiver class, the variable \ct{self} represents the \emph{original receiver}. This implies that all the messages sent to \ct{self} will be looked up starting from \emph{its class}. Therefore methods defined on the class of the receiver take precedence as they may override superclass methods. 
+
+Figure~\ref{fig:dynamicSelf1} illustrates this important point. An instance of the class \ct{Flasher} receives the message \ct{startSteppingIn: World}. The method \ct{startSteppingIn:} is found on the class \ct{Morph}. When the message \ct{self step} contained in the method startSteppingIn: is executed, the message \ct{step} is sent to the receiver of the original message: the instance of the class \ct{Flasher}. Therefore this is the method \ct{step} defined on the class \ct{Flasher} and not \ct{Morph} that is executed. 
+
+It is common to say  that \ct{self} is \emph{dynamic} by reference to the fact that the lookup \emph{always} starts in the class of the receiver. 
+
+\begin{figure}
+\centerline{\includegraphics[width=10cm]{dynamicSelf1}} \caption{Self-sends are always looked up starting in the class of the receiver. For the message \ct{self step}, the method \ct{step} is looked up starting in the class \ct{Flasher}, even if the method \ct{startSteppingIn:} which sends this message is defined on the class \ct{Morph}.\label{fig:dynamicSelf1}}\end{figure}
+
+\largecadre{Messages sent to the variable \ct{self} are \emph{always} looked up by starting from the class of the \emph{receiver} and continuing in its superclasses, even if there are defined in superclass methods.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Extending Ancestor Behavior}
+Up until we saw how we can add new behavior to a subclass or redefine a behavior by hidding the existing behavior of a superclass. There are occasions where we would like to be able to \emph{extend} the behavior  of the superclass, \ie\ to execute it but also to add some specific actions. This is what we needed for the flasher morph. For example, we needed to specialize the methods \ct{step} so that in addition to changing the color of the morph to make it flashing it also moves it. 
+
+\st and other object-oriented languages provide a way to invoke hidden methods. We send messages to the variable \ct{super}. In \mthref{mth:stepinh} defined on the class \esf we have to invoke the \ct{step} methods defined higher in the superclasses so we send the message \ct{step} to the variable \ct{super}. Note methods that are not hidden can just be called by sending a message to \ct{self}.  
+
+\begin{method}\label{mth:stepinh}
+Flasher>>\bold{step}   "Perform my standard periodic action"   \bold{super step.}   self color = self onColor      ifTrue: [self color: (onColor alphaMixed: 0.5 with: Color black)]      ifFalse: [self color: onColor]
+\end{method}
+
+Note that the place where you use \ct{super} does not have to be the first expression of the method body. Most of the time it is because we first want to execute the hidden methods and then later performing extra actions. But you may use \ct{super} everywhere you use \ct{self}. The variable \ct{super} is like the variable \ct{self} it represents the receiver of the message. However, the variable \ct{super} changes the way methods are lookep up as we show below. 
+Normally you only need to use \ct{super} when you are defining a method in a class and at the same time we have to invoke the method you are hiding by defining this method in your class. If you are not hidding a method just use \ct{self}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Understanding \ct{super}} 
+Understanding exactly how \ct{super} works may be confusing at first. We explain you how it works by showing you how sending a message to \ct{super} changes the way the methods are looked up. \ct{super} like \ct{self} is a variable that represents the \emph{receiver of the message}. However \ct{super} changes the way the methods are looked up. Sending a message to \ct{super} starts the method lookup in the superclass of the class of the method \emph{containing} that message.
+
+\paragraph{Illustration.}
+Figure~\ref{fig:superStatic1} presents two scenarios. The first scenario (noted with a  big 1) is the following one: the message \ct{step} is sent to an instance of the class \ct{Flasher}, the method lookup starts in this class. The method \ct{step} defined in the class \ct{Flasher} is found and executed. This method sends a message \ct{step} to the variable \ct{super}, so the lookup does not start in the class of the receiver, \ct{Flasher} but in the superclass of the class that contains the first method \ct{step}, the class \ct{EllipseMorph}. 
+
+The second scenario (noted with a big 2) is here to stress the key point in the change of the lookup. The message \ct{step} is sent to an instance of the class \ct{MovingFlasher} subclass of the class \ct{Flasher}, the method lookup starts then in this class. The method \ct{step} defined in the class \ct{Flasher} is found and executed. This method sends a message \ct{step} to the variable \ct{super}, \emph{so the lookup does not start in the class of the receiver, \ct{MovingFlasher} nor in \ct{Flasher}  but in the superclass of the class that contains the first method \ct{step}, the superclass of \ct{Flasher}: the class ct{EllipseMorph}}. 
+
+This second scenario illustrates that contrary to \ct{self} send messages for which the method lookup starts \emph{always} from the class of the receiver, \ct{super} is not influenced by the receiver. Looking up method for super sends starts always in the superclass of the class that contain them. 
+
+\largecadre{Sending a message to \ct{super} starts the method lookup in the superclass of the class of the method \emph{containing} that message.}
+
+
+\begin{figure}
+\centerline{\includegraphics[width=12cm]{superStatic1}} \caption{\ct{super} is dynamic because it always represents the receiver of the message. This means that all the message sends sent to \ct{self} are looked up by starting in the class of the receiver. \label{fig:superStatic1}}\end{figure}
+
+
+\begin{spicy}
+It is common that people think that \ct{super} starts by looking up the method in the superclass of the class of the receiver. It happens that  professionals,  experts or even book authors think that \ct{super} sends work this way. If the semantics of \ct{super} sends would be this one no object-oriented language would work because it would loops. Follow the lookup of the method \ct{step} in the second scenario of Figure~\ref{fig:superStatic1}. You should see that the superclass of the class of the receiver is \ct{Flasher} so this means that \ct{Flasher>>step} would called itself and would lead to an infinite loop.
+\end{spicy}
+
+\largecadre{The method lookup  for a  message sent to \ct{super} starts in the superclass of the class of the method \emph{containing} that message.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Defining a New Class}
+Now it is time to create a first class. Imagine that we want to implement a \emph{moving} flasher. Instead of defining all the behavior of this new class from scratch, we want to reuse the behavior of the class \ct{Flasher}. For this purpose we define a new class \ct{MovingFlasher} as subclass of the class \ct{Flasher} or said in a different but equivalent way we create the class \ct{MovingFlasher} that inherits from the class \ct{Flasher}.
+ 
+Per default \sq presents the following template for class definition as a class always inherits from another one and per default inherits from the class \ct{Object} root of inheritance tree. 
+
+\begin{classdef}\label{movingflasher}
+Object subclass: #NameOfSubclass   instanceVariableNames: ''   classVariableNames: ''   poolDictionaries: ''   category: 'Morphic-Demo'
+\end{classdef}
+
+We do not want to inherit from the class \ct{Object} but from the class \ct{Flasher}. Therefore we define the class \ct{MovingFlasher} as shown by the class definition~\ref{movingflasherClass}. We do not need extra state so we do not specify new any instance variables. 
+
+\begin{classdef}\label{movingflasherClass}
+Flasher subclass: #EscapingFlasher   instanceVariableNames: ''   classVariableNames: ''   poolDictionaries: ''   category: 'Morphic-Demo'
+\end{classdef}
+
+Now we would like that the new flashers get located in the center of the screen. For this purpose we \emph{extend} the method \ct{initializeToStandAlone} as shown by \mthref{mth:MovingFlasherinitializeToStandAlone}. The method \ct{initializeToStandAlone} is automatically called by the method \ct{newToStandAlone} which creates new instances. It is the place to define behavior that have to be executed when a new object is created.
+
+\begin{method}\cat{initialize}\label{mth:MovingFlasherinitializeToStandAlone}
+MovingFlasher>>initializeToStandAlone   "MovingFlasher newStandAlone"   super initializeToStandAlone.   self position: World center
+\end{method}
+
+Note that calling the hidden method \ct{initializeToStandAlone} is really important, as it initializes correctly some aspects of the morphic system. If you forget this message the newly created morph will not work correctly because only the method \ct{initializeToStandAlone} of the class \ct{MovingFlasher} will get invoked as it hides superclass methods. This shows that reuse comes at the price to know what you are doing and knowing a bit the logic of the superclasses.
+
+Now if you execute the expression \ct{MovingFlasher newStandAlone openInWorld}, a flasher appears in the center of the \sq environment. Still it is not moving because we did not define that behavior yet. 
+Define the method \ct{direction} which returns randomly a point representing the amount of pixels of which the flasher should move. 
+
+\begin{method}
+MovingFlasher>>direction      | x |   x := 20 atRandom.   ^ x - 10 @ (x - 10)
+\end{method}
+
+Then define the method \ct{step} as shown in method definition~\ref{mth:MovingFlasherstep}. This method checks whether the moving flasher is visible or not. When it is visible it just changes its location by adding the point returned by the method \ct{direction} to its current position, else it resets the morph in the center. 
+
+\begin{method}\cat{stepping}\label{mth:MovingFlasherstep}
+MovingFlasher>>step   "MovingFlasher newStandAlone openInWorld"      \bold{super step}.   (World bounds containsPoint: self position)      ifTrue: [self position: self position + self direction]      ifFalse: [self position: World center]
+\end{method}
+
+We suggest you to comment the \ct{super step} expression in the 
+\ct{MovingFlasher>>step} to see that when you comment it, the morph will move but not flash anymore as the behavior of the class \ct{Flasher} will not be called.
+
+If you want a different moving behavior, you just have to define a new subclass of \ct{MovingFlasher} and define a new \ct{direction} method.  Here the morph will move in diagonal in the direction of the right bottom corner, hence we named the class \ct{DiagonalMovingMorph}. 
+
+\begin{method}
+DiagonalMovingMorph>>direction      ^ 10 @ 10
+\end{method}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{About Class Methods}
+The final point that we want to explain is the class methods. 
+In \st a class is an object therefore we can define class methods \ie 
+methods that are executed on object that are classes. 
+What is key to understand is that everything we did for an instance is \emph{exactly} the same for a class. When we send a message to caro, the method is lookup in the class of caro \ie\ Turtle. When we send the message \ct{new} to the class \ct{Turtle}, the method is looked up in the class of the class \ct{Turtle}. The class of the class \ct{Turtle} is called \ct{Turtle class}.
+
+\begin{figure}
+\centerline{\includegraphics[width=12cm]{lookupEssenceClass}} \caption{When an object receives a message the method is looked up in the class of the object. When a message is sent to a class it is looked up in the class of the class.\label{fig:lookupEssenceClass}}\end{figure}
+
+To edit or browse a class method in \sq you have to press on the class button in the System Browser as shown in Figure~\ref{fig:classButton}. 
+Then when you define a method, this method will be executed when you 
+send a message to a class. For example the class method~\ref{mth:penclassexample} \ct{example} of the class \ct{Pen} is defined as follow. Then you can invoke this method \ct{Pen example}.
+
+
+\begin{method}\label{mth:penclassexample}
+Pen class>>example   "Draw a spiral with a pen that is 2 pixels wide."   "Display restoreAfter: [Pen example]"   | bic |   bic := self new.   bic defaultNib: 2.   bic color: Color blue.   bic combinationRule: Form over.   1 to: 100 do: [:i | bic go: i*4. bic turn: 89].
+\end{method}
+
+
+
+\begin{figure}
+\centerline{\includegraphics{classButton}} \caption{The browser helps to access to the class of a class by clicking on the class button. \label{fig:classButton}}\end{figure}
+
+
+
+
+\summa
+
+\begin{itemize}
+\item A class inherits behavior and state from superclasses. It just have to define new and different behavior.
+
+\item A class can add behavior, state in addition to the ones it inherits. It can also redefine or extend inherited behavior.
+\item The method lookup  for a  message sent to \ct{super} starts in the superclass of the class of the method \emph{containing} that message.
+
+\item A class can add behavior, state in addition to the ones it inherits. It can also redefine or extend inherited behavior.
+
+\item When an object receives a message the lookup for a method with the same selector start \emph{in the  class of the receiver}.
+
+\item Messages sent to the variable \ct{self} are \emph{always} looked up by starting from the class of the \emph{receiver} and continuing in its superclasses, even if there are defined in superclass methods.
+
+\item Sending a message to \ct{super} starts the method lookup in the superclass of the class of the method \emph{containing} that message.
+\end{itemize}
+
+\ifx\wholebook\relax\else
+\end{document}\fi

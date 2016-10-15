@@ -1,0 +1,7 @@
+!! Inheritance: Reusing and Extending Behavior
+
+In the previous chapter we presented objects and classes. Objects are entities that communicate by exclusively sending and receiving messages. Objects are described by classes that are factories of objects. All the objects instances of the same class share the same behavior but have its own private state. Class define behavior and structure of all their instances. 
+
+In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a class programmer we do not want to rewrite from scratch a functionality if another class already offers it. We would prefer to express the difference between the implemented behavior and the new behavior we want. This is this difference between classes that inheritance lets us express. 
+
+To illustrate the important points we start by studying the class ==Flasher==. Later we define a subclass of the class ==Flasher== to illustrate the points we learned. Finally we will explain the issue of instance initialization. 
