@@ -1,0 +1,8 @@
+{ "metadata": { "title": "Learning Programming with Pharo" ,
+	"attribution" : "Stéphane Ducasse"} } 
+
+
+
+${inputFile:Chapters/Wallet/Wallet.pillar}$
+
+${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$

@@ -1,0 +1,362 @@
+!! A Basic Network Simulator
+@cha_lan
+
+The purpose of this chapter is to define a little network simulator. We will model a LAN (Local Area Network): A LAN is composed of nodes (computers, printers,) and exchange packets. From an object-oriented point of view, it is really interesting because it shows that objects encapsulate responsibilities and that inheritance is used to define incremental behavior. This example is really naive but it focuses on key elements of object-oriented design. 
+
+You will define step by step an application that simulates a simple Local Area Network (LAN). You will create several classes: ==LNPacket== representing the information circulating in the network, ==LNNode==, ==LNWorkstation==, and ==LNPrintServer== representing different nodes composing the network. We start with the simplest version of a LAN. In subsequent exercises we will add new requirements and modify the proposed implementation to take them into account.
+
+Finally if you are interested in LAN and network, there is a similar exercise but with a more realistic model of a network in subsequent chapters.
+
+
+!!! Simulating a LAN
+
+Before starting to implement the objects that we will need, let us start looking at the creation of a network and packets that will transit into it. Here is a simple LAN definition as described by Figure *@lan*. (We prefix the class names with ==LN== to make sure that you do not get any conflict with other existing classes.)
+
++A simple LAN.>file://figures/lan.png|width=50|label=lan+
+
+[[[
+| mac pc node1 node2 igPrinter |
+"create the nodes, workstations, printers and fileserver"
+mac := LNWorkstation new name: #mac.
+pc := LNWorkstation new name: #pc.
+node1 := LNNode new id: #Node1.
+node2 := LNNode new id: #Node2.
+igPrinter := LNPrinter new id: #igPrinter.
+"connect the different LNNodes."
+mac nextNode: node1.
+node1 nextNode: igPrinter.
+igPrinter nextNode: node2.
+node2 nextNode: pc.
+pc nextNode: mac.
+"create a LNPacket and start simulation"
+packet := LNPacket new
+          addressee: #IGPrinter;
+          contents: 'This Packet travelled around to the printer IGPrinter.
+mac emit: packet.
+]]]
+
+What you should see is that we have different kinds of nodes: simple nodes, workstations and printers. There are connected together to form a ring: circular list of nodes, each pointing to the next one. Then we can create a packet and emit it inside the network. What is happening is that a packet will visit node after node to find the node it has been sent to.
+
+So we will build now piece by piece such a little system.
+
+!!! Sketching the Node class
+
+The class ==LNNode== is the root of all the entities that form a LAN: it represents the most basic behavior: being identifiable and making sure a packet circulate.
+This class contains the common behavior for all nodes: 
+
+- The first behavior that a node should have is to know the next node to which it is linked. This way when the information it receives is not addressed to the node, it can pass it to its following node. This way a network is defined as a list of nodes, each node pointing to its next node. 
+
+- The second behavior a node should have is that it should be uniquely identifiable by an identifier or a unique name. This way we can send it packets.
+
+Printers, a servers, and workstations will extend such behavior.
+
+To fullfil such requirements, we represent the unique identifier of a node using a symbol (because symbols are unique in Pharo) and the next node using a node object. It is the node responsibility to send and receive packets of information and we will come back on it once packets are introduced. In next section we will define the class that represents packets.
+
+Here is the description of the class ==LNNode==.
+
+[[[
+LNNode inherits from Object
+Collaborators: LNNode and LNPacket
+Responsibility:
+- id (aSymbol) - returns the unique name of the node.
+- hasNextNode - tells if the receiver has a next node.
+- accept: aPacket - receives a packet and process it. By default it is sent to the next node.
+- send: aPacket - sends a packet to the next node.
+]]]
+
+Such description says that the class of ==LNNode== inherits from ==Object==. The class ==Object== is the root of the class inheritance in Pharo. It represents the default behavior that all the objects in the system exhibit and share (such as error handling). The collaborators are the key objects with which a node will interact to define its expected behavior. Here it will interact with other instance of itself or its subclasses as well as the class ==LNPacket==. The responsibilities are the key behavior that the class should offer. 
+
+
+!!! Creating the Node class 
+Now we will define the class and also a test class to verify that your methods are acting as they should. 
+
+!!!!Exercise: Class creation
+Create a new package ==LAN==, and create a subclass of ==Object== called ==LNNode==, with two instance variables: ==id== and ==nextNode==.
+Here is a possible definition.
+
+[[[
+Object subclass: #LNNode
+	instanceVariableNames: 'nextNode id'
+	classVariableNames: ''
+	package: 'MiniLAN'
+]]]
+
+
+!!!!Exercise: accessor methods
+Create accessors for the two instance variables. Document the mutators to inform users that the argument passed to ==id:== should be a ==Symbol==, and the arguments passed to ==nextNode:== should be a node. Here are possible definitions.
+
+[[[
+LNNode >> id
+   ^ id
+]]]
+
+[[[   
+LNNode >> id: aSymbol
+   id := aSymbol
+]]]
+
+[[[
+LNNode >> nextNode
+   ^ nextNode 
+]]]
+
+[[[
+LNNode >> nextNode: aNode
+   nextNode := aNode 
+]]]
+
+!!!!Exercise: Define a test class
+
+Now this is the time to write a test to make sure that the functionalities we just defined are working. (Yes there is not much to test but let us practice.)
+We define a new class named ==#NodeTest== that inherits from ==TestCase== and not ==Object== this time. 
+
+[[[
+TestCase subclass: #NodeTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SimpleLAN'
+]]]
+
+We can start to write a first test ==testANodeHasAnID== that tests that a node has a unique ID.  Tests are expressed as methods defined in a class eventually inheriting from ==TestCase== and whose name starts with ==test==.
+
+[[[
+NodeTest >> testANodeHasAnID
+	| node |
+	node := LNNode new.
+	node id: #Node1.
+	self assert: node id = #Node1
+]]]
+
+We create a node, we set its id and we verify using the ==assert:== message that its id is the one we just set. 
+The ==assert:== statement expects its argument to be true.
+
+Execute the test. It should passed. Now we can write  a new test to specify the behavior of ==hasNextNode== 
+a method telling whether the receiver has a following node or not.
+
+Here is a test that first checks that a node without following node returns ==false==.
+Then it checks that when we add a next node, the method ==hasNextNode== returns ==true==.
+
+[[[
+NodeTest >> testHasNextNode
+	| node followingNode |
+	node := LNNode new.
+	node id: #Node1.
+	"a node without next node"
+	self assert: node hasNextNode not.
+	
+	"now we create a new node and add a following node"
+	followingNode := LNNode new.
+	followingNode id: #NextNode.
+	node nextNode: followingNode.
+	self assert: node hasNextNode
+]]]
+
+
+!!!!Exercise: method hasNextNode
+Define a method called ==hasNextNode== that returns whether the receiver has a next node or not. 
+Once you defined it, execute the test. It should be pass. 
+
+[[[
+Node >> hasNextNode
+   ^ nextNode notNil 
+]]]
+
+!!!!Exercise: method printOn:
+
+Create an instance method named ==printOn:== that puts the class name and name variable on the argument ==aStream==. Include my next node's name ONLY if there is a next node. Hint: look at the method ==printOn:== from previous exercises or other classes in the system, and consider that the instance variable ==id== is a symbol and ==nextNode== is a ==LNNode==. The expected ==printOn:== method behavior is described by the following code:
+
+[[[
+(LNNode new
+   name: #Node1 ;
+   nextNode: (LNNode new id: #PC1)) printString
+
+> LNNode named: Node1 connected to: PC1
+]]]
+
+[[[
+TestCase >> testPrintOn
+		| printed |
+		printed := (LNNode new
+			id: #Node1;
+			nextNode: (LNNode new id: #PC1)) printString.
+		self assert: printed = 'Node named: Node1 connected to: PC1'
+]]]
+
+
+
+!!! Sending/receiving
+A ==LNNode== has two basic messages to send and receive packets. 
+
+When a packet is sent to a node, the node has to accept the packet, and pass it on. Note that with this simple behavior the packet can loop infinitely in the LAN. We will propose some solutions to this issue later. 
+
+To implement this behavior, you should add a protocol ==send-receive==, and implement the following two methods: ==accept: aPacket== and ==send: aPacket==.
+
+Here are a solution.
+[[[
+LNNode >> accept: aPacket
+    "Having received aPacket, send it on. This is the default behavior. My subclasses will probably override me to do something special"
+    self send: aPackage 
+]]]
+
+
+[[[
+LNNode >> send: aPacket
+    "Precondition: self has a nextNode"
+
+    self id trace.
+    ' passes a packet to: ' trace.
+    self nextNode id traceCr. 
+    self nextNode accept: aPacket.
+]]]
+
+Note that 
+- ==trace== displays in the transcript the result of sending the message ==printOn:== to the receiver.
+- ==traceCr== has a similar behavior but adds a carriage return at the end. 
+
+
+!!! Creating the Packet class
+
+A package is an object that represents a piece of information that is sent from node to node. So the responsibilities of this object are to allow us to define the originator of the packet emission, the address of the receiver and the contents.
+
+Here is a description of the class ==LNPacket==.
+[[[
+LNPacket inherits from Object
+Collaborators: LNNode
+Responsibility:
+- addressee - returns the name of the node to which the packet is sent.
+- contents - describes the contents of the message sent.
+- originator - references the node that sent the packet.
+]]]
+
+Define such a class. 
+
+!!!!Exercise: defining class LNPacket
+
+In the ==LAN== package, create a subclass of ==Object== called ==LNPacket==, with three instance variables: ==contents==, ==addressee==, and ==originator==. Create accessors for each of them in the ==accessing== protocol. The addressee is represented as a symbol, the contents as a string and the originator has a reference to a ==LNNode==.
+
+!!!!Exercise: adding a printOn: method  
+Define the method ==printOn: aStream== that puts a textual representation of a LNPacket on its argument ==aStream==.
+
+!!!! Exercise: Adding isAddressedTo:
+Define the method ==isAddressedTo: aNode== which returns whether a packet is addressed to a given node. 
+
+
+
+
+
+!!! Creating the class LNWorkstation
+
+A workstation is the entry point for new packets onto the LAN network. It can emit packets to other workstations, printers
+or file servers. Since it is kind of network ==LNNode==, but provides additional behavior, we will define it a subclass of ==LNNode==.
+Thus, it inherits the instance variables and methods defined in ==LNNode==. Moreover, a workstation has to process packets that are addressed to it.
+
+Here is a description of the class ==Workstation==.
+
+[[[
+LNWorkstation inherits from LNNode
+Collaborators: LNNode, LNWorkstation and LNPacket
+Responsibility: (the ones of LNNode)
+- send: aPacket - sends a packet.
+- accept: aPacket - perform an action on packets sent to the workstation (printing in the transcript). For the other packets just send them to the following nodes.
+]]]
+
+!!!!Exercise: Define LNWorkstation
+
+In the package ==LAN==, create a subclass of ==LNNode== called ==LNWorkstation== without instance variables. 
+
+!!!!Exercise: Redefining the method accept:
+
+Define the method ==accept: aLNPacket== so that if the workstation is the destination of the packet, the following message is written into 
+the Transcript. Note that if the packets are not addressed to the workstation they are sent to the next LNNode of the current one.
+
+[[[
+(LNWorkstation new
+    name: #Mac ;
+    nextNode: (LNPrinter new id: #PC1))
+          			accept: (LNPacket new addressee: #Mac)
+
+A LNPacket is accepted by the Workstation Mac.
+]]]
+
+Hints: To implement the acceptation of a ==LNPacket== not addressed to the workstation, you could copy and paste the code of the ==LNNode== class. However this is a bad practice, decreasing the reuse of code and the ''Say it only once'' rule. It is better to invoke the default code that is currently overriden by using ==super==.
+
+!!!!Exercise: Defining the method emit:
+
+Define the method ==emit:== that is responsible for inserting packets in the network in the method protocol ==send-receive==. In particular a packet should be marked with its originator and then sent.
+
+[[[
+LNWorkstation >> emit: aPacket
+  "This is how packets get inserted into the network. This is a likely method to be rewritten to permit
+ packets to be entered in various ways. Currently, I assume that someone else creates the packet and
+ passes it to me as an argument."
+ 
+	...
+]]]
+
+!!! Creating the class LNPrinter
+
+With nodes and workstations, we provide only limited functionality of a real LAN. Of course, we would like to do something with the packets that are travelling around the LAN. Therefore, you will now create a class ==LNPrinter==, a special node that when it receives packets addressed to it, prints them (on the Transcript). Implement the class ==LNPrinter==.
+
+Here is a description
+[[[
+LNPrinter inherits from LNNode
+Collaborators: LNNode and LNPacket
+Responsibility:
+- accept: aLNPacket - if the packet is addressed to the	printer, prints the packet contents else sends the packet
+to the following node.
+- print: aLNPacket - prints the contents of the packet (into the Transcript for example).
+]]]
+
+
+Implement the following two methods on the class side of the class ==LNNode==, in a protocol called ==examples==. But take care: the code presented below has some bugs that you should find and fix!.
+
+[[[
+LNNode class >> anotherSimpleLan
+   "create the nodes, workstations and printers"
+
+   | mac pc node1 node2 igPrinter node3 packet |
+   mac:= Workstation new id: #mac.
+   pc := Workstation new id: #pc.
+   node1 := LNNode new id: #Node1.
+   node2 := LNNode new id: #Node2.
+   node3 := LNNode new id: #Node3.
+   igPrinter := LNPrinter new id: #IGPrinter.
+
+   "connect the different LNNodes." 
+   mac nextNode: node1.
+   node1 nextNode: node2.
+   node2 nextNode:igPrinter.
+   igPrinter nextNode: node3.
+   node3 nextNode: pc.
+   pc nextNode: mac.
+
+   "create a LNPacket and start simulation''
+   packet := LNPacket new
+             addressee: #anotherPrinter;
+             contents: 'This packet travels around
+             to the printer IGPrinter'.
+   pc emit: packet.
+]]]
+
+
+
+
+!!! Create the class FileServer
+Now we can create new extensions for our LAN.  Create the class ==FileServer==, which is a special ==LNNode== that saves packets that are addressed to it. We can use a simple collection to keep the packet 
+
+
+[[[
+LNFileServer inherits from LNNode
+Collaborators: LNNode and LNPacket
+Responsibility:
+    accept: aPacket - if the packet is addressed to the file server save it (Transcript trace) 
+    else send the LNPacket to the following LNNode.
+    save: aPacket - save a packet.
+    retrievePacketsFrom: aNode - returns the packets sent from a given node.
+    reset - clean the packets received.
+]]]
+
+
+!!! Conclusion
+
+In this chapter you defined a little simulator a small local network. We will use it in the following chapters as a basis to explain essential concepts of object-oriented programming such as late-binding (the fact that the method executed in response to a message is based on the receiver of the message). 
