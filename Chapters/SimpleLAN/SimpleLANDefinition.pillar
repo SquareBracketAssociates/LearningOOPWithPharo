@@ -157,7 +157,7 @@ Define a method called ==hasNextNode== that returns whether the receiver has a n
 Once you defined it, execute the test. It should be pass. 
 
 [[[
-Node >> hasNextNode
+LNNode >> hasNextNode
    ^ nextNode notNil 
 ]]]
 
@@ -174,7 +174,7 @@ Create an instance method named ==printOn:== that puts the class name and name v
 ]]]
 
 [[[
-TestCase >> testPrintOn
+NodeTest >> testPrintOn
 		| printed |
 		printed := (LNNode new
 			id: #Node1;
@@ -241,6 +241,12 @@ Define the method ==printOn: aStream== that puts a textual representation of a L
 Define the method ==isAddressedTo: aNode== which returns whether a packet is addressed to a given node. 
 
 
+
+
+
+
+
+@@todo we could split the chapter here and example inheritance in the middle.
 
 
 
@@ -349,11 +355,11 @@ Now we can create new extensions for our LAN.  Create the class ==FileServer==, 
 LNFileServer inherits from LNNode
 Collaborators: LNNode and LNPacket
 Responsibility:
-    accept: aPacket - if the packet is addressed to the file server save it (Transcript trace) 
+    - accept: aPacket - if the packet is addressed to the file server save it (Transcript trace) 
     else send the LNPacket to the following LNNode.
-    save: aPacket - save a packet.
-    retrievePacketsFrom: aNode - returns the packets sent from a given node.
-    reset - clean the packets received.
+    - save: aPacket - save a packet.
+    - retrievePacketsFrom: aNode - returns the packets sent from a given node.
+    - reset - clean the packets received.
 ]]]
 
 
