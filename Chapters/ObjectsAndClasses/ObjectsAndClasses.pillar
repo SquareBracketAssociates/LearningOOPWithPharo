@@ -211,6 +211,89 @@ In the sentence ''A class describes the internal structure of all its instances'
 @@note A class ''describes'' the internal structure of all its instances by means of instance variable.
 
 
-!!! Conclusion
+
+Instance variables are special variables that can be accessed from within method body. One of the differences is that they do not need to be declared in the method.  In fact, they are declared in the class definition.  Contrary to  the variables used in scripts, named temporary variables, which do not exist after the script execution, instance variables last as long as the instance does.  
+
+For example, the method ==turn:== needs to increment the receiver's direction by the value of method argument. This is what the method ==turn:== does, it accesses the current value of the instance variable ==direction== and change its value by adding it the method argument.
+
+
+[[[
+Turtle >> turn: degrees 
+   "Change the direction so that the receiver turns by an amount  
+   equal to the argument, degrees. degrees represents the rotation in 
+   degrees. The positive sense is nonclockwise. The negative sense is 
+   clockwise."
+
+   direction := direction + anInteger.
+   self changed
+]]]
+
+The method ==turn:== illustrates that instance variables are accessible from all the methods of the class they belongs to. 
+In Pharo, instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them. As any other variables instance variables have to be initialized.  This instance variable initialization occurs just after creating a new instance, we will see that in the following chapters.  
+
+
+@@note Instance variables are accessible by all the methods of a class. Instance variables have the same lifetime than the object to which they belong to.
+
+@@note In Pharo, instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
+
+
+!!!Class and Instances are Different
+
+
+Classes and objects are different objects; they understand different messages. A class is a factory of objects. A class creates instances. 
+ For example, sending ==new== to the ==Turtle== class returns a newly created turtle, while sending ==new== to a turtle results in an error. In the opposite way, sending ==jump:== to ==Turtle== leads also to an error because ==Turtle== is a factory of objects not the objects themselves. Classes are molders of objects.
+
+@@note A class describes the state (instance variables) and the behavior (methods) of all its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+!!! Objects reacting differently to the same messages
+
+Different objects can react in different manner to the same messages.  For example, an animated turtle understands the same messages than a basic turtle. However, it reacts differently to the same message (See~\ref{scr:ani}). An animated turtle performs extra actions related to its animation. Having different behaviors associated with the same message, behavior that  depends on the message receiver is called \index{polymorphism} \emph{polymorphism} which literally means multiple form. Polymorphism is a key feature of object-oriented programming languages, it describes that a same message may lead to different method execution depending on the message receiver.
+
+[[[ 
+| caro |
+caro := AnimatedTurtle new.
+caro go: 100.
+caro turnLeft: 90
+]]]
+
+[[[
+| caro |
+caro := Turtle new.
+caro go: 100.
+caro turnLeft: 90
+]]]
+
+@@note Different objects, instances of different classes, can react differently to the same messages.
+
+In the context of ==Turtle== and ==AnimatedTurtle== objects the method execution results in similar, yet different, actions. The receiver gets at the same location in the same state but does extra action i.e., the animation for the animated turtle.  It may happen that different objects understand the same message while doing completely different actions, but this is rare.  
+
+Most of the time it is better to give similar name to methods performing similar behavior, and different names when the methods are doing semantically different actions, so that users of the objects are not confused. As two different classes can define different methods with the same name, it may be confusing for the reader to clearly identify the class to which a method belongs to. Such an issue does not occur when we use the Pharo code browser because a method is always shown in the context of its class. In this book we prefix the method selector with the name of the class and ==>>==. Hence the method ==square:== defined in the class ==Turtle== is written as follow: 
+
+[[[
+Turtle >> square: anInteger
+   "make the receiver draw a square of size anInteger"
+
+   4 timesRepeat: [ self go: anInteger. 
+                   self turnLeft: 90 ]
+]]]
+
+The  polymorphism is really a strength of object-oriented languages because it allows one to treat different objects, i.e., instances of different classes, uniformly as soon as they implement the same messages. Polymorphism works in synergy with the idea that an object is responsible to decide how to react to message reception. Indeed, the fact that different objects can implement the same messages let us write code that only tell the objects to execute some actions without worrying exactly about the kind of objects. 
+
+
+!!! Conclusion 
+
+- An object is a computer entity that once created receives messages and performs some actions in reaction.
+- An object has an unique identity.
+- An object holds some private data that represent its internal state.
+-  All objects of the same class share the same behavior, i.e., the same method definitions.
+- A class ''describes'' the internal structure of all its instances by means of instance variable.
+- Instance variables are accessible by all the methods of a class. Instance variables have the same lifetime than the object to which they belong to.
+- In Pharo , instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
+-  A class describes the state (instance variables) and the behavior (methods) of all its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+-  Methods define the behavior of all the instances  of the class they belong to.
+- Different objects, instances of different classes, can react differently to the same messages.
+
 
 @@todo check oscar lecture hide vs abstraction vs encapsulation
