@@ -1,7 +1,10 @@
-{ "metadata": { "title": "Learning Programming with Pharo" ,
+{ "metadata": { "title": "Learning Object-Oriented Programming with Pharo" ,
 	"attribution" : "Stéphane Ducasse"} } 
 
 
+${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
+
+${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
