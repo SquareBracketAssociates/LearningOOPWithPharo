@@ -3,9 +3,79 @@
 
 
 ${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
+Here I want the reader to 
+- create a turtle
+- send messages
+- create a method
+- send message
+- create two turtles
+
 
 ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
+${inputFile:Chapters/Converter/Converter.pillar}$
+
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
+!! Joe the box from old botsinc book
+
+!! Micro Syntax Chapter
+
+With loops and arrays
+Then some little exercises 
+	Euler kind of 
+
+!! Fun with blocks
+		MyBooks/botsinc/BookTwo/Collections/Bloc
+	
+!! Intro to collection
+	MyBooks/botsinc/BookTwo/Collections/IntroCollection	
+
+
+!! Inspector
+
+!!Debugger
+	MyBooks/botsinc/BookTwo/Debugger/
+
+
+
+
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
+
+!! Inheritance
+
+!! LAN More chapter
+
+
+!! Captcha
+
+
+
+!! Lindenmeyer System from old botsInc book
+
+!!!	LSystem
+		getting started
+!!!	AdvancedL-Systems	
+		rules
+!!!	PlantModeling
+		stack turtle
+
+
+!! A look at recursion
+	MyBooks/botsinc/BookTwo/BotIntro/
+
+% Tamagoshi
+
+%QRCode
+
+!! Game Of Life
+with conditionals and polymorphism
+
+${inputFile:Chapters/PaperStoneScissor/PaperStoneScissor.pillar}$
+
+!! TinyChat?
+
+!! Classes are objects too
+
+May be at the end of the book: class are objects too. 
+	Model2 in MyBooks/botsinc/BookTwo/SyntaxAndModel2
