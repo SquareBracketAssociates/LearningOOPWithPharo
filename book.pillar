@@ -2,6 +2,8 @@
 	"attribution" : "Stéphane Ducasse"} } 
 
 
+! Getting started
+
 ${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
 Here I want the reader to 
 - create a turtle
@@ -10,6 +12,23 @@ Here I want the reader to
 - send message
 - create two turtles
 
+!! Micro Syntax Chapter
+
+With loops and arrays
+Then some little exercises 
+	Euler kind of 
+!! A look at recursion
+		MyBooks/botsinc/BookTwo/BotIntro/
+
+!! Fun with blocks
+		MyBooks/botsinc/BookTwo/Collections/Bloc
+	
+!! Intro to collection
+	MyBooks/botsinc/BookTwo/Collections/IntroCollection	
+	
+!! Fun with Teapot
+
+! Objects	
 
 ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
@@ -17,27 +36,14 @@ ${inputFile:Chapters/Converter/Converter.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
+
 !! Joe the box from old botsinc book
-
-!! Micro Syntax Chapter
-
-With loops and arrays
-Then some little exercises 
-	Euler kind of 
-
-!! Fun with blocks
-		MyBooks/botsinc/BookTwo/Collections/Bloc
-	
-!! Intro to collection
-	MyBooks/botsinc/BookTwo/Collections/IntroCollection	
-
 
 !! Inspector
 
 !!Debugger
-	MyBooks/botsinc/BookTwo/Debugger/
-
-
+- May be before	
+- MyBooks/botsinc/BookTwo/Debugger/
 
 
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
@@ -49,7 +55,7 @@ ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 
 !! Captcha
 
-
+! Projects
 
 !! Lindenmeyer System from old botsInc book
 
@@ -61,10 +67,7 @@ ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 		stack turtle
 
 
-!! A look at recursion
-	MyBooks/botsinc/BookTwo/BotIntro/
-
-% Tamagoshi
+!! Tamagoshi
 
 %QRCode
 
