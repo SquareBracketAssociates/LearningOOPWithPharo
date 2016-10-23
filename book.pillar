@@ -12,7 +12,14 @@ Here I want the reader to
 - send message
 - create two turtles
 
-!! Micro Syntax Chapter
+To the same with Counter
+- create a counter
+- send messages
+- create a method
+- create another counter
+
+${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
+
 
 With loops and arrays
 Then some little exercises 
