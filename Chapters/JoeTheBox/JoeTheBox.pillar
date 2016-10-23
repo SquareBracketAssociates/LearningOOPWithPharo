@@ -1,12 +1,10 @@
-{ "title" : "Implementing Joe the Box"}
-@cha_converter
+!! Implementing Joe the Box
+@cha_joe
 
 +Joe the Box.>file://figures/joeTheBoxHeader.pdf|width=80|label=joeTheBox+ 
 
 In this chapter you will program a little system to teach object-oriented programming. It is called Joe the Box. For this you will implement the class ==Box==. Doing so you will learn how to describe behavior and state of
 objects.  We start with a first implementation that we later refine. 
-
-!! Little Story of Joe the Box
 
 Joe the Box is one the first example invented by A. Golderg (one of the inventor of object-oriented programming) to teach object-oriented programming.
 
@@ -37,11 +35,7 @@ It is worth to spend some time looking at this little program.
 - Then we send the message ==grow:==  
 And we do the same.
 
-!!! Comparison with logo
-If we look at the script may look similar to the turtle messages they are not. From an object point of view, there is difference between asking a turtle to draw a square as shown in \charef{cha:} and asking
-a box to draw itself. The methods and the arguments that they require
-are different. Here a box knows how to grow, shrink and rotate.
-
+What you see is that we are telling the box to draw itself and a boxhow to grow, shrink and rotate.
 
 Before starting programming, we have to analyze the behavior of a box 
 to imagine a possible way to program it. Here is the 
@@ -52,36 +46,27 @@ behavior a box should have. A box should know how to:
 - rotate from a given angle (method ==rotate: anInteger==).
 - translate from a certain distance (method ==move: aPoint==).
 
-
 It is fundamental to start by looking at objects from their
 ''behavior''.  An object is a behavioral entity, i.e., an
 entity reacting to messages.  A similar behavior can be implemented by
 different manners so it is crucial not to start to think in terms of
 the internal structures that may represent the object but in
-terms of the essence of the object, its ''behavior''.
-  
+terms of the essence of the object, its ''behavior''.  
 
-
-
-!! From behavior to state
+!!! From behavior to state
 Now from this description of the box's behavior, we should imagine a possible state for a box that could be used to implement the wished behavior.  As this example and the concept of box are familiar, we propose that boxe state is
 represented by a size, a position and a tilt.
 
-In fact any box will be represented by such a triplet (size, position
-and tilt) but each given object will have its own triplet values.  
+In fact any box will be represented by such a triplet (size, position, and tilt) but each given object will have its own triplet values.  
 
 For example, the box referenced by the variable ==joe== in the script above has its ''own'' state, i.e., its own
 size, position, and tilt.  
 
 In the same way the box ==jane== has a ''similar'' state because it is also a box created from the class ==Box== too but it has its own state which may or not equal to the one of ==joe==.  
 
-When the state of one given box changes it does not
-change the state of the other boxes.  This situation is illustrated by
-the first figure of this chapter.  If you want to try create the class
-==Box==, inspect two instances and modify their states.
+When the state of one given box changes it does not change the state of the other boxes.  This situation is illustrated by the first figure of this chapter.  
 
-
-!!! About vocabulary   
+!!! About vocabulary
 Note the way we phrase the sentences describing box actions:  we do
 not say the box is displayed but it displays itself.  We always use
 the active form where the subject is the object itself.  Considering
@@ -91,7 +76,7 @@ you will say that the person acts and not is acted by others.
 \end{teacher}
 
 
-!!!Defining the class Box
+!!! Defining the class Box
 
 To create a class we use a dedicated browser called the system browser
  or class browser.  To open such a browser, bring up the default menu and chose the menu item ""open..."" and the item ""browser"" (command-b).
