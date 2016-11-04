@@ -1,0 +1,3 @@
+[submodule "support/latex/sbabook"]
+	path = support/latex/sbabook
+	url = https://github.com/cdlm/sbabook.git

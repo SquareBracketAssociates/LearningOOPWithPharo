@@ -1,4 +1,8 @@
-.phony: prepare buildsupport download submodules
+$(call check_defined, OUTPUTDIRECTORY, Directory for build products)
+$(call check_defined, MAIN, Base name of the main document)
+$(call check_defined, CHAPTERS, Base names of the chapters)
+
+.phony: prepare clean wipeout download submodules prepare-build
 
 FIGURES := $(shell find . \
 		-type f \
@@ -8,7 +12,7 @@ FIGURES := $(shell find . \
 		-print)
 
 # Install build tools & dependencies, create the build directory structure
-prepare: submodules pillar mustache buildsupport
+prepare: submodules pillar mustache prepare-build
 
 # git doesn't automatically update the contents of submodules
 submodules:
@@ -19,9 +23,18 @@ pillar mustache: | download
 download: ## Install Pharo VM & image for Pillar & Mustache
 	wget --quiet --output-document=- "https://raw.githubusercontent.com/pillar-markup/pillar/master/download.sh" | bash -s $$*
 
+clean: ## Cleanup intermediate build products
+	rm -f $(addprefix $(OUTPUTDIRECTORY)/, support gitHeadLocal.gin)
+	for f in $(addprefix $(OUTPUTDIRECTORY)/,$(MAIN) $(CHAPTERS)); do \
+		rm -f "$$(dirname $$f)/root" ; \
+	done
+
+wipeout: ## Cleanup everything including final build products
+	rm -fr ${OUTPUTDIRECTORY}
+
 # create & initialize output directory, mirroring stuff that has to match the
 # repo hierarchy inside the output dir.
-buildsupport: $(addprefix $(OUTPUTDIRECTORY)/, support gitHeadLocal.gin $(FIGURES))
+prepare-build: $(addprefix $(OUTPUTDIRECTORY)/, support gitHeadLocal.gin $(FIGURES))
 
 $(OUTPUTDIRECTORY):
 	mkdir -p $(OUTPUTDIRECTORY)

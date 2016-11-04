@@ -7,7 +7,27 @@
 .phony: help
 
 help: ## Describe the main targets (this list)
-	@awk -F ':|##' \
-		'/^[^\t].+?:.*?##/ {\
-			printf "\033[36m%-10s\033[0m %s\n", $$1, $$NF \
-		}' $(MAKEFILE_LIST)
+	@echo "Main targets you can build:"
+	@awk -F ':|## *' \
+		'/^[^\t].+:.*##/ {\
+			printf "  \033[36m%s\033[0m\t%s\n", $$1, $$NF \
+		}' $(MAKEFILE_LIST) \
+	| column -s $$'\t' -t
+	@echo "Combined format+volume targets are also defined: pdfbook, htmlchapters…"
+	@echo "To make a single specific file/format, ask for it explicitly:"
+	@echo "  make $(OUTPUTDIRECTORY)/$(firstword $(CHAPTERS)).pdf"
+
+# Check that given variables are set and all have non-empty values,
+# die with an error otherwise.
+#
+# Params:
+#   1. Variable name(s) to test.
+#   2. (optional) Error message to print.
+#
+# See http://stackoverflow.com/questions/10858261/abort-makefile-if-variable-not-set
+check_defined = \
+		$(strip $(foreach 1,$1, \
+				$(call __check_defined,$1,$(strip $(value 2)))))
+__check_defined = \
+		$(if $(value $1),, \
+			$(error Undefined setting $1$(if $2, ($2))))
