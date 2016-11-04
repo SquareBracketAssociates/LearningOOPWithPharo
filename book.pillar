@@ -35,16 +35,17 @@ Then some little exercises
 	
 !! Fun with Teapot
 
+
+
 ! Objects	
+
+!! Joe the box from old botsinc book
 
 ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
 ${inputFile:Chapters/Converter/Converter.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
-
-
-!! Joe the box from old botsinc book
 
 !! Inspector
 
