@@ -4,6 +4,7 @@ CHAPTERS = \
 	Chapters/SyntaxNutshell/SyntaxNutshell \
 	Chapters/ObjectsAndClasses/ObjectsAndClasses \
 	Chapters/Converter/Converter \
+	Chapters/JoeTheBox/JoeTheBox \
 	Chapters/SimpleLAN/SimpleLANDefinition \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
 	Chapters/Wallet/Wallet \

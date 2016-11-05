@@ -235,8 +235,8 @@ Box >> initialize
 ]]]
 
 
-+Inspecting an ''initialized box:'' all its instance variables 
-contains some values coherent with their role.>file://figures/boxInitialized.pdf|width=80|label=boxInitialized+ 
+%+Inspecting an ''initialized box:'' all its instance variables 
+%contains some values coherent with their role.>file://figures/boxInitialized.pdf|width=80|label=boxInitialized+ 
 
 
 
@@ -338,7 +338,8 @@ Box >> draw
 
 
 
-+A problem with the ==grow:== method. The box is not erased when it changes its size>file://figures/inspectedBoxDraw.pdf|width=80|label=inspectedBoxDraw+ 
+%+A problem with the ==grow:== method. The box is not erased when it changes its 
+% size>file://figures/inspectedBoxDraw.pdf|width=80|label=inspectedBoxDraw+ 
 
 As soon as the method is defined and all the methods it calls exist, it is possible to invoke it.
 Test the method by executing the code \ct{self draw} into the bottom pane of an inspector in a similar way than shown in figure~\ref{fig:drawingBox}, or by executing \scrref{scr:draw}.

@@ -2,6 +2,14 @@
 	"attribution" : "Stéphane Ducasse"} } 
 
 
+!!!A word of presentation
+
+I started to write this book back in 1998 when I wrote around 900 pages for the pre sequel to  "Learning Programming with Robots". Apparently I needed to write to understand what I wanted to explain and how. From this I extracted Learning Programming with Robots. For me,  Learning Programming with Robots was a book to teach simple concepts such as variables, loops, procedures and to help people to teach kids how to program. Now I got really frustrated because to be understable by everyone I had to remove what I like: Object-Oriented Programming. Once I met Harald Wertz (which gave me nice ideas) and he asked why I focused on procedural thinking and that I should better teach Object-Oriented Programming. And he was right. 
+In fact in was my original objective but I was exhausted after my first attempt.
+
+Now nearly ten years after, I'm ready to write a book to start with object-oriented programming. I hope that you will enjoy it 
+as much as I did - even if writing a book for me is a really long and daunting task. 
+
 ! Getting started
 
 ${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
@@ -11,6 +19,9 @@ Here I want the reader to
 - create a method
 - send message
 - create two turtles
+
+Note sure since it depends on morphic!!! May be just copying what is in JoeTheBox
+
 
 To the same with Counter
 - create a counter
@@ -24,13 +35,15 @@ ${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
 With loops and arrays
 Then some little exercises 
 	Euler kind of 
-!! A look at recursion
+!! A look at recursion (using Turtle and graphics so what out!)
 		MyBooks/botsinc/BookTwo/BotIntro/
+		
+		
 
-!! Fun with blocks
+!! Fun with blocks  (using Turtle and graphics so what out!)
 		MyBooks/botsinc/BookTwo/Collections/Bloc
 	
-!! Intro to collection
+!! Intro to collection (should find something else)
 	MyBooks/botsinc/BookTwo/Collections/IntroCollection	
 	
 !! Fun with Teapot
@@ -39,7 +52,7 @@ Then some little exercises
 
 ! Objects	
 
-!! Joe the box from old botsinc book
+${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
 ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
@@ -53,20 +66,33 @@ ${inputFile:Chapters/Wallet/Wallet.pillar}$
 - May be before	
 - MyBooks/botsinc/BookTwo/Debugger/
 
-
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 
-!! Inheritance
+!! Inheritance (ok but not graphic)
 
-!! LAN More chapter
+!! LAN More chapter (ok)
 
+!! Captcha (ok)
 
-!! Captcha
+! Projects : LSystem (Graphics so let us stop)
 
-! Projects
+Lindermayer systems, also called ''L-Systems'', have been developed
+by biology theorists to understand and simulate the growth of plants
+cite|Pruz90a. In the following chapters we propose you to implement
+different L-Systems from a minimalist to elaborate
+ones. Chapter ch:lsystem presents the simplest possible
+L-Systems, i.e., L-System composed by one single rule.
+Chapter ch:lsystem2 presents an object-oriented model of
+L-System that alleviate the limits of the previous implementation.
+Chapter ch:plant defines a new class of turtle that allows one
+to model plants with the L-Systems defined previously. Finally,
+Chapter ch:parametric introduces Parametric L-Systems that
+allows one to express more powerful L-Systems. This chapter shows in
+particular how inheritance can be used to reuse class already defined.
 
-!! Lindenmeyer System from old botsInc book
-
+!! Lindermayer Systems
+	MyBooks/botsinc/BookTwo/Debugger/
+	
 !!!	LSystem
 		getting started
 !!!	AdvancedL-Systems	
@@ -74,17 +100,28 @@ ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 !!!	PlantModeling
 		stack turtle
 
+! Projects - Others
 
-!! Tamagoshi
+!! Tamagoshi (graphics so let us stop)
 
-%QRCode
+!! QRCode looks fun
 
-!! Game Of Life
+!! Game Of Life (may be with a textual version)
 with conditionals and polymorphism
 
 ${inputFile:Chapters/PaperStoneScissor/PaperStoneScissor.pillar}$
 
-!! TinyChat?
+!! TinyChat? (yes)
+
+
+
+
+
+
+
+! Project: Path-finder (it is graphical so out or should get a textual version)
+
+! Advanced topics? 
 
 !! Classes are objects too
 
