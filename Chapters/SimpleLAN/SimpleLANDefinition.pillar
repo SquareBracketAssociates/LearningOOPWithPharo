@@ -1,7 +1,7 @@
 !! A Basic Network Simulator
-@cha_lan
+@ch:lan
 
-The purpose of this chapter is to define a little network simulator. We will model a LAN (Local Area Network): A LAN is composed of nodes (computers, printers,) and exchange packets. From an object-oriented point of view, it is really interesting because it shows that objects encapsulate responsibilities and that inheritance is used to define incremental behavior. This example is really naive but it focuses on key elements of object-oriented design. 
+The purpose of this chapter is to define a little network simulator. We will model a LAN (Local Area Network): A LAN is composed of nodes (computers, printers,). The nodes exchange packets. From an object-oriented point of view, it is really interesting because it shows that objects encapsulate responsibilities and that inheritance is used to define incremental behavior. This example is really naive but it focuses on key elements of object-oriented design. 
 
 You will define step by step an application that simulates a simple Local Area Network (LAN). You will create several classes: ==LNPacket== representing the information circulating in the network, ==LNNode==, ==LNWorkstation==, and ==LNPrintServer== representing different nodes composing the network. We start with the simplest version of a LAN. In subsequent exercises we will add new requirements and modify the proposed implementation to take them into account.
 
@@ -12,7 +12,7 @@ Finally if you are interested in LAN and network, there is a similar exercise bu
 
 Before starting to implement the objects that we will need, let us start looking at the creation of a network and packets that will transit into it. Here is a simple LAN definition as described by Figure *@lan*. (We prefix the class names with ==LN== to make sure that you do not get any conflict with other existing classes.)
 
-+A simple LAN.>file://figures/lan.png|width=50|label=lan+
++A simple LAN.>file://figures/lan.png|width=70|label=lan+
 
 [[[
 | mac pc node1 node2 igPrinter |

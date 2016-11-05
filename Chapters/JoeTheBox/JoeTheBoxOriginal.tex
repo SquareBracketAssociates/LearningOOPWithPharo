@@ -1,28 +1,17 @@
-!! Implementing Joe the Box (to restart working on it when bloc is available for real)
-@ch:joe
+!! Implementing Joe the Box
+@cha_joe
 
-+Playing with Joe the Box.>file://figures/joeTheBoxHeader.pdf|width=80|label=joeTheBox+ 
++Joe the Box.>file://figures/joeTheBoxHeader.pdf|width=80|label=joeTheBox+ 
 
-Joe the Box is one the first example invented by A. Golderg (one of the inventor of object-oriented programming) to teach object-oriented programming. Joe the Box allows you the students to create box, shrink and rotate them. It is a simple system but it is really good to explain what classes, objects, messages (what to do) and methods (how to do) are.
-
-In this chapter we will stress some key points about objects and class and you will program ""Joe the Box"". For this you will implement the class ==Box== (a class is a factory of objects its instances). Doing so you will learn how to describe behavior and state of
+In this chapter you will program a little system to teach object-oriented programming. It is called Joe the Box. For this you will implement the class ==Box==. Doing so you will learn how to describe behavior and state of
 objects.  We start with a first implementation that we later refine. 
 
+Joe the Box is one the first example invented by A. Golderg (one of the inventor of object-oriented programming) to teach object-oriented programming.
 
 !!! Box's Behavior and State
 
-To create a Box, we ask an object called a class, here ==Box== to create it by sending the message ==new== to it.
-The following expression create a box and its gets displayed on the screen. 
-
-[[[
-Box new 
-]]]
-
-@@note To create an object we ask a class to create it using the message ==new==.
-
-@@note A class is a special kind of objects that act as a factory of objects.
-
-A box has the following behavior: it knows how to draw itself, move to a given distance, move to a given point, rotate, grow and shrink.  A
+A box has the following behavior, it knows how to draw itself, move to
+a given distance, move to a given point, rotate, grow and shrink.  A
 typical scenario is described below. A graphical result is shown by the first figure of the chapter above.
 
 [[[
@@ -30,70 +19,26 @@ typical scenario is described below. A graphical result is shown by the first fi
 joe := Box new.
 joe rotate: 15.
 joe grow: 100.
-joe move: 10 @ 10.
-joe moveTo: 150 @ 200. 
+joe move: 10@10.
+joe moveTo: 150@200. 
 jane := Box new.
-jane move: 30 @ -30.
+jane move: 30@-30.
 jane shrink: 40.
 jane rotate: 45
 ]]]
 
-It is worth spending some time looking at this little program. First let us describe it.
+It is worth to spend some time looking at this little program. 
+
 - We defined two local variables ==joe== and ==jane==.
-- With the expression ==Box new== we create a new instance of the class ==Box==.
-- Then we assign this new instance to the variable ==joe==.
-- Then we send the message ==rotate:== to this object.
-- The object reacts to the message by modifying itself.
-- Then we send the message ==grow:== to this object.
-- The object reacts to the message by modifying itself.
-And we do the same for another instance of the class == Box== that we assign to the variable ==jane==.
+- Then we create a new instance of the class ==Box==.
+- Then we send the message ==rotate:==
+- Then we send the message ==grow:==  
+And we do the same.
 
-!!!! Instances are autonomous distinct entities
+What you see is that we are telling the box to draw itself and a boxhow to grow, shrink and rotate.
 
-In the script above we have two different objects: the box pointed by the variable ==jane== and the one by the variable ==joe==. 
-In the following we will use ==jane== and ==joe== to represent the different boxes. In reality ==jane== and ==joe== are variables point to the boxes but it will make our explanations simpler to read and understand.  
-
-- Each object is unique: box ==jane== is not the same as box ==joe==. 
-- Each object has its own state: box ==jane== does not have the same size and tilt than box ==joe==.
-- Objects of the same class understand the same message.
-- Objects of the same class exhibit the same behavior but they have their own properties.
-
-
-!!!! Messages: the What to do
-What you see is that we are telling the box to draw itself and a box to grow, shrink and rotate. From a Box programmer perspective, we do not know how the box move or rotate behavior is implemented. We just send ""messages"" to the objects and the objects react. Messages are orders sent to objects. Messages do not care how the order is defined.
-
-[[[
-joe grow: 10
-]]]
-
- When we send the ==grow: 10== we expect the receiver of the message to change its size and we do not know how it is performed. 
- 
-@@note Messages are order sent to objects to tell them what to do (without taking care about how this order is defined and the precise steps required).
-
-!!!! Method: the How to do
-Later in this chapter you will define ""methods"" to define the behavior of Boxes (move, rotate:).
-Methods are executed when an object receives a message. Methods describe precisely how a given message is implemented. A method will often change the state of an object and send other messages to the receiver and/or other objects. 
-
-For example the following defined the method ==grow:==.
-
-[[[
-grow: anInteger 
-   "grow the receiver's size from anInteger"
-   
-    size := size + anInteger.
-    self draw
-]]]
-
-It is composed of
-- A signature: here ==grow: anInteger== indicates that we are defining the method ==grow:== and that its argument is named ==anInteger==.
-- A comment =="grow the receiver's size from anInteger"== which explains what the method is doing. 
-- A method body: here we increase the size of the receiver by changing its size value and we ask the receiver to redraw itself.
-
-
-
-!!!! About Behavior
-
-Before starting programming, we have to analyze the behavior of a box  to imagine a possible way to program it. Here is the 
+Before starting programming, we have to analyze the behavior of a box 
+to imagine a possible way to program it. Here is the 
 behavior a box should have. A box should know how to:
 
 - draw itself at a given location. When a new box is created it automatically displays itself. 
@@ -101,24 +46,33 @@ behavior a box should have. A box should know how to:
 - rotate from a given angle (method ==rotate: anInteger==).
 - translate from a certain distance (method ==move: aPoint==).
 
-It is fundamental to start by looking at objects from their ''behavior''.  An object is a behavioral entity, i.e., an entity reacting to messages.  A similar behavior can be implemented by different manners so it is crucial not to start to think in terms of the internal structures that may represent the object but in
+It is fundamental to start by looking at objects from their
+''behavior''.  An object is a behavioral entity, i.e., an
+entity reacting to messages.  A similar behavior can be implemented by
+different manners so it is crucial not to start to think in terms of
+the internal structures that may represent the object but in
 terms of the essence of the object, its ''behavior''.  
 
-
-!!!! From behavior to state
-Now from this description of the box's behavior, we should imagine a possible state for a box that could be used to implement the wished behavior.  As this example and the concept of box are familiar, we propose that box state is represented by a size, a position and a tilt.
+!!! From behavior to state
+Now from this description of the box's behavior, we should imagine a possible state for a box that could be used to implement the wished behavior.  As this example and the concept of box are familiar, we propose that box state is
+represented by a size, a position and a tilt.
 
 In fact any box will be represented by such a triplet (size, position, and tilt) but each given object will have its own triplet values.  
 
-For example, the box referenced by the variable ==joe== in the script above has its ''own'' state, i.e., its own size, position, and tilt.  
+For example, the box referenced by the variable ==joe== in the script above has its ''own'' state, i.e., its own
+size, position, and tilt.  
 
 In the same way the box ==jane== has a ''similar'' state because it is also a box created from the class ==Box== too but it has its own state which may or not equal to the one of ==joe==.  
 
 When the state of one given box changes it does not change the state of the other boxes.  This situation is illustrated by the first figure of this chapter.  
 
-!!!! About using anthropomorphic vocabulary
-Note the way we phrase the sentences describing box actions:  we do not say the box is displayed but it displays itself.  We always use
-the active form where the subject is the object itself.  Considering the object as a living being is a good way to think in an object-oriented manner.  Imagine talking about an animal or a person you will say that the person acts and not is acted by others.  
+!!!! About vocabulary
+Note the way we phrase the sentences describing box actions:  we do
+not say the box is displayed but it displays itself.  We always use
+the active form where the subject is the object itself.  Considering
+the object as a living being is a good way to think in an
+object-oriented manner.  Imagine talking about an animal or a person
+you will say that the person acts and not is acted by others.  
 
 
 
@@ -149,7 +103,7 @@ Object subclass: #NameOfClass
 Modify the proposed template to obtain the class definition and in the bottom pane bring the menu and choose the Accept menu item. 
 
 [[[
-Object subclass: #OBox
+Object subclass: #Box
    instanceVariableNames: 'position size tilt '
    classVariableNames: ''
    package: 'Joe The Box'
@@ -215,6 +169,7 @@ In fact the best solution is to initialize the instance as soon as it
 is created.  
 
 
+
 For that purpose we specialize the method ==initialize== that sets up
 a default state for a box.  The method ==Box>>initialize== is
 automatically invoked by the method ==new== on newly created
@@ -234,13 +189,30 @@ Box >> initialize
 	position := World bounds center
 ]]]
 
+\begin{figure}
+\begin{center}
+\includegraphics[width=5cm]{boxInitialized}
+\caption{Inspecting an \emph{initialized box}: all its instance variables 
+contains some values coherent with their role.\label{fig:initializedBox}}
+\end{center}
+\end{figure}
 
-+Inspecting an ''initialized box:'' all its instance variables 
-contains some values coherent with their role.>file://figures/boxInitialized.pdf|width=80|label=boxInitialized+ 
+\begin{readerNote}
+The fact that the \ct{new} method automatically call the \ct{initialize}
+method is a little extension we added into \sq.  It may happen that
+such an extension will be included into \sq at the time you will read
+this book.  In any case the plain \sq solution to this problem is
+explained in \charef{ch:InstanceInitialization} so that you can
+understand and program in \sq without our little extension.
+\end{readerNote}
 
 
 
-!!! Accessing Instance Variables
+
+
+
+
+\section{Accessing Instance Variables}
 The method \ct{initialize} above illustrates an important aspect of
 the object model of \sq.  The instance variables are accessible from
 the methods as if they were defined in the method body. For example, 
@@ -262,58 +234,68 @@ of the instance variable \ct{size} and \ct{size: anInteger}
 the instance variable \ct{size} to be the one specified as argument. Such a kind of methods are called \emph{accessor} methods because they only get and set information in instance variables. 
 The code \ct{\^size} returns the value of the instance variable size.
 
-@@note To return a value, use the character ==\^== followed by the expression whose value has to be returned.
+\cadre{In \sq to return a value, use the character \^\ followed by the 
+expression whose value has to be returned.}
 
 
-[[[
-Box >> size
-   ^ size
-]]]
 
-[[[
-Box >> size: anInteger
+\begin{method}\label{mt:size}
+Box>>size
+
+   ^size
+\end{method}
+
+\begin{method}\label{mt:sizeAssign}
+Box>>size: anInteger
+
    size := anInteger
-]]]
+\end{method}
 
 
-Now execute the following script and use the menu item \menu{print it} to get the results we present in  \scrref{scr:instanceVarLife} using \emph{returns}. If you have an inspector opened on a box instance, you can also execute the messages \ct{self size}, \ct{self size: 10} in the bottom left part of the inspector. Perform some other experiments to prove yourself that you understand.
+Now execute \scrref{scr:instanceVarLife} and use the menu item
+\menu{print it} to get the results we present in  \scrref{scr:instanceVarLife} using \emph{returns}. If you have an inspector opened
+on a box instance, you can also execute the messages \ct{self size}, \ct{self size: 10} in the bottom left part of the inspector. Perform some other experiments to prove yourself that you understand.
 
-[[[
+\begin{scriptwithtitle}{Instance variables 
+life-time}\label{scr:instanceVarLife}
 | joe jane |
 joe := Box new.
-joe size. 
->>> 50
+joe size. \emph{returns} \ct{50}
 joe size: 10.
-joe size. 
->>> 10
+joe size. \emph{returns} \ct{10}
 joe size: 20.
-joe size. 
->>> 20
+joe size. \emph{returns} \ct{20}
 joe size: joe size + 5.
-joe size. 
->>> 25
+joe size. \emph{returns} \ct{25}
 jane := Box new.
-jane size. 
->>> 50
-]]]
+jane size. \emph{returns} \ct{50}
+\end{scriptwithtitle}
 
 
 Now that you understand better instance variables, you should notice that instance variables are private information of objects so creating \emph{accessor} methods like the methods\ct{size} and \ct{size:} above that only access and return the value of an instance variable open the privacy of instances. We say that the break the encapsulation of the object data. We will discuss in \charef{cha:accessor} the use of accessors\index{accessor} methods.
 
 In summary we have: 
 
-@@note Instance variables are accessible to all the methods of a class.  Instance variables last the same life-time than the object to which they belong to.
+\cadre{Instance variables are accessible to all the methods of a class. 
+Instance variables last the same life-time than the object to which 
+they belong to.}
 
-@@note Instance variables cannot be accessed from outside of  an object. Instance variables are only accessible from the methods of  the class that define them.
+\cadre{In \sq, instance variables cannot be accessed from outside of 
+an object. Instance variables are only accessible from the methods of 
+the class that define them.}
 
-!!!Drawing a Box and Other Operations
-Now that we initialize a newly created box using the method ==initialize==, we are in position to define methods without been worried about the initialization of instance variables.  
+\section{Drawing a Box and Other Operations}
+Now that we initialize a newly created box using the method
+\ct{initialize}, we are in position to define methods without been
+worried about the initialization of instance variables.  
 
-During your experiments you may want to clear the screen.  Use the \scrref{scr:clearingScreen} for that purpose.
+During your experiments you may want to clear the
+screen\index{clearing screen}.  Use the \scrref{scr:clearingScreen}
+for that purpose.
 
-[[[
+\begin{scriptwithtitle}{Clearing the screen}\label{scr:clearingScreen}
 World clearTurtleTrails
-]]]
+\end{scriptwithtitle}
 
 \paragraph{Method \ct{draw}.} We define the method \ct{draw} that uses a
 turtle but we hide it as shown by \mthref{mt:draw}.  We create a
@@ -321,9 +303,8 @@ method, put it at the right position of the box, set the direction of
 the turtle to the tilt of the box, use the black color and then draw a
 square of the box size.
 
-
-[[[
-Box >> draw
+\begin{method}\label{mt:draw}
+Box>>draw
    "Draw the receiver position in black"
    "Box new initialize draw"
 	
@@ -334,37 +315,45 @@ Box >> draw
    aTurtle penColor: Color black.
    4 timesRepeat: [aTurtle go: size. 
                   aTurtle turnLeft: 90]
-]]]
+\end{method}
 
 
-
-+A problem with the ==grow:== method. The box is not erased when it changes its size>file://figures/inspectedBoxDraw.pdf|width=80|label=inspectedBoxDraw+ 
+\begin{figure}
+\begin{center}
+\includegraphics[width=12cm]{inspectedBoxDraw}
+\caption{A problem with the \ct{grow:} method. The box is not erased when it changes its size.\label{fig:drawingBox}}
+\end{center}
+\end{figure}
 
 As soon as the method is defined and all the methods it calls exist, it is possible to invoke it.
 Test the method by executing the code \ct{self draw} into the bottom pane of an inspector in a similar way than shown in figure~\ref{fig:drawingBox}, or by executing \scrref{scr:draw}.
 
-[[[
-| joe  |
+\begin{scriptwithtitle}{sending the message draw to a box}\label{scr:draw}
+| joe jane |
 joe := Box new.
 joe draw
-]]]
+\end{scriptwithtitle}
 
 
 
-!!!! Exercise.
-Up until now, creating a new box did not displayed it.  Change the method \ct{initialize} so that any new box is automatically displayed.
+
+\begin{exercise}
+Up until now, creating a new box did not displayed it.  Change the
+method \ct{initialize} so that any new box is automatically displayed.
+\end{exercise}
 
 
-!!! Method grow:
- The method \ct{grow: anInteger} makes the box growing of a certain size and redraw itself to reflect this size change.  Propose a definition and  use the inspector or dedicated scripts to tests your method. 
+\paragraph{Method grow:} The method \ct{grow: anInteger} makes the box
+growing of a certain size and redraw itself to reflect this size
+change.  Propose a definition and  use the inspector or dedicated scripts to tests your method. 
 
- [[[
-Box >> grow: anInteger 
+\begin{method}\label{mth:grow}
+Box>>grow: anInteger 
    "grow the receiver's size from increment"
    
     size := size + anInteger.
     self draw
-]]]
+\end{method}
 
 
 We propose the definition~\ref{mth:grow} for the method \ct{grow:}.
@@ -372,42 +361,45 @@ However, try \scrref{scr:growProblem} to see that we have a problem and
 propose a solution.
 
 
-[[[
+\begin{scriptwithtitle}{Problem with the first \ct{grow:} 
+method.}\label{scr:growProblem}
 | joe |
 joe := Box new.
 joe grow: 20.
 
 joe grow: 40
-]]]
+\end{scriptwithtitle}
 
-The problem we have is that the turtle grows and redisplay itself  well, but it does not remove the previous box shape. To solve that 
-problem we propose you to define a method named \ct{undraw} which  is similar to the draw method except that it draw the box using a 
+The problem we have is that the turtle grows and redisplay itself 
+well, but it does not remove the previous box shape. To solve that 
+problem we propose you to define a method named \ct{undraw} which 
+is similar to the draw method except that it draw the box using a 
 transparent color (\mthref{mt:undraw}).
 
-[[[
-Box >> undraw
+\begin{method}\label{mt:undraw}
+Box>>undraw
    "erase the receiver"
    
    | aTurtle |
    aTurtle := Turtle new hidden.
    aTurtle jumpAt: position.
    aTurtle turnRight: tilt.
-   aTurtle penColor: Color transparent.
-   4 timesRepeat: [ aTurtle go: size.
-                  aTurtle turnLeft: 90 ]
-]]]
+   aTurtle penColor: \textbf{Color transparent}.
+   4 timesRepeat: [aTurtle go: size.
+                  aTurtle turnLeft: 90]
+\end{method}
 
 Now that the method \ct{undraw} is defined, the method \ct{grow:} should 
 call it before anything else as shown by \mthref{mt:goodGrow}.
 
-[[[
-Box >> grow: increment 
+\begin{method}\label{mt:goodGrow}
+Box>>grow: increment 
    "grow the receiver's size from increment"
 
-   self undraw.
+   \textbf{self undraw}.
    size := size + increment.
    self draw
-]]]
+\end{method}
 
 
 To be able to execute the script we presented at the beginning of the chapter, implement the methods
