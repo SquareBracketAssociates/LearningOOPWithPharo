@@ -2,8 +2,8 @@
 
 This chapter will propose some little challenges as a way to explore Pharo collections. 
 
-
 !!! Isogram
+
 An isogram is a word or phrase without a repeating letter. The following are examples of isograms in english and french:
 
 - LUMBERJACKS
@@ -17,7 +17,6 @@ An isogram is a word or phrase without a repeating letter. The following are exa
 Isograms are often used in cipher. Isograms of length 10 are commonly used to encode numbers. This way salespeople of products can get access to the original cost of the product and control their sale. 
 
 Using the PATHFINDER cipher we can decide that P represents the number 1, A represents the number 2 and so on. The price tag for an item selling for 1200 Euros may also bear the cryptic letters FRR, written on the back or bottom of the tag. A salesman familiar with the PATHFINDER cipher will know that the original cost of the item was 500 Euros.  
-
 
 Strings in Pharo are equivalent to an array of characters. 
 [[[
@@ -35,17 +34,17 @@ Strings in Pharo are equivalent to an array of characters.
 
 A dictionary
 
-!!! A Set Based
+!!! A Set-Based solution
 We can do a simple implementation using Sets. Sets are collection that only contains one element. Adding twice the same element only adds one. 
 
-!!!! One Hint
+!!!! One hint: using a Set 
 Now we can give you one hint. 
 [[[
 'COUCOU' size 
 >> 6
 ]]]
 
-Now we convert 'COUCOU' into a set using the message ==asSet==.
+Now we convert =='COUCOU'== into a set using the message ==asSet==.
 
 [[[
 'COUCOU' asSet size
@@ -83,18 +82,11 @@ s size = s asSet size
 >>> false
 ]]]
 
-
-
-
-
-
-
-
-
 !!!! Some Fun
 Now we would like to find some isograms in french. So we would like to get all the lines of *http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt*
 
 This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. Zn then assumes the encoding is utf8 (the most reasonable default today). Mime-types can specify the encoding as follows: 'text/plain;charset=utf8' or 'text/plain;charset=latin1'.
+
 
 Here is how to override the default in Zn
 
