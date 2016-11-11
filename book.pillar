@@ -10,6 +10,31 @@ In fact in was my original objective but I was exhausted after my first attempt.
 Now nearly ten years after, I'm ready to write a book to start with object-oriented programming. I hope that you will enjoy it 
 as much as I did - even if writing a book for me is a really long and daunting task. 
 
+
+
+!! Concept Brainstorming
+
+- Objects / Classes
+-- JoeTheBox
+-- 
+- Messages / Methods
+- Self
+- Inheritance
+- Super
+- Blocks 
+- Iterators
+- Delegation
+- Message sends are choice (what would be the equivalent to not)
+- Message sends are plans for reuse
+- Double Dispatch
+-- Scissor/paper 
+- Polymorphism
+-- LAN 
+- Composite
+- Hook template
+- Strategy 
+
+
 ! Getting started
 
 ${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
@@ -29,28 +54,29 @@ To the same with Counter
 - create a method
 - create another counter
 
+
 ${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
 
+${inputFile:Chapters/Katas/GramKatas.pillar}$
 
-With loops and arrays
-Then some little exercises 
-	Euler kind of 
-!! A look at recursion (using Turtle and graphics so what out!)
-		MyBooks/botsinc/BookTwo/BotIntro/
-		
-		
+
+
 
 !! Fun with blocks  (using Turtle and graphics so what out!)
-		MyBooks/botsinc/BookTwo/Collections/Bloc
-	
-!! Intro to collection (should find something else)
-	MyBooks/botsinc/BookTwo/Collections/IntroCollection	
+- MyBooks/botsinc/BookTwo/Collections/Bloc
+-  Intro to collection (should find something else)
+- MyBooks/botsinc/BookTwo/Collections/IntroCollection	
 	
 !! Fun with Teapot
 
+A pretext to revisit the syntax
 
 
 ! Objects	
+
+!! Counter 
+
+!! DSL
 
 ${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
@@ -59,6 +85,8 @@ ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 ${inputFile:Chapters/Converter/Converter.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
+
+
 
 !! Inspector
 
@@ -103,6 +131,8 @@ particular how inheritance can be used to reuse class already defined.
 ! Projects - Others
 
 !! Tamagoshi (graphics so let us stop)
+- state diagram
+
 
 !! QRCode looks fun
 

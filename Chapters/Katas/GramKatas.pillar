@@ -1,0 +1,116 @@
+!! Some Katas with Words
+
+This chapter will propose some little challenges as a way to explore Pharo collections. 
+
+
+!!! Isogram
+An isogram is a word or phrase without a repeating letter. The following are examples of isograms in english and french:
+
+- LUMBERJACKS
+- BACKGROUND
+- DOWNSTREAM
+- PHARO
+- ANTIPODE
+- ALTRUISME
+- ABSOLUMENT
+- BIGORNEAUX
+Isograms are often used in cipher. Isograms of length 10 are commonly used to encode numbers. This way salespeople of products can get access to the original cost of the product and control their sale. 
+
+Using the PATHFINDER cipher we can decide that P represents the number 1, A represents the number 2 and so on. The price tag for an item selling for 1200 Euros may also bear the cryptic letters FRR, written on the back or bottom of the tag. A salesman familiar with the PATHFINDER cipher will know that the original cost of the item was 500 Euros.  
+
+
+Strings in Pharo are equivalent to an array of characters. 
+[[[
+'COUCOU' at: 1
+>>> $C
+]]]
+
+[[[
+'COUCOU'at: 3
+>>> $U
+]]]
+
+
+!!!! A slow solution
+
+A dictionary
+
+!!! A Set Based
+We can do a simple implementation using Sets. Sets are collection that only contains one element. Adding twice the same element only adds one. 
+
+!!!! One Hint
+Now we can give you one hint. 
+[[[
+'COUCOU' size 
+>> 6
+]]]
+
+Now we convert 'COUCOU' into a set using the message ==asSet==.
+
+[[[
+'COUCOU' asSet size
+>> 3
+]]]
+
+The message ==asSet== is equivalent to the following script:
+
+[[[
+| s1 |
+s1 := Set new. 
+'COUCOU' do: [ :aChar | s1 add: aChar ].
+s1 
+>>> a Set($U $C $O)
+]]]
+
+- We define a variable ==s1==
+- We iterate all the characters of the string =='COUCOU'==, and we add each character one by one to the set.
+- We return the set.
+- The set contains only three elements ==$C==, ==$O==, ==$U==
+
+!!!! Checking expression
+
+[[[
+| s | 
+s := 'Pharo'.
+s size = s asSet size 
+>>> true
+]]]
+
+[[[
+| s | 
+s := 'Phaoro'.
+s size = s asSet size 
+>>> false
+]]]
+
+
+
+
+
+
+
+
+
+!!!! Some Fun
+Now we would like to find some isograms in french. So we would like to get all the lines of *http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt*
+
+This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. Zn then assumes the encoding is utf8 (the most reasonable default today). Mime-types can specify the encoding as follows: 'text/plain;charset=utf8' or 'text/plain;charset=latin1'.
+
+Here is how to override the default in Zn
+
+[[[
+(ZnDefaultCharacterEncoder 
+  value: ZnCharacterEncoder latin1 
+  during: [
+    ZnClient new 
+      get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
+]]]
+
+The above will give you an array of 336531 words (it is a bit slow because it is lot of data).
+
+[[[
+self select: #isIsogramFastest
+
+self select: [:each | each size >= 10 ]
+]]]
+

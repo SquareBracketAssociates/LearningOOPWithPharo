@@ -2,6 +2,7 @@ MAIN = book
 CHAPTERS = \
 	Chapters/PlayingWithTurtles/PlayingWithTurtles \
 	Chapters/SyntaxNutshell/SyntaxNutshell \
+	Chapters/Katas/GramKatas.pillar \
 	Chapters/ObjectsAndClasses/ObjectsAndClasses \
 	Chapters/Converter/Converter \
 	Chapters/JoeTheBox/JoeTheBox \
