@@ -188,8 +188,7 @@ GramCheckerTest >> testIsogramSetImplementation
 	self deny: 'phaoro' isIsogramSetImplementation.
 ]]]
 
-@@note When you write a test, make sure that you test different situations or results.
-
+@@note When you write a test, make sure that you test different situations or results. Why? because imagine that your methods always return true. You would never be sure that not all the string are isograms. So always check for positive and negative results. 
 
 Messages ==assert:== and ==deny:== are equivalent as follows: 
 	
@@ -201,19 +200,36 @@ Messages ==assert:== and ==deny:== are equivalent as follows:
 !!!! Testing several strings
 
 Now we do not want to write a test per string. We want to test multiple strings at the same time. 
-For that 
+For that we will define a method in the test class that returns a collection of strings. 
 
 [[[
 GramCheckerTest >> isograms
 	^  #('pharo' 'pathfinder' 'xavier' 'francois' 'lumberjack' 'altruisme' 'antipode')
 ]]]
 
-
 [[[
 GramCheckerTest >> testAllIsogramSetImplementation
 	
 		self isograms do: [ :word |
 			self assert: word isIsogramSetImplementation ]
+]]]
+
+Since we said that we should also tests negative let us to the same for non isograms. 
+
+[[[
+GramCheckerTest >> notIsograms
+	^  #('phaoro' 'stephane' 'idiot' 'freedom')
+]]]
+
+And we make our test using both. 
+
+[[[
+GramCheckerTest >> testAllIsogramSetImplementation
+	
+		self isograms do: [ :word |
+			self assert: word isIsogramSetImplementation ].
+		self notIsograms do: [ :word |
+				self deny: word isIsogramSetImplementation ]
 ]]]
 
 
@@ -391,7 +407,18 @@ String  >> isEnglishPangram
 
 Execute all the tests to verify that we did change anything. 
 
-!! Identifying missing letters
+If we keep to use french words that do not need accents, we can verifie that some french sentences are also 
+pangrams. 
+
+[[[
+'portez ce vieux whisky au juge blond qui fume' isEnglishPangram
+>>> true
+
+'portons dix bons whiskys à l''avocat goujat qui fume au zoo.' isEnglishPangram
+>>> true
+]]]
+
+!!! Identifying missing letters
 
 Building a pangram can be difficult and the question is how we can identify missing letters. Let us define some methods to help us. But first let us write a test. 
 
@@ -452,7 +479,39 @@ String >> detectFirstMissingLetterFor: alphabet
 @@note Avoid as much as possible to return objects that are not polymorphic. Return a collection and an empty collection. Not a collection and nil. Write methods returning the same kind of objects, this way their clients will be able to treat them without asking if they are different. This practice reinforces the ""Tell do not ask principle"".
 
 
+We have two choices: either return always a collection as for that we convert the character into a string sending it the message ==asString== as follow, or we can return a special character to represent that nothing happens for example Character space. 
+
+[[[
+String >> detectFirstMissingLetterFor: alphabet
+	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
+	Return '' otherwise"
+	
+	alphabet do: [ :aChar |
+		(self includes: aChar)
+			ifFalse: [ ^ aChar asString ]
+		].
+	^ ''
+]]]
+
+Here we prefer to return a character since the method is returning the first character. 
+
+[[[
+String >> detectFirstMissingLetterFor: alphabet
+	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
+	Return '' otherwise"
+	
+	alphabet do: [ :aChar |
+		(self includes: aChar)
+			ifFalse: [ ^ aChar ]
+		].
+	^ Character space
+]]]
+
+Now it is better to return all the missing letters. 
+
 !!!! Detecting all the missing letters
+
+Let us write a test to cover this new behavior. We removed the character a and g from the pangram and we verify that the method returns an array with the corresponding missing letters. 
 
 [[[
 GramCheckerTest >> testDetectAllMissingLetters
@@ -463,7 +522,15 @@ GramCheckerTest >> testDetectAllMissingLetters
 		detectAllMissingLettersFor: 'abcdefghijklmnopqrstuvwxyz') equals: #($q $o).
 ]]]
 
-we could also use the message ==asOrderedCollection==
+
+Implement 
+[[[
+String >> detectAllMissingLettersFor: alphabet
+	
+	...
+]]]
+
+
 
 [[[
 String >> detectAllMissingLettersFor: alphabet
@@ -495,11 +562,3 @@ Instead of explicitely creating a Set, we could also use the message ==asSet== t
 
 
 
-
-[[[
-'portez ce vieux whisky au juge blond qui fume' isEnglishPangram
->>> true
-
-'portons dix bons whiskys à l''avocat goujat qui fume au zoo.' isEnglishPangram
->>> true
-]]]
