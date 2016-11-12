@@ -412,7 +412,9 @@ Pharo libraries also offers the bench method that gives the number of execution 
 
 [  'ALTRUISME' isIsogramDictionaryImplementation ] bench  '147,276 per second'
 
-[ 'ALTRUISME' isIsogramBit ] bench  '1,137,976 per second'
+[ 'ALTRUISME' isIsogrambitImplementation ] bench  '1,137,976 per second'
+
+[  'ALTRUISME' isIsogramRecursiveImplementation ] bench "'487,492 per second'"
 ]]]
 
 !!!! Some observations and comments
