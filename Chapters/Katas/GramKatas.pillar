@@ -306,13 +306,51 @@ String >> isIsogramFatestImplementation
 	^ true
 ]]]
 
+!!! A recursive approach
+
+Up until now we only used iterations to go from one letter to the others. In Pharo you can also define 
+the computation in recursive manner. 
+
+Before looking at a solution, imagine how you would do it. For example we could define a method that iterates over the string by removing the first element of the string and pass it as argument to an auxialliary method whose goal is to check whether the receiver includes or not the element and invoke the first method when it is necessary to continue the iteration. 
+
+For example, the method ==isIsogramRecursiveImplementation== can invoke the method ==isIsogramContainCharacter:== on a subtring and the method ==isIsogramContainCharacter:== can check whether its receiver contains the element and else it invokes ==isIsogramRecursiveImplementation== to continue the exploration. 
+
+[[[
+String >> isIsogramRecursiveImplementation
+	...
+
+String >> isIsogramContainCharacter: aCharacter
+	...
+]]]
+
+Here is a possible implementation. 
+
+[[[
+String >> isIsogramRecursiveImplementation
+	"'ALTRUISME' isIsogramRecursiveImplementation"
+	"'ALTRUISMEA' isIsogramRecursiveImplementation"
+	^ self isEmpty
+		ifTrue: [ true ] 
+		ifFalse: [ self allButFirst isIsogramContainCharacter: self first ]
+]]]
+
+[[[
+String >> isIsogramContainCharacter: aCharacter
+	
+ 	^ (self includes: aCharacter) 
+			ifTrue: [ false ]
+			ifFalse: [ self isIsogramRecursiveImplementation ]	 
+]]]
+
+Such solution is a solution that comes naturally when using functional languages such as Camel or Scheme. 
+In Pharo it would be more adapted to data structures such as linked lists because it is cheap to get a structure representing the elements except the first one (basically on linked list is just the next element since it is also a linked list.). In the case of strings or arrays, ==allButFirst== has to build a new string or array and this is costly.
 
 !!! A low-level solution
 
 
 
 [[[
-isIsogramBit
+isIsogramBitImplementation
    | i |
    i := 0.
    self asLowercase do: [ :char |
@@ -330,22 +368,23 @@ isIsogramBit
 
 An interesting observation here is that if #asLowercase is moved to  each character instead “val := (char asLowercase  asInteger - 96).” Then it leads to a 4-5x performance loss .
 
-!!! Are all solutions finding the same
+!!! Are all solutions finding the same?
 
 [[[
-| lines |
-lines := (ZnDefaultCharacterEncoder 
-  value: ZnCharacterEncoder latin1 
-  during: [
-    ZnClient new 
-      get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
+	| lines bits dicts  bags strings sets |
+	lines := (ZnDefaultCharacterEncoder 
+	  value: ZnCharacterEncoder latin1 
+	  during: [
+	    ZnClient new 
+	      get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
 
-bits := lines select: #isIsogramBitImplementation. 
-dicts := lines select: #isIsogramDictionaryImplementation. 
-bags := lines select: #isIsogramBagImplementation.
-strings := lines select: #isIsogramStringImplementation.
-sets := lines select: isIsogramSetImplementation.
-{isIsogramBit -> bits . }
+	bits := lines select: #isIsogramBitImplementation. 
+	dicts := lines select: #isIsogramDictionaryImplementation. 
+	bags := lines select: #isIsogramBagImplementation.
+	strings := lines select: #isIsogramStringImplementation.
+	sets := lines select: #isIsogramSetImplementation.
+	recurs := lines select: #isIsogramRecursiveImplementation.
+	{ bits . dicts .  bags . strings . sets} collect: #size. #(196749 47674 47674 47668 47674)
 ]]]
 
 
