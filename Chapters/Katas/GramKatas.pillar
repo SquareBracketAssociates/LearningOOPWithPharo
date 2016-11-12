@@ -252,7 +252,7 @@ Here is how to override the default in Zn
 The above will give you an array of 336531 words (it is a bit slow because it is lot of data).
 
 [[[
-self select: #isIsogramFastest
+self select: #isIsogramString
 
 self select: [:each | each size >= 10 ]
 ]]]
@@ -290,7 +290,7 @@ String >> isIsogramUsingBagImplementation
 	^ bag sortedCounts first key = 1
 ]]]
 
-!!! A fast solution
+!!! A solution using the String API
 
 @@todo blbl
 
@@ -305,6 +305,49 @@ String >> isIsogramFatestImplementation
 	].
 	^ true
 ]]]
+
+
+!!! A low-level solution
+
+
+
+[[[
+isIsogramBit
+   | i |
+   i := 0.
+   self asLowercase do: [ :char |
+         | val |
+         val := (char asInteger - 96).
+         (val between: 1 and: 26) ifFalse: [ ^ false ].
+         (i bitAt: val ) == 1 ifTrue: [ ^ false ].
+         i bitAt: val put: 1
+         ].
+     ^ true
+]]]
+ 
+
+ 
+
+An interesting observation here is that if #asLowercase is moved to  each character instead “val := (char asLowercase  asInteger - 96).” Then it leads to a 4-5x performance loss .
+
+!!! Are all solutions finding the same
+
+[[[
+| lines |
+lines := (ZnDefaultCharacterEncoder 
+  value: ZnCharacterEncoder latin1 
+  during: [
+    ZnClient new 
+      get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
+
+bits := lines select: #isIsogramBitImplementation. 
+dicts := lines select: #isIsogramDictionaryImplementation. 
+bags := lines select: #isIsogramBagImplementation.
+strings := lines select: #isIsogramStringImplementation.
+sets := lines select: isIsogramSetImplementation.
+{isIsogramBit -> bits . }
+]]]
+
 
 !!! Comparing solutions
 
@@ -324,12 +367,84 @@ Pharo libraries also offers the bench method that gives the number of execution 
 [ [ [ 
 [  'ALTRUISME' isIsogramSetImplementation ] bench  '334,371 per second'
 
-[  'ALTRUISME' isIsogramFastestImplementation ] bench  '546,823 per second'
+[  'ALTRUISME' isIsogramStringImplementation ] bench  '546,823 per second'
 
 [  'ALTRUISME' isIsogramUsingBagImplementation ] bench  '142,432 per second'
 
 [  'ALTRUISME' isIsogramDictionaryImplementation ] bench  '147,276 per second'
+
+[ 'ALTRUISME' isIsogramBit ] bench  '1,137,976 per second'
 ]]]
+
+!!!! Some observations and comments
+
+@todo explain 
+
+
+- Size of code does not mean anything. Smaller code can be slower because they use more. 
+
+
+
+!!! Handling french and the lesson behind
+
+
+à, â, é, è, ê, ë, î, ï, ô, ù, û, ü, ÿ, ç, æ et œ
+
+[[[
+'ALTRUISME' isIsogramSetImplementation 
+
+'ALTRUISME' isIsogramStringImplementation 
+
+'ALTRUISME' isIsogramUsingBagImplementation
+
+'ALTRUISME' isIsogramDictionaryImplementation
+
+'ALTRUISME' isIsogramBit 
+]]]
+
+
+!!! So  Watch out
+
+You could find that it is worth to systematically use low-level messages. It is not a good strategy.
+Why? They are several reasons:
+
+- You may spend a lot of time to find a strong optimised solution. 
+- You may spend a lot of time optimizing a part of the system that does not need to be optimized.
+- Low-levels solutions are often more difficult to read and understand so if you need something slightly different they may break. For example what is we want to compute isogram in language where the letters are not contiguous.
+
+
+
+
+@@note A good engineering practice is: Make it work, make it right, make it fast and not the inverse
+
+
+!!!! Variations
+
+[[[
+isIsogramBit
+	"['ALTRUISME' isIsogramBit] bench '337,427 per second'"
+
+   | i |
+   i := 0.
+   self do: [ :char |
+         | val |
+         val := (char asLowercase asInteger - 96).
+         (val between: 1 and: 26) ifFalse: [ ^ false ].
+         (i bitAt: val ) == 1 ifTrue: [ ^ false ].
+         i bitAt: val put: 1
+         ].
+     ^ true
+]]]
+
+[[[
+['ALTRUISME' isIsogramBit] bench '337,427 per second'
+]]]
+
+What you should see is that the execution engine may also support adaptatives optimisations, i.e., depending on the program it executes it can change it on the fly to gain speed. You may wonder why it is not always the case. 
+Why the compiler and execution engine (virtual machines) do not always optimise at the maximum, because optimisation takes time and space and that there is a tradeoff to reach. So virtual machines optimise aggressively code that is executed a lot because they see that it is worth doing it. 
+
+
+
 
 
 So now we will look at other kind of words or sentences. 
