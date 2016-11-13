@@ -358,7 +358,7 @@ isIsogramBitImplementation
          val := (char asInteger - 96).
          (val between: 1 and: 26) ifFalse: [ ^ false ].
          (i bitAt: val ) == 1 ifTrue: [ ^ false ].
-         i bitAt: val put: 1
+         i := (i bitAt: val put: 1).
          ].
      ^ true
 ]]]
@@ -384,7 +384,7 @@ An interesting observation here is that if #asLowercase is moved to  each charac
 	strings := lines select: #isIsogramStringImplementation.
 	sets := lines select: #isIsogramSetImplementation.
 	recurs := lines select: #isIsogramRecursiveImplementation.
-	{ bits . dicts .  bags . strings . sets} collect: #size. #(196749 47674 47674 47668 47674)
+	{ bits . dicts .  bags . strings . sets} collect: #size. "#(23118 47674 47674 47668 47674)"
 ]]]
 
 
