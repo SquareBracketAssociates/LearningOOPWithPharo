@@ -65,7 +65,7 @@ We can also find the index of a string inside another one.
 
 
 !!! A Set-Based solution
-We can do a simple implementation using Sets. Sets are collections that only contains one element. Adding twice the same element only adds one. Note that Set in Pharo can contain any objects even Sets themselves. There are no restriction about Set elements.  You can convert a string into a set of characters sending the string the message ==asSet==. 
+We can do a simple implementation using Sets. Sets are collections that only contains one occurence of each element added to it. Adding twice the same element only adds one. Note that Set in Pharo can contain any objects even Sets themselves. There are no restriction about Set elements.  You can convert a string into a set of characters sending the string the message ==asSet==. 
 
 [[[
 'coucou' asSet
@@ -158,7 +158,7 @@ Wait! We do not want to have to check manually all the time!
 
 To define tests we could have extended the ==StringTest== class, but we prefer to define a little class for our own experiment. This way we will create also a package and move the methods we define as class extension to the that package. 
 
-@@note To define a method as class extension of package ==Foo==, just name the protocol of the method ==*Foo==.
+@@note To define a method as a class extension of package ==Foo==, just name the protocol of the method ==*Foo==.
 
 
 We define the class ==GramCheckerTest== as follow. It inherits from ==TestCase== and belong to the package ==LoopStarGram==.
@@ -563,7 +563,7 @@ String  >> isEnglishPangram
 
 Execute all the tests to verify that we did change anything. 
 
-If we keep to use french words that do not need accents, we can verifie that some french sentences are also 
+If we keep to use french words that do not need accents, we can verify that some french sentences are also 
 pangrams. 
 
 [[[
@@ -617,7 +617,7 @@ String >> detectFirstMissingLetterFor: alphabet
 !!!! About the return values of detectFirstMissingLetterFor:
 
 Returning objects that are not polymorphic such as a single character or a string is really bad design. 
-Why? Because the user of the method will not have the 
+Why? Because the user of the method will be force to check if the result is a single character or a collection of characters.
 
 
 [[[
@@ -635,7 +635,7 @@ String >> detectFirstMissingLetterFor: alphabet
 @@note Avoid as much as possible to return objects that are not polymorphic. Return a collection and an empty collection. Not a collection and nil. Write methods returning the same kind of objects, this way their clients will be able to treat them without asking if they are different. This practice reinforces the ""Tell do not ask principle"".
 
 
-We have two choices: either return always a collection as for that we convert the character into a string sending it the message ==asString== as follow, or we can return a special character to represent that nothing happens for example Character space. 
+We have two choices: either always return  a collection as for that we convert the character into a string sending it the message ==asString== as follow, or we can return a special character to represent that nothing happens for example Character space. 
 
 [[[
 String >> detectFirstMissingLetterFor: alphabet
