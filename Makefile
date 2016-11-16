@@ -3,6 +3,7 @@ CHAPTERS = \
 	Chapters/PlayingWithTurtles/PlayingWithTurtles \
 	Chapters/SyntaxNutshell/SyntaxNutshell \
 	Chapters/Katas/GramKatas \
+	Chapters/Katas/GramVariation \
 	Chapters/ObjectsAndClasses/ObjectsAndClasses \
 	Chapters/Converter/Converter \
 	Chapters/JoeTheBox/JoeTheBox \
