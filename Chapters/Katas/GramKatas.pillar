@@ -297,22 +297,47 @@ GramCheckerTest >> testIsEnglishPangram
 
 !!!! Imagine a solution. 
 Imagine that we have a collection or string representing the alphabet.
-A solution is to check that the potential pangram string contain each of the characters of the alphabet. 
+A solution is to check that the potential pangram string contains each of the characters of the alphabet, as soon as we see that one character is missing we stop and know that the sentence is not a pangram. 
 
 
-@@todo jlkjlk
+[[[
+'The quick brown fox jumps over the lazy dog' isEnglishPangram
+>>> true
+'The quick brown fox jumps over the dog' isEnglishPangram
+>>> false
+]]]
+!!!! A first version
 
-
-!!! A first version
-We can 
+Here is a first version. We define a variable ==isPangram== that will represent the information we know about the receiver. We set it to true to start. Then we iterate over an alphabet character by character and as soon as the character is not included in the receiver we set the variable to false. 
+At the end we return the variable ==isPangram==.  
 
 [[[
 String >> isEnglishPangram
 	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
-	"'The quick brown fox jumps over the lazy dog' isEnglishPangram
-	>>> true"
-	"'The quick brown fox jumps over the dog' isEnglishPangram
-	>>> false"
+	
+	| isPangram |
+	isPangram := true. 
+	'abcdefghijklmnopqrstuvwxyz' do: [ :aChar |
+		(self includes: aChar)
+			ifFalse: [ isPangram := false ]
+		].
+	^ isPangram
+]]]
+
+This first implementation has a problem. Can you see which one? 
+If the sentence does not contain ==$a==, we will know it immediately still we will look for all the other letters. So this is clearly inefficient.
+
+!!!! A better version
+Instead for testing all characters, even if we know one is missing, what we should do is to stop looking as soon as we identify that there is one missing character and return the result. 
+
+The following definition is doing this and it deserves a word of explanation. 
+
+The expression ==^ something==  returns the value ==something== to the caller method. The program execution exits at that point: it does not execute the rest of method. The program execution returns to the method caller. Usually we use ==^ something== as last statement of a method when they need to return a special value. Now ==^ anExpression== can occur anywhere and in particular inside a loop. In such a case the loop is stopped, the method execution is stopped and the value is returned. 
+
+
+[[[
+String >> isEnglishPangram
+	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
 	
 	'abcdefghijklmnopqrstuvwxyz' do: [ :aChar |
 		(self includes: aChar)
@@ -321,20 +346,29 @@ String >> isEnglishPangram
 	^ true
 ]]]
 
-Let us study this method.
+Note that we do not need the variable ==isPangram== anymore. We return true as last expression because we assume that if the execution arrives to the this point, it means that all the characters of the alphabet are in the receiver, else the execution would have been stopped and false would have been returned. 
 
+@@note When you define a method returning a boolean value, always think that you should at least return a true and a false value. This sounds like a stupid advice but developing such basic reflex is important. 
 
-
+@@note The execution of any expression preceded by a ==^== (a caret) will cause the method to exit at
+that point, returning the value of that expression. A method that terminates
+without explicitly returning some expression will implicitly return ==self==.
 
 !!! Handling alphabet
+A pangram is only valid within a given alphabet. *http://clagnut.com/blog/2380/* describes pangrams in many different languages. Now 
+we could follow one gag in Gaston Lagaffe with the 'les poux papas et les poux pas papas' and all their descendance. 
+'les poux papas et les poux pas papas' is not a pangram in french but a pangram in the alphabet 'apouxetl'.
+
+We would like to be able to specify the alphabet to be used to verify. Yes we define a new test.
 
 [[[
-GramCheckerTest >> testIsPangramIN
+GramCheckerTest >> testIsPangramIn
 
 	self assert: ('The quick brown fox jumps over the lazy dog' isPangramIn: 'abcdefghijklmnopqrstuvwxyz').
-	self assert: ('ma papa mama' isPangramIn: 'apm').
+	self assert: ('les poux papas et les poux pas papas' isPangramIn: 'apouxetl').
 ]]]
 
+We do it as simple as the following. 
 [[[
 String >> isPangramIn: alphabet
 	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
@@ -351,7 +385,7 @@ String >> isPangramIn: alphabet
 ]]]
 
 [[[
-String  >> isEnglishPangram
+String >> isEnglishPangram
 	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
 	"'The quick brown fox jumps over the lazy dog' isEnglishPangram
 	>>> true"
@@ -411,28 +445,12 @@ String >> detectFirstMissingLetterFor: alphabet
 	^ ''
 ]]]
 
-
-
 !!!! About the return values of detectFirstMissingLetterFor:
 
 Returning objects that are not polymorphic such as a single character or a string is really bad design. 
-Why? Because the user of the method will be force to check if the result is a single character or a collection of characters.
-
-
-[[[
-String >> detectFirstMissingLetterFor: alphabet
-	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
-	Return '' otherwise"
-	
-	alphabet do: [ :aChar |
-		(self includes: aChar)
-			ifFalse: [ ^ aChar ]
-		].
-	^ ''
-]]]
+Why? Because the user of the method will be forced to check if the result is a single character or a collection of characters.
 
 @@note Avoid as much as possible to return objects that are not polymorphic. Return a collection and an empty collection. Not a collection and nil. Write methods returning the same kind of objects, this way their clients will be able to treat them without asking if they are different. This practice reinforces the ""Tell do not ask principle"".
-
 
 We have two choices: either always return  a collection as for that we convert the character into a string sending it the message ==asString== as follow, or we can return a special character to represent that nothing happens for example Character space. 
 
@@ -448,7 +466,8 @@ String >> detectFirstMissingLetterFor: alphabet
 	^ ''
 ]]]
 
-Here we prefer to return a character since the method is returning the first character. 
+Here we prefer to return a string since the method is returning the first character. 
+In the following one we return a special character. 
 
 [[[
 String >> detectFirstMissingLetterFor: alphabet
@@ -485,24 +504,24 @@ String >> detectAllMissingLettersFor: alphabet
 	...
 ]]]
 
-
-
-[[[
-String >> detectAllMissingLettersFor: alphabet
-	
-	| res |
-	res := Set new. 
-	alphabet do: [ :aChar |
-		(self includes: aChar)
-			ifFalse: [ res add: aChar ]
-		].
-	^ res
-]]]
+One of the problem that you can encounter is that the order of the missing letters can make the tests failed. 
 
 We create a Set instead of an Array because Arrays in Pharo have a fixed size that should be known at creation time. We could have created an array of size 26. In addition we do not care about the order of the missing letters.
 A Set is a collection whose size can change, and in which we can add the element one by one, therefore it fits our requirements. 
 
-Now our test does not work because it is verifying that we get an array of characters while we get an ordered collection. So we change it to take into account the returned collection. 
+[[[
+String >> detectAllMissingLettersFor: alphabet
+	
+	| missing |
+	missing := Set new. 
+	alphabet do: [ :aChar |
+		(self includes: aChar)
+			ifFalse: [ missing add: aChar ] ].
+	^ missing
+]]]
+
+
+Now our test does not work because it  verifies that we get an array of characters while we get an ordered collection. So we change it to take into account the returned collection. 
 
 [[[
 GramCheckerTest >> testDetectAllMissingLetters
@@ -514,6 +533,12 @@ GramCheckerTest >> testDetectAllMissingLetters
 ]]]
 
 Instead of explicitely creating a Set, we could also use the message ==asSet== that convert the receiver into a Set as shown in the second check. 
+
+
+!!! Conclusion
+
+We got some fun around words and sentences. Now in Pharo a collection can contain any objects. What you also saw is that loops to not
+require to specify the first index and how to increment it. Of course we can do it in Pharo using the message ==to:do:== and ==to:by:do:==. But only when we need it. So play with some iterators such as ==do:== and ==select:==. 
 
 
 
