@@ -4,21 +4,11 @@ This chapter propose some little challenges around words and sentences as a way 
 
 !!! Isogram
 
-An isogram is a word or phrase without a repeating letter. The following are examples of isograms in english and french:
-- egoism
-- sea
-- lighthouse
-- lumberjacks
-- background
-- hacking
-- pathfinder
-- pharo
-- antipode
-- altruisme
-- absolument
-- bigornaux
+An isogram is a word or phrase without a repeating letter. The following words are examples of isograms in english and french:
+- egoism, sea, lighthouse, lumberjacks, background, hacking, pathfinder, pharo
+- antipode, altruisme, absolument, bigornaux
 
-Isograms are fun also because they are often the basis of simple cifers. Isograms of length 10 are commonly used to encode numbers. This way salespeople of products can get access to the original cost of the product and control their sale. 
+Isograms are interesting words also because they are often the basis of simple cifers. Isograms of length 10 are commonly used to encode numbers. This way salespeople of products can get access to the original cost of the product and control their sale. 
 
 Using the ''pathfinder'' cipher we can decide that ''p'' represents the number 1, ''a'' represents the number 2 and so on. The price tag for an item selling for 1100 Euros may also bear the cryptic letters ''frr'' written on the back or bottom of the tag. A salesman familiar with the pathfinder cipher will know that the original cost of the item is 500 Euros and he can control his sale. 
 
@@ -26,7 +16,7 @@ Since we will essentially manipulate strings, let us start with some basic knowl
 
 !!! About strings
 
-A strings in Pharo is in fact an array of characters.
+A string in Pharo is in fact an array of characters. We can access string elements using the message ==at: anIndex==. Since all collections in Pharo have their first elements at index 1, the message ==at: 1== returns the first element of a string. 
 
 [[[
 'coucou' at: 1
@@ -38,7 +28,8 @@ A strings in Pharo is in fact an array of characters.
 >>> $u
 ]]]
 
-As with any collection, we can apply iterators such ==select:==, ==do:==, or ==collect:==.
+As with any collection, we can apply iterators such ==select:==, ==do:==, or ==collect:==. Here we select all the characters that are after, hence bigger, than character ==$m==.
+
 [[[
 'coucou' select: [ :aChar | aChar > $m ] 
 >>>'ouou'
@@ -51,7 +42,7 @@ We can also apply all kinds of operations on the collection. Here we reserve it.
 >>>	 'uocuoc' 
 ]]]
 
-We can also find the index of a string inside another one. 
+We can also find the index of a string inside another one using the message ==findString: aString startingAt: anIndex==. 
 
 [[[
 'coucou' findString: 'ou' startingAt: 1
@@ -63,9 +54,15 @@ We can also find the index of a string inside another one.
 >>> 5
 ]]]
 
+We simply present some of the possible messages that can be sent to a string. We select some that you can use in the following or in the next chapter. Now let us solve our problem to identify if a string is an isogram. 
 
 !!! A Set-Based solution
-We can do a simple implementation using Sets. Sets are collections that only contains one occurence of each element added to it. Adding twice the same element only adds one. Note that Set in Pharo can contain any objects even Sets themselves. There are no restriction about Set elements.  You can convert a string into a set of characters sending the string the message ==asSet==. 
+
+We can do a simple (and not really efficient) implementation using Sets. Sets are collections that only contain one occurence of each element added to them. Adding twice the same element only adds one. 
+
+Note that Sets in Pharo can contain any objects, even Sets themselves. This is not the case in all languages. In Pharo, there are no restriction about Set elements.  
+
+You can convert a string into a set of characters sending the string the message ==asSet==. 
 
 [[[
 'coucou' asSet
@@ -75,7 +72,7 @@ We can do a simple implementation using Sets. Sets are collections that only con
 Imagine how using a set of characters, you can determine if a string is a isogram. 
 
 !!!! Hints
-If the size of set and the string are the same, it means that the string does not contain any letter twice! Bingo we can simply identify an isogram. 
+If the size of a set with the contents of a string and this string are the same, it means that the string does not contain any letter twice! Bingo we can simply identify an isogram. 
 
 To get the size of a collection use the message ==size== 
 [[[
@@ -125,14 +122,14 @@ s size = s asSet size
 
 !!!! Adding a method to the class String
 
-Now we can define a new method to the class ==String==. Since we will propose multiple implementations we postfix the message with the implementation strategy we use. Here we define ==isIsogramSetImplementation==
+Now we can define a new method to the class ==String==. Since we will propose multiple implementations we postfix the message with the implementation strategy we use. Here we define ==isIsogramSet==
 
 [[[
-String >> isIsogramSetImplementation
-	"Returns true if the receiver is an isogram, i.e., a word using no repeatitive character."
-	"'pharo' isIsogramSetImplementation
+String >> isIsogramSet
+	"Returns true if the receiver is an isogram, i.e., a word using no repetitive character."
+	"'pharo' isIsogramSet
 	>>> true"
-	"'phaoro' isIsogramSetImplementation
+	"'phaoro' isIsogramSet
 	>>> false"
 	
 	^ self size = self asSet size 
@@ -141,12 +138,12 @@ String >> isIsogramSetImplementation
 And we test that our method is correct. 
 
 [[[
-'pharo' isIsogramSetImplementation 
+'pharo' isIsogramSet 
 >>> true
 ]]]
 
 [[[
-'phaoro' isIsogramSetImplementation 
+'phaoro' isIsogramSet 
 >>> true
 ]]]
 
@@ -179,46 +176,52 @@ Test methods are special.
 
 Here 
 - Our method is named ==testIsogramSetImplementation==.
-- We check (==assert:==) that 'pharo' is an isoGram i.e., that =='pharo' isIsogramSetImplementation== returns ==true==. 
-- We check (==deny:==) that 'phaoro' is ''not'' an isoGram i.e., that =='pharo' isIsogramSetImplementation== returns ==false==. 
+- We check (==assert:==) that 'pharo' is an isogram i.e., that =='pharo' isIsogramSet== returns ==true==. 
+- We check (==deny:==) that 'phaoro' is ''not'' an isogram i.e., that =='pharo' isIsogramSet== returns ==false==. 
 [[[
 GramCheckerTest >> testIsogramSetImplementation
 	
-	self assert: 'pharo' isIsogramSetImplementation.
-	self deny: 'phaoro' isIsogramSetImplementation.
+	self assert: 'pharo' isIsogramSet.
+	self deny: 'phaoro' isIsogramSet.
 ]]]
 
-@@note When you write a test, make sure that you test different situations or results. Why? because imagine that your methods always return true. You would never be sure that not all the string are isograms. So always check for positive and negative results. 
+@@note When you write a test, make sure that you test different situations or results. Why? Because imagine that your methods always return true, you would never be sure that not all the string are isograms. So always check for positive and negative results. 
 
-Messages ==assert:== and ==deny:== are equivalent as follows: 
+Messages ==assert:== and ==deny:== are equivalent as follows: assert(something) is equals to deny(something not) and assert(something not) is equivalent to deny(something). Hence the following expressions are strictly equivalent. 
 	
 [[[
-	self assert: 'phaoro' isIsogramSetImplementation not.
-	self deny: 'phaoro' isIsogramSetImplementation.
+	self assert: 'phaoro' isIsogramSet not.
+	self deny: 'phaoro' isIsogramSet.
 ]]]	
 
 !!!! Testing several strings
 
 Now we do not want to write a test per string. We want to test multiple strings at the same time. 
-For that we will define a method in the test class that returns a collection of strings. 
+For that we will define a method in the test class that returns a collection of strings. Here we create a methods returning an array of isograms. 
 
 [[[
 GramCheckerTest >> isograms
-	^  #('pharo' 'pathfinder' 'xavier' 'francois' 'lumberjack' 'altruisme' 'antipode')
+	^    #('pharo' 'pathfinder' 'xavier' 'francois' 'lumberjacks' 'altruisme' 'antipode')
 ]]]
+
+Then we define a new test method == testAllIsogramSet== that simply iterates over the string array and for each verifies using ==assert:== that the element is indeed an isogram. 
+
+In Pharo, there are multiple ways to express loops on collection, the easiest is to send the message ==do:== to the collection. The ==do:== message will execute the block to each element of the collection one by one. 
+
+@@note The ==do:== message execute its argument taking each elements of the receiver collection one by one. Note the way we express it, we ask the collection to iterate on itself. Note also that we do not have to worry about the size of the collection and the index of an element as this is often the case in other langauges. 
 
 [[[
-GramCheckerTest >> testAllIsogramSetImplementation
+GramCheckerTest >> testAllIsogramSet
 	
-		self isograms do: [ :word |
-			self assert: word isIsogramSetImplementation ]
+	self isograms do: [ :word |
+		self assert: word isIsogramSet ]
 ]]]
 
-Since we said that we should also tests negative let us to the same for non isograms. 
+Since we said that we should also tests negative let us to the same for non isograms. We create another method that returns non isogram strings and we enhance our testing method. 
 
 [[[
 GramCheckerTest >> notIsograms
-	^  #('phaoro' 'stephane' 'idiot' 'freedom')
+	^ #('phaoro' 'stephane' 'idiot' 'freedom')
 ]]]
 
 And we make our test using both. 
@@ -226,36 +229,53 @@ And we make our test using both.
 [[[
 GramCheckerTest >> testAllIsogramSetImplementation
 	
-		self isograms do: [ :word |
-			self assert: word isIsogramSetImplementation ].
-		self notIsograms do: [ :word |
-				self deny: word isIsogramSetImplementation ]
+	self isograms do: [ :word |
+		self assert: word isIsogramSet ].
+	self notIsograms do: [ :word |
+		self deny: word isIsogramSet ]
 ]]]
 
 
-!!!! Some Fun
-Now we would like to find some isograms in french. So we would like to get all the lines of *http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt*
+!!! Some fun: Obtaining french isograms
 
-This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. Zn then assumes the encoding is utf8 (the most reasonable default today). Mime-types can specify the encoding as follows: 'text/plain;charset=utf8' or 'text/plain;charset=latin1'.
+Now we would like to find some isograms in french.
+*http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt* contains 330 000 french words one by line. So we would like to get all the lines.
 
+We will use ==ZnClient==, the HTTPClient that comes with Pharo.
+This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. Zn then assumes the encoding is utf8 (the most reasonable default today). So we have to tell the client which encoding to use using mime types. Mime-types can specify the encoding as follows: 'text/plain;charset=utf8' or 'text/plain;charset=latin1'.
 
-Here is how to override the default in Zn
+Here is how to override the default in ZnClient. 
+Since this is a lot of data, when you execute use the Inspect it to get an inspector instead of a simple DoIt. 
+
+@@todo add a screen capture
 
 [[[
-(ZnDefaultCharacterEncoder 
+| lines |
+lines := (ZnDefaultCharacterEncoder 
   value: ZnCharacterEncoder latin1 
   during: [
     ZnClient new 
       get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
 ]]]
 
-The above will give you an array of 336531 words (it is a bit slow because it is lot of data).
+The expression above will give you an array of 336531 words (it is a bit slow because it is lot of data).
 
+Once you get the inspector opens, you can start to play with the data.
+In the text pane you can execute the following expressions
+
+@@todo Add a screen captures
+
+The first one will select all the words that are isogram and you will see them in the second list that will appear on the right. 
 [[[
-self select: #isIsogramString
+self select: #isIsogramSet
+]]]
 
+Now you can select again all the isogram longer or equal to 10. 
+[[[
 self select: [:each | each size >= 10 ]
 ]]]
+
+We have other ways to implement isograms and we will discuss such implementations in the next chapter. Now we will play with pangrams.
 
 
 !!! Pangrams
@@ -263,20 +283,29 @@ self select: [:each | each size >= 10 ]
 The definition of a pangram is the following:  ''A Pangram or holoalphabetic sentence for a given alphabet is a sentence using every letter of the alphabet at least once''.
  
 Here are examples of english pangrams: 
-- 'the five boxing wizards jump quickly'
-- 'the quick brown fox jumps over the lazy dog'
+- the five boxing wizards jump quickly
+- the quick brown fox jumps over the lazy dog
 
-Let us write a testfirst
+Let us write a test first. Yes we want to make sure that we will be able to control if our code is correct and we do not want to repeat typing the test. 
+
 [[[
 GramCheckerTest >> testIsEnglishPangram
 
 	self assert: 'The quick brown fox jumps over the lazy dog' isEnglishPangram.
 	self deny: 'The quick brown fox jumps over the  dog' isEnglishPangram
-
 ]]]
 
+!!!! Imagine a solution. 
+Imagine that we have a collection or string representing the alphabet.
+A solution is to check that the potential pangram string contain each of the characters of the alphabet. 
 
+
+@@todo jlkjlk
+
+
+!!! A first version
 We can 
+
 [[[
 String >> isEnglishPangram
 	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
@@ -284,14 +313,18 @@ String >> isEnglishPangram
 	>>> true"
 	"'The quick brown fox jumps over the dog' isEnglishPangram
 	>>> false"
-	| alphabet |
-	alphabet := 'abcdefghijklmnopqrstuvwxyz'.
-	alphabet do: [ :aChar |
+	
+	'abcdefghijklmnopqrstuvwxyz' do: [ :aChar |
 		(self includes: aChar)
 			ifFalse: [ ^ false ]
 		].
 	^ true
 ]]]
+
+Let us study this method.
+
+
+
 
 !!! Handling alphabet
 
@@ -330,8 +363,7 @@ String  >> isEnglishPangram
 
 Execute all the tests to verify that we did change anything. 
 
-If we keep to use french words that do not need accents, we can verify that some french sentences are also 
-pangrams. 
+If we keep to use french words that do not need accents, we can verify that some french sentences are also pangrams. 
 
 [[[
 'portez ce vieux whisky au juge blond qui fume' isEnglishPangram
