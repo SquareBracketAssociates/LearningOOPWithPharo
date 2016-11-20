@@ -27,32 +27,32 @@ An object can also send messages to other objects. For example, when a turtle dr
 
 An object has an identity. Each object is unique and is uniquely identifiable. In Pharo, the message \=\= allows one to test object identity as shown by the following examples.
 
-We create two different turtles and referred to them using the variables ==caro== and ==marg==. As they are different the test returns false.
+First we create two different turtles and referred to them using the variables ==caro== and ==marg==. As they are different objects the test returns false.
 [[[
 | caro marg |
 caro := Turtle new.
 marg := Turtle new.
 caro == marg
-> false
+>>> false
 ]]]
 
 
-We create only one turtle and assign it to the variable ==caro==. 
+We create only one turtle and assign it to the variable ==caro==. We compare what is pointed by the variable ==caro== and obvisouly this is the same object, so the test is true.
 [[[
 | caro marg |
 caro := Turtle new.
 caro == caro
->  true
+>>>  true
 ]]]
 
-Here we create only one object but refer to it by two different variables. However this is not changing anything because the two variables refer to the same object that has the same identity soo we get ==true== meaning that the identity of the object pointed by ==caro== is the same than the one pointed by ==marg==.
+Here we create only one object but refer to it by two different variables. However this is not changing anything because the two variables refer to the same object that has the same identity so we get ==true== meaning that the identity of the object pointed by ==caro== is the same than the one pointed by ==marg==.
 
 [[[
 | caro marg |
 caro := Turtle new.
 marg := caro.
 caro == marg
-> true
+>>> true
 ]]]
 
 @@note An object has an unique identity.
@@ -61,7 +61,7 @@ caro == marg
 !!! An object is a protective entity
 
 An object is responsible of the way it realizes its reaction to a
-message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *fig:capsule*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *fig:capsuleTurtle* shows the message and the method ==square:==.
+message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:capsule*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:capsuleTurtle* shows the message and the method ==square:==.
 
 +An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.>file://figures/capsule.pdf|width=50|label=fig:capsule+
 
@@ -73,11 +73,11 @@ message.  It ''offers services'' but ''hides'' the way they are implemented (see
 
 From a turtle ''user'' point of view, the only relevant information is that the turtle effectively receiving the message ==square:== executes the method that draws a square. So changing
 the definition of the ==square:== method  to the one below does
-not have any consequence on the methods that call it. Figure *fig:encapsulationAtWork* illustrates this point.
+not have any consequence on the methods that call it. Figure *@fig:encapsulationAtWork* illustrates this point.
 
 [[[
 square: anInteger
-   "make the receiver draw a square of size anInteger"
+   "Make the receiver draw a square of size anInteger"
 
    self go: anInteger. 
    self turnLeft: 90.
