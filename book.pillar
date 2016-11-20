@@ -39,22 +39,6 @@ Since we need a language to express our programs, we will teach you the syntax o
 ! Getting started
 
 ${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
-Here I want the reader to 
-- create a turtle
-- send messages
-- create a method
-- send message
-- create two turtles
-
-Note sure since it depends on morphic!!! May be just copying what is in JoeTheBox
-
-
-To the same with Counter
-- create a counter
-- send messages
-- create a method
-- create another counter
-
 
 ${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
 
