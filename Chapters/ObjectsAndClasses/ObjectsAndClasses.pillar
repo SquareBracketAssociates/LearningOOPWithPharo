@@ -61,77 +61,51 @@ caro == marg
 !!! An object is a protective entity
 
 An object is responsible of the way it realizes its reaction to a
-message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:capsule*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:capsuleTurtle* shows the message and the method ==square:==.
+message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
 
-+An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.>file://figures/capsule.pdf|width=50|label=fig:capsule+
-
-+The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.>file://figures/capsuleTurtle.pdf|width=50|label=fig:capsuleTurtle+
-
+@@note An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.
 
 @@note An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
 
-
-From a turtle ''user'' point of view, the only relevant information is that the turtle effectively receiving the message ==square:== executes the method that draws a square. So changing
-the definition of the ==square:== method  to the one below does
-not have any consequence on the methods that call it. Figure *@fig:encapsulationAtWork* illustrates this point.
+From a turtle ''user'' point of view, the only relevant information is that the turtle effectively receiving the message ==square:== executes the method that draws a square. So changing the definition of the ==square:== method  to the one below does not have any consequence on the methods that call it. Figure *@fig:encapsulationAtWork2* illustrates this point.
 
 [[[
-square: anInteger
-   "Make the receiver draw a square of size anInteger"
+square: s
+   "Make the receiver draw a square of size s"
 
-   self go: anInteger. 
-   self turnLeft: 90.
-   self go: anInteger. 
-   self turnLeft: 90.
-   self go: anInteger. 
-   self turnLeft: 90.
-   self go: anInteger. 
-   self turnLeft: 90
+   self go: s; turn: 90; go: s; turn: 90.
+   self go: s; turn: 90; go: s; turn: 90
 ]]]
 
 
-+The message ==square:== can be implemented differently this does not impact the sender of the message who is not concerned by the internals of the object.>file://figures/encapsulationAtWork.pdf|width=50|label=fig:encapsulationAtWork+
++The message ==square:== can be implemented differently this does not impact the sender of the message who is not concerned by the internals of the object.>file://figures/encapsulationAtWork2.pdf|width=45|label=fig:encapsulationAtWork2+
 
 
-Note that such a behavior is not specific to object-oriented programming but we think that it is worth to show again that information hiding is important.
+Hiding the internal representation is not limited to object-oriented programming but it is central to object-oriented programming. 
 
 !!! An object protects its data
 
-An object holds some ''private data'' that represents its state. Moreover, it controls its state and should not let other objects play directly with them because this could let him into an inconsistent state.  For example, you do not want to somebody else plays with the data  of your bank account directly and really want to control your transaction. 
+An object holds some ''private data'' that represents its state (see Figure *@fig:objectOne*). Moreover, it controls its state and should not let other objects play directly with them because this could let him into an inconsistent state.  For example, you do not want to somebody else plays with the data of your bank account directly and really want to control your transaction. 
 
 For example, a turtle can be represented by a position, a direction and a way to indicate if its pen is up or down. But, we cannot directly access these data and change them. For that we have to use the set of messages proposed by a turtle. These methods constitute the ''interface'' of an object. We say that the object state is ''encapsulated'', this means that not everybody can access it. In fact, object-oriented programming is based on encapsulation, i.e., the fact that per default objects are the only ones that can access their own state.
 
-In Pharo, a client cannot access the state of an object if the object does not define a method to access it. An object controls its state and should not let other objects play  directly with them because this could let him into an inconsistent state. Moreover, clients should not  rely on the internal representation of an object because an object is free to change the way it is implementing its behavior. Note that exposing the internal state of an object by defining methods providing access to the object data weakens the control that an object has over its own state.
++A turtle is an object which has an interface, i.e., a set of messages to which it can reply and a private state that only its methods can access.>file://figures/privateData.pdf|width=45|label=fig:objectOne+
 
-A turtle does not provide a way to change its direction directly, nor to change directly the status of its pen. ==jump== and ==go== are actually changing the status of the turtle's pen and its position.   
+In Pharo, a client cannot access the state of an object if the object does not define a method to access it.  Moreover, clients should not  rely on the internal representation of an object because an object is free to change the way it  implements its behavior. Exposing the internal state of an object by defining methods providing access to the object data weakens the control that an object has over its own state.
 
-
-+A turtle is an object which has an interface, i.e., a set of messages to which it can reply and a private state that only its methods can access.>file://figures/objectOne.pdf|width=50|label=fig:objectOne+
- 
- 
- +Two turtles have the same interface, i.e., set of messages  being understood but they have ''different'' private state representing their  direction, position and pen color.>file://figures/twoInstances.pdf|width=50|label=fig:twoInstances+
+Our turtle (contrarily to the original Logo turtle) does not provide a way to change directly the status of its pen. The messages ==jump== and ==go== are actually changing the status of the turtle's pen and its position.   
 
 
-@@note An object holds some private data that represent its internal state.
-
- As a summary,  an object holds information, maintains connection to other objects, and perform services as shown by Figure *fig:viewAtObjects*.
-
- +Different responsibilities of an object.>file://figures/responsibilities.pdf|width=50|label=fig:responsibilities+
++Two turtles have the same interface, i.e., set of messages  being understood but they have ''different'' private state representing their  direction, position and pen status.>file://figures/privateDataTwoInstances.pdf|width=70|label=fig:twoInstances+
 
 
+@@note An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class shares the same ''interface'' but have their own private state.
 
- !!!! Remark about our turtle API. 
-Traditionally a logo turtle provided explicit instructions to move up or down its pen. This leads to programs where we should set the pen in correct position, perform the action, and reset the pen state as shown by the following script:
+!!! Collaborators
 
-[[[
-| caro |
-caro := Turtle new.
-caro penDown.
-4 timesRepeat: [caro go: 100. caro turn:90].
-caro penUp
-]]]
+An object is not an isolated entity. It interacts with other objects: Its performs tasks on reaction to message but it also can delegate some subtasks other objects. An object has ''collaborators''. A turtle collaborates with points, color, pen but also a graphical canvas on which it draw with its pen. 
 
-The turtle we propose does not have such a possibility but offers the ==go:== method that moves forward its receiver and makes a trace and the method  ==jump:== that  only moves forward. We made this choice to stress the fact that objects are about ''behavior'' and that state in one way to represent the behavior of an object.
++An object interact with others: either to perform tasks or to request tasks.>file://figures/collaborators.pdf|width=70|label=fig:collaborators+
 
 
 !!! Classes: Factoring behavior of similar objects
@@ -169,7 +143,7 @@ A class creates and returns an instance in response to the message ==new==. As c
 | caro |
 caro := Turtle new. 
 caro class printString
-> Turtle
+>>> Turtle
 ]]]
 
 
@@ -236,13 +210,14 @@ In Pharo, instance variables cannot be accessed from outside of an object. Insta
 @@note In Pharo, instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
 
 
-!!!Class and Instances are Different
+!!!Class and instances are different
 
 
-Classes and objects are different objects; they understand different messages. A class is a factory of objects. A class creates instances. 
- For example, sending ==new== to the ==Turtle== class returns a newly created turtle, while sending ==new== to a turtle results in an error. In the opposite way, sending ==jump:== to ==Turtle== leads also to an error because ==Turtle== is a factory of objects not the objects themselves. Classes are molders of objects.
+Classes and objects are different objects; they understand different messages. A class is a factory of objects. A class creates instances.
 
-@@note A class describes the state (instance variables) and the behavior (methods) of all its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+For example, sending ==new== to the ==Turtle== class returns a newly created turtle, while sending ==new== to a turtle results in an error. In the opposite way, sending ==jump:== to ==Turtle== leads also to an error because ==Turtle== is a factory of objects not the objects themselves. Classes are molders of objects.
+
+@@note A class describes the state (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -268,7 +243,7 @@ caro turnLeft: 90
 
 In the context of ==Turtle== and ==AnimatedTurtle== objects the method execution results in similar, yet different, actions. The receiver gets at the same location in the same state but does extra action i.e., the animation for the animated turtle.  It may happen that different objects understand the same message while doing completely different actions, but this is rare.  
 
-Most of the time it is better to give similar name to methods performing similar behavior, and different names when the methods are doing semantically different actions, so that users of the objects are not confused. As two different classes can define different methods with the same name, it may be confusing for the reader to clearly identify the class to which a method belongs to. Such an issue does not occur when we use the Pharo code browser because a method is always shown in the context of its class. In this book we prefix the method selector with the name of the class and ==>>==. Hence the method ==square:== defined in the class ==Turtle== is written as follow: 
+Most of the time it is better to give similar name to methods performing similar behavior, and different names when the methods are doing semantically different actions, so that users of the objects are not confused. As two different classes can define different methods with the same name, it may be confusing for the reader to clearly identify the class to which a method belongs to. Such an issue does not occur when we use the Pharo code browser because a method is always shown in the context of its class. In this book we prefix the method selector with the name of the class and == >>==. Hence the method ==square:== defined in the class ==Turtle== is written as follow: 
 
 [[[
 Turtle >> square: anInteger
@@ -279,6 +254,9 @@ Turtle >> square: anInteger
 ]]]
 
 The  polymorphism is really a strength of object-oriented languages because it allows one to treat different objects, i.e., instances of different classes, uniformly as soon as they implement the same messages. Polymorphism works in synergy with the idea that an object is responsible to decide how to react to message reception. Indeed, the fact that different objects can implement the same messages let us write code that only tell the objects to execute some actions without worrying exactly about the kind of objects. 
+
+
+
 
 
 !!! Conclusion 
