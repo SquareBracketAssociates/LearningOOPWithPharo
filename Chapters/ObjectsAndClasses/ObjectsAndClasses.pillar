@@ -1,26 +1,25 @@
 !! Objects and Classes
 @cha_objects
 
-Even if we used the terms objects through this complete book, we presented only programming concepts such as variables, loops, abstraction, or arguments that are not specific to object-oriented programming.  This was possible because object-oriented languages share common concepts with procedural programming.  
+Pharo is a pure object-oriented programming language, i.e., everything in the system is an object i.e., an entity created by a class and reacting to messages. In this chapter you will learn the concepts of object-oriented programming: ''objects'' and ''classes''. 
 
-\st is a pure object-oriented programming language, i.e., everything in the system is an object \ie\ an entity created by a class and reacting to messages. In this book, we used the object-oriented vocabulary because the metaphor it offers is good for teaching and because our goal is to prepare you to learn object-oriented programming. However, we did not explain object-oriented programming as it is not the topic of this book. 
+Objects are entities that communicate via messages and react to messages by executing certain tasks. Moreover objects hide the way they define these tasks: the client of an object send a message to an object and the system find the corresponding method to be executed. Messages specify what should be done and methods how it should be done. 
 
-The purpose of this  chapter is to give a minimal but precise information on the concepts of object-oriented programming. 
-
-In this chapter, we present the notion of ''objects'' and ''classes'' which are central to object-oriented programming. Objects are entities that communicate via messages and react to message by performing certain tasks. Moreover objects hide the way they define these tasks. Objects are created by classes that represent the behavior of family of objects.
-
+Objects are created by classes that are object factories: Classes define the structure and behavior of objects (in terms of methods) but each object has a specific state and identity that is unique and different from all other objects. A class defines methods that specify how a message is actually implemented. 
 
 !!! Objects: Entities reacting to messages
 
- You created objects and sent them messages without really paying attention because this is natural. Let us analyze what we did and understand the first principle behind objects. As you saw, you created objects, turtles but also numbers and colors and sent them messages. In reaction to these messages, objects performed some actions. For example, a turtle knows how to change its direction, to move forward and so on.
+In chapter *@cha:PlayingWithObjects* you created objects and sent them messages without really paying attention because this is natural. Let us analyze what we did and understand the first principle behind objects. As you saw, you created objects, turtles but also numbers and colors and sent them messages. In reaction to these messages, objects performed some actions. For example, a turtle knows how to change its direction, to move forward and so on.
 
-An object is a computer entity that once created receives messages and performs some actions in reaction. An object ''executes'' a ''method'' in response to a message reception as shown in Figure *basicMessageMethod*. A method is just a sequence of instructions i.e., assignments, messages to other objects, that has a name and whose name can be used in a message to ask for the method execution. A message represents ''what'' the object can do, while a method specifies ''how'' the behavior is realized. 
+An object is a computer entity that once created receives messages and performs some actions in reaction. An object ''executes'' a ''method'' in response to a message reception as shown in Figure *basicMessageMethod*. A method is just a sequence of instructions i.e., assignments, messages to other objects, that has a name and whose name can be used in a message to ask for the method execution. 
+
+@@note A message represents ''what'' the object can do, while a method specifies ''how'' the behavior is realized. 
 
 An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line  color and send messages numbers.
 
-+An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When an object is sent to an object a method with the same name is executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
++An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
 
-@@note An object is a computer entity that once created receives messages and performs some actions in reaction.
+@@note An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
 
 
 
