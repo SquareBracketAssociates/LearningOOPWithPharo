@@ -48,8 +48,88 @@
 	<key>GraphicsList</key>
 	<array>
 		<dict>
+			<key>AllowConnections</key>
+			<string>NO</string>
+			<key>AllowLabelDrop</key>
+			<false/>
+			<key>AllowToConnect</key>
+			<false/>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>ID</key>
+			<integer>14</integer>
+			<key>Points</key>
+			<array>
+				<string>{112.73295593261719, 113.60363388061523}</string>
+				<string>{166.7356071472168, 145.4809455871582}</string>
+				<string>{162.7356071472168, 124.4809455871582}</string>
+				<string>{219.88997268676758, 163.4809455871582}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>StickArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>TailArrow</key>
+					<string>0</string>
+					<key>Width</key>
+					<real>2</real>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
 			<key>Bounds</key>
-			<string>{{416.515625, 44.239109039306641}, {83, 22}}</string>
+			<string>{{36, 81.877311706542969}, {144, 29}}</string>
+			<key>Class</key>
+			<string>ShapedGraphic</string>
+			<key>FitText</key>
+			<string>YES</string>
+			<key>Flow</key>
+			<string>Resize</string>
+			<key>ID</key>
+			<integer>8</integer>
+			<key>Shape</key>
+			<string>Rectangle</string>
+			<key>Style</key>
+			<dict>
+				<key>fill</key>
+				<dict>
+					<key>Draws</key>
+					<string>NO</string>
+				</dict>
+				<key>shadow</key>
+				<dict>
+					<key>Draws</key>
+					<string>NO</string>
+				</dict>
+				<key>stroke</key>
+				<dict>
+					<key>Draws</key>
+					<string>NO</string>
+				</dict>
+			</dict>
+			<key>Text</key>
+			<dict>
+				<key>Text</key>
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
+
+\f0\b\fs48 \cf0 square:
+\b0  100}</string>
+				<key>VerticalPad</key>
+				<integer>0</integer>
+			</dict>
+			<key>Wrap</key>
+			<string>NO</string>
+		</dict>
+		<dict>
+			<key>Bounds</key>
+			<string>{{405.511474609375, 53}, {83, 22}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -97,7 +177,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{348.12890625, 108.8758544921875}, {70, 22}}</string>
+			<string>{{348.12893676757812, 108.8758544921875}, {70, 22}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -145,7 +225,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{267, 219.0369873046875}, {254, 87}}</string>
+			<string>{{264, 218.073974609375}, {254, 87}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -187,10 +267,11 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720
 
-\f0\b\fs26 \cf0 square: size\
+\f0\b\fs26 \cf0 square: s\
    
-\b0 4 timesRepeat: [\
-       self go: size; turn: 90 ]
+\b0     self go: s; turn: 90; go: s; turn: 90.\
+       self go: s; turn: 90; \
+              go: s; turn: 90
 \fs38 \
 }</string>
 				<key>VerticalPad</key>
@@ -718,7 +799,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2016-11-20 20:21:44 +0000</string>
+	<string>2016-11-20 19:52:21 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -804,7 +885,7 @@
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{133, 326}, {948, 828}}</string>
+		<string>{{464, 142}, {948, 828}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
