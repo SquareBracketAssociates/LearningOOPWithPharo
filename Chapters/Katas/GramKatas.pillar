@@ -535,10 +535,66 @@ GramCheckerTest >> testDetectAllMissingLetters
 Instead of explicitely creating a Set, we could also use the message ==asSet== that convert the receiver into a Set as shown in the second check. 
 
 
+!!! Palindrome as exercise
+We let as an exercise the identification if a string is a palindrom. 
+A palindrome is a word or sentence that can be read in both way. 'KAYAK' is a palindrome. 
+
+[[[
+GramCheckerTest >> testIsPalindrome
+
+	self assert: 'ete' isPalindrome.
+	self assert: 'kayak' isPalindrome.
+	self deny: 'etat' isPalindrome.
+]]]
+
+!!!! Some possible implementations
+Here is a list of possible implementation.
+
+- You can iterate on strings and check that the first element and the last element are the same. 
+- You can also reverse the receiver (message ==reverse==) and compare the character one by one. You can use the message ==with:do:== which iterate on two collections. 
+
+[[[
+'etat' reverse 
+>>> 'tate'
+]]]
+
+[[[
+| res |
+res := OrderedCollection new. 
+#(1 2 3) with: #(10 20 30) do: [ :f :s | res add: f * s ].
+res
+>>> an OrderedCollection(10 40 90)
+
+]]
+
+
+You can also add the fact that space do not count. 
+
+[[[
+	self assert: 'Elu par cette crapule' isPalindrome.
+]]]
+
+
+%isPalindrome2
+%	"Returns true whether the receiver is an palindrome.
+%	'anna' isPalindrome2
+%		true
+%	'andna' isPalindrome2 
+%		true
+%	'avdna' isPalindrome2 
+%		false
+%	"
+%	1 
+%		to: self size//2 
+%		do: [ :i | (self at: i) = (self at: self size + 1 - i)
+%						ifFalse: [ ^false ]
+%				].
+%	^true
+
+
 !!! Conclusion
 
-We got some fun around words and sentences. Now in Pharo a collection can contain any objects. What you also saw is that loops to not
-require to specify the first index and how to increment it. Of course we can do it in Pharo using the message ==to:do:== and ==to:by:do:==. But only when we need it. So play with some iterators such as ==do:== and ==select:==. 
+We got some fun around words and sentences. You should know more about strings and collection. In particular, in Pharo a collection can contain any objects. You also saw is that loops to not require to specify the first index and how to increment it. Of course we can do it in Pharo using the message ==to:do:== and ==to:by:do:==. But only when we need it. So play with some iterators such as ==do:== and ==select:==. The iterators are really powerful and this is really important to be fluent with them because they will make you save a lot of time. 
 
 
 
