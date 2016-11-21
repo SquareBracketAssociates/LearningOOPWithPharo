@@ -13,6 +13,25 @@ In chapter *@cha:PlayingWithObjects* you created objects and sent them messages 
 
 An object is a computer entity that once created receives messages and performs some actions in reaction. An object ''executes'' a ''method'' in response to a message reception as shown in Figure *basicMessageMethod*. A method is just a sequence of instructions i.e., assignments, messages to other objects, that has a name and whose name can be used in a message to ask for the method execution. 
 
+!!!! Message: the what should be executed
+
+The message ==square:== is send to a new turtle with 100 as argument. The message expresses what the receiver should do. 
+
+[[[
+Turtle new square: 100
+]]]
+
+!!!! Method: the how we execute it
+
+The method definition ==square:== below defines step by step what are the actions to be done in response to the message ==square:==. We will show later how the mapping between a message and a method is done at runtime. 
+
+[[[
+square: size
+	4 timesRepeat: [ self go: size; turn: 90 ]
+]]]
+
+
+
 @@note A message represents ''what'' the object can do, while a method specifies ''how'' the behavior is realized. 
 
 An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line  color and send messages numbers.
@@ -110,20 +129,20 @@ An object is not an isolated entity. It interacts with other objects: Its perfor
 
 !!! Classes: Factoring behavior of similar objects
 
-As we already saw several turtles can be created independently one of each others.  In the following script both ==caro== and ==marg== execute the method named ==jump==. As a result they change their respective position.
+As we already saw several turtles can be created independently one of each others.  In the following script two ==Turtle== objects ==caro== and ==marg== execute the method named ==jump==. As a result they change ''their respective'' position.
 
 [[[caption=Two turtles understanding the same messages
 | caro marg | 
 caro := Turtle new.
 marg := Turtle new.
+caro east. 
 marg jump: 100.
 caro jump: 100.
 marg jump: 200. 
 ]]]
 
 
-The method ==jump== executed by ==caro== is the same than the one executed by ==marg==. To avoid the duplication of the behavior in all similar objects class-based object-oriented languages introduce the notion of ''class''. All the behavior understood by ==caro== and ==marg== is defined in the class ==Turtle== and as such shared among all the class objects.  All the turtles share the method ==jump==. Hence, every time we define a new method in the class ==Turtle==, all the turtles can execute it.
-
+To avoid duplication of object behavior definition in all similar objects, class-based object-oriented languages introduce the notion of ''class''. All the behavior understood by ==caro== and ==marg== is defined in the class ==Turtle== and as such ''shared'' among all the class objects.  All the turtles share the same method ==jump==. Hence, every time we define a new method in the class ==Turtle==, all the turtles can execute it in response to the corresponding message.
 
 @@note All objects of the same class share the same behavior, i.e., the same method definitions.
 
