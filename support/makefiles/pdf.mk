@@ -14,7 +14,7 @@ pdf-clean:
 		rm -f "$$f.tex" "$$f.tex.json" ; \
 	done
 
-$(OUTPUTDIRECTORY)/%.tex.json: %.pillar prepare
+$(OUTPUTDIRECTORY)/%.tex.json: %.pillar | prepare
 	./pillar export --to="LaTeX" --outputDirectory=$(OUTPUTDIRECTORY) --outputFile=$< $<
 
 $(OUTPUTDIRECTORY)/$(MAIN).tex: TEMPLATE = $(LATEXTEMPLATE)

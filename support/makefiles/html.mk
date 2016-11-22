@@ -13,7 +13,7 @@ html-clean:
 		rm -f "$$f.html.json" ; \
 	done
 
-$(OUTPUTDIRECTORY)/%.html.json: %.pillar prepare
+$(OUTPUTDIRECTORY)/%.html.json: %.pillar | prepare
 	./pillar export --to="HTML" --outputDirectory=$(OUTPUTDIRECTORY) --outputFile=$< $<
 
 $(OUTPUTDIRECTORY)/$(MAIN).html: TEMPLATE = $(HTMLTEMPLATE)
