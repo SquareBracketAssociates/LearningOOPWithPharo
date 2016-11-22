@@ -9,8 +9,8 @@ CHAPTERS = \
 	Chapters/JoeTheBox/JoeTheBox \
 	Chapters/SimpleLAN/SimpleLANDefinition \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
-	Chapters/Wallet/Wallet \
-	
+	Chapters/Wallet/Wallet
+
 OUTPUTDIRECTORY = build
 LATEXTEMPLATE = support/templates/main.latex.mustache
 LATEXCHAPTERTEMPLATE = support/templates/chapter.latex.mustache
