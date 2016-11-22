@@ -7,7 +7,7 @@ $(call check_defined, CHAPTERS, Base names of the chapters)
 FIGURES := $(shell find . \
 		-type f \
 		-path '*/figures/*' \
-		! -path '$(OUTPUTDIRECTORY)/*' \
+		! -path './$(OUTPUTDIRECTORY)/*' \
 		! -path './support/*' \
 		-print)
 
