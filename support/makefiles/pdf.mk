@@ -10,7 +10,7 @@ pdfchapters: $(CHAPTERS:%=$(OUTPUTDIRECTORY)/%.pdf)
 clean: pdf-clean
 pdf-clean:
 	for f in $(addprefix $(OUTPUTDIRECTORY)/,$(MAIN) $(CHAPTERS)); do \
-		latexmkrc -cd -f -c "$$f" ; \
+		latexmk -cd -f -c "$$f" ; \
 		rm -f "$$f.tex" "$$f.tex.json" ; \
 	done
 
@@ -23,4 +23,4 @@ $(OUTPUTDIRECTORY)/%.tex: $(OUTPUTDIRECTORY)/%.tex.json $(TEMPLATE)
 	./mustache --data=$< --template=$(TEMPLATE) > $@
 
 $(OUTPUTDIRECTORY)/%.pdf: $(OUTPUTDIRECTORY)/%.tex
-	latexmkrc -cd -use-make $<
+	latexmk -cd -use-make $<
