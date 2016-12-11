@@ -10,7 +10,7 @@ pdfchapters: $(CHAPTERS:%=$(OUTPUTDIRECTORY)/%.pdf)
 clean: pdf-clean
 pdf-clean:
 	for f in $(addprefix $(OUTPUTDIRECTORY)/,$(MAIN) $(CHAPTERS)); do \
-		latexmk -cd -f -c "$$f" ; \
+		latexmkrc -cd -f -c "$$f" ; \
 		rm -f "$$f.tex" "$$f.tex.json" ; \
 	done
 
