@@ -23,4 +23,4 @@ $(OUTPUTDIRECTORY)/%.tex: $(OUTPUTDIRECTORY)/%.tex.json $(TEMPLATE)
 	./mustache --data=$< --template=$(TEMPLATE) > $@
 
 $(OUTPUTDIRECTORY)/%.pdf: $(OUTPUTDIRECTORY)/%.tex
-	latexmk -cd -use-make $<
+	latexmkrc -cd -use-make $<

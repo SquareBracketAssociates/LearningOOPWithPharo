@@ -36,6 +36,11 @@ Since we need a language to express our programs, we will teach you the syntax o
 - Strategy 
 
 
+
+[[[
+#(1 2 3)
+
+]]]
 ! Getting started
 
 ${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
@@ -56,6 +61,8 @@ ${inputFile:Chapters/Katas/GramVariation.pillar}$
 
 ! Objects
 
+${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
+
 !! Counter 
 
 ${inputFile:Chapters/Converter/Converter.pillar}$
@@ -67,14 +74,6 @@ ${inputFile:Chapters/Wallet/Wallet.pillar}$
 ${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
 
-
-${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
-
-
-
-
-
-
 !! Inspector
 
 !!Debugger
@@ -83,7 +82,8 @@ ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 
-!! Inheritance (ok but not graphic)
+!! Inheritance Explained
+- should find a non-graphical
 
 !! LAN More chapter (ok)
 
