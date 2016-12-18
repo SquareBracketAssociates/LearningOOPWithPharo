@@ -564,8 +564,7 @@ res := OrderedCollection new.
 #(1 2 3) with: #(10 20 30) do: [ :f :s | res add: f * s ].
 res
 >>> an OrderedCollection(10 40 90)
-
-]]
+]]]
 
 
 You can also add the fact that space do not count. 
