@@ -73,7 +73,7 @@ ${inputFile:Chapters/Converter/Converter.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
-!! DSL
+${inputFile:Chapters/DSL/DSL.pillar}$
 
 ${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
