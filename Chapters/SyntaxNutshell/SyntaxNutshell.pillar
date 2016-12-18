@@ -1,4 +1,4 @@
-!! Syntax in a nutshell
+{ "title": "Syntax in a nutshell" }
 @cha:syntax
 
 Pharo adopts a syntax very close to that of its ancestor, Smalltalk. The syntax
@@ -25,7 +25,7 @@ For instance, instead of an if-then-else control structure, conditionals are
 expressed as messages (such as ==ifTrue:==) sent to Boolean objects. New
 (sub-)classes are created by sending a message to their superclass.
 
-!!! Syntactic elements
+!! Syntactic elements
 
 Expressions are composed of the following building blocks:
 
@@ -60,7 +60,7 @@ We can see examples of the various syntactic elements in the Table below.
 |==3 + 4==| binary message ==+==
 |==2 raisedTo: 6 modulo: 10==| keyword message ==raisedTo:modulo:==
 |==^ true==| return the value true
-|==Transcript show: 'hello' . Transcript cr==| expression separator (==.==)
+|==x := 2 . x := x + x==| expression separator (==.==)
 |==Transcript show: 'hello'; cr==| message cascade (==;==)
 
 ""Local variables."" ==startPoint== is a variable name, or identifier. By
@@ -74,7 +74,7 @@ variables, class variables, pool dictionaries or class names. ==Processor== is
 a global variable, an instance of the class ==ProcessScheduler==.
 
 ""The receiver."" ==self== is a keyword that refers to the object inside which
-the current method is executing. We call it "the receiver" because this object has 
+the current method is executing. We call it "the receiver" because this object has
 received the message that caused the method to execute.
 ==self== is called a "pseudo-variable" since we cannot assign to it.
 
@@ -155,7 +155,7 @@ The classes ==Number==, ==Character==, ==String== and ==Boolean== are described
 in more detail in Chapter
 *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses*.
 
-!!!Pseudo-variables
+!!Pseudo-variables
 
 In Pharo, there are 6 reserved keywords, or pseudo-variables: ==nil==, ==true==,
 ==false==, ==self==, ==super==, and ==thisContext==. They are called
@@ -173,7 +173,7 @@ pseudo-variables because they are predefined and cannot be assigned to.
 
 - ==thisContext== is a pseudo-variable that represents the top frame of the execution stack. ==thisContext== is normally not of interest to most programmers, but it is essential for implementing development tools like the debugger, and it is also used to implement exception handling and continuations.
 
-!!!Message sends
+!!Message sends
 
 There are three kinds of messages in Pharo. This distinction has been made to reduce the number of mandatory parentheses.
 
@@ -203,7 +203,8 @@ Unary messages have the highest precedence, then binary messages, and finally
 keyword messages, so:
 
 [[[
-2 raisedTo: 1 + 3 factorial --> 128
+2 raisedTo: 1 + 3 factorial
+>>> 128
 ]]]
 
 First we send ==factorial== to 3, then we send ==\+ 6== to 1, and finally we
@@ -213,13 +214,15 @@ to show the result of evaluating an expression.
 Precedence aside, execution is strictly from left to right, so:
 
 [[[
-1 + 2 * 3 --> 9
+1 + 2 * 3 
+>>> 9
 ]]]
 
 return 9 and not 7. Parentheses must be used to alter the order of evaluation:
 
 [[[
-1 + (2 * 3) --> 7
+1 + (2 * 3) 
+>>> 7
 ]]]
 
 !!!!!Periods and semi-colons.
@@ -248,10 +251,10 @@ Transcript
 
 This has precisely the same effect as the previous example.
 
-!!!Method syntax
+!!Method syntax
 
 Whereas expressions may be evaluated anywhere in Pharo (for example, in a
-workspace, in a debugger, or in a browser), methods are normally defined in a
+playground, in a debugger, or in a browser), methods are normally defined in a
 browser window, or in the debugger. Methods can also be filed in from an
 external medium, but this is not the usual way to program in Pharo.
 
@@ -260,9 +263,9 @@ class is defined by sending a message to an existing class, asking it to create
 a subclass, so there is no special syntax required for defining classes.
 
 Here is the method ==lineCount== in the class ==String==. The usual ''convention''
-is to refer to methods as ClassName\>\>methodName. Here the method is then  String\>\>lineCount. 
-Note that  ClassName\>\>methodName is not part of the Pharo syntax just 
-a convention used in books to clearly define a method. 
+is to refer to methods as ClassName\>\>methodName. Here the method is then  String\>\>lineCount.
+Note that  ClassName\>\>methodName is not part of the Pharo syntax just
+a convention used in books to clearly define a method.
 
 [[[
 String >> lineCount
@@ -292,16 +295,24 @@ starting with upper-case letters are assumed to be global variables. Class
 names, like ==Character==, for example, are simply global variables referring to
 the object representing that class.
 
-!!!Block syntax
+
+
+!!Block syntax
 
 Blocks (lexical closures) provide a mechanism to defer the execution of expressions. A block is
 essentially an anonymous function with a definition context. A block is executed by sending it the
 message ==value==. The block answers the value of the last expression in its
-body, unless there is an explicit return (with ^), in which case it does not
-answer any value.
+body, unless there is an explicit return (with ^) in which case it returns the value of the returned expression.
 
 [[[language=smalltalk
-[ 1 + 2 ] value --> 3
+[ 1 + 2 ] value 
+>>> 3
+]]]
+
+
+[[[language=smalltalk
+[ 3 = 3 ifTrue: [ ^ 33 ]. 44 ] value
+>>> 33
 ]]]
 
 Blocks may take parameters, each of which is declared with a leading colon. A
@@ -311,8 +322,10 @@ one argument. A two-parameter block must be sent ==value:value:==, and so on, up
 to 4 arguments.
 
 [[[language=smalltalk
-[ :x | 1 + x ] value: 2 --> 3
-[ :x :y | x + y ] value: 1 value: 2 --> 3
+[ :x | 1 + x ] value: 2 
+>>> 3
+[ :x :y | x + y ] value: 1 value: 2 
+>>> 3
 ]]]
 
 If you have a block with more than four parameters, you must use
@@ -325,9 +338,10 @@ arguments:
 
 [[[language=smalltalk
 [ :x :y |
-	| z | 
-	z := x + y. 
-	z ] value: 1 value: 2 --> 3
+	| z |
+	z := x + y.
+	z ] value: 1 value: 2 
+>>> 3
 ]]]
 
 Blocks are actually lexical closures, since they can refer to variables of the
@@ -337,31 +351,35 @@ enclosing environment:
 [[[
 | x |
 x := 1.
-[ :y | x + y ] value: 2 --> 3
+[ :y | x + y ] value: 2 
+>>> 3
 ]]]
 
 Blocks are instances of the class ==BlockClosure==. This means that they are
 objects, so they can be assigned to variables and passed as arguments just like
 any other object.
 
-!!!Conditionals and loops in a nutshell
+!!Conditionals and loops in a nutshell
 
 Pharo offers no special syntax for control constructs. Instead, these are
 typically expressed by sending messages to booleans, numbers and collections,
 with blocks as arguments.
 
 
-!!!! Some conditionals
+!!! Some conditionals
 Conditionals are expressed by sending one of the messages ==ifTrue:==,
-==ifFalse:== or ==ifTrue:ifFalse:== to the result of a boolean expression. 
+==ifFalse:== or ==ifTrue:ifFalse:== to the result of a boolean expression. See
+Chapter *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses*,
+for more about booleans.
 
 [[[
 (17 * 13 > 220)
 	ifTrue: [ 'bigger' ]
-	ifFalse: [ 'smaller' ] -->'bigger'
+	ifFalse: [ 'smaller' ] 
+>>>'bigger'
 ]]]
 
-!!!! Some loops
+!!! Some loops
 Loops are typically expressed by sending messages to blocks, integers or
 collections. Since the exit condition for a loop may be repeatedly evaluated, it
 should be a block rather than a boolean value. Here is an example of a very
@@ -370,7 +388,8 @@ procedural loop:
 [[[
 n := 1.
 [ n < 1000 ] whileTrue: [ n := n*2 ].
-n --> 1024
+n 
+>>> 1024
 ]]]
 
 ==whileFalse:== reverses the exit condition.
@@ -378,7 +397,8 @@ n --> 1024
 [[[
 n := 1.
 [ n > 1000 ] whileFalse: [ n := n*2 ].
-n --> 1024
+n 
+>>> 1024
 ]]]
 
 ==timesRepeat:== offers a simple way to implement a fixed iteration:
@@ -386,7 +406,8 @@ n --> 1024
 [[[
 n := 1.
 10 timesRepeat: [ n := n*2 ].
-n --> 1024
+n 
+>>> 1024
 ]]]
 
 We can also send the message ==to:do:== to a number which then acts as the
@@ -396,7 +417,8 @@ block that takes the current value of the loop counter as its argument:
 [[[
 result := String new.
 1 to: 10 do: [:n | result := result, n printString, ' '].
-result --> '1 2 3 4 5 6 7 8 9 10 '
+result 
+>>> '1 2 3 4 5 6 7 8 9 10 '
 ]]]
 
 !!! High-order iterators
@@ -414,7 +436,8 @@ is a block that is evaluated for each element of the collection.
 [[[
 result := String new.
 (1 to: 10) do: [:n | result := result, n printString, ' '].
-result --> '1 2 3 4 5 6 7 8 9 10 '
+result 
+>>> '1 2 3 4 5 6 7 8 9 10 '
 ]]]
 
 ==collect:== builds a new collection of the same size, transforming each
@@ -422,7 +445,8 @@ element. (You can think of ==collect:== as the Map in the MapReduce
 programming model).
 
 [[[
-(1 to:10) collect: [ :each | each * each ] --> #(1 4 9 16 25 36 49 64 81 100)
+(1 to:10) collect: [ :each | each * each ] 
+>>> #(1 4 9 16 25 36 49 64 81 100)
 ]]]
 
 ==select:== and ==reject:== build new collections, each containing a subset of
@@ -433,9 +457,12 @@ that strings are also collections (of characters), so you can iterate over all
 the characters.
 
 [[[
-'hello there' select: [ :char | char isVowel ] --> 'eoee'
-'hello there' reject: [ :char | char isVowel ] --> 'hll thr'
-'hello there' detect: [ :char | char isVowel ] --> $e
+'hello there' select: [ :char | char isVowel ] 
+>>> 'eoee'
+'hello there' reject: [ :char | char isVowel ] 
+>>> 'hll thr'
+'hello there' detect: [ :char | char isVowel ] 
+>>> $e
 ]]]
 
 Finally, you should be aware that collections also support a functional-style
@@ -445,7 +472,8 @@ result using an expression that starts with a seed value and injects each
 element of the collection. Sums and products are typical examples.
 
 [[[
-(1 to: 10) inject: 0 into: [ :sum :each | sum + each] --> 55
+(1 to: 10) inject: 0 into: [ :sum :each | sum + each] 
+>>> 55
 ]]]
 
 This is equivalent to ==0\+\1\+2\+3\+4\+5\+6\+7\+8\+9\+10==.
@@ -453,7 +481,7 @@ This is equivalent to ==0\+\1\+2\+3\+4\+5\+6\+7\+8\+9\+10==.
 More about collections can be found in Chapter
 *: Collections>../Collections/Collections.pier@cha:collections*.
 
-!!! Primitives and pragmas
+!! Primitives and pragmas
 
 In Pharo everything is an object, and everything happens by sending messages.
 Nevertheless, at certain points we hit rock bottom. Certain objects can only get
@@ -483,16 +511,29 @@ expression ==super + aNumber== will be executed and returned.
 
 In Pharo, the angle bracket syntax is also used for method annotations called pragmas.
 
-!!!Chapter summary
+!!Chapter summary
 
--Pharo has only six reserved identifiers (also called pseudo-variables): ==true==, ==false==, ==nil==, ==self==, ==super==, and ==thisContext==.
--There are five kinds of literal objects: numbers (5, 2.5, 1.9e15, 2r111), characters (==$a==), strings (=='hello'==), symbols (==#hello==), and arrays (==#('hello' #hi)== or =={ 1 . 2 . 1 + 2 }== )
--Strings are delimited by single quotes, comments by double quotes. To get a quote inside a string, double it.
--Unlike strings, symbols are guaranteed to be globally unique.
--Use ==#( ... )== to define a literal array. Use =={ ... }== to define a dynamic array. Note that ==#(1\+2) size== \-\-> 3, but ==\{1\+2\} size== \-\-> 1
--There are three kinds of messages: unary (e.g., ==1 asString==, ==Array new==), binary (e.g., ==3 \+ 4==, =='hi', ' there'==), and keyword (e.g., =='hi' at: 2 put: $o==)
--A cascaded message send is a sequence of messages sent to the same target, separated by semi-colons: ==OrderedCollection new add: #calvin; add: #hobbes; size== \-\-> 2
+- Pharo has only six reserved identifiers (also called pseudo-variables): ==true==, ==false==, ==nil==, ==self==, ==super==, and ==thisContext==.
+- There are five kinds of literal objects: numbers (5, 2.5, 1.9e15, 2r111), characters (==$a==), strings (=='hello'==), symbols (==#hello==), and arrays (==#('hello' #hi)== or =={ 1 . 2 . 1 + 2 }== )
+- Strings are delimited by single quotes, comments by double quotes. To get a quote inside a string, double it.
+- Unlike strings, symbols are guaranteed to be globally unique.
+- Use ==#( ... )== to define a literal array. Use =={ ... }== to define a dynamic array.  
+
+[[[language=smalltalk
+#(1+2) size
+>>> 3
+{1+2} size
+>>>1
+]]]
+
+- There are three kinds of messages: unary (e.g., ==1 asString==, ==Array new==), binary (e.g., ==3 \+ 4==, =='hi', ' there'==), and keyword (e.g., =='hi' at: 2 put: $o==)
+- A cascaded message send is a sequence of messages sent to the same target, separated by semi-colons: 
+[[[
+OrderedCollection new add: #calvin; add: #hobbes; size
+>>> 2
+]]]
+
 -Local variables are declared with vertical bars. Use ==:= == for assignment. ==\|x\| x := 1 ==
 -Expressions consist of message sends, cascades and assignments, evaluated left to right (and optionally grouped with parentheses). Statements are expressions separated by periods.
--Block closures are expressions enclosed in square brackets. Blocks may take arguments and can contain temporary variables. The expressions in the block are not evaluated until you send the block a value message with the correct number of arguments. ==[ :x | x + 2 ] value: 4 --> 6==
+-Block closures are expressions enclosed in square brackets. Blocks may take arguments and can contain temporary variables. The expressions in the block are not evaluated until you send the block a value message with the correct number of arguments. ==[ :x | x + 2 ] value: 4==
 -There is no dedicated syntax for control constructs, just messages that conditionally evaluate blocks.
