@@ -1,4 +1,4 @@
-! Fun with Capchas
+!! Fun with Capchas (not used for now)
 
 Capchas are ways to control that a service is not accessed by a robot. In this chapter we propose to implement some capchas as a way to practice and learn Pharo. Several capcha will be implemented but first let us start with just manipulating strings.
 
