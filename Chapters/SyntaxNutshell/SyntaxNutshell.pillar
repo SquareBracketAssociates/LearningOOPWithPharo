@@ -1,4 +1,4 @@
-{ "title": "Syntax in a nutshell" }
+!! Syntax in a nutshell
 @cha:syntax
 
 Pharo adopts a syntax very close to that of its ancestor, Smalltalk. The syntax
@@ -25,7 +25,7 @@ For instance, instead of an if-then-else control structure, conditionals are
 expressed as messages (such as ==ifTrue:==) sent to Boolean objects. New
 (sub-)classes are created by sending a message to their superclass.
 
-!! Syntactic elements
+!!! Syntactic elements
 
 Expressions are composed of the following building blocks:
 
@@ -155,7 +155,7 @@ The classes ==Number==, ==Character==, ==String== and ==Boolean== are described
 in more detail in Chapter
 *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses*.
 
-!!Pseudo-variables
+!!!Pseudo-variables
 
 In Pharo, there are 6 reserved keywords, or pseudo-variables: ==nil==, ==true==,
 ==false==, ==self==, ==super==, and ==thisContext==. They are called
@@ -173,7 +173,7 @@ pseudo-variables because they are predefined and cannot be assigned to.
 
 - ==thisContext== is a pseudo-variable that represents the top frame of the execution stack. ==thisContext== is normally not of interest to most programmers, but it is essential for implementing development tools like the debugger, and it is also used to implement exception handling and continuations.
 
-!!Message sends
+!!!Message sends
 
 There are three kinds of messages in Pharo. This distinction has been made to reduce the number of mandatory parentheses.
 
@@ -251,7 +251,7 @@ Transcript
 
 This has precisely the same effect as the previous example.
 
-!!Method syntax
+!!!Method syntax
 
 Whereas expressions may be evaluated anywhere in Pharo (for example, in a
 playground, in a debugger, or in a browser), methods are normally defined in a
@@ -297,7 +297,7 @@ the object representing that class.
 
 
 
-!!Block syntax
+!!!Block syntax
 
 Blocks (lexical closures) provide a mechanism to defer the execution of expressions. A block is
 essentially an anonymous function with a definition context. A block is executed by sending it the
@@ -359,14 +359,17 @@ Blocks are instances of the class ==BlockClosure==. This means that they are
 objects, so they can be assigned to variables and passed as arguments just like
 any other object.
 
-!!Conditionals and loops in a nutshell
+
+
+
+
+
+!!! Some conditionals
 
 Pharo offers no special syntax for control constructs. Instead, these are
 typically expressed by sending messages to booleans, numbers and collections,
 with blocks as arguments.
 
-
-!!! Some conditionals
 Conditionals are expressed by sending one of the messages ==ifTrue:==,
 ==ifFalse:== or ==ifTrue:ifFalse:== to the result of a boolean expression. See
 Chapter *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses*,
@@ -481,7 +484,7 @@ This is equivalent to ==0\+\1\+2\+3\+4\+5\+6\+7\+8\+9\+10==.
 More about collections can be found in Chapter
 *: Collections>../Collections/Collections.pier@cha:collections*.
 
-!! Primitives and pragmas
+!!! Primitives and pragmas
 
 In Pharo everything is an object, and everything happens by sending messages.
 Nevertheless, at certain points we hit rock bottom. Certain objects can only get
@@ -511,7 +514,7 @@ expression ==super + aNumber== will be executed and returned.
 
 In Pharo, the angle bracket syntax is also used for method annotations called pragmas.
 
-!!Chapter summary
+!!!Chapter summary
 
 - Pharo has only six reserved identifiers (also called pseudo-variables): ==true==, ==false==, ==nil==, ==self==, ==super==, and ==thisContext==.
 - There are five kinds of literal objects: numbers (5, 2.5, 1.9e15, 2r111), characters (==$a==), strings (=='hello'==), symbols (==#hello==), and arrays (==#('hello' #hi)== or =={ 1 . 2 . 1 + 2 }== )

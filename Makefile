@@ -9,6 +9,7 @@ CHAPTERS = \
 	Chapters/JoeTheBox/JoeTheBox \
 	Chapters/SimpleLAN/SimpleLANDefinition \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
+	Chapters/Counter/Counter \
 	Chapters/Wallet/Wallet
 
 OUTPUTDIRECTORY = build
