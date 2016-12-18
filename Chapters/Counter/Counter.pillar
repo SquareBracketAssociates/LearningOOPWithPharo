@@ -191,13 +191,13 @@ So the template is the following:
 
 [[[
 MCHttpRepository
-	location: 'http://smalltalkhub.com/mc/YourAccountOrTeamAccount/YourProject/main'
+	location: 'http://smalltalkhub.com/mc/YourAccount/YourProject/main'
 	user: 'YourAccountID'
 	password: 'YourAccountPassword'
 ]]]
 
 
-!!!! Saving your package.
+!!!! Saving your package
 
 To save your work, simply select your package and the repository you want to save it to and save it using the Save button. This will open a dialog where you can give a comment, version numbers and blessing. From then on, other people can load it from there, in the same way that you would use cvs or other multi-user versioning systems. Saving the image is also a way to save your working environment, but not a way to version and publish it in a way that can be easily shared.
 
