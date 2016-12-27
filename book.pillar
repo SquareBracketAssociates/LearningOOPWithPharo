@@ -48,7 +48,7 @@ Since we need a language to express our programs, we will teach you the syntax o
 - Strategy 
 
 
-
+${inputFile:Chapters/OOPNutshell.pillar}$
 
 ! Getting in touch with objects
 

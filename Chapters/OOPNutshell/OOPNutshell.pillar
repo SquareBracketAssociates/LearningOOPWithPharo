@@ -1,0 +1,237 @@
+!! Object-Oriented Programming in a Nutshell
+%%@cha:nutshell
+
+This chapter is an overview of the key mechanisms that characterize object-oriented programming:
+objects, classes, inheritance, and late binding.  
+Each of these mechanisms will be used and explained in the following of the book under diverse forms: either a full dedicated chapter or usage in exercises. 
+
+!!! Objects first 
+Object-oriented programming is about creating objects and interacting with objects by sending them ''messages''.
+
+!!!!! Turtles as an example
+Imagine that we have a logo turtle (you will implement it in the following chapters). We can do the following: create a turtle, send it messages to make it move, turn and trace some drawnings. 
+
+!!!!! Creating an object
+First we create a new turtle by sending the message ==new== to the class ==Turtle==. 
+
+[[[
+| t |
+t := Turtle new. 
+]]]
+
+A class is a cast for objects. All the objects, instances of a class, share the same characteristics and behavior. For example, all the turtle instances have a direction and understand messages to rotate and move. However, each turtle has its own value for its direction.
+We say that all the instances of a class have the same instance variables but each as private value
+for them. 
+
+!!!!! Sending messages.
+
+The only way to interact with objects is to send them messages.
+
+[[[
+| t |
+t := Turtle new. 
+t turn: 90.
+t go: 100.
+t turn: 180. 
+t go: 100.
+]]]
+
+Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a procedure as we will see later. 
+
+!!!!! Multiple instances each with its own state. 
+In the following example we show that we can have multiple objects
+
+[[[
+| t1 t2 |
+t1 := Turtle new. 
+t1 turn: 90.
+t1 go: 100.
+t1 turn: 180. 
+t1 go: 100.
+t2 := Turtle new.
+t2 go: 100.
+t2 turn: 40.
+t2 go: 100.
+]]]
+
+!!!!!! Now with counters
+
+Now that you got the principal, we can see that it applies to everything. In Pharo ''everything'' is an object. In fact there is ""nothing"" else. Here is a little program with counters that you will implement in subsequent chapters. 
+
+We create two counters instances of the class ==Counter==. Each counter has its own state but exposes the same behavior as all the counters defined by the class ==Counter==: here returning its value when responding to the message ==count== and incrementing its value in response to message =='increment==
+
+[[[
+| c1 c2 |
+c1 := Counter new.
+c2 := Counter new.
+c1 count.
+>>> 0
+c1 increment.
+c1 increment.
+c1 count. 
+>>> 2
+c2 count.
+>>> 0
+c 2 increment.
+c2 count. 
+>>> 1
+]]]
+
+
+
+!!! Objects: stepping back
+
+!!!!! State.
+Each object has a private and specific state.
+
+!!!!! Behavior.
+Each object share the same behavior with all the instances of its class.
+
+!!!!! Identity.
+An object has an identity. It is unique. 
+
+
+!!! Classes
+
+
+
+
+
+!!!! Objects
+
+- identity
+- state
+- behavior
+
+
+!!! Playing with Animal 
+
+[[[
+Object subclass: #Animal
+	instanceVariableNames: 'name'
+	classVariableNames: ''
+	category: 'WithQuentin'
+]]]
+
+[[[
+Animal >> name: aString
+
+	name := aString
+]]]
+	
+[[[
+Animal >> presentYourself
+
+	^ 'I m a ', self class printString, '. My name is ', name, ', and I move that way: ', self move, '.' 
+]]]
+
+[[[
+Animal >> move
+
+	^ 'walk'
+]]]
+
+!!! Reuse of Ancestor
+[[[
+Animal subclass: #Dog
+	instanceVariableNames: ''
+	classVariableNames: ''
+	category: 'WithQuentin'
+]]]
+
+[[[
+(Dog new name: 'Dingo') presentYourself
+
+>>> 'I m a Dog. My name is Dingo, and I move that way: walk.'
+]]]
+
+presentYourself is reused. 
+
+
+!!! Specialisation of ancestor behavior
+
+[[[
+Animal subclass: #Duck
+	instanceVariableNames: ''
+	classVariableNames: ''
+	category: 'WithQuentin'
+]]]
+
+[[[
+Duck >> move 
+
+	^ 'swim'
+]]]
+
+[[[
+(Duck new name: 'Donald') presentYourself 
+
+>>> 'I m a Duck. My name is Donald, and I move that way: swim.'
+]]]
+
+!!! Late bound
+
+move injected from subclasses into superclass' code. 
+
+
+!!! About interfaces
+
+[[[
+Object subclass: #Presenter
+	instanceVariableNames: ''
+	classVariableNames: ''
+	category: 'WithQuentin'
+]]]
+
+[[[
+Presenter >> present: anObject
+
+	^ 'I m a ', anObject class printString, '. My name is ', anObject name, ', and I move that way: ', anObject move, '.'
+]]]
+
+[[[
+present: anObject
+
+	^ 'I m a ', anObject class printString, '. My name is ', anObject name, ', and I move that way: ', anObject move, '.'
+]]]
+
+[[[
+Presenter new 
+	present: (Dog new name: 'Dingo')
+	
+>>>"'I m a Dog. My name is Dingo, and I move that way: walk.'"
+]]]
+
+[[[
+Object subclass: #Aniplouf
+	instanceVariableNames: ''
+	classVariableNames: ''
+	category: 'WithQuentin'
+]]]
+
+Will not be able to reuse Animal. 
+
+[[[
+Aniplouf >> move 
+
+	^ 'spatial teleportation'
+]]]
+
+[[[
+partName
+
+	^ String streamContents: [ :s |
+			3 timesRepeat:  [ s nextPut: 'xyzqt' atRandom ]]
+]]]
+[[[
+Aniplouf >> name
+
+	^ self partName
+]]]
+
+[[[
+Presenter new 
+	present: (Aniplouf new )
+	
+	"" 'I m a Aniplouf. My name is super special entity, and I move that way: spatial teleportation.'"
+]]]	
