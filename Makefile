@@ -11,6 +11,7 @@ CHAPTERS = \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
 	Chapters/Counter/Counter \
 	Chapters/DSL/DSL \
+	Chapters/OOPNutshell/OOPNutshell \
 	Chapters/Wallet/Wallet
 
 OUTPUTDIRECTORY = build

@@ -13,11 +13,13 @@ Now nearly ten years after, I'm ready to write a book to start with object-orien
 
 While writing this book, I faced a challenge to find the correct level of difficulties. To solve this problem I structured the book into basic elements and projects (more advanced topics).
 
-In addition some chapters are key and conceptual while other are more tutorials that act more as explained step by step examples. Some of such chapters can be skipped while the conceptual one should not. 
+In addition some chapters are key and conceptual while others are more little tutorials that act more as explained step by step examples. Some of such chapters can be skipped while the conceptual one should not. 
 
 
 !!! What are the concepts you will learn
-We would like to present the concepts that we want to teach you and that hopefully you should acquire. 
+We would like to present the concepts that we want to teach you and that hopefully you should acquire. Note that we will not explain OOP in general but within the context of Pharo. Pharo is the essence of Object-Oriented programming since it object model is minimal but it covers the key and essential aspect of OOP. 
+
+
 
 !!!! Syntax, Blocks and Iterators
 Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple  
@@ -48,7 +50,7 @@ Since we need a language to express our programs, we will teach you the syntax o
 - Strategy 
 
 
-${inputFile:Chapters/OOPNutshell.pillar}$
+${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
 
 ! Getting in touch with objects
 
