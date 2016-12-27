@@ -91,17 +91,26 @@ Each object share the same behavior with all the instances of its class.
 An object has an identity. It is unique. 
 
 
-!!! Classes
+!!! A class: blueprint of objects
 
+A class is a mold or cast of objects. It specifies two things:
+- Instance structure. All the instances of a class will have the same structure. Not not the same values. A class acts as a blueprint. 
+- Instance behavior. All the instances share the same behavior even if this one can be different because applied on different values. 
 
+[[[
+Object subclass: #Counter
+	instanceVariableNames: 'count'
+	classVariableNames: ''
+	package: 'Learning'
+]]
 
+[[[
+Counter >> increment
+	count := count + 1
+]]]
 
+!!! Inheritance
 
-!!!! Objects
-
-- identity
-- state
-- behavior
 
 
 !!! Playing with Animal 
