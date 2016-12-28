@@ -8,10 +8,10 @@ Each of these mechanisms will be used and explained in the book under diverse fo
 !!! Objects first 
 Object-oriented programming is about creating objects and interacting with objects by sending them ''messages''.
 
-!!!!! Turtles as an example
+!!!! Turtles as an example
 Imagine that we have a logo turtle (you will implement it in the following chapters). We can do the following: create a turtle, send it messages to make it move, turn and trace some drawnings. 
 
-!!!!! Creating an object
+!!!! Creating an object
 First we create a new turtle by sending the message ==new== to the class ==Turtle==. 
 
 [[[
@@ -23,7 +23,7 @@ A class is a cast for objects. All the objects, instances of a class, share the 
 We say that all the instances of a class have the same instance variables but each as private value
 for them. 
 
-!!!!! Sending messages.
+!!!! Sending messages
 
 The only way to interact with objects is to send them messages.
 
@@ -38,7 +38,7 @@ t go: 100.
 
 Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a procedure as we will see later. 
 
-!!!!! Multiple instances: each with its own state. 
+!!!! Multiple instances: each with its own state. 
 In the following example we show that we can have multiple objects
 
 [[[
@@ -54,7 +54,7 @@ t2 turn: 40.
 t2 go: 100.
 ]]]
 
-!!!!! With counters
+!!!! With counters
 
 Now that you got the main point of objects, we can see that it applies to everything. In Pharo ''everything'' is an object. In fact there is ''nothing'' else, only objects. Here is a little program with counters that you will implement in subsequent chapters. 
 
@@ -97,18 +97,20 @@ A class is a mold or cast of objects. A class specifies two important aspects of
 
 A class is as a blueprint for its instances. Let us see some examples.
 
-!!!! Class counter
+!!!! Example: the class Counter
 
-The class ==Counter== defines that all the instances will have one instance variable named ==count==. 
+Let us study the ==Counter== class definition. The class ==Counter== defines that all the instances will have one instance variable named ==count==. 
 
 [[[
 Object subclass: #Counter
 	instanceVariableNames: 'count'
 	classVariableNames: ''
-	package: 'Learning'
-]]
+	package: 'LOOP'
+]]]
 
-In addition a class is the place that defines the behavior of the instances. 
+
+In addition a class is the place that groups the instance behavior. Indeed since all the instances of the class share the same behavior, such behavior is defined and grouped in a class.
+
 For counters, the class defines how to retrieve the counter value, how to increment 
 and decrement the count as used in the messages in the previous code snippets.
 
@@ -120,47 +122,93 @@ Counter >> increment
 	count := count + 1
 ]]]
 
-Now this method will be applied on specific objects: the ""receiver"" of the message ==increment==. As such, the variable count refers to the one of the ""receiver"" of the message. 
+When we send a message to a counter for example in the expression ==c1 increment==, 
+this method ==increment== will be applied on that specific object ==c1==.
+In such expression ==c1== is called the ""receiver"" of the message ==increment==. 
+
+In the method ==increment==,  the variable ==count== refers to the variables of the ""receiver"" of the message. 
 
 In addition a method specifies ""how"" a computation is performed, step by step contrarily to a message that expresses ""what"" should be performed. 
 
+We will explain how a method is found when a message is sent but first we should explain inheritance, i.e., how a class is defined incrementally from a root class.
 
+!!!! About collaborators and limited responsibility
+As with any paradigm, we can define well designed programs or poor ones. Poor programs are often more buggy, more difficult to understand and reuse.
 
+Usually an object does not exist in isolation, it often collaborate to implement its behavior. 
+For example, a graphic turtle interacts with numbers, colors, and a graphical canvas to draw on it. A book will interact with a publisher, authors and optionally a collection or library and renter.
 
+Such collaborators are other objects that do not necessary define the state of the object itself (a canvas is not part of a turtle properties still a turtle interact with it.).
 
+To help you design good classes you should carefully think about the collaborators of an object.
+Usually an object should not have too many collaborators. 
 
+Another design guideline is that an object should have a limited set of responsibilities. For example a graphic turtle knows how to display itself and draw on a canvas. A counter knows
+how to store and manipulate a value.
 
 
 !!! Inheritance
 
+Object-oriented programming is also based on the ''incremental'' definition of abstractions. This incremental definition mechanism is central to support reuse and extension of abstraction. It is called ''inheritance''. The idea is that you can define a new abstraction (a class) by refining an existing one (its superclass). We said that a subclass inherits from a superclass.
 
+Class inheritance creates trees of classes. This is within such trees that the system looks up the method corresponding to a message as we will explain. 
+
+Inheritance supports code reuse because instance variable and methods defined on a root concept (class) may be applicable to its refinement. 
+
+We will take a really simple and naive example to illustrate some of the key aspects. You will implement other better ones in other chapters. 
 
 !!! Playing with Animal 
+Imagine that we want to represent animals. This is highly improbable but rather simple and nice to show the keys aspects we want to illustrate: incremental definition, state reuse, behavior reuse, behavior redefinition and the most important one injection of subclass code within superclass code. 
+
+Here is a simple scenario that we want to be able to execute: we create an animal and ask it to present itself. 
+
+[[[
+(Animal new name: 'SpongeBob') presentYourself
+>>> 'I m a Animal. My name is SpongeBob, and I move that way: walk.'
+]]]
+
+
+!!!! Animal class definition
+We define a class ==Animal== as follows. 
+
 
 [[[
 Object subclass: #Animal
 	instanceVariableNames: 'name'
 	classVariableNames: ''
-	category: 'WithQuentin'
+	package: 'LOOP'
 ]]]
+
+The class ==Animal== inherits from the class ==Object==. The class ==Object== is the class defining the common behavior to all objects in the system such as error, access to class,...
+The class ==Object== is the root of the inheritance hierarchy.
+
+The class ==Animal== defines the structure of all instances: The class ==Animal== defines one instance variable named ==name==, it means that every instance has a name.
+
+!!!! Methods
+We define three methods: first one method to be able to set the name of the animal. 
+The method ==name:== takes as argument a string and stores this argument in the name instance variable of the receiver.
 
 [[[
 Animal >> name: aString
-
 	name := aString
 ]]]
-	
+
+The method ==move== is just returning the way the animal moves. Here we just return a string. 
+ 
+[[[
+Animal >> move
+	^ 'walk'
+]]]
+
+Finally we define a method (the logic could be better but we do not want to make it more complex) so that the animal can present itself. 
+This method simply returns a string which is the concatenation of information obtained by sending different messages. 
+
 [[[
 Animal >> presentYourself
-
 	^ 'I m a ', self class printString, '. My name is ', name, ', and I move that way: ', self move, '.' 
 ]]]
 
-[[[
-Animal >> move
 
-	^ 'walk'
-]]]
 
 !!! Reuse of Ancestor
 [[[
@@ -266,3 +314,5 @@ Presenter new
 	
 	"" 'I m a Aniplouf. My name is super special entity, and I move that way: spatial teleportation.'"
 ]]]	
+
+
