@@ -2,8 +2,8 @@
 %%@cha:nutshell
 
 This chapter is an overview of the key mechanisms that characterize object-oriented programming:
-objects, classes, inheritance, and late binding.  
-Each of these mechanisms will be used and explained in the following of the book under diverse forms: either a full dedicated chapter or usage in exercises. 
+''objects'', ''classes'', ''inheritance'', ''messages'', ''methods'' and finally ''late binding''. 
+Each of these mechanisms will be used and explained in the book under diverse forms: either a full dedicated chapter or usage in exercises. 
 
 !!! Objects first 
 Object-oriented programming is about creating objects and interacting with objects by sending them ''messages''.
@@ -38,7 +38,7 @@ t go: 100.
 
 Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a procedure as we will see later. 
 
-!!!!! Multiple instances each with its own state. 
+!!!!! Multiple instances: each with its own state. 
 In the following example we show that we can have multiple objects
 
 [[[
@@ -54,11 +54,13 @@ t2 turn: 40.
 t2 go: 100.
 ]]]
 
-!!!!!! Now with counters
+!!!!! With counters
 
-Now that you got the principal, we can see that it applies to everything. In Pharo ''everything'' is an object. In fact there is ""nothing"" else. Here is a little program with counters that you will implement in subsequent chapters. 
+Now that you got the main point of objects, we can see that it applies to everything. In Pharo ''everything'' is an object. In fact there is ''nothing'' else, only objects. Here is a little program with counters that you will implement in subsequent chapters. 
 
-We create two counters instances of the class ==Counter==. Each counter has its own state but exposes the same behavior as all the counters defined by the class ==Counter==: here returning its value when responding to the message ==count== and incrementing its value in response to message =='increment==
+We create two counters that we store in variables ==c1== and ==c2== instances of the class ==Counter==. Each counter has its own state but exhibits the same behavior as all the counters defined by the class ==Counter==: 
+- when responding to the message ==count==, it returns its value,
+- when responding the the message ==increment==, it increment one to its current value. 
 
 [[[
 | c1 c2 |
@@ -81,21 +83,23 @@ c2 count.
 
 !!! Objects: stepping back
 
-!!!!! State.
-Each object has a private and specific state.
+Now that we saw some examples of objects, it is time to step back. Objects are defined by their state, their behavior (shared with the other instances of their class) and an identity. 
 
-!!!!! Behavior.
-Each object share the same behavior with all the instances of its class.
-
-!!!!! Identity.
-An object has an identity. It is unique. 
-
+- ""State."" Each object has specific state. While all the instances of classes have the same structure, each instance has its own values. Each object has a private state. Clients or users of an object cannot access the state of the object if this one does not explicitly expose it by defining a method returning it (such as the message ==count==).
+- ""Behavior."" Each object share the same behavior with all the instances of its class.
+- ""Identity."" An object has an identity. It is unique. ==c1== is clearly not the same as ==c2==. 
 
 !!! A class: blueprint of objects
 
-A class is a mold or cast of objects. It specifies two things:
-- Instance structure. All the instances of a class will have the same structure. Not not the same values. A class acts as a blueprint. 
-- Instance behavior. All the instances share the same behavior even if this one can be different because applied on different values. 
+A class is a mold or cast of objects. A class specifies two important aspects of their instances:
+- Instance ""structure"". All the instances of a class will have the same structure expressed in terms of ''instance variables''. Pay attention that the variables are the same for all the instances of a class but not their values. Each instance has specific values for its instance variables.
+- Instance ""behavior"". All the instances share the same behavior even if this one can be different because applied on different values. 
+
+A class is as a blueprint for its instances. Let us see some examples.
+
+!!!! Class counter
+
+The class ==Counter== defines that all the instances will have one instance variable named ==count==. 
 
 [[[
 Object subclass: #Counter
@@ -104,10 +108,28 @@ Object subclass: #Counter
 	package: 'Learning'
 ]]
 
+In addition a class is the place that defines the behavior of the instances. 
+For counters, the class defines how to retrieve the counter value, how to increment 
+and decrement the count as used in the messages in the previous code snippets.
+
+Here is the definition of the ""method"" ==increment==. 
+It simply adds one to the instance variable count.
+
 [[[
 Counter >> increment
 	count := count + 1
 ]]]
+
+Now this method will be applied on specific objects: the ""receiver"" of the message ==increment==. As such, the variable count refers to the one of the ""receiver"" of the message. 
+
+In addition a method specifies ""how"" a computation is performed, step by step contrarily to a message that expresses ""what"" should be performed. 
+
+
+
+
+
+
+
 
 !!! Inheritance
 
