@@ -1,0 +1,169 @@
+!! A little expression interpreter
+@ch:exp
+
+
+
+
+!!! Starting with a test
+We start with constant expression. A constant expression is an expression whose value is always the same, obviously.
+
+[[[
+TestCase subclass: #ConstantTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	category: 'Expressions'
+]]
+
+[[[
+ConstantTest >> testValue 
+	self assert: (EConstant new value: 5) value equals: 5.
+]]]	
+
+
+Let us define the class ==EConstant== and a setter for the instance variable ==value==. 
+
+[[[
+Object subclass: #EConstant
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	category: 'Expressions'
+]]]
+
+
+[[[
+EConstant >> value: anInteger
+	value := anInteger
+]]]
+
+Now we can add a 
+
+[[[
+ConstantTest >> testEvaluate 
+	self assert: (EConstant new value: 5) evaluate equals: 5
+]]]
+
+
+[[[
+EConstant >> evaluate
+	^ value
+]]]
+
+!!! Negation
+
+[[[
+NegationTest >> testEvaluate 
+	self assert: (ENegation new expression: (EConstant new value: 5)) evaluate equals: -5
+]]]
+
+Let us execute the test and let the system help us to define the class
+
+[[[
+EExpression subclass: #ENegation
+	instanceVariableNames: 'expression'
+	classVariableNames: ''
+	category: 'Expressions'
+]]]
+
+[[[
+ENegation >> expression: anEConstant 
+	expression := anEConstant
+]]]
+
+[[[
+ENegation >> evaluate
+	^ expression evaluate negated
+]]]
+
+
+
+!!! Addition
+
+[[[
+NegationTest >> testNegated
+	
+	self assert:(EConstant new value: 6) negated evaluate equals: -6.
+	self assert:(EAddition fivePlusThree) negated evaluate equals: -8
+]]]
+	
+	
+!!! Multiplication
+
+
+!!! Negated as a message
+
+
+
+[[[
+NegationTest >> testNegationNegated
+	self assert:(EConstant new value: 6) negated negated evaluate equals: 6
+]]]
+
+[[[
+Constant >> negated
+	^ ENegation new expression: self
+]]]
+
+[[[
+NegationTest >> testNegated
+	self assert: (EConstant new value: 6) negated evaluate equals: -6.
+	self assert: (EAddition fivePlusThree) negated evaluate equals: -8
+]]]	
+
+
+[[[
+EAddition >> negated
+	^ ENegation new expression: self
+]]]
+
+[[[
+MultiplicationTest >> testEvaluateNegated
+	self assert: (EMultiplication fiveTimesThree) evaluate negated equals: -15
+]]]
+
+
+[[[
+EMultiplication >> negated
+	^ ENegation new expression: self
+]]]
+
+[[[
+>> negated
+	^ ENegation new expression: self
+]]]
+
+!!! Introducing Expression
+
+
+!!! Printing
+
+[[[
+AdditionTest >> testPrinting
+	self assert: (EAddition fivePlusThree) negated printString equals:  '- ( 5 + 3 )'
+]]]
+
+[[[
+MultiplicationTest >> testPrinting
+	self assert: (EMultiplication fiveTimesThree) negated printString equals:  '- ( 5 * 3 )'
+]]]
+!!! Optimizing negated on Negation
+Example of local redefinition
+
+[[[
+ENegation >> negated
+	^ expression
+]]]
+
+Since the result of a double negation and a single non wrapped expression is the same, we need to define a structural test.
+
+[[[
+NegationTest >> testNegatedStructureIsCorrect
+	| exp |
+	exp := (EConstant new value: 6).
+	self assert: exp negated class = ENegation. 
+	self assert: exp negated negated equals: exp.
+]]]
+
+
+
+
+
