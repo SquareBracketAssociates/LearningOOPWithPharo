@@ -12,6 +12,7 @@ CHAPTERS = \
 	Chapters/Counter/Counter \
 	Chapters/DSL/DSL \
 	Chapters/OOPNutshell/OOPNutshell \
+	Chapters/Expressions/Expressions \
 	Chapters/Wallet/Wallet
 
 OUTPUTDIRECTORY = build

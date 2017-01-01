@@ -49,8 +49,11 @@ Since we need a language to express our programs, we will teach you the syntax o
 - Hook template
 - Strategy 
 
+! Key concepts in a nutshell
 
 ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
+
+${inputFile:Chapters/Expressions/Expressions.pillar}$
 
 ! Getting in touch with objects
 

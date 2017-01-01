@@ -1,7 +1,7 @@
 !! A little expression interpreter
 @ch:exp
 
-
+In this chapter you will build a small expression interprter. For example you will be able to ask the value of (3 + 4) * 5 and the interpreter will return you the value of the expression. Doing 
 
 
 !!! Starting with a test
@@ -74,6 +74,7 @@ ENegation >> evaluate
 	^ expression evaluate negated
 ]]]
 
++A flat collection of classes.>file://figures/expressions.pdf|width=70|label=figExpression+
 
 
 !!! Addition
@@ -87,6 +88,17 @@ NegationTest >> testNegated
 	
 	
 !!! Multiplication
+
+
+
+
+!!! Design corner: About addition and multiplication model 
+
+We could have just one class called for example binaryOperation and we can add to it an operator and this operator will be either 
+the addition or multiplication. It can work and as usual having a working program does not mean that its design is any good. 
+
+
+
 
 
 !!! Negated as a message
@@ -133,6 +145,8 @@ EMultiplication >> negated
 
 !!! Introducing Expression
 
+
++A flat collection of classes.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierar+
 
 !!! Printing
 
