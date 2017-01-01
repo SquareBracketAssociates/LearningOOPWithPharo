@@ -56,17 +56,87 @@
 		<dict>
 			<key>Class</key>
 			<string>LineGraphic</string>
-			<key>Head</key>
+			<key>ID</key>
+			<integer>161</integer>
+			<key>Points</key>
+			<array>
+				<string>{116.89253119878951, 355.96900380076954}</string>
+				<string>{144.62500238418579, 333}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>0</string>
+					<key>Legacy</key>
+					<true/>
+					<key>LineType</key>
+					<integer>1</integer>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
+			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>155</integer>
+				<integer>160</integer>
 			</dict>
+		</dict>
+		<dict>
+			<key>Bounds</key>
+			<string>{{47.999984741210938, 356}, {87, 42}}</string>
+			<key>Class</key>
+			<string>ShapedGraphic</string>
+			<key>FitText</key>
+			<string>YES</string>
+			<key>Flow</key>
+			<string>Resize</string>
+			<key>ID</key>
+			<integer>160</integer>
+			<key>Shape</key>
+			<string>NoteShape</string>
+			<key>Style</key>
+			<dict>
+				<key>fill</key>
+				<dict>
+					<key>Draws</key>
+					<string>NO</string>
+				</dict>
+				<key>shadow</key>
+				<dict>
+					<key>Draws</key>
+					<string>NO</string>
+				</dict>
+			</dict>
+			<key>Text</key>
+			<dict>
+				<key>Align</key>
+				<integer>0</integer>
+				<key>Text</key>
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720
+
+\f0\fs24 \cf0 negated\
+  ^ expression \
+}</string>
+				<key>VerticalPad</key>
+				<integer>0</integer>
+			</dict>
+			<key>Wrap</key>
+			<string>NO</string>
+		</dict>
+		<dict>
+			<key>Class</key>
+			<string>LineGraphic</string>
 			<key>ID</key>
 			<integer>131</integer>
 			<key>Points</key>
 			<array>
-				<string>{327.5011494464423, 132.75841791873526}</string>
-				<string>{294.49998474121094, 135.00000826517766}</string>
+				<string>{313.50270783918222, 150.27852498758674}</string>
+				<string>{294.5, 152.24159034644239}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -90,7 +160,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{328, 105}, {198, 42}}</string>
+			<string>{{314.00006103515625, 119}, {198, 42}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -754,7 +824,7 @@ evaluate}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{144.62500238418579, 282.99999401855439}, {97, 40}}</string>
+					<string>{{144.62500238418579, 282.99999401855439}, {97, 60}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -796,7 +866,8 @@ evaluate}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720
 
 \f0\fs34 \cf0 expression:\
-evaluate}</string>
+evaluate\
+negated}</string>
 						<key>VerticalPad</key>
 						<integer>0</integer>
 					</dict>
@@ -1449,7 +1520,7 @@ evaluate}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-01-01 21:22:12 +0000</string>
+	<string>2017-01-01 21:23:19 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -1545,7 +1616,7 @@ evaluate}</string>
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{221, 499}, {1269, 1011}}</string>
+		<string>{{962, 24}, {1269, 1011}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
