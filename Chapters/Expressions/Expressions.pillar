@@ -1,10 +1,11 @@
 !! A little expression interpreter
 @ch:exp
 
-In this chapter you will build a small mathematical expression interpreter. For example you will be able to build an expression such as  (3 + 4) * 5 and then ask the interpreter to compute its value. You will revisit tests, classes, messages, methods and inheritance.
+In this chapter you will build a small mathematical expression interpreter. For example you will be able to build an expression such as  (3 + 4) * 5 and then ask the interpreter to compute its value. You will revisit tests, classes, messages, methods and inheritance. 
+You will also see an example of expression trees similar to the ones that are used to manipulate programs. For example, compilers and code refactorings as offered in Pharo and many modern IDEs are doing such manipulation with trees representing code. 
 
 
-!!! Starting with a test
+!!! Starting with constant expression and a test
 We start with constant expression. A constant expression is an expression whose value is always the same, obviously.
 
 Let us start by defining a test case class as follows: 
@@ -17,7 +18,7 @@ TestCase subclass: #EConstantTest
 
  We decided to define one test case class per expression class and this even if at the beginning the classes will not contain many tests. It is easier to define new tests and navigate them.
  
-Let us write a first test making sure that when we get a value, sending it the evaluate message returns its value. Note that the message ==assert:equals:== is a special message only define on test case. This message verifies that its first argument is equals to the second argument. 
+Let us write a first test making sure that when we get a value, sending it the ==evaluate== message returns its value. Note that the message ==assert:equals:== is a special message only define on test case. This message verifies that its first argument is equals to the second argument. 
 
 [[[
 EConstantTest >> testEvaluate 
@@ -25,7 +26,7 @@ EConstantTest >> testEvaluate
 ]]]
 
 When you compile such test method, the system should prompt you to get a class ==EConstant== defined. 
-Let it drives you. Since we need to store the value of a constant expression, let us add an instance variable ==value==
+Let the system drive you. Since we need to store the value of a constant expression, let us add an instance variable ==value==
 to the class definition. 
 
 At the end you should the following definition for the class ==EConstant==.
@@ -95,52 +96,174 @@ ENegation >> evaluate
 	Your code
 ]]]
 
-+A flat collection of classes.>file://figures/expressions.pdf|width=70|label=figExpression+
++A flat collection of classes (with a suspect duplication).>file://figures/expressions.pdf|width=70|label=figExpression+
 
+Following the same principle, we will add expression addition and multiplication. Then we will make the system a bit more easy to manipulate and revisit its first design. 
 
-!!! Addition
+!!! Adding expression addition
+To be able to do more than constant and negation we will add two extra expressions: addition and multiplication and after we will discuss about our approach and see how we can improve it.  
+
+To add expression addition, we start to define a test case class and a simple test. 
 
 [[[
-NegationTest >> testNegated
-	
-	self assert:(EConstant new value: 6) negated evaluate equals: -6.
-	self assert:(EAddition fivePlusThree) negated evaluate equals: -8
+TestCase subclass: #AdditionTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Expressions'
 ]]]
+
+A simple test for addition is to make sure that we add correctly two constants. 
+
+[[[
+AdditionTest >> testEvaluate
+	| ep1 ep2 |
+	ep1 := (EConstant new value: 5).
+	ep2 := (EConstant new value: 3).
+	self assert: (EAddition new right: ep1; left: ep2) evaluate equals: 8
+]]]	
+	
+You should define the class ==EAddition==: it has two instance variables for the two subexpressions it adds. 
+
+[[[
+EExpression subclass: #EAddition
+	instanceVariableNames: 'right left'
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+Define the two corresponding setter methods ==right:== and ==left:==. 
+
+Now you can define the ==evaluate== method for addition. 
+
+[[[
+EAddition >> evaluate
+	Your code
+]]]	
+	
+	
+To make sure that our implementation is correct we can also test that we can add negated expressions. 
+It is always good to add tests that cover ''different'' scenario. 
+	
+[[[
+AdditionTest >> testEvaluateWithNegation
+
+	| ep1 ep2 |
+	ep1 := ENegation new expression: (EConstant new value: 5).
+	ep2 := (EConstant new value: 3).
+	self assert: (EAddition new right: ep1; left: ep2) evaluate equals: -2
+]]]	
 	
 	
 !!! Multiplication
+We do the same for multiplication: create a test case class named ==EMultiplicationTest==, a test, a new class ==EMultiplication==, a couple of setter methods and finally a new ==evaluate== method. Let us to do it fast and without much comments. 
+
+[[[
+TestCase subclass: #EMultiplicationTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+[[[
+EMultiplicationTest >> testEvaluate
+
+	| ep1 ep2 |
+	ep1 := (EConstant new value: 5).
+	ep2 := (EConstant new value: 3).
+	self assert: (EMultiplication new right: ep1; left: ep2) evaluate equals: 15
+]]]
+
+[[[
+Object subclass: #EMultiplication
+	instanceVariableNames: 'left right'
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+[[[
+EMultiplication >> right: anExpression
+	right := anExpression
+]]]
+
+[[[
+EMultiplication >> left: anExpression
+	left := anExpression
+]]]
+
+[[[
+EMultiplication >> evaluate
+	Your code
+]]]
 
 
+!!! Stepping back 
+
+It is interesting to look at what we built so far. We have a group of classes whose instances can be combined to create complex expressions. Each expression is in fact a tree of subexpressions as shown in Figure *@fig:ExpressionTrees*.
+
++Expressions are composed of trees.>file://figures/ExpressionTrees.pdf|width=80|label=fig:ExpressionTrees+
+
+!!!! Messages and methods
+The implementation of the ==evaluate== message is worth discussing. What we see is that ''different'' classes understand the same message but execute different methods as shown in Figure *@figExpressionEvaluate*.
+
+@@note A message represents an intent: it represents what should be done. A method represents a specification of how something to should be executed. 
 
 
-!!! Design corner: About addition and multiplication model 
+What we see is that sending a message ==evaluate== to an expression is making a choice among the different implementations of the message. This point is central to object-oriented programming. 
 
-We could have just one class called for example binaryOperation and we can add to it an operator and this operator will be either 
-the addition or multiplication. It can work and as usual having a working program does not mean that its design is any good. 
+@@note Sending a message is making a choice among all the methods with the same name. 
+
+!!!! About common superclass
+
+So far we did not see the need to have an inheritance hierarchy because there is not much to share or reuse. Now adding a common superclass would be useful to convey to the reader of the code or a future extender of the library that such concepts are related and are different variations of expression. 
+
++Evaluation: one message and multiple method implementations.>file://figures/ExpressionsEvaluate.pdf|width=80|label=figExpressionEvaluate+
 
 
+!!!! Design corner: About addition and multiplication model 
 
+We could have just one class called for example BinaryOperation and it can have an operator and this operator will be either 
+the addition or multiplication. This solution can work and as usual having a working program does not mean that its design is any good. 
+
+In particular having a single class would force us to start to write conditional based on the operator as follows
+
+[[[
+BinaryExpression >> evaluate
+	operator = #+ 
+		ifTrue: [ left evaluate + right evaluate ] 
+		ifFalse: [ left evaluate * right evaluate]
+]]]
+
+There are ways in Pharo to make such code more compact but we do not want to use it at this stage. For the interested reader, look for the message ==perform:== that can execute a method based on its name. 
+
+This is annoying because the execution engine itself is made to select methods for us so we want to avoid to bypass it using explicit condition. In addition when we will add power, division, subtraction we will have to have more cases in our condition making the code less
+readable and more fragile. 
+
+
+As we will see as a general message in this book, sending a message is making a choice between different implementations. 
+Now to be able to chose we should have different implementations and this implies having different classes. 
+
+@@note Classes represent choices whose methods can be selected during message passing. Having more little classes is better than few large ones. 
+
+
+What we could do is to introduce a common superclass between ==EAddition== and ==EMultiplication== but keep the two subclasses. We will probably do it in the future
 
 
 !!! Negated as a message
 
-
 [[[
-NegationTest >> testNegationNegated
-	self assert:(EConstant new value: 6) negated negated evaluate equals: 6
+EConstantTest >> testNegated
+	self assert: (EConstant new value: 6) negated evaluate equals: -6
 ]]]
 
 [[[
-Constant >> negated
+EConstant >> negated
 	^ ENegation new expression: self
 ]]]
 
 [[[
-NegationTest >> testNegated
-	self assert: (EConstant new value: 6) negated evaluate equals: -6.
-	self assert: (EAddition fivePlusThree) negated evaluate equals: -8
-]]]	
-
+ENegationTest >> testNegationNegated
+	self assert: (EConstant new value: 6) negated negated evaluate equals: 6
+]]]
 
 [[[
 EAddition >> negated
@@ -148,27 +271,102 @@ EAddition >> negated
 ]]]
 
 [[[
-MultiplicationTest >> testEvaluateNegated
+EMultiplicationTest >> testEvaluateNegated
 	self assert: (EMultiplication fiveTimesThree) evaluate negated equals: -15
 ]]]
-
 
 [[[
 EMultiplication >> negated
 	^ ENegation new expression: self
 ]]]
 
-[[[
->> negated
-	^ ENegation new expression: self
-]]]
+!!!! Annoying repetition
+
+Similarly than for the ==evaluate== message and method we see that the functionality of negated is distributed over 
+different classes. Now what is annoying is that we repeat the same code over and over and this is not good. 
+
++Code repetition is a bad smell.>file://figures/ExpressionsNegatedRepeated.pdf|width=70|label=ExpressionsNegatedRepeated+
+
+
 
 !!! Introducing Expression class
 
 
 +A flat collection of classes.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierar+
 
+
+
+Now you could think that we can introduce a new class named arithmeticExpression as a superclass of EAddition and EMultiplication. 
+Indeed this is something that we could do to factor out common structure and behavior. 
+
+
+!!! Class creation messages
+
+[[[
+EConstantTest >> testCreationWithClassCreationMessage
+	self assert: (EConstant value: 5) value equals: 5
+]]]
+
+[[[
+ENegationTest >> testEvaluateWithClassCreationMessage
+	self assert: (ENegation expression: (EConstant value: 5)) evaluate equals: -5
+]]]
+
+[[[
+EAdditionTest >> testEvaluateWithClassCreationMessage
+	| ep1 ep2 |
+	ep1 := (EConstant new value: 5).
+	ep2 := (EConstant new value: 3).
+	self assert: (EAddition left: ep1 right: ep2) evaluate equals: 8
+]]]
+
+[[[
+EMultiplicationTest >> testEvaluateWithClassCreationMessage
+
+	| ep1 ep2 |
+	ep1 := (EConstant new value: 5).
+	ep2 := (EConstant new value: 3).
+	self assert: (EMultiplication left: ep1 right: ep2) evaluate equals: 15
+]]]
+
+!!! Introducing examples as class messages
+
+
+[[[
+ENegationTest >> testNegated
+		self assert:(EConstant new value: 6) negated evaluate equals: -6.
+		self assert:(EAddition fivePlusThree) negated evaluate equals: -8
+]]]
+
 !!! Printing
+It is quite annoying that we cannot really see an expression when we inspect it. We would like to get something better than ==aEConstant== and ==anEAddition== when we debug our programs. 
+
+pictureHEREOFDEBUGGER
+
+For this, we will specialize the method ==printOn: aStream==. This is the method is a system customisation point  that is called on the object when we or the system send to the object the message ==printString==. 
+
+Note that we do not redefine the method ==printString== because it is more complex and ==printString== is reused for all the objects in the system. We just have to implement the part that is specific to a given class. In object-oriented design jargon, ==printString== is a template method in the sense that it sets up a context which is shared by other objects and it hosts hook methods which are program customisation points. ==printOn:== is a hook method. The term hook comes from the fact that code of subclasses are invoked in the hook place.
+
+The default definition of the method ==printOn:== as defined on the class ==Object== is the following: it grabs the class name and checks if it starts with a vowel or not and write to the stream the 'a/an class'. This is why by default we got =='anEConstant'== when we printed a constant expression. 
+
+[[[
+Object >> printOn: aStream
+	"Append to the argument, aStream, a sequence of characters that  
+	identifies the receiver."
+	| title |
+	title := self class name.
+	aStream
+		nextPutAll: (title first isVowel ifTrue: ['an '] ifFalse: ['a ']);
+		nextPutAll: title
+]]]
+
++printOn: and printString a "hooks and template" in action.>file://figures/ExpressionsNegatedRepeated.pdf|width=70|label=ExpressionsNegatedRepeated+
+
+[[[
+EConstantTest >> testPrinting
+	self assert: (EConstant new value: 5) printString equals: '5'
+]]]
+
 
 [[[
 AdditionTest >> testPrinting
@@ -176,10 +374,23 @@ AdditionTest >> testPrinting
 ]]]
 
 [[[
+EAddition >> printOn: aStream
+
+		aStream 
+			nextPutAll: '( ';
+			nextPutAll: left printString; 
+			nextPutAll: ' + ';
+			nextPutAll: right printString;
+			nextPutAll: ' )'
+]]]
+
+[[[
 MultiplicationTest >> testPrinting
 	self assert: (EMultiplication fiveTimesThree) negated printString equals:  '- ( 5 * 3 )'
 ]]]
-!!! Optimizing negated on Negation
+
+
+!!! Optimizing negated on ENegation
 Example of local redefinition
 
 [[[
@@ -209,3 +420,14 @@ EConstant >> evaluate
 ENegation >> evaluate
 	^ expression evaluate negated
 ]]]
+
+[[[
+EAddition >> evaluate
+	^ left evaluate + right evaluate
+]]]
+
+[[[
+EMultiplication  >> evaluate
+	^ left evaluate + right evaluate
+]]]
+

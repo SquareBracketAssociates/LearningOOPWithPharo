@@ -1,4 +1,4 @@
-!! Object-Oriented Programming in a Nutshell
+!! Object-oriented programming in a nutshell
 %%@cha:nutshell
 
 This chapter is an overview of the key mechanisms that characterize object-oriented programming:
@@ -149,7 +149,7 @@ When we execute the expression ==c1 incrementByTwo==, during the execution of th
 
 We will explain how a method is found when a message is sent but first we should explain inheritance, i.e., how a class is defined incrementally from a root class.
 
-!!!! Design Corner: About collaborators and limited responsibility
+!!!! Design corner: About collaborators and limited responsibility
 As with any paradigm, we can define well designed programs or poor ones. Poor programs are often more buggy, more difficult to understand and reuse.
 
 Usually an object does not exist in isolation, it often collaborate to implement its behavior. 
@@ -241,7 +241,7 @@ Animal >> presentYourself
 At this point, the example of SpongeBob should work. Now we are ready to show a simple example of code reuse. 
 
 
-!!! Reuse of Ancestor
+!!! Reuse of ancestor logic
 
 Imagine that we want to reuse the behavior of animal and to add extra behavior. We can now define a new class ==Dog== which inherits from the class ==Animal==. 
 
@@ -353,7 +353,7 @@ What is happening is the following:
 
 +Extending superclass behavior.>file://figures/Ref-LookupBasicSuper.png|width=60|label=fig:Ref-LookupBasicSuper+
 
-!!! Late bound
+!!! Messages are late bound
 
 move injected from subclasses into superclass' code. 
 +Subclass behavior can be invoked from superclass behavior.>file://figures/Ref-LookupLateBinding.png|width=60|label=fig:Ref-LookupLateBinding+
@@ -460,4 +460,6 @@ Presenter new
 	"" 'I m a Aniplouf. My name is super special entity, and I move that way: spatial teleportation.'"
 ]]]	
 
+
+!!! Conclusion
 
