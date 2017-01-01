@@ -1,77 +1,98 @@
 !! A little expression interpreter
 @ch:exp
 
-In this chapter you will build a small expression interprter. For example you will be able to ask the value of (3 + 4) * 5 and the interpreter will return you the value of the expression. Doing 
+In this chapter you will build a small mathematical expression interpreter. For example you will be able to build an expression such as  (3 + 4) * 5 and then ask the interpreter to compute its value. You will revisit tests, classes, messages, methods and inheritance.
 
 
 !!! Starting with a test
 We start with constant expression. A constant expression is an expression whose value is always the same, obviously.
 
+Let us start by defining a test case class as follows: 
 [[[
-TestCase subclass: #ConstantTest
+TestCase subclass: #EConstantTest
 	instanceVariableNames: ''
 	classVariableNames: ''
-	category: 'Expressions'
-]]
+	package: 'Expressions'
+]]]
+
+ We decided to define one test case class per expression class and this even if at the beginning the classes will not contain many tests. It is easier to define new tests and navigate them.
+ 
+Let us write a first test making sure that when we get a value, sending it the evaluate message returns its value. Note that the message ==assert:equals:== is a special message only define on test case. This message verifies that its first argument is equals to the second argument. 
 
 [[[
-ConstantTest >> testValue 
-	self assert: (EConstant new value: 5) value equals: 5.
-]]]	
+EConstantTest >> testEvaluate 
+	self assert: (EConstant new value: 5) evaluate equals: 5
+]]]
 
+When you compile such test method, the system should prompt you to get a class ==EConstant== defined. 
+Let it drives you. Since we need to store the value of a constant expression, let us add an instance variable ==value==
+to the class definition. 
 
-Let us define the class ==EConstant== and a setter for the instance variable ==value==. 
+At the end you should the following definition for the class ==EConstant==.
 
 [[[
 Object subclass: #EConstant
 	instanceVariableNames: 'value'
 	classVariableNames: ''
-	category: 'Expressions'
+	package: 'Expressions'
 ]]]
 
+We define the method ==value:== to set the value of the instance variable ==value==.
+It is simply a method taking one argument and storing it in the ==value== instance variable.
 
 [[[
 EConstant >> value: anInteger
 	value := anInteger
 ]]]
 
-Now we can add a 
-
-[[[
-ConstantTest >> testEvaluate 
-	self assert: (EConstant new value: 5) evaluate equals: 5
-]]]
-
+You should define the method ==evaluate==: it should return the value of the constant. 
 
 [[[
 EConstant >> evaluate
-	^ value
+	Your code
 ]]]
+
+Your test should pass. 
 
 !!! Negation
 
+Now we can start to work on expression negation. Let us write a test and for this define a new test case class named ==ENegationTest==. 
+
 [[[
-NegationTest >> testEvaluate 
+TestCase subclass: #ENegationTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+The test ==testEvaluate== shows that a negation applies to an expression (here a constant) and when we evalute we get the negated value of the constant. 
+
+[[[
+ENegationTest >> testEvaluate 
 	self assert: (ENegation new expression: (EConstant new value: 5)) evaluate equals: -5
 ]]]
 
-Let us execute the test and let the system help us to define the class
+Let us execute the test and let the system help us to define the class. A negation defines an instance variable to hold the expression that it negates.
 
 [[[
-EExpression subclass: #ENegation
+Object subclass: #ENegation
 	instanceVariableNames: 'expression'
 	classVariableNames: ''
-	category: 'Expressions'
+	package: 'Expressions'
 ]]]
 
+We define a setter method to be able to set the expression under negation.
 [[[
-ENegation >> expression: anEConstant 
-	expression := anEConstant
+ENegation >> expression: anExpression 
+	expression := anExpression
 ]]]
+
+Now the ==evaluate== method should request the evaluation of the expression and negate it. 
+To negate a number the Pharo library proposes the message ==negated==. 
 
 [[[
 ENegation >> evaluate
-	^ expression evaluate negated
+	Your code
 ]]]
 
 +A flat collection of classes.>file://figures/expressions.pdf|width=70|label=figExpression+
@@ -102,7 +123,6 @@ the addition or multiplication. It can work and as usual having a working progra
 
 
 !!! Negated as a message
-
 
 
 [[[
@@ -143,7 +163,7 @@ EMultiplication >> negated
 	^ ENegation new expression: self
 ]]]
 
-!!! Introducing Expression
+!!! Introducing Expression class
 
 
 +A flat collection of classes.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierar+
@@ -178,6 +198,14 @@ NegationTest >> testNegatedStructureIsCorrect
 ]]]
 
 
+!!! Solutions
 
+[[[
+EConstant >> evaluate
+	^ value
+]]]
 
-
+[[[
+ENegation >> evaluate
+	^ expression evaluate negated
+]]]
