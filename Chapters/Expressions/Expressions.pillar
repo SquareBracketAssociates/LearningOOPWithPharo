@@ -406,6 +406,8 @@ Notice the important difference that in the first case the message is sent to th
 To define a class method is the same as to define an instance method (as we did until now). The only difference is that using the code browser you should click on the classSide button to indicate that you are defining a method that should be executed in response
 to a message sent to a class itself. 
 
+
+!!!! For constants
 Define the following method on the class ==EConstant==. Notice the definition now use ==EConstant class== and not just ==EConstant== to stress that we are defining the class method. 
 
 [[[
@@ -420,7 +422,10 @@ EConstantTest >> testCreationWithClassCreationMessage
 	self assert: (EConstant value: 5) value equals: 5
 ]]]
 
-We will do the same for the class ==ENegation==. 
+
+!!!! For negations
+
+We do the same for the class ==ENegation==. 
 
 [[[
 EConstant class >> expression: anExpression
@@ -434,12 +439,14 @@ ENegationTest >> testEvaluateWithClassCreationMessage
 ]]]
 
 
-
-For the addition we will add a class method taking two arguments
+!!!! For additions
+For the addition we  add a class method named ==left:right:== taking two arguments 
 [[[
 EAddition class >> left: anInteger right: anInteger2
 	^ self new left: anInteger ; right: anInteger2 
 ]]]
+
+Of course, since we are test infested we add a new test.
 
 [[[
 EAdditionTest >> testEvaluateWithClassCreationMessage
@@ -449,6 +456,17 @@ EAdditionTest >> testEvaluateWithClassCreationMessage
 	self assert: (EAddition left: ep1 right: ep2) evaluate equals: 8
 ]]]
 
+!!!! For multiplications
+
+We let you do the same for the multiplication. 
+
+[[[
+EAddition class >> left: anInteger right: anInteger2
+	Your code
+]]]
+
+And another test to check that everything is ok. 
+
 [[[
 EMultiplicationTest >> testEvaluateWithClassCreationMessage
 	| ep1 ep2 |
@@ -456,6 +474,8 @@ EMultiplicationTest >> testEvaluateWithClassCreationMessage
 	ep2 := (EConstant new value: 3).
 	self assert: (EMultiplication left: ep1 right: ep2) evaluate equals: 15
 ]]]
+
+Run your tests! They should all pass. 
 
 !!! Introducing examples as class messages
 
@@ -549,6 +569,12 @@ Object >> printOn: aStream
 ]]]
 
 +printOn: and printString a "hooks and template" in action.>file://figures/ExpressionsHierarchyPrintOn.pdf|width=70|label=fig:ExpressionsHierarchyPrintOn+
+
+!!!! A word about streams
+A stream is basically a container for a sequence of objects. Once we get a stream we can either read from it or write to it. In our case we will write to the stream. Since the stream passed to printOn: is a stream expecting characters we will add characters or strings (sequence of characters) to it. We will use the messages: ==nextPut: aCharacter== and ==nextPutAll: aString==. 
+They add to the stream the arguments at the next position and following. We will guide you and it is simple. 
+You can find more information on the chapter about Stream in the book: Pharo by Example available at *http://books.pharo.org*
+
 
 !!!! Printing Constant
 
@@ -660,4 +686,10 @@ EMultiplication >>> negated
 [[[
 EConstant class >> expression: anExpression
 	^ self new expression: anExpression
+]]]
+
+
+[[[
+EMultiplication class >>	left: anInteger right: anInteger2
+	^ self new left: anInteger ; right: anInteger2
 ]]]
