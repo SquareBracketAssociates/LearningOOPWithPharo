@@ -198,7 +198,7 @@ EMultiplication >> evaluate
 
 !!! Stepping back 
 
-It is interesting to look at what we built so far. We have a group of classes whose instances can be combined to create complex expressions. Each expression is in fact a tree of subexpressions as shown in Figure *@fig:ExpressionTrees*.
+It is interesting to look at what we built so far. We have a group of classes whose instances can be combined to create complex expressions. Each expression is in fact a tree of subexpressions as shown in Figure *@fig:ExpressionTrees*. The figure shows two main trees: one  for the constant expression ==5== and one for the expression ==-5 + 3==. Note that the diagram represents the number 5 as an object because in Pharo is an object in the same way the instances of ==EConstant== are objects. 
 
 +Expressions are composed of trees.>file://figures/ExpressionTrees.pdf|width=60|label=fig:ExpressionTrees+
 
@@ -250,15 +250,36 @@ What we could do is to introduce a common superclass between ==EAddition== and =
 
 !!! Negated as a message
 
+Negating an expression is expressed in a verbose way. We have to create explicitly each time an instance of the class ==ENegation== as shown in the following snippet. 
+
+[[[
+ENegation new expression: (EConstant new value: 5)
+]]
+
+We propose to define a message ==negated== on the expressions themselves that will create such instance of ==ENegation==.
+With this new message, the previous expression can be reduced too. 
+
+[[[
+(EConstant new value: 5) negated
+]]]
+
+!!!! negated message for constants
+Let us write a test to make sure that we capture well what we want to get. 
+
 [[[
 EConstantTest >> testNegated
 	self assert: (EConstant new value: 6) negated evaluate equals: -6
 ]]]
 
+And now we can simply implement it as follows: 
+
 [[[
 EConstant >> negated
 	^ ENegation new expression: self
 ]]]
+
+
+!!!! negated message for negations
 
 [[[
 ENegationTest >> testNegationNegated
@@ -266,41 +287,112 @@ ENegationTest >> testNegationNegated
 ]]]
 
 [[[
-EAddition >> negated
+ENegation >> negated
 	^ ENegation new expression: self
 ]]]
 
+This definition is not the best we can do since in general it is a bad practice to hardcode the class usage inside the class. A better definition would be 
+
+[[[
+ENegation >> negated
+	^ self class new expression: self
+]]]
+
+But for now we keep the first one for the sake of simplicity
+
+!!!! negated message for additions
+We proceed similarly for additions. 
+
+[[[
+EAdditionTest >> testNegated
+	| ep1 ep2 |
+	ep1 := EConstant new value: 5.
+	ep2 := EConstant new value: 3.
+	self assert: (EAddition new right: ep1; left: ep2) negated evaluate equals: -8
+]]]
+
+[[[
+EAddition >> negated
+	Your code
+]]]
+
+
+!!!! negated message for multiplications
+We proceed similarly for multiplication. 
+
+
 [[[
 EMultiplicationTest >> testEvaluateNegated
-	self assert: (EMultiplication fiveTimesThree) evaluate negated equals: -15
+	| ep1 ep2 |
+	ep1 := EConstant new value: 5.
+	ep2 := EConstant new value: 3.
+	self assert: (EMultiplication new right: ep1; left: ep2) negated evaluate equals: -15
 ]]]
 
 [[[
 EMultiplication >> negated
-	^ ENegation new expression: self
+	Your code
 ]]]
 
-!!!! Annoying repetition
+Now all your tests should pass. And it is a good moment to save your package. 
 
-Similarly than for the ==evaluate== message and method we see that the functionality of negated is distributed over 
-different classes. Now what is annoying is that we repeat the same code over and over and this is not good. 
+!!! Annoying repetition
 
-+Code repetition is a bad smell.>file://figures/ExpressionsNegatedRepeated.pdf|width=70|label=ExpressionsNegatedRepeated+
+Let us step back and look at what we have. We have a working situation but again object-oriented design is to bring the code to a better level. 
 
+Similarly to the situation of the ==evaluate== message and methods we see that the functionality of ==negated== is distributed over 
+different classes. Now what is annoying is that we repeat the exact ''same'' code over and over and this is not good (see Figure *@fig:ExpressionsNegatedRepeated*). 
+This is not good because if tomorrow we want to change the behavior of negation we will have to change it four times while 
+in fact one time should be enough. 
 
++Code repetition is a bad smell.>file://figures/ExpressionsNegatedRepeated.pdf|width=70|label=fig:ExpressionsNegatedRepeated+
+
+What are the solutions?
+- We could define another class ==Negator== that would do the job and each current classes would delegate to it. But it does not really solve our problem since we will have to duplicate all the message sends. 
+- If we  define the method ==negated== in the superclass (==Object==) we only need one definition and it will work. Indeed, when we send the message ==negated== to an instance of ==EConstant== or ==EAddition== the system will not find it locally but in the superclass ==Object==. So no need to define it four times but only one in class ==Object==. This solution is nice because it reduces the number of  similar definitions of the method ==negated== but it is not good because even if we can in Pharo add methods to the class ==Object== this is not a good practice. ==Object== is a class shared by the entire system so we should take care not to add behavior only making sense for a single application. 
+- The solution is to introduce a new superclass between our classes and the class ==Object==. It will have the same property than the solution with ==Object== but without poluting it (see Figure *@figExpressionHierar*). This is what we do in the next section. 
 
 !!! Introducing Expression class
 
++Introducing a common superclass.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierar+
 
-+A flat collection of classes.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierar+
+Let us introduce a new class to obtain the situation depicted by Figure *@figExpressionHierar*. 
+We can simply do it by adding a new class:
+
+[[[
+Object subclass: #EExpression
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+and changing all the previous definitions to inherit from ==EExpression== instead of ==Object==.
+For example the class ==EConstant== is then defined as follow. 
+
+[[[
+EExpression subclass: #EConstant
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+We can also use for the first transformation the class refactoring ''Insert superclass''. Refactorings are code transformations that do not change the behavior of a program. You can find it under the refactorings list when you bring the menu on the classes. 
+Now it is only useful for the first changes. 
+
+Once the classes ==EConstant==, ==ENegation==, ==EAddition==, and ==EMultiplication== are subclasses of ==EEXpressions==, we should focus on the method ==negated==. Now the method refactoring ''Push up'' will really help us. 
+
+- Select the method ==negated== in one of the classes
+- Select the refactoring ''Push up''
+
+The system will define the method ==negated== in the superclass (==EExpression==) and remove all the negated methods in the classes. Now we obtain the situation described in Figure *@figExpressionHierar*. It is a good moment to run all your tests again. They should all pass. 
 
 
-
-Now you could think that we can introduce a new class named arithmeticExpression as a superclass of EAddition and EMultiplication. 
-Indeed this is something that we could do to factor out common structure and behavior. 
-
+Now you could think that we can introduce a new class named ArithmeticExpression as a superclass of ==EAddition== and ==EMultiplication==. Indeed this is something that we could do to factor out common structure and behavior between the two classes. We will do it later because this is basically just a repetition of what we have done.
 
 !!! Class creation messages
+
+As ou s
+
 
 [[[
 EConstantTest >> testCreationWithClassCreationMessage
@@ -361,7 +453,7 @@ Object >> printOn: aStream
 
 +printOn: and printString a "hooks and template" in action.>file://figures/ExpressionsHierarchyPrintOn.pdf|width=70|label=fig:ExpressionsHierarchyPrintOn+
 
-!!!! Constant printing
+!!!! Printing Constant
 
 [[[
 EConstantTest >> testPrinting
@@ -370,8 +462,15 @@ EConstantTest >> testPrinting
 
 
 
+!!!! Printing Negation
 
-!!!! Addition printing
+[[[
+printOn: aStream
+	aStream nextPutAll: '- '.
+	aStream nextPutAll: expression printString
+]]]
+
+!!!! Printing Addition
 
 [[[
 AdditionTest >> testPrinting
@@ -389,7 +488,7 @@ EAddition >> printOn: aStream
 			nextPutAll: ' )'
 ]]]
 
-!!!! Multiplication printing
+!!!! Printing Multiplication
 
 [[[
 MultiplicationTest >> testPrinting
@@ -416,6 +515,19 @@ NegationTest >> testNegatedStructureIsCorrect
 ]]]
 
 
++Negating Negation can be smart.>file://figures/ExpressionsHierarchyOptimized.pdf|width=70|label=fig:ExpressionsHierarchyOptimized+
+
+
+!!! Introducing BinaryExpression class
+
+Now we will take a moment to improve our first design. 
++A flat collection of classes.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierarFinal+
+
+
+!!! Adding division
+
+
+
 !!! Solutions
 
 [[[
@@ -438,3 +550,12 @@ EMultiplication  >> evaluate
 	^ left evaluate + right evaluate
 ]]]
 
+[[[
+EAddition >>> negated 
+	^ ENegation new expression: self
+]]]
+
+[[[
+EMultiplication >>> negated 
+	^ ENegation new expression: self
+]]]
