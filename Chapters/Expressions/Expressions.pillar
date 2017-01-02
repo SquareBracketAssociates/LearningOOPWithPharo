@@ -390,18 +390,55 @@ The system will define the method ==negated== in the superclass (==EExpression==
 Now you could think that we can introduce a new class named ArithmeticExpression as a superclass of ==EAddition== and ==EMultiplication==. Indeed this is something that we could do to factor out common structure and behavior between the two classes. We will do it later because this is basically just a repetition of what we have done.
 
 !!! Class creation messages
+Until now we always sent the message new to a class followed by a setter method as shown below. 
 
-As ou s
+[[[
+EConstant new value: 5
+]]]
 
+We would like to take the opportunity to show that we can define simple ""class"" methods to improve the class instance creation interface. In this example it is simple and the benefits are not that important but we think that this is a nice example. With this in mind the previous example can now be written as follows: 
+[[[
+EConstant value: 5
+]]]
+
+Notice the important difference that in the first case the message is sent to the newly created instance while in the second case it is sent to the class itself. 
+
+To define a class method is the same as to define an instance method (as we did until now). The only difference is that using the code browser you should click on the classSide button to indicate that you are defining a method that should be executed in response
+to a message sent to a class itself. 
+
+Define the following method on the class ==EConstant==. Notice the definition now use ==EConstant class== and not just ==EConstant== to stress that we are defining the class method. 
+
+[[[
+EConstant class >> value: anInteger
+	^ self new value: anInteger
+]]]
+
+Now define a new test to make sure that our method works correctly.
 
 [[[
 EConstantTest >> testCreationWithClassCreationMessage
 	self assert: (EConstant value: 5) value equals: 5
 ]]]
 
+We will do the same for the class ==ENegation==. 
+
+[[[
+EConstant class >> expression: anExpression
+	Your code
+]]]
+
+We write of course a new test as follows: 
 [[[
 ENegationTest >> testEvaluateWithClassCreationMessage
 	self assert: (ENegation expression: (EConstant value: 5)) evaluate equals: -5
+]]]
+
+
+
+For the addition we will add a class method taking two arguments
+[[[
+EAddition class >> left: anInteger right: anInteger2
+	^ self new left: anInteger ; right: anInteger2 
 ]]]
 
 [[[
@@ -422,12 +459,72 @@ EMultiplicationTest >> testEvaluateWithClassCreationMessage
 
 !!! Introducing examples as class messages
 
+As you when writing the tests, it is quite annoying to repeat all the time the expressions to get a given tree. This is especially the case in the tests related to addition and multiplication as the one below: 
 
 [[[
-ENegationTest >> testNegated
-		self assert: (EConstant new value: 6) negated evaluate equals: -6.
-		self assert: (EAddition fivePlusThree) negated evaluate equals: -8
+EAdditionTest >> testNegated
+	| ep1 ep2 |
+	ep1 := EConstant new value: 5.
+	ep2 := EConstant new value: 3.
+	self assert: (EAddition new right: ep1; left: ep2) negated evaluate equals: -8
 ]]]
+
+One simple solution is to define some class method returning typical instances of their classes. To define a class method remember that you should click the class side button. 
+
+[[[
+EConstant class >> constant5
+	^ self new value: 5
+]]]
+
+[[[
+EConstant class >> constant3
+	^ self new value: 3
+]]]
+
+This way we can define the test as follows:
+
+[[[
+EAdditionTest >> testNegated
+	| ep1 ep2 |
+	ep1 := EConstant constant5.
+	ep2 := EConstant constant3.
+	self assert: (EAddition new right: ep1; left: ep2) negated evaluate equals: -8
+]]]
+
+The tools in Pharo supports such practice. If we tag a class method with the special annotation ==<sampleInstance>== the browser will show a little icon on the side and when we click on it, it will open an inspector on the new instance. 
+
+[[[
+EConstant class >> constant3
+	<sampleInstance>
+	^ self new value: 3
+]]]
+
+using the same idea we defined the following class methods to return some examples of our classes.
+
+[[[
+EAddition class >> fivePlusThree
+	<sampleInstance>
+	| ep1 ep2 |
+	ep1 := (EConstant new value: 5).
+	ep2 := (EConstant new value: 3).
+	^ self new left: ep1 ; right: ep2 
+]]]
+
+[[[
+EMultiplication class >> fiveTimesThree
+	<sampleInstance>
+	| ep1 ep2 |
+	ep1 := EConstant constant5.
+	ep2 := EConstant constant3.
+   ^ EMultiplication new left: ep1 ; right: ep2 
+]]]
+
+What is nice with such examples is that 
+- they help documenting the class by providing objects that we can directly use,
+- they support the creation of tests by providing objects that can serve as input for tests,
+- they simplify the writing of tests. 
+
+So think to use them. 
 
 !!! Printing
 It is quite annoying that we cannot really see an expression when we inspect it. We would like to get something better than ==aEConstant== and ==anEAddition== when we debug our programs. 
@@ -558,4 +655,9 @@ EAddition >>> negated
 [[[
 EMultiplication >>> negated 
 	^ ENegation new expression: self
+]]]
+
+[[[
+EConstant class >> expression: anExpression
+	^ self new expression: anExpression
 ]]]
