@@ -407,7 +407,7 @@ To define a class method is the same as to define an instance method (as we did 
 to a message sent to a class itself. 
 
 
-!!!! For constants
+!!!! Better instance creation for constants
 Define the following method on the class ==EConstant==. Notice the definition now use ==EConstant class== and not just ==EConstant== to stress that we are defining the class method. 
 
 [[[
@@ -423,7 +423,7 @@ EConstantTest >> testCreationWithClassCreationMessage
 ]]]
 
 
-!!!! For negations
+!!!!  Better instance creation for  negations
 
 We do the same for the class ==ENegation==. 
 
@@ -439,7 +439,7 @@ ENegationTest >> testEvaluateWithClassCreationMessage
 ]]]
 
 
-!!!! For additions
+!!!!  Better instance creation for  additions
 For the addition we  add a class method named ==left:right:== taking two arguments 
 [[[
 EAddition class >> left: anInteger right: anInteger2
@@ -451,12 +451,12 @@ Of course, since we are test infested we add a new test.
 [[[
 EAdditionTest >> testEvaluateWithClassCreationMessage
 	| ep1 ep2 |
-	ep1 := (EConstant new value: 5).
-	ep2 := (EConstant new value: 3).
+	ep1 := EConstant new value: 5.
+	ep2 := EConstant new value: 3.
 	self assert: (EAddition left: ep1 right: ep2) evaluate equals: 8
 ]]]
 
-!!!! For multiplications
+!!!!  Better instance creation for  multiplications
 
 We let you do the same for the multiplication. 
 
@@ -470,8 +470,8 @@ And another test to check that everything is ok.
 [[[
 EMultiplicationTest >> testEvaluateWithClassCreationMessage
 	| ep1 ep2 |
-	ep1 := (EConstant new value: 5).
-	ep2 := (EConstant new value: 3).
+	ep1 := EConstant new value: 5.
+	ep2 := EConstant new value: 3.
 	self assert: (EMultiplication left: ep1 right: ep2) evaluate equals: 15
 ]]]
 
@@ -525,8 +525,8 @@ using the same idea we defined the following class methods to return some exampl
 EAddition class >> fivePlusThree
 	<sampleInstance>
 	| ep1 ep2 |
-	ep1 := (EConstant new value: 5).
-	ep2 := (EConstant new value: 3).
+	ep1 := EConstant new value: 5.
+	ep2 := EConstant new value: 3.
 	^ self new left: ep1 ; right: ep2 
 ]]]
 
@@ -577,12 +577,12 @@ You can find more information on the chapter about Stream in the book: Pharo by 
 
 
 
-!!!! Printing Constant
+!!!! Printing constant
 Let us start with a test. Here we check that a constant is printed as it value.
 
 [[[
 EConstantTest >> testPrinting
-	self assert: (EConstant new value: 5) printString equals: '5'
+	self assert: (EConstant value: 5) printString equals: '5'
 ]]]
 
 The implementation is then simple. We just need to put the value converted as a string to the stream.
@@ -592,7 +592,7 @@ EConstant >> printOn: aStream
 	aStream nextPutAll: value printString
 ]]]
 
-!!!! Printing Negation
+!!!! Printing negation
 For a negation we should first put a '-' and then recurvisely call the printing process on the negated expression. Remember that sending the message ==printString== to an expression should return its strings representation.  At least until now it will work for constants. 
 
 [[[
@@ -624,7 +624,7 @@ At the end of the process, the single ==printString== message converts it into a
 
 
 
-!!!! Printing Addition
+!!!! Printing addition
 
 Now let us write yet another test for addition printing. 
 
@@ -635,45 +635,74 @@ AdditionTest >> testPrinting
 	self assert: (EAddition fivePlusThree) negated printString equals:  '- ( 5 + 3 )'
 ]]]
 
+Printing an adddition is: put an open parenthesis, print the left expression, put ' + ', print the right expression and put a closing parenthese in the stream. 
+
 [[[
 EAddition >> printOn: aStream
-	aStream 
-		nextPutAll: '( ';
-		nextPutAll: left printString; 
-		nextPutAll: ' + ';
-		nextPutAll: right printString;
-		nextPutAll: ' )'
+	Your code
 ]]]
 
-!!!! Printing Multiplication
+!!!! Printing multiplication
+And now we do the same for multiplication. 
 
 [[[
 MultiplicationTest >> testPrinting
 	self assert: (EMultiplication fiveTimesThree) negated printString equals:  '- ( 5 * 3 )'
 ]]]
 
-
-!!! Optimizing negated on ENegation
-Example of local redefinition
-
 [[[
-ENegation >> negated
-	^ expression
+EMultiplication >> printOn: aStream
+	Your code
 ]]]
 
-Since the result of a double negation and a single non wrapped expression is the same, we need to define a structural test.
+!!! Revisiting negated message for Negation
+
+Now we can go back on negating an expression. Our implementation is not nice even if we can negate any expression and get the correct value. If you look at it carefully negating a negation could be better. 
+Printing a negated negation illustrates well the problem: we get two minuses instead of none. 
+
+[[[
+(EConstant value:11) negated 
+>> '- 11'
+
+(EConstant value:11) negated negated
+>> '- - 11'
+]]]
+
+A solution could be to change the printOn: definition and to check if the expression that is negated is a negation 
+and in such case to not emit the minus. Let us say it now, this solution is not nice because we do not want to write code
+that depends on explicitly checking if an object is of a given class. Remember we want to send message and let the object do some actions. 
+
+A good solution is to ''specialize'' the message ==negated== so that when it is sent to a ''negation'' it does not create a new negation that points to the receiver but instead returns the expression itself, otherwise the method implemented in ==EExpression== will be executed. This way the trees created by a ==negated== message can never have negated negation but the arithmetic values obtained are correct. Let us implement this solution, we just need to implement a different version of the method ==negated== for ==ENegation==. 
+
+
+Let us write a test! Since evaluating a single expression or a double negated one gives the same results, we need to define a structural test. This is what we do with the expression ==exp negated class = ENegation== below. 
 
 [[[
 NegationTest >> testNegatedStructureIsCorrect
 	| exp |
-	exp := (EConstant new value: 6).
+	exp := EConstant value: 6.
 	self assert: exp negated class = ENegation. 
 	self assert: exp negated negated equals: exp.
 ]]]
 
+Now you should be able to implement the ==negated== message on ==ENegation==. 
 
-+Negating Negation can be smart.>file://figures/ExpressionsHierarchyOptimized.pdf|width=70|label=fig:ExpressionsHierarchyOptimized+
+[[[
+ENegation >> negated
+	Your code
+]]]
 
+!!!! Understanding method override
+When we send a message to an object, the system looks for the corresponding method in the class of the receiver then if it is not defined there, the lookup continues in the superclass of the previous class. 
+
+By adding a method in the class ==ENegation==, we created the situation shown in Figure *@fig:ExpressionsHierarchyOptimized*. We said that the message ==negated== is overridden in ==ENegation== because for instances of ==ENegation== it hides the method defined in the superclass ==EExpression==. 
+
+It works the following:
+- When we send the message ==negated== to a constant, the message is not found in the class ==EConstant== and then it is look up in the class ==EExpression== and it is found there and applied to the receiver (the instance of ==EConstant==).
+
+- When we send the message ==negated== to a negation, the message is found in the class ==ENegation== and executed on the negation expression. 
+
++The message ==negated== is overridden in the class ==ENegation==.>file://figures/ExpressionsHierarchyOptimized.pdf|width=70|label=fig:ExpressionsHierarchyOptimized+
 
 !!! Introducing BinaryExpression class
 
@@ -754,5 +783,13 @@ Emultiplication >> printOn: aStream
 	aStream nextPutAll: ' * '.
 	right printOn: aStream.
 	aStream nextPutAll: ' )'
+]]]
+
+
+!!!! Negated negation
+
+[[[
+ENegation >> negated
+	^ expression
 ]]]
 
