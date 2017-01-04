@@ -576,39 +576,73 @@ They add to the stream the arguments at the next position and following. We will
 You can find more information on the chapter about Stream in the book: Pharo by Example available at *http://books.pharo.org*
 
 
+
 !!!! Printing Constant
+Let us start with a test. Here we check that a constant is printed as it value.
 
 [[[
 EConstantTest >> testPrinting
 	self assert: (EConstant new value: 5) printString equals: '5'
 ]]]
 
-
+The implementation is then simple. We just need to put the value converted as a string to the stream.
+ 
+[[[
+EConstant >> printOn: aStream
+	aStream nextPutAll: value printString
+]]]
 
 !!!! Printing Negation
+For a negation we should first put a '-' and then recurvisely call the printing process on the negated expression. Remember that sending the message ==printString== to an expression should return its strings representation.  At least until now it will work for constants. 
 
 [[[
-printOn: aStream
-	aStream nextPutAll: '- '.
+(EConstant value: 6) printString
+>>> '6'
+]]]
+
+Here is a possible definition
+
+[[[
+ENegation >> printOn: aStream
+	aStream nextPutAll: '- '"
 	aStream nextPutAll: expression printString
 ]]]
 
+We can also define it as follows: 
+
+[[[
+ENegation >> printOn: aStream
+	aStream nextPutAll: '- '.
+	expression printOn: aStream
+]]]
+
+The difference between the first solution and the alternate implementation is the following:
+In the solution using ==printString==, the system creates two streams: one for each invocation of the message ==printString==. One for printing the expression and one for printing the negation. Once the first stream is used the message ==printString== converts the stream contents into a string and this new string is put inside the second stream which at the end is converted again as a string. So the first solution is not really efficient. 
+With the second solution, only one stream is created and each of the method just put the needed string elements inside. 
+At the end of the process, the single ==printString== message converts it into a string. 
+
+
+
+
 !!!! Printing Addition
+
+Now let us write yet another test for addition printing. 
+
 
 [[[
 AdditionTest >> testPrinting
+	self assert: (EAddition fivePlusThree) printString equals:  '( 5 + 3 )'.
 	self assert: (EAddition fivePlusThree) negated printString equals:  '- ( 5 + 3 )'
 ]]]
 
 [[[
 EAddition >> printOn: aStream
-
-		aStream 
-			nextPutAll: '( ';
-			nextPutAll: left printString; 
-			nextPutAll: ' + ';
-			nextPutAll: right printString;
-			nextPutAll: ' )'
+	aStream 
+		nextPutAll: '( ';
+		nextPutAll: left printString; 
+		nextPutAll: ' + ';
+		nextPutAll: right printString;
+		nextPutAll: ' )'
 ]]]
 
 !!!! Printing Multiplication
@@ -653,6 +687,7 @@ Now we will take a moment to improve our first design.
 
 !!! Solutions
 
+!!!! Evaluate message
 [[[
 EConstant >> evaluate
 	^ value
@@ -673,6 +708,9 @@ EMultiplication  >> evaluate
 	^ left evaluate + right evaluate
 ]]]
 
+
+!!!! Negated message
+
 [[[
 EAddition >>> negated 
 	^ ENegation new expression: self
@@ -682,6 +720,9 @@ EAddition >>> negated
 EMultiplication >>> negated 
 	^ ENegation new expression: self
 ]]]
+
+
+!!!! Better class instance creation interface
 
 [[[
 EConstant class >> expression: anExpression
@@ -693,3 +734,25 @@ EConstant class >> expression: anExpression
 EMultiplication class >>	left: anInteger right: anInteger2
 	^ self new left: anInteger ; right: anInteger2
 ]]]
+
+!!!! Printing addition and multiplication
+[[[
+EAddition >> printOn: aStream
+
+	aStream nextPutAll: '( '.
+	left printOn: aStream. 
+	aStream nextPutAll: ' + '.
+	right printOn: aStream.
+	aStream nextPutAll: ' )'
+]]]
+
+[[[
+Emultiplication >> printOn: aStream
+
+	aStream nextPutAll: '( '.
+	left printOn: aStream. 
+	aStream nextPutAll: ' * '.
+	right printOn: aStream.
+	aStream nextPutAll: ' )'
+]]]
+

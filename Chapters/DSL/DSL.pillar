@@ -309,17 +309,27 @@ DiceHandleTest >> testSimpleHandle
 	self assert: 2 D20 diceNumber = 2.
 ]]]
 
-Verify that the test is not working! It is much more satisfactory to get a test running when it was not working before. Now define the method ==D20== with a category name that is '*Dice' (if you named your package Dice). This method simply creates a new dice handle, add the correct number of dice to this handle and return it.
+Verify that the test is not working! It is much more satisfactory to get a test running when it was not working before. Now define the method ==D20== with a protocol named =='\*Dice==' (if you named your package 'Dice'). 
+ The ==\*== (star) prefixing the protocol name indicates that the protocol belongs to another package. You can define this method either from the debugger resulting from the execution of the failed test or in the code browser.
+ 
+The method ==D20== simply creates a new dice handle, adds the correct number of dice to this handle, and returns the handle.
 
 [[[
 Integer >> D20
 	Your code here
 ]]]
 
-Now you test should pass and this is probably a good moment to save your work either by publishing your package to SmalltalkHub and to save your image. 
+!!!! About class extensions
 
-Now we could do the same for the default dice with different faces number: 4, 6, 10, and 20.
-But we should avoid duplicating logic and code. So first we will introduce a new method ==D:== and based on it we will define all the others
+We asked you to place the method ==D20== in a protocol starting with a star and having the name of the package (=='*Dice'==) because we want this method to be saved (and packaged) together with the code of the classes we already created (==Die==, ==DiceHandle==,...) 
+Indeed in Pharo we can define methods in classes that are not defined in our package. Pharoers call this action a class extension: we add method to a class that is not ours. For example ==D20== is defined on the class ==Integer==. Now such methods only make sense when the package Dice is loaded. This is why we want to save and load such methods with the package we created and using the =='*Dice'==
+notation is way for the system to know that it should save the methods with the package and not with the package of the class ==Integer==. 
+
+Now your tests should pass and this is probably a good moment to save your work either by publishing your package and to save your image. 
+
+We can do the same for the default dice with different faces number: 4, 6, 10, and 20. But we should avoid duplicating logic and code. So first we will introduce a new method ==D:== and based on it we will define all the others.
+
+Make sure that all the new methods are placed in the protocol =='*Dice'==. To verify you can press the button Browse of the Monticello package browser and you should see the methods defined in the class ==Integer==. 
 
 [[[
 Integer >> D: anInteger
@@ -373,11 +383,13 @@ DiceHandle >> + aDiceHandle
 	Your code here 
 ]]]
 
+
+
 Now we can execute the method ==(2 D20 + 1 D6) roll== nicely and start playing role playing games, of course.
 
 !!! Solutions
 
-Here are the solutions of the implementation we asked. 
+Here are the possiblle solutions of the implementation we asked. 
 
 !!!! Define class Die
 
