@@ -477,6 +477,15 @@ DiceHandle >> + aDiceHandle
 	^ handle
 ]]]
 
+This definition only works if the method ==dice== defined below has been defined
+
+[[[
+DiceHandle >> dice
+	^ dice 
+]]]
+
+Indeed the first expression ==self dice do: == could be rewritten as ==dice do: == because dice is an instance variable of the class ==DiceHandle==. Now the expression ==aDiceHandle dice do: == cannot. Why? Because in Pharo you cannot access the state of another object directly. Here ==2 D20==  is one handle and ==3 D10== another one. The first one cannot access the dice of the second one directly (while it can accessed its own). Therefore there is a need to define a message that provide access to the dice. 
+
 
 !!! Conclusion
 
