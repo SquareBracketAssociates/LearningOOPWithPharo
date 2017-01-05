@@ -3,6 +3,7 @@
 
 In this chapter you will build a small mathematical expression interpreter. For example you will be able to build an expression such as  (3 + 4) * 5 and then ask the interpreter to compute its value. You will revisit tests, classes, messages, methods and inheritance. 
 You will also see an example of expression trees similar to the ones that are used to manipulate programs. For example, compilers and code refactorings as offered in Pharo and many modern IDEs are doing such manipulation with trees representing code. 
+In addition, in an advanced Chapter, we will extend this example to present the Visitor Design Pattern.
 
 
 !!! Starting with constant expression and a test
@@ -126,7 +127,7 @@ You should define the class ==EAddition==: it has two instance variables for the
 
 [[[
 EExpression subclass: #EAddition
-	instanceVariableNames: 'right left'
+	instanceVariableNames: 'left right'
 	classVariableNames: ''
 	package: 'Expressions'
 ]]]
@@ -706,13 +707,236 @@ It works the following:
 
 !!! Introducing BinaryExpression class
 
-Now we will take a moment to improve our first design. 
-+A flat collection of classes.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierarFinal+
+Now we will take a moment to improve our first design. We will factor out the behavior of ==EAddition== and ==EMultiplication==. 
 
 
-!!! Adding division
+[[[
+EExpression subclass: #EBinaryExpression
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+[[[
+EBinaryExpression subclass: #EAddition
+	instanceVariableNames: 'left right'
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+[[[
+EBinaryExpression subclass: #EMultiplication
+	instanceVariableNames: 'left right'
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
 
 
+Now we can use again a refactoring to pull up the instance variables ==left== and ==right==, as well as the methods ==left:== and ==right:==.
+
+Select the class ==EMuplication==, bring the menu and select in the Refactoring menu the instance variables refactoring ''Push Up''. Then select the instance variables.
+
+Now you should get the following class definitions, where the instance variables are defined in the new class and removed from the two subclasses. 
+
+[[[
+EExpression subclass: #EBinaryExpression
+	instanceVariableNames: 'left right'
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+[[[
+EBinaryExpression subclass: #EAddition
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+[[[
+EBinaryExpression subclass: #EMultiplication
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+We should get a situation similar to the one of Figure *@figExpressionFactoredState*. All your tests should still pass. 
+
++Factoring instance variables.>file://figures/ExpressionsHierarchyStateFactored.pdf|width=70|label=figExpressionFactoredState+
+
+Now we can move the same way the methods. Select the methods ==left:== and apply the refactoring ''Pull Up Method'' adn do the same for the method ==right:==. 
+
+!!!! Creating a template and hook method
+
+Now we can look at the methods ==printOn:== of additions and multiplications. There are really similar: Just the operator is changing. Now we cannot simply copy one of the definitions because it will not work for the other. But what we can do is to apply the same design point that implemented for ==printString== and ==printOn:==: we can create a template and hooks that will be specialized in the subclasses. 
+
+We will use the method ==printOn:== as a template with a hook redefined in each subclass.
+
+Let define the method ==printOn:== in ==EBinaryExpression== and remove the other ones from the two classes ==EAddition== and ==EMultiplication==. 
+
+[[[
+EBinaryExpression >> printOn: aStream
+	aStream nextPutAll: '( '.
+	left printOn: aStream. 
+	aStream nextPutAll: ' + '.
+	right printOn: aStream.
+	aStream nextPutAll: ' )'
+]]]
+
+Then you can do it manually or use the ''Extract Method'' Refactoring: This refactoring creates a new method from a part of an existing method and send a message to the new created method: select the ' + ' inside the method pane and bring the menu and select the Extract Method refactoring, When prompt give the name ==operatorString==. 
+
+Here is the result you should get:  
+
+[[[
+EBinaryExpression >> printOn: aStream
+	aStream nextPutAll: '( '.
+	left printOn: aStream.
+	aStream nextPutAll: self operatorString.
+	right printOn: aStream.
+	aStream nextPutAll: ' )'
+]]]
+
+[[[
+EBinaryExpression >> operatorString
+	^ ' + '
+]]]
+
+Now we can just redefine this method in the ==EMultiplication== class to return the adequate string.
+
+[[[
+EMultiplication >> operatorString
+	^ ' * '
+]]]
+
++Factoring instance variables and behavior.>file://figures/ExpressionsHierarchyStateBehaviorFactored.pdf|width=70|label=figExpressionsHierarchyStateBehaviorFactored+
+
+
+
+!!! What did we learn
+
+The introduction of the class ==EBinaryExpression== is rich experience in terms of lessons that we can learn. 
+
+- Refactorings are more than simple code transformation. Usually refactorings  pay attention their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operation in a few action. 
+
+- We saw that the introduction of a new superclass and moving instance variables or method to a superclass does not change the structure or behavior of the subclasses. This is because (1) for the state, the structure of an instance is based on the state of its class and all its superclasses, (2) the lookup starts in the class of the receiver and look in superclasses. 
+
+- While the method ==printOn:== is by itself a hook for the method ==printString==, it can also play the role of a template method. The method ==operatorString== reuses the context created by the ==printOn:== method which acts as template method. In fact each time we do a self send we create a hook method that subclasses can specialize. 
+
+
+!!! Variables
+Up until now our mathematical expressions are rather limited. We only manipulate constant-based expressions. What we would like is to be able to manipulate variables too. 
+Here is a simple test to show what we mean: we define a variable named =='x'== and then we can later specify that =='x'== should take a given value. 
+
+[[[
+EVariableTest >> testValueOfx
+	self assert: ((EVariable new id: #x) evaluateWith: {#x -> 10} asDictionary) equals: 10.
+]]]
+
+If we go a step further, we want to be able to build more complex expressions where instead of having constants we can manipulate variables. This way we will be able to build more advanced behavior such as expression derivations. 
+
+[[[
+EExpression subclass: #EVariable
+	instanceVariableNames: 'id bindings'
+	classVariableNames: ''
+	package: 'Expressions'
+]]]
+
+[[[
+EVariable >> id: aSymbol
+	id := aSymbol
+]]]
+
+[[[
+EVariable >> printOn: aStream
+	aStream nexPutAll: id asString
+]]]
+What we see is that we need to be able to pass bindings (a binding is a pair key, value) when evaluating a variable. The value of a variable is the value of the binding whose key is the name of the variable. 
+
+[[[
+EVariable >> evaluateWith: aBindingSet
+	^ aBindingSet at: id
+]]]
+
+Your tests should all pass at this point. 
+
+For more complex expressions (the ones that interest us) here are two tests. 
+
+[[[
+EVariableTest >> testValueOfxInNegation
+	self assert: ((EVariable new id: #x) negated
+		evaluateWith: {#x -> 10} asDictionary) equals: -10
+]]]
+
+What the second test shows is that we can have an expression and given a different set of bindings the value of the expression will differ. 
+
+[[[
+EVariableTest >> testEvaluateXplusY
+	| ep1 ep2 add |
+	ep1 := EVariable new id: #x.
+	ep2 := EVariable new id: #y.
+	add := EAddition left: ep1 right: ep2.
+	
+	self assert: (add evaluateWith: { #x -> 10 . #y -> 2 } asDictionary) equals: 12.
+	self assert: (add evaluateWith: { #x -> 10 . #y -> 12 } asDictionary) equals: 22
+]]]
+
+
+!!!! Non working approaches
+A non working solution would be to add the following method to ==EExpression==
+
+[[[
+EEXpression >> evaluateWith: aDictionary
+	^ self evaluate
+]]]
+However it does not work for at least the following reason: 
+when we send a message ==evaluateWith:== to an addition, this message is then turned into an ==evaluate== message sent to its subexpression and they do not get an evaluateWith: message. So if one of them is a variable we never know binding dictionary. 
+ 
+Alternatively we could add the binding to the variable itself and only provide an ==evaluate== message. But it fully defeats the purpose of what is a variable. We should be able to give different values to a variable. 
+
+[[[
+(EVariable new id: #x) bindings: { #x -> 10 . #y -> 2 } asDictionary
+]]]
+
+!!!! The solution: adding evaluateWith:
+
+We should transform all the implementations and message sends from ==evaluate== to ==evaluateWith:== Since this is a tedious tasks we will use the method refactoring Add Parameter.
+Since a refactoring applies itself on the complete system, we should be a bit cautious because other Pharo class implement methods named ==evaluate== and we do not want to impact them. 
+So here are the step.
+
+- Select the Expression package
+- Choose Browse Scoped (it brings a browser with only your package)
+- Using this browser, select a method evaluate
+- Select the Add Parameter refactoring: type evaluateWith: as method selector and Dictionary new. This last expression is needed because the engine will rewrite all the messages ==evaluate== but ==evaluateWith: Dictionary new==. 
+- The system is performing many changes. Check that they only touch your classes and accept them all. 
+
+A test like the following one: 
+[[[ 
+EConstant >> testEvaluate 
+	self assert:(EConstant new value: 5) evaluate equals: 5
+]]] 
+
+is transformed as follows: 
+[[[
+EConstant >> testEvaluate
+	self assert: ((EConstant new value: 5) evaluateWith: Dictionary new) equals: 5
+]]]
+
+Your tests should nearly all pass except the ones on variables. Why do they fail?
+Because the refactoring transformed message sends ==evaluate== but ==evaluateWith: Dictionary new== and this even in methods ==evaluate==. 
+
+[[[
+EAddition >> evaluateWith: anObject
+	^ (right evaluateWith: Dictionary new) + (left evaluateWith: Dictionary new)
+]]]
+
+[[[
+EAddition >> evaluateWith: anObject
+	^ (right evaluateWith: anObject) + (left evaluateWith: anObject)
+]]]
+
+[[[
+ENgation >> evaluateWith: anObject
+	^ (expression evaluateWith: anObject) negated
+]]]
 
 !!! Solutions
 
@@ -767,7 +991,6 @@ EMultiplication class >>	left: anInteger right: anInteger2
 !!!! Printing addition and multiplication
 [[[
 EAddition >> printOn: aStream
-
 	aStream nextPutAll: '( '.
 	left printOn: aStream. 
 	aStream nextPutAll: ' + '.
@@ -777,7 +1000,6 @@ EAddition >> printOn: aStream
 
 [[[
 Emultiplication >> printOn: aStream
-
 	aStream nextPutAll: '( '.
 	left printOn: aStream. 
 	aStream nextPutAll: ' * '.
@@ -792,4 +1014,8 @@ Emultiplication >> printOn: aStream
 ENegation >> negated
 	^ expression
 ]]]
+
+!!! Exercise adding division
+
+
 
