@@ -3,7 +3,7 @@
 
 In this chapter you will build a small mathematical expression interpreter. For example you will be able to build an expression such as  (3 + 4) * 5 and then ask the interpreter to compute its value. You will revisit tests, classes, messages, methods and inheritance. 
 You will also see an example of expression trees similar to the ones that are used to manipulate programs. For example, compilers and code refactorings as offered in Pharo and many modern IDEs are doing such manipulation with trees representing code. 
-In addition, in an advanced Chapter, we will extend this example to present the Visitor Design Pattern.
+In addition, in an advanced Chapter, we will extend this example to present the Visitor Design Pattern. The solutions are given in Section *@sec_expressionsolutions*.
 
 
 !!! Starting with constant expression and a test
@@ -141,13 +141,11 @@ EAddition >> evaluate
 	Your code
 ]]]	
 	
-	
 To make sure that our implementation is correct we can also test that we can add negated expressions. 
 It is always good to add tests that cover ''different'' scenario. 
 	
 [[[
 AdditionTest >> testEvaluateWithNegation
-
 	| ep1 ep2 |
 	ep1 := ENegation new expression: (EConstant new value: 5).
 	ep2 := (EConstant new value: 3).
@@ -167,7 +165,6 @@ TestCase subclass: #EMultiplicationTest
 
 [[[
 EMultiplicationTest >> testEvaluate
-
 	| ep1 ep2 |
 	ep1 := (EConstant new value: 5).
 	ep2 := (EConstant new value: 3).
@@ -206,7 +203,7 @@ It is interesting to look at what we built so far. We have a group of classes wh
 !!!! Messages and methods
 The implementation of the ==evaluate== message is worth discussing. What we see is that ''different'' classes understand the same message but execute different methods as shown in Figure *@figExpressionEvaluate*.
 
-@@note A message represents an intent: it represents what should be done. A method represents a specification of how something to should be executed. 
+@@note A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something to should be executed. 
 
 
 What we see is that sending a message ==evaluate== to an expression is making a choice among the different implementations of the message. This point is central to object-oriented programming. 
@@ -255,7 +252,7 @@ Negating an expression is expressed in a verbose way. We have to create explicit
 
 [[[
 ENegation new expression: (EConstant new value: 5)
-]]
+]]]
 
 We propose to define a message ==negated== on the expressions themselves that will create such instance of ==ENegation==.
 With this new message, the previous expression can be reduced too. 
@@ -319,8 +316,7 @@ EAddition >> negated
 
 
 !!!! negated message for multiplications
-We proceed similarly for multiplication. 
-
+We proceed similarly for multiplications. 
 
 [[[
 EMultiplicationTest >> testEvaluateNegated
@@ -350,7 +346,7 @@ in fact one time should be enough.
 
 What are the solutions?
 - We could define another class ==Negator== that would do the job and each current classes would delegate to it. But it does not really solve our problem since we will have to duplicate all the message sends. 
-- If we  define the method ==negated== in the superclass (==Object==) we only need one definition and it will work. Indeed, when we send the message ==negated== to an instance of ==EConstant== or ==EAddition== the system will not find it locally but in the superclass ==Object==. So no need to define it four times but only one in class ==Object==. This solution is nice because it reduces the number of  similar definitions of the method ==negated== but it is not good because even if we can in Pharo add methods to the class ==Object== this is not a good practice. ==Object== is a class shared by the entire system so we should take care not to add behavior only making sense for a single application. 
+- If we  define the method ==negated== in the superclass (==Object==) we only need one definition and it will work. Indeed, when we send the message ==negated== to an instance of ==EConstant== or ==EAddition== the system will not find it locally but in the superclass ==Object==. So no need to define it four times but only one in class ==Object==. This solution is nice because it reduces the number of  similar definitions of the method ==negated== but it is not good because even if in Pharo we can add methods to the class ==Object== this is not a good practice. ==Object== is a class shared by the entire system so we should take care not to add behavior only making sense for a single application. 
 - The solution is to introduce a new superclass between our classes and the class ==Object==. It will have the same property than the solution with ==Object== but without poluting it (see Figure *@figExpressionHierar*). This is what we do in the next section. 
 
 !!! Introducing Expression class
@@ -380,7 +376,7 @@ EExpression subclass: #EConstant
 We can also use for the first transformation the class refactoring ''Insert superclass''. Refactorings are code transformations that do not change the behavior of a program. You can find it under the refactorings list when you bring the menu on the classes. 
 Now it is only useful for the first changes. 
 
-Once the classes ==EConstant==, ==ENegation==, ==EAddition==, and ==EMultiplication== are subclasses of ==EEXpressions==, we should focus on the method ==negated==. Now the method refactoring ''Push up'' will really help us. 
+Once the classes ==EConstant==, ==ENegation==, ==EAddition==, and ==EMultiplication== are subclasses of ==EEXpression==, we should focus on the method ==negated==. Now the method refactoring ''Push up'' will really help us. 
 
 - Select the method ==negated== in one of the classes
 - Select the refactoring ''Push up''
@@ -425,8 +421,7 @@ EConstantTest >> testCreationWithClassCreationMessage
 
 
 !!!!  Better instance creation for  negations
-
-We do the same for the class ==ENegation==. 
+We do the same for the class ==ENegation==.
 
 [[[
 EConstant class >> expression: anExpression
@@ -448,7 +443,6 @@ EAddition class >> left: anInteger right: anInteger2
 ]]]
 
 Of course, since we are test infested we add a new test.
-
 [[[
 EAdditionTest >> testEvaluateWithClassCreationMessage
 	| ep1 ep2 |
@@ -460,14 +454,12 @@ EAdditionTest >> testEvaluateWithClassCreationMessage
 !!!!  Better instance creation for  multiplications
 
 We let you do the same for the multiplication. 
-
 [[[
 EAddition class >> left: anInteger right: anInteger2
 	Your code
 ]]]
 
 And another test to check that everything is ok. 
-
 [[[
 EMultiplicationTest >> testEvaluateWithClassCreationMessage
 	| ep1 ep2 |
@@ -548,11 +540,10 @@ What is nice with such examples is that
 So think to use them. 
 
 !!! Printing
-It is quite annoying that we cannot really see an expression when we inspect it. We would like to get something better than ==aEConstant== and ==anEAddition== when we debug our programs. 
+It is quite annoying that we cannot really see an expression when we inspect it. We would like to get something better than =='aEConstant'== and =='anEAddition'== when we debug our programs.
+To display such information the debugger and inspector send to the objects the message ==printString== which by default just prefix the name of the class with 'an' or 'a'. 
 
-pictureHEREOFDEBUGGER
-
-For this, we will specialize the method ==printOn: aStream==. This is the method is a system customisation point  that is called on the object when we or the system send to the object the message ==printString==. 
+Let us change this situation. For this, we will specialize the method ==printOn: aStream==. This is the method is a system customisation point  that is called on the object when we or the system send to the object the message ==printString==. 
 
 Note that we do not redefine the method ==printString== because it is more complex and ==printString== is reused for all the objects in the system. We just have to implement the part that is specific to a given class. In object-oriented design jargon, ==printString== is a template method in the sense that it sets up a context which is shared by other objects and it hosts hook methods which are program customisation points. ==printOn:== is a hook method. The term hook comes from the fact that code of subclasses are invoked in the hook place (see Figure *@fig:ExpressionsHierarchyPrintOn*).
 
@@ -898,10 +889,10 @@ Alternatively we could add the binding to the variable itself and only provide a
 
 !!!! The solution: adding evaluateWith:
 
-We should transform all the implementations and message sends from ==evaluate== to ==evaluateWith:== Since this is a tedious tasks we will use the method refactoring Add Parameter.
-Since a refactoring applies itself on the complete system, we should be a bit cautious because other Pharo class implement methods named ==evaluate== and we do not want to impact them. 
-So here are the step.
+We should transform all the implementations and message sends from ==evaluate== to ==evaluateWith:== Since this is a tedious task we will use the method refactoring ''Add Parameter''.
+Since a refactoring applies itself on the complete system, we should be a bit cautious because other Pharo classes implement methods named ==evaluate== and we do not want to impact them. 
 
+So here are the steps that we should follow.
 - Select the Expression package
 - Choose Browse Scoped (it brings a browser with only your package)
 - Using this browser, select a method evaluate
@@ -928,6 +919,7 @@ EAddition >> evaluateWith: anObject
 	^ (right evaluateWith: Dictionary new) + (left evaluateWith: Dictionary new)
 ]]]
 
+This method should be transformed as follow: We should pass the binding to the argument of the ==evaluateWith:== recursive calls
 [[[
 EAddition >> evaluateWith: anObject
 	^ (right evaluateWith: anObject) + (left evaluateWith: anObject)
@@ -938,90 +930,89 @@ ENgation >> evaluateWith: anObject
 	^ (expression evaluateWith: anObject) negated
 ]]]
 
-!!! Solutions
+%!!! Solutions
+%
+%!!!! Evaluate message
+%[[[
+%EConstant >> evaluate
+%	^ value
+%]]]
 
-!!!! Evaluate message
-[[[
-EConstant >> evaluate
-	^ value
-]]]
+%[[[
+%ENegation >> evaluate
+%	^ expression evaluate negated
+%]]]
 
-[[[
-ENegation >> evaluate
-	^ expression evaluate negated
-]]]
+%[[[
+%EAddition >> evaluate
+%	^ left evaluate + right evaluate
+%]]]
 
-[[[
-EAddition >> evaluate
-	^ left evaluate + right evaluate
-]]]
-
-[[[
-EMultiplication  >> evaluate
-	^ left evaluate + right evaluate
-]]]
-
-
-!!!! Negated message
-
-[[[
-EAddition >>> negated 
-	^ ENegation new expression: self
-]]]
-
-[[[
-EMultiplication >>> negated 
-	^ ENegation new expression: self
-]]]
+%[[[
+%EMultiplication  >> evaluate
+%	^ left evaluate + right evaluate
+%]]]
 
 
-!!!! Better class instance creation interface
+%!!!! Negated message
+%
+%[[[
+%EAddition >>> negated 
+%	^ ENegation new expression: self
+%]]]
 
-[[[
-EConstant class >> expression: anExpression
-	^ self new expression: anExpression
-]]]
-
-
-[[[
-EMultiplication class >>	left: anInteger right: anInteger2
-	^ self new left: anInteger ; right: anInteger2
-]]]
-
-!!!! Printing addition and multiplication
-[[[
-EAddition >> printOn: aStream
-	aStream nextPutAll: '( '.
-	left printOn: aStream. 
-	aStream nextPutAll: ' + '.
-	right printOn: aStream.
-	aStream nextPutAll: ' )'
-]]]
-
-[[[
-Emultiplication >> printOn: aStream
-	aStream nextPutAll: '( '.
-	left printOn: aStream. 
-	aStream nextPutAll: ' * '.
-	right printOn: aStream.
-	aStream nextPutAll: ' )'
-]]]
+%[[[
+%EMultiplication >>> negated 
+%	^ ENegation new expression: self
+%]]]
 
 
-!!!! Negated negation
+%!!!! Better class instance creation interface
+%[[[
+%EConstant class >> expression: anExpression
+%	^ self new expression: anExpression
+%]]]
 
-[[[
-ENegation >> negated
-	^ expression
-]]]
+%[[[
+%EMultiplication class >>	left: anInteger right: anInteger2
+%	^ self new left: anInteger ; right: anInteger2
+%]]]
+
+%!!!! Printing addition and multiplication
+%[[[
+%EAddition >> printOn: aStream
+%	aStream nextPutAll: '( '.
+%	left printOn: aStream. 
+%	aStream nextPutAll: ' + '.
+%	right printOn: aStream.
+%	aStream nextPutAll: ' )'
+%]]]
+
+%[[[
+%Emultiplication >> printOn: aStream
+%	aStream nextPutAll: '( '.
+%	left printOn: aStream. 
+%	aStream nextPutAll: ' * '.
+%	right printOn: aStream.
+%	aStream nextPutAll: ' )'
+%]]]
+
+
+%!!!! Negated negation
+
+%[[[
+%ENegation >> negated
+%	^ expression
+%]]]
 
 !!! Conclusion
+This little exercise was full of learning potential. Here is a little summary of what we explained and we hope you understood. 
 
-More than that to be rewritten
-- Refactorings are more than simple code transformation. Usually refactorings  pay attention their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operation in a few action. 
-
+- A message specifies an intent while a method is a named list of execution. We often have one message and a list of methods with the same name. 
+- Sending a message is finding the corresponding method to the message selector: this selection is based on the class of the object receiving the message. When we look for a method we start in the class of the receiver and go up the inheritance link. 
+- Tests are a really nice way to specify what we want to achieve and then to verify after each change that we did not break something. Tests do not prevent bugs but they help us building confidence in the changes we do by identifying fast errors. 
+- Refactorings are more than simple code transformations. Usually refactorings  pay attention their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operation in a few action. 
 - We saw that the introduction of a new superclass and moving instance variables or method to a superclass does not change the structure or behavior of the subclasses. This is because (1) for the state, the structure of an instance is based on the state of its class and all its superclasses, (2) the lookup starts in the class of the receiver and look in superclasses. 
-
-- While the method ==printOn:== is by itself a hook for the method ==printString==, it can also play the role of a template method. The method ==operatorString== reuses the context created by the ==printOn:== method which acts as template method. In fact each time we do a self send we create a hook method that subclasses can specialize. 
+- Each time we send a message, we create a potential place (a hook) for subclasses to get their code definition used in place of the superclass's one.
 
 

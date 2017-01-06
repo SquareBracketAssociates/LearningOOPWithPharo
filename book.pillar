@@ -1,4 +1,4 @@
-{ "metadata": { "title": "Learning Object-Oriented Programming with Pharo" ,
+{ "metadata": { "title": "Learning Object-Oriented Programming and Design with Pharo" ,
 	"attribution" : "Stéphane Ducasse"} } 
 
 
@@ -150,3 +150,6 @@ with conditionals and polymorphism
 
 May be at the end of the book: class are objects too. 
 	Model2 in MyBooks/botsinc/BookTwo/SyntaxAndModel2
+
+
+${inputFile:Chapters/Solutions/Solutions.pillar}$

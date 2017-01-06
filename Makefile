@@ -11,6 +11,7 @@ CHAPTERS = \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
 	Chapters/Counter/Counter \
 	Chapters/DSL/DSL \
+	Chapters/Solutions/Solutions \
 	Chapters/OOPNutshell/OOPNutshell \
 	Chapters/Expressions/Expressions \
 	Chapters/Wallet/Wallet
