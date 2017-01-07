@@ -196,7 +196,7 @@ EMultiplication >> evaluate
 
 !!! Stepping back 
 
-It is interesting to look at what we built so far. We have a group of classes whose instances can be combined to create complex expressions. Each expression is in fact a tree of subexpressions as shown in Figure *@fig:ExpressionTrees*. The figure shows two main trees: one  for the constant expression ==5== and one for the expression ==-5 + 3==. Note that the diagram represents the number 5 as an object because in Pharo is an object in the same way the instances of ==EConstant== are objects. 
+It is interesting to look at what we built so far. We have a group of classes whose instances can be combined to create complex expressions. Each expression is in fact a tree of subexpressions as shown in Figure *@fig:ExpressionTrees*. The figure shows two main trees: one  for the constant expression ==5== and one for the expression ==-5 + 3==. Note that the diagram represents the number 5 as an object because in Pharo even small integers are objects in the same way the instances of ==EConstant== are objects. 
 
 +Expressions are composed of trees.>file://figures/ExpressionTrees.pdf|width=60|label=fig:ExpressionTrees+
 
