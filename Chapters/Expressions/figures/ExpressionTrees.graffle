@@ -565,7 +565,7 @@
 			<integer>189</integer>
 			<key>Points</key>
 			<array>
-				<string>{239.4999788045883, 203.00000000000006}</string>
+				<string>{224.708502428147, 203.49936629699945}</string>
 				<string>{226.52277104536716, 239.5003342992793}</string>
 				<string>{253, 240.75374374738965}</string>
 			</array>
@@ -587,6 +587,8 @@
 			<dict>
 				<key>ID</key>
 				<integer>166</integer>
+				<key>Info</key>
+				<integer>19</integer>
 			</dict>
 		</dict>
 		<dict>
@@ -728,7 +730,7 @@
 			<array>
 				<string>{314.51329807039906, 263.49951794933889}</string>
 				<string>{315.45810055865928, 285}</string>
-				<string>{346.95795630281071, 286.25340944811035}</string>
+				<string>{347.03207869628864, 286.25340944811035}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -752,7 +754,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{346.68715083798969, 272}, {57.312850952148438, 38}}</string>
+			<string>{{346.68715083798969, 272}, {73, 38}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -853,7 +855,7 @@
 			<array>
 				<string>{130.51329807039943, 86.499517949338909}</string>
 				<string>{131.45810055865908, 108}</string>
-				<string>{162.95795630280983, 109.25340944811035}</string>
+				<string>{163.03207869628781, 109.25340944811035}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -877,7 +879,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{162.68715083798884, 95}, {57.312850952148438, 38}}</string>
+			<string>{{162.68715083798884, 95}, {73, 38}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -1139,7 +1141,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-01-02 17:06:35 +0000</string>
+	<string>2017-01-07 16:12:56 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -1235,7 +1237,7 @@
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{1305, 320}, {1255, 777}}</string>
+		<string>{{234, 392}, {1255, 777}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
