@@ -627,7 +627,7 @@ AdditionTest >> testPrinting
 	self assert: (EAddition fivePlusThree) negated printString equals:  '- ( 5 + 3 )'
 ]]]
 
-Printing an adddition is: put an open parenthesis, print the left expression, put ' + ', print the right expression and put a closing parenthese in the stream. 
+Printing an addition is: put an open parenthesis, print the left expression, put ' + ', print the right expression and put a closing parenthese in the stream. 
 
 [[[
 EAddition >> printOn: aStream
