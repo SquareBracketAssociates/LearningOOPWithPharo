@@ -11,12 +11,23 @@ Now nearly ten years after, I'm ready to write a book to start with object-orien
 
 !!! Structure of the book
 
-While writing this book, I faced a challenge to find the correct level of difficulties. To solve this problem I structured the book into basic elements and projects (more advanced topics). I also propose different levels of reading via different paths. 
-
-
-+Reading maps.>file://figures/Map.png|width=70|label=fgmap+
-
+While writing this book, I faced a challenge to find the correct level of difficulties. To solve this problem I structured the book into basic elements and projects (more advanced topics).
 In addition some chapters are key and conceptual while others are more little tutorials that act more as explained step by step examples. Some of such chapters can be skipped while the conceptual one should not. 
+
+ I also propose different levels of reading via different paths but often even ''simple'' chapters contain design remarks.
+
++Reading maps.>file://figures/Map.pdf|width=70|label=fgmap+
+
+!!!! Fast track
+The following chapers contain more conceptual information:
+
+- OOP in a nutshell
+- Syntax and Tests
+- Objects and classes. (Counter), Domain Specific Language
+- Inheritance and Expressions
+- Sending Message, Scissors, Aliens and sheeps
+
+
 
 
 
