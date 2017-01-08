@@ -47,7 +47,6 @@ ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 !! Gruyere-oriented programming 
 The power of self in action.
 
-!!! Hook and Template
 
 ${inputFile:Chapters/PaperStoneScissor/PaperStoneScissor.pillar}$
 
