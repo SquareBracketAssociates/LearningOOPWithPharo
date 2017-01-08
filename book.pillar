@@ -1,13 +1,13 @@
 { "metadata": { "title": "Learning Object-Oriented Programming and Design with Pharo" ,
 	"attribution" : "Stéphane Ducasse"} } 
 
+
+
 ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
 ! Key concepts in a nutshell
 
 ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
-
-${inputFile:Chapters/Expressions/Expressions.pillar}$
 
 ! Getting in touch with objects
 
@@ -19,11 +19,9 @@ ${inputFile:Chapters/Katas/GramKatas.pillar}$
 
 ${inputFile:Chapters/Katas/GramVariation.pillar}$
 
-
-
 ! Simple Objects
-In this book part we suggest to read carefully the next chapter and after to do the following ones. 
-Since the following chapters are extremely simple exercises it can be tedious to do them all. 
+In this book part we suggest to read carefully the next chapter and after to do the following ones.
+Since the following chapters are extremely simple exercises it can be tedious to do them all.
 
 ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
@@ -35,28 +33,29 @@ ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
 ${inputFile:Chapters/DSL/DSL.pillar}$
 
+!! Tamagoshi (graphics TBMigrated)
+
 ${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
-! Inheritance
+! Looking at Inheritance
+
+!! Inheritance (TBMigrated)
 - should find a non-graphical
 - check the old explanation
 
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
-!! LAN More chapter (ok)
 
-!! Gruyere-oriented programming 
-The power of self in action.
-
+${inputFile:Chapters/Expressions/Expressions.pillar}$
 
 ${inputFile:Chapters/PaperStoneScissor/PaperStoneScissor.pillar}$
 
-! Project:  Managing Game Collection
+! Project:  Managing Game Collection (TBD)
 
-! Project: TinyChat
+! Project: TinyChat (TBIncluded)
 
-! Project: Sokoban
+! Project: Sokoban (TB DONE)
 
-! Project: LSystem (Graphics so let us stop)
+! Project: LSystem (TBMigrated)
 
 Lindermayer systems, also called ''L-Systems'', have been developed
 by biology theorists to understand and simulate the growth of plants
@@ -74,35 +73,24 @@ particular how inheritance can be used to reuse class already defined.
 
 !! Lindermayer Systems
 	MyBooks/botsinc/BookTwo/Debugger/
-	
+
 !!!	LSystem
-		getting started
+	getting started
 !!!	AdvancedL-Systems	
-		rules
+	rules
 !!!	PlantModeling
-		stack turtle
-
-! Projects - Others
-
-!! Tamagoshi (graphics so let us stop)
-- state diagram
-
-!! QRCode looks fun
-
-!! Game Of Life (may be with a textual version)
+	stack turtle
+	
+!! Project:  Game Of Life (TBEvaluated)
 with conditionals and polymorphism
 
-
-
-
 !! Project: Path-finder (it is graphical so out or should get a textual version)
-
-! Advanced topics? 
 
 !! Classes are objects too
 
 May be at the end of the book: class are objects too. 
 	Model2 in MyBooks/botsinc/BookTwo/SyntaxAndModel2
 
+! Solutions 	
 
 ${inputFile:Chapters/Solutions/Solutions.pillar}$
