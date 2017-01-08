@@ -1,0 +1,51 @@
+!! About this book 
+@ch:about
+
+!!! A word of presentation
+
+I started to write this book back in 1998 when I wrote around 900 pages for the pre sequel to  "Learning Programming with Robots". Apparently I needed to write to understand what I wanted to explain and how. From this I extracted ''Learning Programming with Robots''. For me, ''Learning Programming with Robots'' was a book to teach simple concepts such as variables, loops, procedures and to help people to teach kids how to program. But in fact, I got really frustrated because to be understable by everyone I had to remove what I like: object-oriented programming and good object-oriented programming. 
+At that time, I met Harald Wertz (which gave me nice ideas and pointers such as LSystems) and he asked why I focused on procedural thinking and that I should better teach object-priented programming.  And he was right. This remark was like a bee in my bonet for more than 10 years. In fact it was my original objective but I was exhausted after my first attempt.
+
+Now nearly ten years after, I'm ready to write a book to start with object-oriented programming. I hope that you will enjoy it  as much as I did - even if writing a book for me is a really long and daunting task. 
+
+
+!!! Structure of the book
+
+While writing this book, I faced a challenge to find the correct level of difficulties. To solve this problem I structured the book into basic elements and projects (more advanced topics). I also propose different levels of reading via different paths. 
+
+
++Reading maps.>file://figures/Map.png|width=70|label=fgmap+
+
+In addition some chapters are key and conceptual while others are more little tutorials that act more as explained step by step examples. Some of such chapters can be skipped while the conceptual one should not. 
+
+
+
+
+!!! What are the concepts you will learn
+We would like to present the concepts that we want to teach you and that hopefully you should acquire. Note that we will not explain OOP in general but within the context of Pharo. Pharo is the essence of Object-Oriented programming since it object model is minimal but it covers the key and essential aspect of OOP. 
+
+
+!!!! Syntax, Blocks and Iterators
+Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple  
+- one postcard
+- closure
+- iterators
+
+!!!! OOP concepts
+- Objects / Classes 
+- Messages / Methods
+- self and its semantics
+- Inheritance
+- super and its semantics
+
+!!!! OOP design
+- Delegation
+- Message sends are choice (what would be the equivalent to not)
+- Message sends are plans for reuse
+- Double Dispatch
+- Don't ask tell
+- Tests are your life ensurance
+- Polymorphism
+- Composite
+- Hook template
+- Strategy 
