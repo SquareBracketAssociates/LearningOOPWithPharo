@@ -97,7 +97,7 @@ ENegation >> evaluate
 	Your code
 ]]]
 
-+A flat collection of classes (with a suspect duplication).>file://figures/expressions.pdf|width=70|label=figExpression+
++A flat collection of classes (with a suspect duplication).>file://figures/Expressions.png|width=70|label=figExpression+
 
 Following the same principle, we will add expression addition and multiplication. Then we will make the system a bit more easy to manipulate and revisit its first design. 
 
@@ -345,13 +345,13 @@ in fact one time should be enough.
 +Code repetition is a bad smell.>file://figures/ExpressionsNegatedRepeated.pdf|width=70|label=fig:ExpressionsNegatedRepeated+
 
 What are the solutions?
-- We could define another class ==Negator== that would do the job and each current classes would delegate to it. But it does not really solve our problem since we will have to duplicate all the message sends. 
+- We could define another class ==Negator== that would do the job and each current classes would delegate to it. But it does not really solve our problem since we will have to duplicate all the message sends to call ==Negator== instances. 
 - If we  define the method ==negated== in the superclass (==Object==) we only need one definition and it will work. Indeed, when we send the message ==negated== to an instance of ==EConstant== or ==EAddition== the system will not find it locally but in the superclass ==Object==. So no need to define it four times but only one in class ==Object==. This solution is nice because it reduces the number of  similar definitions of the method ==negated== but it is not good because even if in Pharo we can add methods to the class ==Object== this is not a good practice. ==Object== is a class shared by the entire system so we should take care not to add behavior only making sense for a single application. 
 - The solution is to introduce a new superclass between our classes and the class ==Object==. It will have the same property than the solution with ==Object== but without poluting it (see Figure *@figExpressionHierar*). This is what we do in the next section. 
 
 !!! Introducing Expression class
 
-+Introducing a common superclass.>file://figures/expressionsHierarchy.pdf|width=70|label=figExpressionHierar+
++Introducing a common superclass.>file://figures/expressionsHierarchy.png|width=70|label=figExpressionHierar+
 
 Let us introduce a new class to obtain the situation depicted by Figure *@figExpressionHierar*. 
 We can simply do it by adding a new class:
@@ -560,7 +560,7 @@ Object >> printOn: aStream
 		nextPutAll: title
 ]]]
 
-+printOn: and printString a "hooks and template" in action.>file://figures/ExpressionsHierarchyPrintOn.pdf|width=70|label=fig:ExpressionsHierarchyPrintOn+
++printOn: and printString a "hooks and template" in action.>file://figures/ExpressionsHierarchyPrintOn.png|width=70|label=fig:ExpressionsHierarchyPrintOn+
 
 !!!! A word about streams
 A stream is basically a container for a sequence of objects. Once we get a stream we can either read from it or write to it. In our case we will write to the stream. Since the stream passed to printOn: is a stream expecting characters we will add characters or strings (sequence of characters) to it. We will use the messages: ==nextPut: aCharacter== and ==nextPutAll: aString==. 
@@ -694,7 +694,7 @@ It works the following:
 
 - When we send the message ==negated== to a negation, the message is found in the class ==ENegation== and executed on the negation expression. 
 
-+The message ==negated== is overridden in the class ==ENegation==.>file://figures/ExpressionsHierarchyOptimized.pdf|width=70|label=fig:ExpressionsHierarchyOptimized+
++The message ==negated== is overridden in the class ==ENegation==.>file://figures/ExpressionsHierarchyOptimized.png|width=70|label=fig:ExpressionsHierarchyOptimized+
 
 !!! Introducing BinaryExpression class
 
@@ -752,7 +752,7 @@ EBinaryExpression subclass: #EMultiplication
 
 We should get a situation similar to the one of Figure *@figExpressionFactoredState*. All your tests should still pass. 
 
-+Factoring instance variables.>file://figures/ExpressionsHierarchyStateFactored.pdf|width=70|label=figExpressionFactoredState+
++Factoring instance variables.>file://figures/ExpressionsHierarchyStateFactored.png|width=70|label=figExpressionFactoredState+
 
 Now we can move the same way the methods. Select the methods ==left:== and apply the refactoring ''Pull Up Method'' adn do the same for the method ==right:==. 
 
@@ -798,7 +798,7 @@ EMultiplication >> operatorString
 	^ ' * '
 ]]]
 
-+Factoring instance variables and behavior.>file://figures/ExpressionsHierarchyStateBehaviorFactored.pdf|width=70|label=figExpressionsHierarchyStateBehaviorFactored+
++Factoring instance variables and behavior.>file://figures/ExpressionsHierarchyStateBehaviorFactored.png|width=70|label=figExpressionsHierarchyStateBehaviorFactored+
 
 
 
