@@ -65,8 +65,8 @@
 			<integer>170</integer>
 			<key>Points</key>
 			<array>
-				<string>{458.60520921532179, 470.77184217118645}</string>
-				<string>{402.49928283691406, 442}</string>
+				<string>{455.99930620337881, 470.76323161715362}</string>
+				<string>{402.49928283691412, 442}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -100,8 +100,8 @@
 			<integer>169</integer>
 			<key>Points</key>
 			<array>
-				<string>{324.16218734666364, 470.72519182223226}</string>
-				<string>{280.49926059799145, 442}</string>
+				<string>{320.98184225903503, 470.71074970590331}</string>
+				<string>{280.49926059799151, 442.00000000000006}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -125,7 +125,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{431.500732421875, 471}, {137, 42}}</string>
+			<string>{{427, 471}, {137, 42}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -170,7 +170,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{291.0003662109375, 471}, {131, 42}}</string>
+			<string>{{285.5, 471}, {131, 42}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -260,7 +260,7 @@
 			<integer>165</integer>
 			<key>Points</key>
 			<array>
-				<string>{197.84233782497077, 476.74771565305508}</string>
+				<string>{195.39523465360318, 476.76280377251567}</string>
 				<string>{226.499267578125, 460}</string>
 				<string>{225.499267578125, 424}</string>
 				<string>{170.9992556571961, 401.99998803710878}</string>
@@ -285,7 +285,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{17.5, 477}, {264, 56}}</string>
+			<string>{{11, 477.0000114440918}, {264, 56}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -387,7 +387,7 @@
 			<key>Points</key>
 			<array>
 				<string>{165.49999921874951, 90.33333790302278}</string>
-				<string>{200.27938018914688, 99.867806208523831}</string>
+				<string>{200.27938018914688, 99.867806208523845}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -473,7 +473,7 @@
 			<key>Points</key>
 			<array>
 				<string>{165.49999921874951, 75.000014623006621}</string>
-				<string>{201.51651973642137, 65.504745402423737}</string>
+				<string>{201.51651973642137, 65.504745402423723}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1868,7 +1868,7 @@ printOn:\
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-01-08 12:03:27 +0000</string>
+	<string>2017-01-08 12:09:10 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
