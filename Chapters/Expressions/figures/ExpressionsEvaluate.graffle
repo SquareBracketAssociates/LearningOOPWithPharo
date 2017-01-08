@@ -160,7 +160,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{464.5, 304.92049407958984}, {183, 42}}</string>
+			<string>{{464.5, 304.92049407958984}, {181, 42}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -195,7 +195,7 @@
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720
 
 \f0\fs24 \cf0 evaluate\
-  ^ right evaluate + left evaluate  \
+  ^ right evaluate * left evaluate  \
 }</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
@@ -1417,7 +1417,7 @@ evaluate}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-01-01 21:34:21 +0000</string>
+	<string>2017-01-08 19:32:31 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
