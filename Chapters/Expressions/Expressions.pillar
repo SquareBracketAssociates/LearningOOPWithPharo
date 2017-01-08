@@ -822,11 +822,48 @@ EVariableTest >> testValueOfx
 	self assert: ((EVariable new id: #x) evaluateWith: {#x -> 10} asDictionary) equals: 10.
 ]]]
 
+
+!!!! Some technical points
+Let us explain a bit what we are doing with =={#x -> 10} asDictionary==. We should be able to specify that a given variable name is associated with a given value. For this we create a dictionary with a key for a variables and a value for its value. 
+Here are some details: 
+- ""Dynamic Arrays"". Here we create a dynamic array with =={ }==. =={2 + 3 . 6 - 2 . 7-2 }== returns the following array: ==#(5 4 5)==.
+- ""Pairs"". ==#x -> 10== creates a pair with a key and a value. 
+
+[[[
+| p |
+p := #x -> 10.
+p key 
+>>> #x
+p value
+>>> 10
+
+]]]
+- ""Dictionary"". A dictionary is a data structure containing pairs (key value) and we can access the value of a given key. 
+
+[[[
+| d |
+d := Dictionary new
+	at: #x put: 33;
+	at: #y put: 52;
+	at: #z put: 98.
+d at: y
+>>> 52 
+]]]
+
+The previous dictionary can be easily more compactly using =={#x -> 33 . #y -> 52 . #z -> 98} asDictionary==.
+
+[[[
+{#x -> 33 . #y -> 52 . #z -> 98} asDictionary at: #y
+>>> 52 
+]]]
+
+!!!! Back to variable expressions
+
 If we go a step further, we want to be able to build more complex expressions where instead of having constants we can manipulate variables. This way we will be able to build more advanced behavior such as expression derivations. 
 
 [[[
 EExpression subclass: #EVariable
-	instanceVariableNames: 'id bindings'
+	instanceVariableNames: 'id'
 	classVariableNames: ''
 	package: 'Expressions'
 ]]]
@@ -843,8 +880,8 @@ EVariable >> printOn: aStream
 What we see is that we need to be able to pass bindings (a binding is a pair key, value) when evaluating a variable. The value of a variable is the value of the binding whose key is the name of the variable. 
 
 [[[
-EVariable >> evaluateWith: aBindingSet
-	^ aBindingSet at: id
+EVariable >> evaluateWith: aBindingDictionary
+	^ aBindingDictionary at: id
 ]]]
 
 Your tests should all pass at this point. 
