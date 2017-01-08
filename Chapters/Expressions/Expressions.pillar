@@ -697,7 +697,7 @@ It works the following:
 +The message ==negated== is overridden in the class ==ENegation==.>file://figures/ExpressionsHierarchyOptimized.png|width=70|label=fig:ExpressionsHierarchyOptimized+
 
 !!! Introducing BinaryExpression class
-
+@secBinaryExpression
 Now we will take a moment to improve our first design. We will factor out the behavior of ==EAddition== and ==EMultiplication==. 
 
 
@@ -812,6 +812,55 @@ The introduction of the class ==EBinaryExpression== is rich experience in terms 
 
 - While the method ==printOn:== is by itself a hook for the method ==printString==, it can also play the role of a template method. The method ==operatorString== reuses the context created by the ==printOn:== method which acts as template method. In fact each time we do a self send we create a hook method that subclasses can specialize. 
 
+!!! About hooks 
+
+When we introduced ==EBinaryExpression== we defined the method ==operatorString== as follows:
+
+[[[
+EBinaryExpression >> operatorString
+	^ ' + '
+]]]
+
+[[[
+EMultiplication >> operatorString
+	^ ' * '
+]]]
+
+And you may wonder if it was worth to create a new method in the superclass and so that such one subclass redefines it. 
+
+!!!! Creating hooks is always good. 
+First creating a hook is also a good idea. Because you rarely know how your system will be extended in the future. On this little example, we suggest you to add raising to power, division and this can be done with one class and two methods per new operator. 
+
+
+!!!! Avoid not documenting hooks.
+Second we could have just define one method ==operator== in each subclass and no method in the superclass ==EBinaryExpresssion==. 
+It would have worked because ==EBinaryExpression== is not meant to have direct instances. Therefore there is no risk that a printOn: message is sent to one its instance and cause a error because no method ==operatorString== is found. 
+
+[[[
+EAddition >> operatorString
+	^ ' + '
+]]]
+[[[
+EMultiplication >> operatorString
+	^ ' * '
+]]]
+
++Declaring an abstract method as a way to document a hook method.>file://figures/ExpressionsHierarchyBinaryAbstract.pdf|width=70|label=figExpressionsHierarchyBinaryAbstract+
+
+
+Now such design is not really good because as a potential extender of the code, developers will have to guess reading the subclass definitions that they should also define a method ==operatorString==. A much better solution in that case is to define what we can an abstract method in the superclass as follows: 
+
+[[[
+EBinaryExpression >> operatorString
+	^ self subclassResponsibility
+]]]
+
+Using the message ==subclassResponsibility== declares that a method is abstract and that subclasses should redefine it explicitly. 
+Using such an approach we get the situation represented in Figure *@figExpressionsHierarchyBinaryAbstract*. 
+
+In the solution presented before (section *@secBinaryExpression*) we decided to go for the simplest solution and it was to use one of the default value (' + ') as a default definition for the hook in the superclass ==EExpression==. It was not the best solution since it was targeting a specific subclass. It is better to define a default value for a hook in the superclass when this default value make sense by itself.
+
+
 
 !!! Variables
 Up until now our mathematical expressions are rather limited. We only manipulate constant-based expressions. What we would like is to be able to manipulate variables too. 
@@ -915,14 +964,20 @@ A non working solution would be to add the following method to ==EExpression==
 EEXpression >> evaluateWith: aDictionary
 	^ self evaluate
 ]]]
-However it does not work for at least the following reason: 
-when we send a message ==evaluateWith:== to an addition, this message is then turned into an ==evaluate== message sent to its subexpression and they do not get an evaluateWith: message. So if one of them is a variable we never know binding dictionary. 
- 
-Alternatively we could add the binding to the variable itself and only provide an ==evaluate== message. But it fully defeats the purpose of what is a variable. We should be able to give different values to a variable. 
+
+However it does not work for at least the following reasons: 
+- It does not use its argument. It only works for trees composed out exclusively of constant. 
+- When we send a message ==evaluateWith:== to an addition, this message is then turned into an ==evaluate== message sent to its subexpression and such subexpression do not get an ==evaluateWith:== message but an ==evaluate==.
+
+Alternatively we could add the binding to the variable itself and only provide an ==evaluate== message as follows: 
 
 [[[
 (EVariable new id: #x) bindings: { #x -> 10 . #y -> 2 } asDictionary
 ]]]
+
+ But it fully defeats the purpose of what a variable is. We should be able to give different values to a variable embedded inside a complex expression.
+
+
 
 !!!! The solution: adding evaluateWith:
 
