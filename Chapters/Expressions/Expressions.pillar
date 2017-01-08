@@ -560,7 +560,7 @@ Object >> printOn: aStream
 		nextPutAll: title
 ]]]
 
-+printOn: and printString a "hooks and template" in action.>file://figures/ExpressionsHierarchyPrintOn.png|width=70|label=fig:ExpressionsHierarchyPrintOn+
++printOn: and printString a "hooks and template" in action.>file://figures/ExpressionsHierarchyPrintOn.pdf|width=70|label=fig:ExpressionsHierarchyPrintOn+
 
 !!!! A word about streams
 A stream is basically a container for a sequence of objects. Once we get a stream we can either read from it or write to it. In our case we will write to the stream. Since the stream passed to printOn: is a stream expecting characters we will add characters or strings (sequence of characters) to it. We will use the messages: ==nextPut: aCharacter== and ==nextPutAll: aString==. 
