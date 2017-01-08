@@ -812,7 +812,7 @@ The introduction of the class ==EBinaryExpression== is rich experience in terms 
 
 - While the method ==printOn:== is by itself a hook for the method ==printString==, it can also play the role of a template method. The method ==operatorString== reuses the context created by the ==printOn:== method which acts as template method. In fact each time we do a self send we create a hook method that subclasses can specialize. 
 
-!!! About hooks 
+!!! About hook methods
 
 When we introduced ==EBinaryExpression== we defined the method ==operatorString== as follows:
 
@@ -828,11 +828,11 @@ EMultiplication >> operatorString
 
 And you may wonder if it was worth to create a new method in the superclass and so that such one subclass redefines it. 
 
-!!!! Creating hooks is always good. 
+!!!! Creating hooks is always good
 First creating a hook is also a good idea. Because you rarely know how your system will be extended in the future. On this little example, we suggest you to add raising to power, division and this can be done with one class and two methods per new operator. 
 
 
-!!!! Avoid not documenting hooks.
+!!!! Avoid not documenting hooks
 Second we could have just define one method ==operator== in each subclass and no method in the superclass ==EBinaryExpresssion==. 
 It would have worked because ==EBinaryExpression== is not meant to have direct instances. Therefore there is no risk that a printOn: message is sent to one its instance and cause a error because no method ==operatorString== is found. 
 
@@ -873,21 +873,11 @@ EVariableTest >> testValueOfx
 
 
 !!!! Some technical points
-Let us explain a bit what we are doing with =={#x -> 10} asDictionary==. We should be able to specify that a given variable name is associated with a given value. For this we create a dictionary with a key for a variables and a value for its value. 
+Let us explain a bit what we are doing with the expression =={#x -> 10} asDictionary==. We should be able to specify that a given variable name is associated with a given value. For this we create a dictionary: a dictionary is a data structure for storing keys and their associated value. Here a key is the variable and the value its associated value. 
+
 Here are some details: 
-- ""Dynamic Arrays"". Here we create a dynamic array with =={ }==. =={2 + 3 . 6 - 2 . 7-2 }== returns the following array: ==#(5 4 5)==.
-- ""Pairs"". ==#x -> 10== creates a pair with a key and a value. 
-
-[[[
-| p |
-p := #x -> 10.
-p key 
->>> #x
-p value
->>> 10
-
-]]]
-- ""Dictionary"". A dictionary is a data structure containing pairs (key value) and we can access the value of a given key. 
+!!!!!Dictionaries
+A dictionary is a data structure containing pairs (key value) and we can access the value of a given key. It can use any object as key and any object as values. Here we simply use a symbol ==#x== since symbols are unique within the system and as such we are sure that we cannot have two keys looking the same but having different values. 
 
 [[[
 | d |
@@ -899,12 +889,33 @@ d at: y
 >>> 52 
 ]]]
 
-The previous dictionary can be easily more compactly using =={#x -> 33 . #y -> 52 . #z -> 98} asDictionary==.
+The previous dictionary can be easily expressed more compactly using =={#x -> 33 . #y -> 52 . #z -> 98} asDictionary==.
 
 [[[
 {#x -> 33 . #y -> 52 . #z -> 98} asDictionary at: #y
 >>> 52 
 ]]]
+
+!!!!! Dynamic Arrays
+The expression =={ }== creates a dynamic array. Dynamic arrays executes their expressions and store the resulting values. 
+
+[[[
+{2 + 3 . 6 - 2 . 7-2 }
+>>> ==#(5 4 5)==
+]]]
+
+!!!!! Pairs
+The expression ==#x -> 10== creates a pair with a key and a value.
+
+[[[
+| p |
+p := #x -> 10.
+p key 
+>>> #x
+p value
+>>> 10
+]]]
+
 
 !!!! Back to variable expressions
 
