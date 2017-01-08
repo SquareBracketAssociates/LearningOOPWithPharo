@@ -351,7 +351,7 @@ What are the solutions?
 
 !!! Introducing Expression class
 
-+Introducing a common superclass.>file://figures/expressionsHierarchy.png|width=70|label=figExpressionHierar+
++Introducing a common superclass.>file://figures/ExpressionsHierarchy.png|width=70|label=figExpressionHierar+
 
 Let us introduce a new class to obtain the situation depicted by Figure *@figExpressionHierar*. 
 We can simply do it by adding a new class:
