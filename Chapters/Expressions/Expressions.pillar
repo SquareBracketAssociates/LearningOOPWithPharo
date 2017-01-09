@@ -416,7 +416,7 @@ Now define a new test to make sure that our method works correctly.
 
 [[[
 EConstantTest >> testCreationWithClassCreationMessage
-	self assert: (EConstant value: 5) value equals: 5
+	self assert: (EConstant value: 5) evaluate equals: 5
 ]]]
 
 
@@ -424,7 +424,7 @@ EConstantTest >> testCreationWithClassCreationMessage
 We do the same for the class ==ENegation==.
 
 [[[
-EConstant class >> expression: anExpression
+ENegation class >> expression: anExpression
 	Your code
 ]]]
 
@@ -455,7 +455,7 @@ EAdditionTest >> testEvaluateWithClassCreationMessage
 
 We let you do the same for the multiplication. 
 [[[
-EAddition class >> left: anInteger right: anInteger2
+EMultiplication class >> left: anExp right: anExp2
 	Your code
 ]]]
 
@@ -860,7 +860,8 @@ Using such an approach we get the situation represented in Figure *@figExpressio
 
 In the solution presented before (section *@secBinaryExpression*) we decided to go for the simplest solution and it was to use one of the default value (' + ') as a default definition for the hook in the superclass ==EExpression==. It was not the best solution since it was targeting a specific subclass. It is better to define a default value for a hook in the superclass when this default value make sense by itself.
 
-
+Note that we could also define ==evaluate== as an abstract method in ==EExpression== to indicate clearly that each subclass should 
+define an ==evaluate==.
 
 !!! Variables
 Up until now our mathematical expressions are rather limited. We only manipulate constant-based expressions. What we would like is to be able to manipulate variables too. 

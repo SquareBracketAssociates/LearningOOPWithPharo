@@ -42,14 +42,14 @@ EMultiplication >>> negated
 !!!! Better class instance creation interface
 
 [[[
-EConstant class >> expression: anExpression
+ENegation class >> expression: anExpression
 	^ self new expression: anExpression
 ]]]
 
 
 [[[
-EMultiplication class >>	left: anInteger right: anInteger2
-	^ self new left: anInteger ; right: anInteger2
+EMultiplication class >>	left: anExp right: anExp2
+	^ self new left: anExp ; right: anExp2
 ]]]
 
 !!!! Printing addition and multiplication
