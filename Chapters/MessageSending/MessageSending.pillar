@@ -1,0 +1,62 @@
+!! Sending messages 
+@ch:about
+
+Sending a message is making a choice!
+
+
+!! Implementing not
+
+!! Implementing or
+
+!! What is the point
+
+
+
+
+
+
+!! Booleans
+ ==Boolean== is the abstract superclass of the ''singleton'' classes ==True== and ==False==.
+
++The Boolean Hierarchy.>file://figures/BooleanHierarchy.png|label=fig:booleans|width=40+
+
+Most of the behaviour of ==Boolean==s can be understood by considering the
+method ==ifTrue:ifFalse:==, which takes two ==Blocks== as arguments.
+
+[[[
+4 factorial > 20
+	ifTrue: [ 'bigger' ]
+	ifFalse: [ 'smaller' ]
+>>> 'bigger'
+]]]
+
+The method ==ifTrue:ifFalse:== is abstract in class ==Boolean==. The implementations in its concrete
+subclasses are both trivial:
+
+[[[caption=Implementations of ==ifTrue:ifFalse:==
+True >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
+    ^ trueAlternativeBlock value
+]]]
+
+[[[
+False >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
+    ^ falseAlternativeBlock value
+]]]
+
+Each of them execute the correct block depending on the receiver of the message.
+In fact, this is the essence of OOP: when a message is sent to an object, the
+object itself determines which method will be used to respond. In this case an
+instance of ==True== simply executes the ''true'' alternative, while an
+instance of ==False== executes the ''false'' alternative. All the abstract
+==Boolean== methods are implemented in this way for ==True== and ==False==. For
+example the implementation of negation (message ==not==) is defined the same way:
+
+[[[caption=Implementing negation
+True >> not
+    "Negation--answer false since the receiver is true."
+    ^ false
+
+False >> not
+    "Negation--answer true since the receiver is false."
+    ^ true
+]]]
