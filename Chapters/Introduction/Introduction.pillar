@@ -33,23 +33,17 @@ The following chapers contain more conceptual information:
 
 
 !!! What are the concepts you will learn
-We would like to present the concepts that we want to teach you and that hopefully you should acquire. Note that we will not explain OOP in general but within the context of Pharo. Pharo is the essence of Object-Oriented programming since it object model is minimal but it covers the key and essential aspect of OOP. 
+I would like to present the concepts that I want to teach you and that hopefully you should acquire. What is key to understand is that I will focus on the ''key'' conceptual elements. It is easy for me because I will not explain OOP/D in general but within the context of Pharo and Pharo is the essence of Object-Oriented programming since it object model is minimal 
+but it covers the key and essential aspect of OOP. For example I will not present method modifiers, types, overloading (which is a bad concept).
 
-
-!!!! Syntax, Blocks and Iterators
-Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple  
-- one postcard
-- closure
-- iterators
-
-!!!! OOP concepts
+I will focus on OOP concepts and object-oriented design 
 - Objects / Classes 
 - Messages / Methods
 - self and its semantics
 - Inheritance
 - super and its semantics
 
-!!!! OOP design
+And  OOP design
 - Delegation
 - Message sends are choice (what would be the equivalent to not)
 - Message sends are plans for reuse
@@ -61,8 +55,30 @@ Since we need a language to express our programs, we will teach you the syntax o
 - Hook template
 - Strategy 
 
+!!!! Syntax, Blocks and Iterators
+Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple  
+- one postcard
+- closure
+- iterators
+
+
 
 !!! Thanks
 
-I would like to thanks Morgane Pigny, Quentin Ducasse for their feedback. 
+I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe for their feedback. 
 Alexandre Bergel for his examples on messages. Olivier Auverlot for his feedback and Tinchat. 
+
+
+!!! todo
+
+- Finish OOP in Nutshell.
+- Finish tjj LAN and may be reunit it. 
+- See how to split syntax
+- Extract a test concept chapters. 
+- Revisit Inheritance chapter: find a non graphical example
+- Get a draft for Sending Messages
+-- may be using not | 
+- Implement game collector app
+- reread and implement Game of life
+- implement sokoban 
+
