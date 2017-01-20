@@ -5,3 +5,15 @@ In the previous chapter we presented objects and classes. Objects are entities t
 In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a class programmer we do not want to rewrite from scratch a functionality if another class already offers it. We would prefer to express the difference between the implemented behavior and the new behavior we want. This is this difference between classes that inheritance lets us express. 
 
 To illustrate the important points we start by studying the class ==Flasher==. Later we define a subclass of the class ==Flasher== to illustrate the points we learned. Finally we will explain the issue of instance initialization. 
+
+
+!! To massage
+
+Inheritance is, simply seen, just a mechanism to share behaviour and state (i.e., methods and instance variables) between a class and its subclasses.
+As we shall see, inheritance can be used in object-oriented design for three different, but related purposes:
+# Conceptual hierarchy (a Rectangle is a Shape)
+# Polymorphism (I can use a rectangle anywhere I expect a
+shape)
+# Reuse (the Rectangle class reuses everything it inherits from Shape)
+
+In a good object-oriented design, all three of these come together.

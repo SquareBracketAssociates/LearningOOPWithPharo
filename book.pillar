@@ -9,11 +9,16 @@ ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
 ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
 
-! Getting in touch with objects
+! Getting in touch with syntax
 
 ${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
 
-${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
+!! A glimpse at syntax
+
+!! Tests, tests and tests
+@@todo Copy and edit part of the Unit chapter. 
+ 
+Turn the examples given in the first chapter into test
 
 ${inputFile:Chapters/Katas/GramKatas.pillar}$
 
@@ -37,6 +42,7 @@ ${inputFile:Chapters/DSL/DSL.pillar}$
 
 ${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
+
 ! Looking at Inheritance
 
 !! Inheritance (TBMigrated)
@@ -46,6 +52,9 @@ ${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 
 ${inputFile:Chapters/Expressions/Expressions.pillar}$
+
+
+
 
 ! Sending messages
 
@@ -146,6 +155,58 @@ MoneyTest >> testSum
 
 ${inputFile:Chapters/PaperStoneScissor/PaperStoneScissor.pillar}$
 
+!! About Design
+
+!!! Move behavior close to the data
+!!! 
+Program to an interface, not an implementation
+
+Depend on interfaces, not concrete classes
+
+!!! The Open-Closed Principle
+Design classes and packages so their functionality can be extended without modifying the source code.
+This can be achieved by using inheritance to override and extend inherited behaviour.
+Bertrand Meyer. Object Oriented Software Construction, 1988.
+See also the “Template Method” pattern in the Design Patterns book
+
+!!! About delegation
+“Don’t do anything you can push off to someone else.”
+ Joseph Pelrine
+
+Do not take over the responsibilities of other objects. If an object is in charge of certain information, you should delegate related tasks to that object, rather than trying to handle them yourself.
+For a player to move forward, it must find out what square it ultimately lands on, but it is the responsibility of the squares on the board to interpret the logic of the game.
+For a square to let a player move forward one position, it needs to find out what is the next square on the board, but it is the responsibility of the game to keep track of this.
+(Note that we are free to distribute responsibilities as we choose, but we should also make sure that no object is overloaded with responsibilities
+
+Once and only once
+“In a program written with good style, everything is said once and only once.”
+
+Lots of little pieces
+“Good code invariably has small methods and small objects. Only by factoring the system into many small pieces of state and function can you hope to satisfy the ‘once and only once’ rule.”
+
+If you see similar logic repeated in many methods, this is a sign that the design has not been carefully thought through.
+Long methods tend to be a sign of procedural thinking. Small methods are a hallmark of OO thinking.
+See the introduction to:
+Kent Beck, Smalltalk Best Practice Patterns, Prentice-Hall, 1997
+
+!!! Composed method
+Divide  your program into methods that perform one identifiable task.
+- Keep all of the operations in a method at the same level of abstraction.
+- This will naturally result in programs with many small methods, each a few lines long.
+
+If a method is too long, take groups of statements doing related things and encapsulate them in a (protected) helper methods.
+Name those methods after what the statements are doing.
+
+!!! Name well
+
+es should be chosen to reveal the intent of the code.
+In the sample code, the point is not that we want to get the square numbered 1, but that we want the first square of the game. Similarly we want to express that this player is entering the square, not how this is achieved at a low level.
+Whenever you find yourself writing procedural code, extract that code into declaratively named methods that express what that code is doing.
+
+!!! Don't ask, tell
+
+
+
 !! Playing with Visitors
 
 Here I should take the slides flow from the design mooc lectures. 
@@ -197,3 +258,7 @@ May be at the end of the book: class are objects too.
 ! Solutions 	
 
 ${inputFile:Chapters/Solutions/Solutions.pillar}$
+
+! Appendix
+
+${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$

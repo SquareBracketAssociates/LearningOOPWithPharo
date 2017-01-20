@@ -3,9 +3,15 @@
 
 This chapter is an overview of the key mechanisms that characterize object-oriented programming:
 ''objects'', ''classes'', ''inheritance'', ''messages'', ''methods'' and finally ''late binding''. 
+We will also present distribution of responsibilities as well as delegation and composition. 
 Each of these mechanisms will be used and explained in the book under diverse forms: either a full dedicated chapter or usage in exercises. 
 
+We start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation. 
+
 !!! Objects first 
+
+''Instead of a bit-grinding processor ... plundering data structures, we have a universe of well-behaved objects that courteously ask each other to carry out their various desires.'' [Ingall 81]
+
 Object-oriented programming is about creating objects and interacting with objects by sending them ''messages''.
 
 !!!! Turtles as an example
@@ -25,8 +31,11 @@ for them.
 
 !!!! Sending messages
 
-The only way to interact with objects is to send them messages.
-
+The only way to interact with objects is to send them ''messages''.
+In the following snippets we send messages
+- to create an object , message ==new==,
+- to tell the turtle to turn, messsage ==turn:==, and
+- to tell the turtle to move, message ==go:==.
 [[[
 | t |
 t := Turtle new. 
@@ -36,7 +45,10 @@ t turn: 180.
 t go: 100.
 ]]]
 
-Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a procedure as we will see later. 
+Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a sequence of instructions as we will see later. 
+
+@@note Messages specify ''what'' the object should do and not how it should do it.
+
 
 !!!! Multiple instances: each with its own state. 
 In the following example we show that we can have multiple objects
@@ -55,7 +67,6 @@ t2 go: 100.
 ]]]
 
 !!!! With counters
-
 Now that you got the main point of objects, we can see that it applies to everything. In Pharo ''everything'' is an object. In fact there is ''nothing'' else, only objects. Here is a little program with counters that you will implement in subsequent chapters. 
 
 We create two counters that we store in variables ==c1== and ==c2== instances of the class ==Counter==. Each counter has its own state but exhibits the same behavior as all the counters defined by the class ==Counter==: 
@@ -79,27 +90,18 @@ c2 count.
 >>> 1
 ]]]
 
-
-
-!!! Objects: stepping back
-
-Now that we saw some examples of objects, it is time to step back. Objects are defined by their state, their behavior (shared with the other instances of their class) and an identity. 
-
-- ""State."" Each object has specific state. While all the instances of classes have the same structure, each instance has its own values. Each object has a private state. Clients or users of an object cannot access the state of the object if this one does not explicitly expose it by defining a method returning it (such as the message ==count==).
-- ""Behavior."" Each object share the same behavior with all the instances of its class.
-- ""Identity."" An object has an identity. It is unique. ==c1== is clearly not the same as ==c2==. 
-
 !!! A class: blueprint of objects
 
 A class is a mold or cast of objects. A class specifies two important aspects of their instances:
 - Instance ""structure"". All the instances of a class will have the same structure expressed in terms of ''instance variables''. Pay attention that the variables are the same for all the instances of a class but not their values. Each instance has specific values for its instance variables.
 - Instance ""behavior"". All the instances share the same behavior even if this one can be different because applied on different values. 
 
-A class is as a blueprint for its instances. Let us see some examples.
+@@note A class is as a blueprint for its instances. 
 
-!!!! Example: the class Counter
+Let us illustrate this with the class ==Counter==.
 
-Let us study the ==Counter== class definition. The class ==Counter== defines that all the instances will have one instance variable named ==count==. 
+!!!! Object structure.
+Let us study the ==Counter== class definition.  The class ==Counter== defines that all the instances will have one instance variable named ==count== using the expression ==instanceVariableNames: 'count'==. And each instance of the class ==Counter== will have a ==count== variable with a ''different'' value as we showed in the examples above. 
 
 [[[
 Object subclass: #Counter
@@ -108,14 +110,14 @@ Object subclass: #Counter
 	package: 'LOOP'
 ]]]
 
-
-In addition a class is the place that groups the instance behavior. Indeed since all the instances of the class share the same behavior, such behavior is defined and grouped in a class.
+!!!! Object behavior.
+In addition a class is the place that groups the instance behavior. Indeed since all the instances of the class share the ''same'' behavior definitions, such behavior is defined and grouped in a class.
 
 For counters, the class defines how to retrieve the counter value, how to increment 
 and decrement the count as used in the messages in the previous code snippets.
 
 Here is the definition of the ""method"" ==increment==. 
-It simply adds one to the instance variable count.
+It simply adds one to the instance variable ==count==.
 
 [[[
 Counter >> increment
@@ -123,16 +125,15 @@ Counter >> increment
 ]]]
 
 When we send a message to a counter for example in the expression ==c1 increment==, 
-this method ==increment== will be applied on that specific object ==c1==.
-In such expression ==c1== is called the ""receiver"" of the message ==increment==. 
+this method ==increment== will be applied on ''that'' specific object ==c1==.
+In the expression ==c1 increment==, ==c1== is called the ""receiver"" of the message ==increment==. 
 
-In the method ==increment==,  the variable ==count== refers to the variables of the ""receiver"" of the message. 
+In the method ==increment==,  the variable ==count== refers to the variable of the ""receiver"" of the message. 
 
-A method specifies ""how"" a computation is performed, step by step contrarily to a message that expresses ""what"" should be performed. 
+@@note A method specifies ""how"" a computation is performed, step by step contrarily to a message that expresses ""what"" should be performed. 
 
 !!!! Self = receiver
-Imagine that now we would like to send a message to the object that receives the message. We need a way to refer to the this object. 
-Pharo defines a special variable for this exact purpose: ==self==. 
+Imagine that now we would like to send a message to the object that receives the message itself. We need a way to refer to the this object. Pharo defines a special variable for this exact purpose: ==self==. 
 
 @@note ==self== always refers to the message receiver that is currently executed.
 
@@ -146,22 +147,269 @@ Counter >> incrementByTwo
 
 When we execute the expression ==c1 incrementByTwo==, during the execution of the method ==incrementByTwo==, ==self== refers to ==c1==. 
 
-
 We will explain how a method is found when a message is sent but first we should explain inheritance, i.e., how a class is defined incrementally from a root class.
 
-!!!! Design corner: About collaborators and limited responsibility
-As with any paradigm, we can define well designed programs or poor ones. Poor programs are often more buggy, more difficult to understand and reuse.
 
-Usually an object does not exist in isolation, it often collaborate to implement its behavior. 
-For example, a graphic turtle interacts with numbers, colors, and a graphical canvas to draw on it. A book will interact with a publisher, authors and optionally a collection or library and renter.
+!!! A simple and naive file system
 
-Such collaborators are other objects that do not necessary define the state of the object itself (a canvas is not part of a turtle properties still a turtle interact with it.).
+We start to present a simple example that we use to present and explain the concepts: a simple and naive file system as shown in Figure *@directories*. 
+What the figure shows is that we have:
+- files that also have a name and a contents. Here we get three different filesBabar, Astroboy and tintinEtLesPicaros.
+- directories that have a name and can contain other files or directories. Here we get the ==manga==, ==comics==, ==oldcomics== and ==belgiumSchool== directories. Directories can be nested: ==comics== contains three repositories. The ==belgiumSchool== directory contains ==tintinEtLesPicaros==. 
 
-To help you design good classes you should carefully think about the collaborators of an object.
-Usually an object should not have too many collaborators. 
++Some directories and files organised in a file system.>file://figures/comicsFileTree.png|width=50|label=directories+
 
-Another design guideline is that an object should have a limited set of responsibilities. For example a graphic turtle knows how to display itself and draw on a canvas. A counter knows
-how to store and manipulate a value.
+Since what we want to develop may be a bit blurry for us, let us define first an example. In the rest of this book we will encode examples
+as tests that can automatically be executed. For now it would make the discourse too complex, so we just use little code example. 
+
+We create two directories. 
+[[[
+| dComics doldcomics dManga|
+dComics := MyDirectory new name: 'comics'.
+dOldComics := MyDIrectory new name: 'oldcomics'.
+]]]
+
+We add the oldcomics folder to comics and we check that the parent children relationship is well set. 
+[[[
+dComics addElement: dOldComics. 
+dOldComics parent
+>>> /comics/
+dComics parent
+>>> nil
+dComics children
+>>> #(/comics/oldcomics/)
+]]]
+
+We cread a new repository and we check that once added to a parent repository, it is included in the 
+children.
+[[[
+dManga := MyDIrectory new name: 'manga'.
+dComics addElement: dManga. 
+dComics children
+>>> #(/comics/manga/ /comics/oldcomics/)
+]]]
+
+Let us start by defining the directory class. 
+
+[[[
+Object subclass: #MyDirectory
+	instanceVariableNames: 'parent name files'
+	classVariableNames: ''
+	package: 'MyFS'
+]]]
+
+When we create a directory, its files is an empty ordered collection. This is what we express in the following method ==initialize==.
+
+[[[
+MyDirectory >> initialize
+	files := OrderedCollection new
+]]]
+
+An newly created object is sent the message ==initialize== just after its creation. Therefore the ==initialize== method is executed. 
+
+Now we can write the method ==addElement:==. 
+To keep things simple, note that we consider that when a file is added to a directory, it was not belonging to a another directory. This behavior could be implemented by ==aFile moveTo: aDirectory==.
+Adding a file to a directory means: (1) that the parent of the file is changed to be the directory to which it is added, (2) that the added file is added to the list of files contained in the directory. 
+[[[
+MyDirectory >> addElement: aFile
+	aFile parent: self. 
+	files add: aFile
+]]]
+Note that the method name ==addElement:== is not nice but we chose it on purpose so that you do not believe that delegating
+requires that the methods have the same name. An object can delegate its part of duties to another object by simply passing a message. 
+
+
+We should then define the methods ==name:==, ==parent:==, ==parent==, and ==children== to be able to run our example.
+
+[[[
+MyDirectory >> name: aString
+	name := aString
+]]]
+
+[[[
+MyDirectory >> parent: aFile
+	parent := aFile
+]]]
+
+[[[
+MyDirectory >> parent
+	^ parent
+]]]
+
+[[[
+MyDirectory >> children
+	^ files
+]]]
+With such method definitions, how little example should run. It should not print the same results because we did not change the printing of the objects yet. 
+
+!!!! A first little analysis
+When we look at the implementation of the method to add a file to a directory we see that the class ==MyDirectory== used another class ==OrderedCollection== to store the information about the files it contains. An ordered collection is a quite complex object: it can insert, remove elements, grow its size, and many more operations. 
+
+We say that the class ==MyDirectory== delegates a part of its duties (to keep the information of the files it contains) to the class ==OrderedCollection==. In addition, when an object is executed, the object to which it may delegate part of its computation may change dynamically. 
+
+Such behavior is not specific to object, in procedural languages we can call another function defined on a data structure. With objects, it is really simple, we can send  a message to another object. 
+
+
+!!! Printing a directory
+Now we would like to get the directory printed in a better way. Without too much explanation, you should know that the method ==printOn: astream== of an object is executed when the system or we send the message ==printString== to an object. So we can specialise it. 
+
+The argument passed to the method ==printOn:== is a stream. A stream is a object in which we can store information one after the other in sequence using the message ==<<==.
+
+[[[
+MyDirectory >> printOn: aStream
+	aStream << name
+]]]
+
+Let us try. 
+[[[
+| el1 el2 |
+el1 := MFDirectory new name: 'comics'.
+el2 := MFDirectory new name: 'oldcomics'.
+el1 addFile: el2.
+el1 printString
+>>> comics
+el2 printString
+>> oldcomics
+]]]
+
+What would be nice it to get the full path so that we can immediately understand the configuration.
+For example we would like to have a first '/' when there is not parent to mimick the pwd unix command and finish with a '/' to indicate
+that this is a directory as with the ls command on unix. 
+
+[[[
+| el1 el2 |
+el1 := MFDirectory new name: 'comics'.
+el2 := MFDirectory new name: 'oldcomics'.
+el1 addFile: el2.
+el1 >> printString. 
+/comics/
+el2 printString
+>> '/comics/oldcomics/'
+]]]
+
+A possible definition is the following one:
+
+[[[
+MyDirectory >> printOn: aStream
+	parent isNil 
+		ifTrue: [ aStream << '/' ]
+		ifFalse: [ parent printOn: aStream ].
+	aStream << name.
+	aStream << '/'
+]]]
+
+Try it and it should print the expected results.
+What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents. 
+Similar to a recursive function navigating a structure composed of similar elements (like a linked-list or any structure defined by induction), each parent receives and executes another time the ==printOn:== method and returns the name for its part. 
+
+	
+!!! Adding files
+
+Now we want to add files. A file should contain some contents. Again let us start with an example. 
+Let us try. 
+
+[[[
+| el1 dOldComics |
+el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that solved the world'.
+dOldComics := MyDIrectory new name: 'oldcomics'.
+dOldComics addElement: el1. 
+el1 printString.
+>>>
+/oldcomics/astroboy
+]]] 
+
+Again a file needs a name, a parent and in addition a contents.
+
+We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later).
+
+
+[[[
+Object subclass: #MyFile
+	instanceVariableNames: 'parent name contents'
+	classVariableNames: ''
+	package: 'MyFS'
+]]]
+
+As for the directories we initialize the contents of a file with a default value. 
+
+[[[
+MyFile >> initialize
+	contents := ''
+]]]
+
+We should define the same methods for ==parent:==, ==parent== and ==name:==. This duplication coupled with the fact that we get nearly the same class definition should be a clear big warning. We will address it soon. In addition we will add a method to be able to set the contents of the file ==contents:==.
+
+[[[
+MyFile >> name: aString
+	name := aString
+]]]
+
+[[[
+MyFile >> parent: aFile
+	parent := aFile
+]]]
+
+[[[
+MyFile >> parent
+	^ parent
+]]]
+
+[[[
+MyFile >> contents:
+	^ contents
+]]]
+
+At the stage we should be able to define a file and adding it to a directory. 
+
+Now we should redefine the implementation of ==printOn:== to print nicely the name of file:
+
+[[[
+MFFile >> printOn: aStream
+	aStream << name
+]]]
+
+!!! Lessons learned
+
+Before continuing let us step back and analyse the situation. 
+
+[[[
+| el1 dOldComics dComics |
+el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that solved the world'.
+dOldComics := MyDIrectory new name: 'oldcomics'.
+dComics := MyDIrectory new name: 'comics'.
+dComics addElement: dOldComics.
+dOldComics addElement: el1. 
+el1 printString.
+>>>
+/comics/oldcomics/astroboy
+dOldComics printString.
+>>>
+/comics/oldcomics/
+]]] 
+
+What we see is that there is one message and several implementations of methods and that sending a message will find and execute
+the correct method. For example, there are two methods ==printOn:== one for file and one for directory but only one message ==printOn:== sent from the ==printString== message.
+
+In addition a method can be defined in terms of messages sent to other objects. The method ==printOn:== for directories is complex and it delegates the same message to other objects, its parents. The method ==addElement:== delegates to the OrderedCollection sending a different message.
+
+
+
+
+
+
+!!! An example of distribution of behavior 
+
+
+
+
+!!! Objects: stepping back
+
+Now that we saw some examples of objects, it is time to step back. Objects are defined by their state, their behavior (shared with the other instances of their class) and an identity. 
+
+- ""State."" Each object has specific state. While all the instances of classes have the same structure, each instance has its own values. Each object has a private state. Clients or users of an object cannot access the state of the object if this one does not explicitly expose it by defining a method returning it (such as the message ==count==).
+- ""Behavior."" Each object share the same behavior with all the instances of its class.
+- ""Identity."" An object has an identity. It is unique. ==c1== is clearly not the same as ==c2==.
+
 
 
 !!! Inheritance
@@ -296,7 +544,6 @@ Animal subclass: #Duck
 Now we ''redefine'' the method ==move== to return a different value.
 [[[
 Duck >> move 
-
 	^ 'swim'
 ]]]
 
@@ -323,7 +570,6 @@ A subclass may not only specialize but extend the behavior of one of its supercl
 Using ==self move== does not work because it creates an endless loop. 
 [[[
 Duck >> move 
-
 	^ self move , '& swim'
 ]]]
 
@@ -336,7 +582,6 @@ We redefine the method ==move== as follows:
  
 [[[
 Duck >> move 
-
 	^ super move , '& swim'
 ]]]
 
@@ -459,6 +704,103 @@ Presenter new
 	
 	"" 'I m a Aniplouf. My name is super special entity, and I move that way: spatial teleportation.'"
 ]]]	
+
+
+!!! Responsibility-driven design (bof)
+
+Objects are responsible to maintain information and provide services
+A good design exhibits:
+- high cohesion of operations and data within classes 
+- low coupling between classes and subsystems
+Every method should perform one, well-defined task:
+-High level of abstraction 
+ write to an interface, not an implementation
+
+
+ !!! About object-oriented 
+ Object-oriented programming
+ promotes a distribution of responsibilities:  such distribution of computation over objects is achieved via message passing
+ which dynamically looks and applies a potentially different method corresponding to a message.
+
+
+
+
+
+ Object-oriented design lets you simulate a virtual world, so model the domain objects as you want them to be. Note that we do not have to model the world as it is, but as we want to think about it! In our virtual world, objects can be active and take responsibility for their actions, unlike passive objects in the real world.
+
+  Every domain concept that plays a role in the application and assumes a responsibility is a potential object in the software design
+
+  Don’t distinguish between first and second class objects: everything that has a responsibility and plays a role should be an object.
+ 
+ Well-designed objects have clear responsibilities
+ 
+ 
+ Data-driven approaches are bad for encapsulation because they focus too quickly on implementation (representation) of objects rather than their interface. Instead, focus on the responsibilities of an object: what data and tasks is it responsible for?
+
+ Responsibility = what you know and maintain
+
+ This will lead you to focus on the interface of an object rather than its representation.
+ Identifying responsibilities will help you to discover missing objects, and it will also tell you whether an object is needed in your design or not.
+ 
+ 
+ !!! Procedural vs. Objects
+
+ [[[
+ double size() {
+ double total = 0;
+     for (Shape shape : shapes) {
+        switch (shape.kind()) {
+        case SQUARE:
+            Square square = (Square) shape;
+            total += square.width * square.width;
+            break;
+        case RECTANGLE:
+            Rectangle rectangle = (Rectangle) shape;
+            total += rectangle.width * rectangle.height;
+            break;
+        case CIRCLE:
+            Circle circle = (Circle) shape;
+            total += java.lang.Math.PI * circle.radius * circle.radius / 2;
+            break;
+ } }
+     return total;
+ }
+ ]]]
+
+ [[[
+ size() {
+ 	double total = 0;
+ 	for (Shape shape : shapes) {
+ 		total += shape.size();
+ 	}
+ 	return total;
+ 	}
+ ]]]
+ 
+ [[[
+ public class Square extends Shape {
+ 	...
+ 	public double size() {
+ 		return width*width
+ 		}
+ }
+ ]]]
+ 
+ 
+
+ !!! Design corner: About collaborators and limited responsibility
+ As with any paradigm, we can define well designed programs or poor ones. Poor programs are often more buggy, more difficult to understand and reuse.
+
+ Usually an object does not exist in isolation, it often collaborate to implement its behavior. 
+ For example, a graphic turtle interacts with numbers, colors, and a graphical canvas to draw on it. A book will interact with a publisher, authors and optionally a collection or library and renter.
+
+ Such collaborators are other objects that do not necessary define the state of the object itself (a canvas is not part of a turtle properties still a turtle interact with it.).
+
+ To help you design good classes you should carefully think about the collaborators of an object.
+ Usually an object should not have too many collaborators. 
+
+ Another design guideline is that an object should have a limited set of responsibilities. For example a graphic turtle knows how to display itself and draw on a canvas. A counter knows
+ how to store and manipulate a value.
 
 
 !!! Conclusion
