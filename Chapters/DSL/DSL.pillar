@@ -322,8 +322,9 @@ Integer >> D20
 !!!! About class extensions
 
 We asked you to place the method ==D20== in a protocol starting with a star and having the name of the package (=='*Dice'==) because we want this method to be saved (and packaged) together with the code of the classes we already created (==Die==, ==DiceHandle==,...) 
-Indeed in Pharo we can define methods in classes that are not defined in our package. Pharoers call this action a class extension: we add method to a class that is not ours. For example ==D20== is defined on the class ==Integer==. Now such methods only make sense when the package Dice is loaded. This is why we want to save and load such methods with the package we created and using the =='*Dice'==
-notation is way for the system to know that it should save the methods with the package and not with the package of the class ==Integer==. 
+Indeed in Pharo we can define methods in classes that are not defined in our package. Pharoers call this action a class extension: we can add methods to a class that is not ours. For example ==D20== is defined on the class ==Integer==. Now such methods only make sense when the package ==Dice== is loaded. 
+This is why we want to save and load such methods with the package we created. This is why we are defining the protocol as =='*Dice'==.
+This notation is a way for the system to know that it should save the methods with the package and not with the package of the class ==Integer==. 
 
 Now your tests should pass and this is probably a good moment to save your work either by publishing your package and to save your image. 
 
