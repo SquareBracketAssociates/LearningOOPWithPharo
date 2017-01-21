@@ -306,7 +306,6 @@ Similar to a recursive function navigating a structure composed of similar eleme
 !!! Adding files
 
 Now we want to add files. A file should contain some contents. Again let us start with an example. 
-Let us try. 
 
 [[[
 | el1 dOldComics |
@@ -321,7 +320,6 @@ el1 printString.
 Again a file needs a name, a parent and in addition a contents.
 
 We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later).
-
 
 [[[
 Object subclass: #MyFile
@@ -390,26 +388,93 @@ dOldComics printString.
 What we see is that there is one message and several implementations of methods and that sending a message will find and execute
 the correct method. For example, there are two methods ==printOn:== one for file and one for directory but only one message ==printOn:== sent from the ==printString== message.
 
-In addition a method can be defined in terms of messages sent to other objects. The method ==printOn:== for directories is complex and it delegates the same message to other objects, its parents. The method ==addElement:== delegates to the OrderedCollection sending a different message.
-
-
-
-
-
-
-!!! An example of distribution of behavior 
-
-
+In addition a method can be defined in terms of messages sent to other objects. The method ==printOn:== for directories is complex and it delegates the same message to other objects, its parents. The method ==addElement:== delegates to the OrderedCollection sending a different message ==add:==.
 
 
 !!! Objects: stepping back
+Now that we saw some examples of objects, it is time to step back. Objects are defined by the values of their state, their behavior (shared with the other instances of their class) and an identity. 
 
-Now that we saw some examples of objects, it is time to step back. Objects are defined by their state, their behavior (shared with the other instances of their class) and an identity. 
+- ""State."" Each object has specific values. While all the instances of classes have the same structure, each instance has its own values. Each object has a private state. Clients or users of an object cannot access the state of the object if this one does not explicitly expose it by defining a method returning it (such as the message ==count==).
+- ""Behavior."" Each object shares the same behavior with all the instances of its class.
+- ""Identity."" An object has an identity. It is unique. ==oldcomics== is clearly not the same as ==comics==.
 
-- ""State."" Each object has specific state. While all the instances of classes have the same structure, each instance has its own values. Each object has a private state. Clients or users of an object cannot access the state of the object if this one does not explicitly expose it by defining a method returning it (such as the message ==count==).
-- ""Behavior."" Each object share the same behavior with all the instances of its class.
-- ""Identity."" An object has an identity. It is unique. ==c1== is clearly not the same as ==c2==.
 
+!!! An example of distribution of responsibilities 
+Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantaisit but this is for the sake of the example.To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
+
+First we define that the size of a file is the size of its name and the size of its contents. 
+
+[[[
+| el |
+el := MFFile new name: 'babar'; contents: 'Babar et Celeste'.
+el size = 'babar' size + 'Babar et Celeste' size.
+>>> true
+]]]
+
+Second we define that the size of a directory is the size of its name plus the size of its files and we add and arbitrary number: 2. 
+[[[
+| p2 el |
+el := MFFile new name: 'babar'.
+p2 := MFDirectory new name: 'oldcomics'.
+p2 addFile: el. 
+p2 size = 'oldcomics' size + 'babar' size + 2
+>>> true
+]]]
+
+We define two methods ==size== one for each classe.
+[[[
+MFFile >> size
+	^ contents size + name size
+]]]
+
+[[[
+MFDirectory >> size
+	| sum | 
+	sum := 0.
+	files do: [ :each | sum := sum + each size ].
+	sum := sum + name size.
+	sum := sum + 2.
+	^ sum
+]]]
+
+For the purists, such definition in fact fits on one line.
+
+[[[
+MFDirectory >> size
+	^ name size + (files inject: 0 into: [:s :e | s + e size ]) + 2
+]]]
+
+
+!!! Distribution of Responsibilities
+This example as well as the printing of files and directories illustrates something fundamental in 
+object-oriented programming: the distribution of responsibilities. With the distribution of responsibilities,  each kind of objects is responsible for a specific behavior and a more elaborated behavior is composed out of such different behavior. The size of a directory is computed based on the size of its files by requesting the files to compute their size. 
+
+!!!! Procedural
+Let us take some time to compare with procedural thinking. Computing the size of a list of files and directories would have been expressed as a monolitic behavior sketch below:
+
+
+[[[
+sizeOfFiles: files
+	| sum | 
+	sum := 0.
+	files do: [ :aFile | 
+		aFile class = MFFile
+			ifTrue: [ sum := sum + aFile name size + aFile contents size ].
+		aFile class = MFDirectory
+			ifTrue: [ 
+				| fileSum |
+				fileSum := 0.
+				each files do: [:anInsideFile | fileSum := fileSum + anInsideFile name size + anInsideFile contents size ].
+				sum := sum + fileSum + each name size + 2].
+	^ sum	
+]]]
+
+Here we see several points:
+- first we explicitly check the kind of structures we are manipulating. if this is files directory we do something.
+
+
+
+@@note Don't ask, tell. Object-oriented programming essence is about sending order not checking state.
 
 
 !!! Inheritance
@@ -643,69 +708,6 @@ Dog >> name
 
 
 
-!!! About polymorphism
-
-[[[
-Object subclass: #Presenter
-	instanceVariableNames: ''
-	classVariableNames: ''
-	category: 'WithQuentin'
-]]]
-
-[[[
-Presenter >> present: anObject
-
-	^ 'I m a ', anObject class printString, '. My name is ', anObject name, ', and I move that way: ', anObject move, '.'
-]]]
-
-[[[
-present: anObject
-
-	^ 'I m a ', anObject class printString, '. My name is ', anObject name, ', and I move that way: ', anObject move, '.'
-]]]
-
-[[[
-Presenter new 
-	present: (Dog new name: 'Dingo')
-	
->>>"'I m a Dog. My name is Dingo, and I move that way: walk.'"
-]]]
-
-[[[
-Object subclass: #Aniplouf
-	instanceVariableNames: ''
-	classVariableNames: ''
-	category: 'WithQuentin'
-]]]
-
-Will not be able to reuse Animal. 
-
-[[[
-Aniplouf >> move 
-
-	^ 'spatial teleportation'
-]]]
-
-[[[
-partName
-
-	^ String streamContents: [ :s |
-			3 timesRepeat:  [ s nextPut: 'xyzqt' atRandom ]]
-]]]
-[[[
-Aniplouf >> name
-
-	^ self partName
-]]]
-
-[[[
-Presenter new 
-	present: (Aniplouf new )
-	
-	"" 'I m a Aniplouf. My name is super special entity, and I move that way: spatial teleportation.'"
-]]]	
-
-
 !!! Responsibility-driven design (bof)
 
 Objects are responsible to maintain information and provide services
@@ -737,55 +739,13 @@ Every method should perform one, well-defined task:
  
  Data-driven approaches are bad for encapsulation because they focus too quickly on implementation (representation) of objects rather than their interface. Instead, focus on the responsibilities of an object: what data and tasks is it responsible for?
 
- Responsibility = what you know and maintain
+ Responsibility : what you know and maintain
 
  This will lead you to focus on the interface of an object rather than its representation.
  Identifying responsibilities will help you to discover missing objects, and it will also tell you whether an object is needed in your design or not.
  
  
- !!! Procedural vs. Objects
 
- [[[
- double size() {
- double total = 0;
-     for (Shape shape : shapes) {
-        switch (shape.kind()) {
-        case SQUARE:
-            Square square = (Square) shape;
-            total += square.width * square.width;
-            break;
-        case RECTANGLE:
-            Rectangle rectangle = (Rectangle) shape;
-            total += rectangle.width * rectangle.height;
-            break;
-        case CIRCLE:
-            Circle circle = (Circle) shape;
-            total += java.lang.Math.PI * circle.radius * circle.radius / 2;
-            break;
- } }
-     return total;
- }
- ]]]
-
- [[[
- size() {
- 	double total = 0;
- 	for (Shape shape : shapes) {
- 		total += shape.size();
- 	}
- 	return total;
- 	}
- ]]]
- 
- [[[
- public class Square extends Shape {
- 	...
- 	public double size() {
- 		return width*width
- 		}
- }
- ]]]
- 
  
 
  !!! Design corner: About collaborators and limited responsibility
