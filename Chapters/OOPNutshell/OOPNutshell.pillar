@@ -516,7 +516,7 @@ It also means that we can add a new kind of classes or remove one without having
 We created objects (files and directories) that are ''polymorphic'' in the sense that they offer a common set of messages (==search:==, ==printOn:==, ==size==, ==parent:==). This is really powerful because we can compose objects (for example add a new directory or a file) without changing the program. 
 Imagine that we add a new kind of directories we can introduce it and reuse extending programs based on ==size== or ==search:== ''without'' changing them. 
 
-@@ Creating polymorphic objects is a really powerful capability. It lets us extend and change programs without breaking them. 
+@@note Creating polymorphic objects is a really powerful capability. It lets us extend and change programs without breaking them. 
 
 
 
