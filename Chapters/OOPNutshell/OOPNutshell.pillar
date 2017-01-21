@@ -2,11 +2,11 @@
 %%@cha:nutshell
 
 This chapter is an overview of the key mechanisms that characterize object-oriented programming:
-''objects'', ''classes'', ''inheritance'', ''messages'', ''methods'' and finally ''late binding''. 
-We will also present distribution of responsibilities as well as delegation and composition. 
-Each of these mechanisms will be used and explained in the book under diverse forms: either a full dedicated chapter or usage in exercises. 
+''objects'', ''classes'', ''inheritance'', ''messages'', ''methods'' and finally ''late binding''.
+We will also present ''distribution of responsibilities'' as well as ''delegation'' and ''composition''.
+Each of these mechanisms will be used and explained in the book under diverse forms: either a full dedicated chapter or usage in exercises.
 
-We start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation. 
+We start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation.
 
 !!! Objects first 
 
@@ -100,7 +100,7 @@ A class is a mold or cast of objects. A class specifies two important aspects of
 
 Let us illustrate this with the class ==Counter==.
 
-!!!! Object structure.
+!!!! Object structure
 Let us study the ==Counter== class definition.  The class ==Counter== defines that all the instances will have one instance variable named ==count== using the expression ==instanceVariableNames: 'count'==. And each instance of the class ==Counter== will have a ==count== variable with a ''different'' value as we showed in the examples above. 
 
 [[[
@@ -110,7 +110,7 @@ Object subclass: #Counter
 	package: 'LOOP'
 ]]]
 
-!!!! Object behavior.
+!!!! Object behavior
 In addition a class is the place that groups the instance behavior. Indeed since all the instances of the class share the ''same'' behavior definitions, such behavior is defined and grouped in a class.
 
 For counters, the class defines how to retrieve the counter value, how to increment 
@@ -154,19 +154,21 @@ We will explain how a method is found when a message is sent but first we should
 
 We start to present a simple example that we use to present and explain the concepts: a simple and naive file system as shown in Figure *@directories*. 
 What the figure shows is that we have:
-- files that also have a name and a contents. Here we get three different filesBabar, Astroboy and tintinEtLesPicaros.
+- files that also have a name and a contents. Here we get three different files ==Babar==, ==Astroboy== and ==tintinEtLesPicaros==.
 - directories that have a name and can contain other files or directories. Here we get the ==manga==, ==comics==, ==oldcomics== and ==belgiumSchool== directories. Directories can be nested: ==comics== contains three repositories. The ==belgiumSchool== directory contains ==tintinEtLesPicaros==. 
 
 +Some directories and files organised in a file system.>file://figures/comicsFileTree.png|width=50|label=directories+
 
+
+!!!! Example first 
 Since what we want to develop may be a bit blurry for us, let us define first an example. In the rest of this book we will encode examples
 as tests that can automatically be executed. For now it would make the discourse too complex, so we just use little code example. 
 
 We create two directories. 
 [[[
-| dComics doldcomics dManga|
-dComics := MyDirectory new name: 'comics'.
-dOldComics := MyDIrectory new name: 'oldcomics'.
+| dComics doldcomics dManga |
+dComics := MFDirectory new name: 'comics'.
+dOldComics := MFDirectory new name: 'oldcomics'.
 ]]]
 
 We add the oldcomics folder to comics and we check that the parent children relationship is well set. 
@@ -180,19 +182,22 @@ dComics children
 >>> #(/comics/oldcomics/)
 ]]]
 
-We cread a new repository and we check that once added to a parent repository, it is included in the 
+We create a new repository and we check that once added to a parent repository, it is included in the 
 children.
 [[[
-dManga := MyDIrectory new name: 'manga'.
+dManga := MFDirectory new name: 'manga'.
 dComics addElement: dManga. 
 dComics children
 >>> #(/comics/manga/ /comics/oldcomics/)
 ]]]
 
++Some directories.>file://figures/DirectoryAndInstancesV0.png|width=60|label=directories+
+
+!!!!Defining a class
 Let us start by defining the directory class. 
 
 [[[
-Object subclass: #MyDirectory
+Object subclass: #MFDirectory
 	instanceVariableNames: 'parent name files'
 	classVariableNames: ''
 	package: 'MyFS'
@@ -201,20 +206,22 @@ Object subclass: #MyDirectory
 When we create a directory, its files is an empty ordered collection. This is what we express in the following method ==initialize==.
 
 [[[
-MyDirectory >> initialize
+MFDirectory >> initialize
 	files := OrderedCollection new
 ]]]
 
 An newly created object is sent the message ==initialize== just after its creation. Therefore the ==initialize== method is executed. 
 
 Now we can write the method ==addElement:==. 
-To keep things simple, note that we consider that when a file is added to a directory, it was not belonging to a another directory. This behavior could be implemented by ==aFile moveTo: aDirectory==.
-Adding a file to a directory means: (1) that the parent of the file is changed to be the directory to which it is added, (2) that the added file is added to the list of files contained in the directory. 
+(To keep things simple, note that we consider that when a file is added to a directory, it was not belonging to a another directory. This behavior could be implemented by ==aFile moveTo: aDirectory==)
+Adding a file to a directory means: (1) that the parent of the file is changed to be the directory to which it is added, (2) that the added file is added to the list of files contained in the directory.
+
 [[[
-MyDirectory >> addElement: aFile
+MFDirectory >> addElement: aFile
 	aFile parent: self. 
 	files add: aFile
 ]]]
+
 Note that the method name ==addElement:== is not nice but we chose it on purpose so that you do not believe that delegating
 requires that the methods have the same name. An object can delegate its part of duties to another object by simply passing a message. 
 
@@ -222,30 +229,30 @@ requires that the methods have the same name. An object can delegate its part of
 We should then define the methods ==name:==, ==parent:==, ==parent==, and ==children== to be able to run our example.
 
 [[[
-MyDirectory >> name: aString
+MFDirectory >> name: aString
 	name := aString
 ]]]
 
 [[[
-MyDirectory >> parent: aFile
+MFDirectory >> parent: aFile
 	parent := aFile
 ]]]
 
 [[[
-MyDirectory >> parent
+MFDirectory >> parent
 	^ parent
 ]]]
 
 [[[
-MyDirectory >> children
+MFDirectory >> children
 	^ files
 ]]]
 With such method definitions, how little example should run. It should not print the same results because we did not change the printing of the objects yet. 
 
 !!!! A first little analysis
-When we look at the implementation of the method to add a file to a directory we see that the class ==MyDirectory== used another class ==OrderedCollection== to store the information about the files it contains. An ordered collection is a quite complex object: it can insert, remove elements, grow its size, and many more operations. 
+When we look at the implementation of the method to add a file to a directory we see that the class ==MFDirectory== used another class ==OrderedCollection== to store the information about the files it contains. An ordered collection is a quite complex object: it can insert, remove elements, grow its size, and many more operations. 
 
-We say that the class ==MyDirectory== delegates a part of its duties (to keep the information of the files it contains) to the class ==OrderedCollection==. In addition, when an object is executed, the object to which it may delegate part of its computation may change dynamically. 
+We say that the class ==MFDirectory== delegates a part of its duties (to keep the information of the files it contains) to the class ==OrderedCollection==. In addition, when an object is executed, the object to which it may delegate part of its computation may change dynamically. 
 
 Such behavior is not specific to object, in procedural languages we can call another function defined on a data structure. With objects, it is really simple, we can send  a message to another object. 
 
@@ -256,7 +263,7 @@ Now we would like to get the directory printed in a better way. Without too much
 The argument passed to the method ==printOn:== is a stream. A stream is a object in which we can store information one after the other in sequence using the message ==<<==.
 
 [[[
-MyDirectory >> printOn: aStream
+MFDirectory >> printOn: aStream
 	aStream << name
 ]]]
 
@@ -287,10 +294,12 @@ el2 printString
 >> '/comics/oldcomics/'
 ]]]
 
++Navigating an object graph. >file://figures/InstancesRecursion.png|width=60|label=InstancesRecursion+
+
 A possible definition is the following one:
 
 [[[
-MyDirectory >> printOn: aStream
+MFDirectory >> printOn: aStream
 	parent isNil 
 		ifTrue: [ aStream << '/' ]
 		ifFalse: [ parent printOn: aStream ].
@@ -299,24 +308,33 @@ MyDirectory >> printOn: aStream
 ]]]
 
 Try it and it should print the expected results.
-What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents. 
-Similar to a recursive function navigating a structure composed of similar elements (like a linked-list or any structure defined by induction), each parent receives and executes another time the ==printOn:== method and returns the name for its part. 
+What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents.
+Similar to a recursive function navigating a structure composed of similar elements (like a linked-list or any structure defined by induction), each parent receives and executes another time the ==printOn:== method and returns the name for its part.
 
 	
 !!! Adding files
 
-Now we want to add files. A file should contain some contents. Again let us start with an example. 
+Now we want to add files. A file should contain some contents. 
+
+
+!!!! An example first
+
+Again let us start with an example.
 
 [[[
 | el1 dOldComics |
 el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that solved the world'.
-dOldComics := MyDIrectory new name: 'oldcomics'.
+dOldComics := MFDirectory new name: 'oldcomics'.
 dOldComics addElement: el1. 
 el1 printString.
 >>>
 /oldcomics/astroboy
 ]]] 
 
+
++Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV1.png|width=60|label=FileDirectoryWithInheritanceV1+
+
+!!!! A definition
 Again a file needs a name, a parent and in addition a contents.
 
 We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later).
@@ -373,8 +391,8 @@ Before continuing let us step back and analyse the situation.
 [[[
 | el1 dOldComics dComics |
 el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that solved the world'.
-dOldComics := MyDIrectory new name: 'oldcomics'.
-dComics := MyDIrectory new name: 'comics'.
+dOldComics := MFDirectory new name: 'oldcomics'.
+dComics := MFDirectory new name: 'comics'.
 dComics addElement: dOldComics.
 dOldComics addElement: el1. 
 el1 printString.
@@ -399,7 +417,10 @@ Now that we saw some examples of objects, it is time to step back. Objects are d
 - ""Identity."" An object has an identity. It is unique. ==oldcomics== is clearly not the same as ==comics==.
 
 
-!!! An example of distribution of responsibilities 
+!!! Examples of distribution of responsibilities 
+
+
+!!!! File size 
 Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantaisit but this is for the sake of the example.To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
 
 First we define that the size of a file is the size of its name and the size of its contents. 
@@ -421,7 +442,7 @@ p2 size = 'oldcomics' size + 'babar' size + 2
 >>> true
 ]]]
 
-We define two methods ==size== one for each classe.
+We define two methods ==size== one for each class.
 [[[
 MFFile >> size
 	^ contents size + name size
@@ -444,8 +465,44 @@ MFDirectory >> size
 	^ name size + (files inject: 0 into: [:s :e | s + e size ]) + 2
 ]]]
 
+!!!! Search 
+Let us imagine that we want to search the files matching a given string. 
+Here is an example to set the stage.
 
-!!! Distribution of Responsibilities
+[[[
+| p el |
+p := MFDirectory new name: 'comics'.
+el := MFFile new name: 'babar'; contents: 'Babar et Celeste'.
+p addFile: el.
+el2 := MFFIle new name: 'astroboy; contents: 'super cool robot'.
+p addFile: el2.
+(p search: 'Ba') asArray
+>>> #(/comics/babar)
+]]]
+
+To implement this behavior is quite simple: we define two methods one in each class.
+[[[
+MFFile >> search: aString
+	^ '*', aString, '*' match: contents
+]]]
+[[[
+MFDirectory >> search: aString
+	 ^ self files select: [ :eachFile | eachFile search: aString ]
+]]]
+ 
+ 
+ 
+!!!! Important points 
+These two examples show several ''important'' points:
+
+# Each method is modular in the sense that it only focuses on the behavior of the objects specified by the class defining the method. Such method can be built by sending other messages without having to know how such methods are defined.
+# We send ''one'' message and one method amongst the ''multiple'' methods with the same name will be selected and executed. The method is dynamically looked up during execution as we will see later. 
+# Sending a message is selecting the corresponding method having the same name than the message.  When a message is sent to an object the corresponding method is looked in the class of the message receiver. 
+
+@@note Sending a message is making a choice. The system selects for us the correct method to be executed.
+
+
+!!! Distribution of responsibilities
 This example as well as the printing of files and directories illustrates something fundamental in 
 object-oriented programming: the distribution of responsibilities. With the distribution of responsibilities,  each kind of objects is responsible for a specific behavior and a more elaborated behavior is composed out of such different behavior. The size of a directory is computed based on the size of its files by requesting the files to compute their size. 
 
@@ -469,13 +526,19 @@ sizeOfFiles: files
 	^ sum	
 ]]]
 
-Here we see several points:
-- first we explicitly check the kind of structures we are manipulating. if this is files directory we do something.
+While this is example is a bit exagerated, we see several points:
+- First, we explicitly check the kind of structures we are manipulating. If this is a file or directory we do something different.
+- Second, the logic of the computation is defined inside the ==sizeOFiles:== itself, and not in the entities themselves.   This means in particular that such logic cannot be reused. 
+- A part of the implementation logic is exposed and not in control of the object. It means that if we decide to change the internal structure of our classes, we will have to change this function too. 
+- Adding a new kind of such as a root directory is not modular. We will have to modify this function. 
 
-
+What you should also see when you compare the two version is that in the procedural version we have to check the kind of object we manipulate. 
+In the object-oriented version, we simply tell the object to perform its own computation and return the result to us. 
 
 @@note Don't ask, tell. Object-oriented programming essence is about sending order not checking state.
 
+
++Two classes.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
 
 !!! Inheritance
 
@@ -495,63 +558,25 @@ We will take a really simple and naive example to illustrate some of the key asp
 - ''subclass behavior can be injected in superclass behavior'': behavior defined a subclass may be executed in place of the one of a superclass. This is a really important feature of inheritance.
 
 
-
-+A class hierarchy with instances of different classes.>file://figures/Ref-Hierarchy.png|width=50|label=fig:inhAnimal+
-
-!!! Playing with Animals 
-Imagine that we want to represent animals. We suggest that you implement the example to be able to explore it.
++Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV1.png|width=60|label=FileDirectoryWithInheritanceV1+
 
 
-Here is a simple scenario that we want to be able to execute: we create an animal and ask it to present itself. 
 
-[[[
-(Animal new name: 'SpongeBob') presentYourself
->>> 'I m a Animal. My name is SpongeBob, and I walk.'
-]]]
++Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV2.png|width=60|label=FileDirectoryWithInheritanceV2+
 
 
-!!!! Animal class definition
-We define a class ==Animal== as follows. 
 
 
-[[[
-Object subclass: #Animal
-	instanceVariableNames: 'name'
-	classVariableNames: ''
-	package: 'LOOP'
-]]]
 
-The class ==Animal== inherits from the class ==Object==. The class ==Object== is the class defining the common behavior to all objects in the system such as error, access to class,...
-The class ==Object== is the root of the inheritance hierarchy.
 
-The class ==Animal== defines the structure of all instances: The class ==Animal== defines one instance variable named ==name==, it means that every instance has a name.
 
-!!!! Methods
-We define three methods: first one method to be able to set the name of the animal. 
-The method ==name:== takes as argument a string and stores this argument in the name instance variable of the receiver.
 
-[[[
-Animal >> name: aString
-	name := aString
-]]]
 
-The method ==move== is just returning the way the animal moves. Here we just return a string. 
- 
-[[[
-Animal >> move
-	^ 'walk'
-]]]
 
-Finally we define a method (the logic could be better but we do not want to make it more complex) so that the animal can present itself. 
-This method simply returns a string which is the concatenation of information obtained by sending different messages such as ==self class printString== (which basically returns the name of the class) and ==self move==. 
-Note that the name instance variable is accessed directly. 
 
-[[[
-Animal >> presentYourself
-	^ 'I m a ', self class printString, '. My name is ', name, ', and I ', self move, '.' 
-]]]
 
-At this point, the example of SpongeBob should work. Now we are ready to show a simple example of code reuse. 
+
+
 
 
 !!! Reuse of ancestor logic
