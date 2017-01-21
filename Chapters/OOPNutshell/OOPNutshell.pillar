@@ -191,7 +191,7 @@ dComics children
 >>> #(/comics/manga/ /comics/oldcomics/)
 ]]]
 
-+Some directories.>file://figures/DirectoryAndInstancesV0.png|width=60|label=directories+
++The ==Directory== class and some instances (directories).>file://figures/DirectoryAndInstancesV0.png|width=40|label=directories+
 
 !!!!Defining a class
 Let us start by defining the directory class. 
@@ -279,6 +279,8 @@ el2 printString
 >> oldcomics
 ]]]
 
++Navigating an object graph by sending message to different object. >file://figures/InstancesRecursion.png|width=35|label=InstancesRecursion+
+
 What would be nice it to get the full path so that we can immediately understand the configuration.
 For example we would like to have a first '/' when there is not parent to mimick the pwd unix command and finish with a '/' to indicate
 that this is a directory as with the ls command on unix. 
@@ -294,8 +296,6 @@ el2 printString
 >> '/comics/oldcomics/'
 ]]]
 
-+Navigating an object graph. >file://figures/InstancesRecursion.png|width=60|label=InstancesRecursion+
-
 A possible definition is the following one:
 
 [[[
@@ -308,18 +308,18 @@ MFDirectory >> printOn: aStream
 ]]]
 
 Try it and it should print the expected results.
-What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents.
+What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents (as shown in Figure *@InstancesRecursion*).
 Similar to a recursive function navigating a structure composed of similar elements (like a linked-list or any structure defined by induction), each parent receives and executes another time the ==printOn:== method and returns the name for its part.
 
-	
 !!! Adding files
 
-Now we want to add files. A file should contain some contents. 
+Now we want to add files. Once we will have defined files we will be able to have a graph of objects of different kinds represent our file system with directories and files as shown in Figure *@Instances*.
 
++A graph of objects to represent our file system. >file://figures/Instances.png|width=35|label=Instances+
 
 !!!! An example first
 
-Again let us start with an example.
+Again let us start with an example.  A file should contain some contents. 
 
 [[[
 | el1 dOldComics |
@@ -332,12 +332,12 @@ el1 printString.
 ]]] 
 
 
-+Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV1.png|width=60|label=FileDirectoryWithInheritanceV1+
++A new class and its instances.>file://figures/FileV0.png|width=40|label=FileV0+
 
 !!!! A definition
 Again a file needs a name, a parent and in addition a contents.
 
-We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later).
+We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later) as shown in Figure *@FileV0*.
 
 [[[
 Object subclass: #MyFile
@@ -375,7 +375,7 @@ MyFile >> contents:
 	^ contents
 ]]]
 
-At the stage we should be able to define a file and adding it to a directory. 
+At the stage we should be able to define a file and adding it to a directory.
 
 Now we should redefine the implementation of ==printOn:== to print nicely the name of file:
 
@@ -383,6 +383,9 @@ Now we should redefine the implementation of ==printOn:== to print nicely the na
 MFFile >> printOn: aStream
 	aStream << name
 ]]]
+
++Printing a file: Sending messages inside a graph of different objects. >file://figures/InstancesRecursion2.png|width=60|label=InstancesRecursion2+
+
 
 !!! Lessons learned
 
@@ -398,6 +401,8 @@ dOldComics addElement: el1.
 el1 printString.
 >>>
 /comics/oldcomics/astroboy
+]]]
+[[[
 dOldComics printString.
 >>>
 /comics/oldcomics/
@@ -406,7 +411,7 @@ dOldComics printString.
 What we see is that there is one message and several implementations of methods and that sending a message will find and execute
 the correct method. For example, there are two methods ==printOn:== one for file and one for directory but only one message ==printOn:== sent from the ==printString== message.
 
-In addition a method can be defined in terms of messages sent to other objects. The method ==printOn:== for directories is complex and it delegates the same message to other objects, its parents. The method ==addElement:== delegates to the OrderedCollection sending a different message ==add:==.
+In addition a method can be defined in terms of messages sent to other objects. The method ==printOn:== for directories is complex and it delegates the same message to other objects, its parents (as illustrated by Figure *@InstancesRecursion2*). The method ==addElement:== delegates to the OrderedCollection sending a different message ==add:==.
 
 
 !!! Objects: stepping back
@@ -419,7 +424,7 @@ Now that we saw some examples of objects, it is time to step back. Objects are d
 
 !!! Examples of distribution of responsibilities 
 
-
++Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
 !!!! File size 
 Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantaisit but this is for the sake of the example.To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
 
@@ -442,7 +447,7 @@ p2 size = 'oldcomics' size + 'babar' size + 2
 >>> true
 ]]]
 
-We define two methods ==size== one for each class.
+We define two methods ==size== one for each class (see Figure *@FileDirectoryV1*).
 [[[
 MFFile >> size
 	^ contents size + name size
@@ -450,7 +455,7 @@ MFFile >> size
 
 [[[
 MFDirectory >> size
-	| sum | 
+	| sum |
 	sum := 0.
 	files do: [ :each | sum := sum + each size ].
 	sum := sum + name size.
@@ -480,26 +485,41 @@ p addFile: el2.
 >>> #(/comics/babar)
 ]]]
 
-To implement this behavior is quite simple: we define two methods one in each class.
+To implement this behavior is quite simple: we define two methods one in each class (as shown in Figure *@FileDirectoryV1*).
 [[[
 MFFile >> search: aString
 	^ '*', aString, '*' match: contents
 ]]]
+
 [[[
 MFDirectory >> search: aString
 	 ^ self files select: [ :eachFile | eachFile search: aString ]
 ]]]
- 
- 
- 
-!!!! Important points 
+
+!!! Important points
 These two examples show several ''important'' points:
 
-# Each method is modular in the sense that it only focuses on the behavior of the objects specified by the class defining the method. Such method can be built by sending other messages without having to know how such methods are defined.
-# We send ''one'' message and one method amongst the ''multiple'' methods with the same name will be selected and executed. The method is dynamically looked up during execution as we will see later. 
-# Sending a message is selecting the corresponding method having the same name than the message.  When a message is sent to an object the corresponding method is looked in the class of the message receiver. 
+!!!! Modular thinking
+Each method is modular in the sense that it only focuses on the behavior of the objects specified by the class defining the method. Such method can be built by sending other messages without having to know how such methods are defined.
+It also means that we can add a new kind of classes or remove one without having to change the entire system.
+
+
+
+# We send ''one'' message and one method amongst the ''multiple'' methods with the same name will be selected and executed. The method is dynamically looked up during execution as we will see later.
+# Sending a message is selecting the corresponding method having the same name than the message.  When a message is sent to an object the corresponding method is looked in the class of the message receiver.
 
 @@note Sending a message is making a choice. The system selects for us the correct method to be executed.
+
+
+!!!! Polymorphic objects 
+
+We created objects (files and directories) that are ''polymorphic'' in the sense that they offer a common set of messages (==search:==, ==printOn:==, ==size==, ==parent:==). This is really powerful because we can compose objects (for example add a new directory or a file) without changing the program. 
+Imagine that we add a new kind of directories we can introduce it and reuse extending programs based on ==size== or ==search:== ''without'' changing them. 
+
+@@ Creating polymorphic objects is a really powerful capability. It lets us extend and change programs without breaking them. 
+
+
+
 
 
 !!! Distribution of responsibilities
@@ -508,7 +528,6 @@ object-oriented programming: the distribution of responsibilities. With the dist
 
 !!!! Procedural
 Let us take some time to compare with procedural thinking. Computing the size of a list of files and directories would have been expressed as a monolitic behavior sketch below:
-
 
 [[[
 sizeOfFiles: files
@@ -538,7 +557,13 @@ In the object-oriented version, we simply tell the object to perform its own com
 @@note Don't ask, tell. Object-oriented programming essence is about sending order not checking state.
 
 
-+Two classes.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
+!!! So far so good? No!
+
+We have a system with two classes and it offers some behavior composed out of well defined local behavior (see Figure *@FileDirectoryV1*). We can have objects composed out of other objects and messages flow within the graph. Object-oriented programming could stop here.
+
+
+
+
 
 !!! Inheritance
 
@@ -697,39 +722,31 @@ move injected from subclasses into superclass' code.
 !!! Creating a hook
 With the concept of late binding in mind, each time we send a message to self we create a customization point for subclasses.
 
-[[[
-Animal >> name
-   ^ name
-]]]
 
-
-[[[
-Animal >> presentYourself
-	^ 'I m a ', self class printString, '. My name is ', self name, ', and I ', self move, '.' 
-]]]
-
-
-[[[
-Duck >> name
-	^ '*', super name, '*' 
-]]]
-
-[[[
-Dog >> name
-	^ '%', super name, '%' 
-]]]
-
-[[[
-(Duck new name: 'Donald') presentYourself 
->>> 'I m a Duck. My name is *Donald*, and I walk & swim.'
-]]]
-
-[[[
-(Dog new name: 'Dingo') presentYourself
->>> 'I m a Dog. My name is %Dingo%, and I walk.'
-]]]
 
 @@note self sends are creating customization points. 
+
+
+
+%!!! Exercises 
+%We propose two exercises. First you should turn all the examples into automated tests as explained in the Unit Test %chapter.  This is important because it will helps you for the second exercise.
+%As a second exercise, we propose that you introduce a new kind of reposo
+
+%[[[
+%| el |
+%el := MFRoot new.
+%el printString = '/'
+%]]]
+
+%[[[
+%| el r |
+%el := MFDirectory new name: 'comics'.
+%r := MFDirectory new. 
+%r addFile: el.	
+%r printString = '/comics/'
+%]]]
+
+
 
 
 
@@ -768,10 +785,7 @@ Every method should perform one, well-defined task:
 
  This will lead you to focus on the interface of an object rather than its representation.
  Identifying responsibilities will help you to discover missing objects, and it will also tell you whether an object is needed in your design or not.
- 
- 
 
- 
 
  !!! Design corner: About collaborators and limited responsibility
  As with any paradigm, we can define well designed programs or poor ones. Poor programs are often more buggy, more difficult to understand and reuse.
