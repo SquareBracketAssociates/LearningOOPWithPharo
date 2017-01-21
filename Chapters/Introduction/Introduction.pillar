@@ -66,12 +66,13 @@ Since we need a language to express our programs, we will teach you the syntax o
 !!! Thanks
 
 I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe for their feedback. 
-Alexandre Bergel for his examples on messages. Olivier Auverlot for his feedback and Tinchat. 
-
+Alexandre Bergel for his examples on messages. Olivier Auverlot for his feedback and Tinychat. 
+Guillermo Polito for the idea of this cool example of files and directories. 
 
 !!! todo
 
-- Finish OOP in Nutshell.
+- Finish OOP in Nutshell (ongoing)
+
 - Finish tjj LAN and may be reunit it. 
 - See how to split syntax
 - Extract a test concept chapters. 
