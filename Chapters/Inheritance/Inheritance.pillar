@@ -7,7 +7,7 @@ In this chapter we present the fundamental concept of  ''inheritance'' that allo
 To illustrate the important points we start by studying the class ==Flasher==. Later we define a subclass of the class ==Flasher== to illustrate the points we learned. Finally we will explain the issue of instance initialization. 
 
 
-!! To massage
+!!! To massage
 
 Inheritance is, simply seen, just a mechanism to share behaviour and state (i.e., methods and instance variables) between a class and its subclasses.
 As we shall see, inheritance can be used in object-oriented design for three different, but related purposes:
