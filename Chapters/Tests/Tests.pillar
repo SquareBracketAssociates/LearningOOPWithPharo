@@ -1,4 +1,4 @@
-{ "title": "Unit Tests" }
+!! Tests, tests and tests
 @cha:sunit
 
 In this chapter we start by showing that tests are simple. Second we present test driven design - basically what we will try to do systematically in this book. Then we discuss why we test, and what makes a good test.
@@ -164,7 +164,7 @@ First you should create a new subclass of ==TestCase== called
 ==MyExampleSetTest==. Add two instance variables so that your new class looks
 like this:
 
-[[[label=scr:exSet|caption=An Example Set Test class|language=Smalltalk
+[[[
 TestCase subclass: #MyExampleSetTest
 	instanceVariableNames: 'full empty'
 	classVariableNames: ''
@@ -182,17 +182,16 @@ test class ==PatternTest==, the two classes will be alphabetized together in the
 browser (assuming that they are in the same package). It ''is'' critical that
 your class is a subclass of ==TestCase==.
 
-!!!!Step 2: Initialize the test context
+!!!!Step 2 (optional) setting a reusable context
 
-The message ==TestCase >> setUp== defines the context in which the tests will run,
-a bit like an initialize method. ==setUp== is invoked before the execution of
-each test method defined in the test class.
+The method ==TestCase >> setUp== defines the context in which each of  the tests will run.
+ The message ==setUp== is sent before the execution of each test method defined in the test class.
 
 Define the ==setUp== method as follows, to initialize the ==empty== variable to
 refer to an empty set and the ==full== variable to refer to a set containing two
 elements.
 
-[[[caption=Setting up a fixture
+[[[
 MyExampleSetTest >> setUp
 	empty := Set new.
 	full := Set with: 5 with: 6
@@ -212,7 +211,7 @@ the ==includes:== method of ==Set==. The test says that sending the message
 ==includes: 5== to a set containing 5 should return ==true==. Clearly, this
 test relies on the fact that the ==setUp== method has already run.
 
-[[[caption=Testing set membership
+[[[
 MyExampleSetTest >> testIncludes
 	self assert: (full includes: 5).
 	self assert: (full includes: 6)
@@ -222,7 +221,7 @@ The second test, named ==testOccurrences==, verifies that the
 number of occurrences of 5 in ==full== set is equal to one, even if we
 add another element 5 to the set.
 
-[[[caption=Testing occurrences
+[[[
 MyExampleSetTest >> testOccurrences
 	self assert: (empty occurrencesOf: 0) = 0.
 	self assert: (full occurrencesOf: 5) = 1.
@@ -233,7 +232,7 @@ MyExampleSetTest >> testOccurrences
 Finally, we test that the set no longer contains the element 5 after we have
 removed it.
 
-[[[caption=Testing removal
+[[[
 MyExampleSetTest >> testRemove
 	full remove: 5.
 	self assert: (full includes: 6).
@@ -279,7 +278,7 @@ You can also run a single test (and print the usual pass/fail result summary) by
 Some people include an executable comment in their test methods that allows
 running a test method with a ''Do it'' from the browser, as shown below.
 
-[[[caption=Executable comments in test methods
+[[[
 MyExampleSetTest >> testRemove
 	"self run: #testRemove"
 	full remove: 5.
@@ -290,7 +289,7 @@ MyExampleSetTest >> testRemove
 Introduce a bug in ==MyExampleSetTest >> testRemove== and run the tests again. For
 example, change ==6== to ==7==, as in:
 
-[[[caption=Introducing a bug in a test
+[[[
 MyExampleSetTest >> testRemove
 	full remove: 5.
 	self assert: (full includes: 7).
@@ -307,7 +306,7 @@ the name. Alternatively, you can execute one of the following expressions:
 MyExampleSetTest debug: #testRemove
 ]]]
 
-!!!Step 5: Interpret the results
+!!!!Step 5: Interpret the results
 
 The method ==assert:== is defined in the class ==TestAsserter==. This is a superclass
 of ==TestCase== and therefore all other ==TestCase== subclasses and is responsible for
@@ -327,14 +326,14 @@ the bottom pane on the right.
 
 Modify your tests to provoke both errors and failures.
 
-!! The SUnit cookbook
+!!! The SUnit cookbook
 
 This section will give you more details on how to use SUnit. If you have used
 another testing framework such as JUnit, much of this will be familiar, since
 all these frameworks have their roots in SUnit. Normally you will use SUnit's
 GUI to run tests, but there are situations where you may not want to use it.
 
-!!!Other assertions
+!!!!Other assertions
 
 In addition to ==assert:== and ==deny:==, there are several other methods that
 can be used to make assertions.
@@ -360,7 +359,7 @@ method below illustrates the use of ==should:raise:==.
 Try running this test. Note that the first argument of the ==should:== and
 ==shouldnt:== methods is a block that contains the expression to be executed.
 
-!!!Running a single test
+!!!!Running a single test
 
 Normally, you will run your tests using the Test Runner or using your code
 browser. If you don't want to launch the Test Runner from the World menu, you
@@ -371,7 +370,7 @@ MyExampleSetTest run: #testRemove
 >>> 1 run, 1 passed, 0 failed, 0 errors
 ]]]
 
-!!!Running all the tests in a test class
+!!!!Running all the tests in a test class
 
 Any subclass of ==TestCase== responds to the message ==suite==, which will build
 a test suite that contains all the methods in the class whose names start with
@@ -384,7 +383,7 @@ MyExampleSetTest suite run
 >>> 5 run, 5 passed, 0 failed, 0 errors
 ]]]
 
-!!!Must I subclass TestCase?
+!!!!Must I subclass TestCase?
 
 In JUnit you can build a TestSuite from an arbitrary class containing ==test*==
 methods. In SUnit you can do the same but you will then have to create a suite
@@ -394,7 +393,7 @@ The framework is there: use it.
 
 
 
-!!Chapter summary
+!!!Chapter summary
 
 This chapter explained why tests are an important investment in the future of
 your code. We explained in a step-by-step fashion how to define a few tests for

@@ -42,6 +42,8 @@ An object can also send messages to other objects. For example, when a turtle dr
 
 
 
+
+
 !!! An object has  a unique identity
 
 An object has an identity. Each object is unique and is uniquely identifiable. In Pharo, the message \=\= allows one to test object identity as shown by the following examples.
@@ -120,11 +122,47 @@ Our turtle (contrarily to the original Logo turtle) does not provide a way to ch
 
 @@note An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class shares the same ''interface'' but have their own private state.
 
+!!!!! About behavior
+Behaviour should be associated with the objects responsible for the associated state.
+Avoid defining behaviour for which another object is responsible
+
+!!! Some related concepts (to massage)
+
+
+- Abstraction means that we ignore irrelevant details, for example, we abstract from the details of a Shape object and just use its interface (i.e., its operations).
+- Information hiding means that we hide (forbid access to) the representation behind an abstraction, for example, you may not directly access the state of a Shape but must access it only through its interface.
+ Information hiding: a component should provide all and only the information that the user needs to effectively use it.
+Information hiding protects both the provider and the client from changes in the implementation
+- Encapsulation means that related entities are bundled together, for example, a Shape object encapsulates data and related operations for shapes.
+
+
+''Clients should depend only on an interface, so changes to the implementation do not affect them.
+Conversely, the provider is free to change the implementation if it knows that clients will not be affected.
+Information hiding is important for many reasons — it is a version of the “need to know” principle.
+Separate development of components is also enabled if dependencies are restricted to interfaces.''
+David L. Parnas. On the Criteria To Be Used in Decomposing Systems into Modules. In CACM 15(12) p. 1053—1058, December 1972.
+
+These three concepts are closely related, but clearly different.
+
+- Composition refers to the fact that we can compose complex objects from simpler ones. A Picture may be composed of many shapes.
+- Distribution of Responsibility means that we break complex tasks into simpler ones, and handle them at the appropriate level of abstraction, and close to where the relevant knowledge is. If you need to resize a shape object, that task should be handled by the shape itself.
+- Message Passing refers to the idea that you do not “apply procedures to objects”, but that you politely ask them to do something by sending them a message. The object itself then decides whether it has a method to handle that message.
+
+
+
+
+
+
+
+
+
 !!! Collaborators
 
 An object is not an isolated entity. It interacts with other objects: Its performs tasks on reaction to message but it also can delegate some subtasks other objects. An object has ''collaborators''. A turtle collaborates with points, color, pen but also a graphical canvas on which it draw with its pen. 
 
 +An object interact with others: either to perform tasks or to request tasks.>file://figures/collaborators.pdf|width=70|label=fig:collaborators+
+
+
 
 
 !!! Classes: Factoring behavior of similar objects
@@ -211,7 +249,7 @@ For example, the method ==turn:== needs to increment the receiver's direction by
 
 [[[
 Turtle >> turn: degrees 
-   "Change the direction so that the receiver turns by an amount  
+   "Change the direction so that the receiver turns by an amount 
    equal to the argument, degrees. degrees represents the rotation in 
    degrees. The positive sense is nonclockwise. The negative sense is 
    clockwise."
@@ -244,6 +282,10 @@ For example, sending ==new== to the ==Turtle== class returns a newly created tur
 
 Different objects can react in different manner to the same messages.  For example, an animated turtle understands the same messages than a basic turtle. However, it reacts differently to the same message (See~\ref{scr:ani}). An animated turtle performs extra actions related to its animation. Having different behaviors associated with the same message, behavior that  depends on the message receiver is called \index{polymorphism} \emph{polymorphism} which literally means multiple form. Polymorphism is a key feature of object-oriented programming languages, it describes that a same message may lead to different method execution depending on the message receiver.
 
+@@note We send one message but there is probably many methods with the same name. The message passing mechanism will select the
+correct method for us. 
+
+
 [[[ 
 | caro |
 caro := AnimatedTurtle new.
@@ -274,8 +316,11 @@ Turtle >> square: anInteger
 
 The  polymorphism is really a strength of object-oriented languages because it allows one to treat different objects, i.e., instances of different classes, uniformly as soon as they implement the same messages. Polymorphism works in synergy with the idea that an object is responsible to decide how to react to message reception. Indeed, the fact that different objects can implement the same messages let us write code that only tell the objects to execute some actions without worrying exactly about the kind of objects. 
 
+!!!! Sending a message vs. calling a method
+The word “method” was introduced in Smalltalk as a metaphor - You tell objects to do something by sending them a message; the object then chooses the method it will use to handle that message.
 
-
+If you talk about “calling a method” you are breaking the metaphor - it makes no sense in English to “call someone’s method”!
+The point is that objects should encapsulate their behavior; you speak to their interface by sending a message. The method is internal – you should not know it.
 
 
 !!! Conclusion 

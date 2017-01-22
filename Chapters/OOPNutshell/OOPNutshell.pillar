@@ -802,5 +802,15 @@ Every method should perform one, well-defined task:
  how to store and manipulate a value.
 
 
-!!! Conclusion
+!!! Conclusion 
 
+- An object is a computer entity that once created receives messages and performs some actions in reaction.
+- An object has an unique identity.
+- An object holds some private data that represent its internal state.
+-  All objects of the same class share the same behavior, i.e., the same method definitions.
+- A class ''describes'' the internal structure of all its instances by means of instance variable.
+- Instance variables are accessible by all the methods of a class. Instance variables have the same lifetime than the object to which they belong to.
+- In Pharo , instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
+-  A class describes the state (instance variables) and the behavior (methods) of all its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+-  Methods define the behavior of all the instances  of the class they belong to.
+- Different objects, instances of different classes, can react differently to the same messages.

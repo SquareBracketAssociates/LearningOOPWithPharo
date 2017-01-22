@@ -14,6 +14,7 @@ CHAPTERS = \
 	Chapters/DSL/DSL \
 	Chapters/Solutions/Solutions \
 	Chapters/OOPNutshell/OOPNutshell \
+	Chapters/Tests/Tests \
 	Chapters/Expressions/Expressions \
 	Chapters/Wallet/Wallet
 
