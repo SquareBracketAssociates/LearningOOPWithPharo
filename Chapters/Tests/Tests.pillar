@@ -42,8 +42,7 @@ MyExampleSetTest >> testAddTwice
 	self assert: s size 1 equals: 1.
 ]]]
 
-OK now that you know that it is not complex. Let us look a bit at the theory before going into more details. 
-
+Then using the Test runner or pressing on icons of the Pharo browser, you will be able to execute the method ==testAddTwice== and it will tell you if it passes or fails (i.e., if its assertions are true). Now that you know that writing a test is not complex. Let us look a bit at the theory before going into more details. 
 
 !!!Test Driven Design
 
@@ -54,7 +53,8 @@ software quality would do well to adopt it. Indeed, developers in many languages
 have come to appreciate the power of unit testing.
 
 Neither testing, nor the building of test suites, is new. By now, everybody knows that
-tests are a good way to catch errors. By making testing a core practice and by emphasizing ''automated'' tests,  extreme Programminghas helped to make testing
+tests are a good way to catch errors. By making testing a core practice and by emphasizing ''automated'' tests,  
+Extreme Programminghas helped to make testing
 productive and fun, rather than a chore that programmers dislike.
 
  The Pharo community has a long tradition of testing because of the incremental style of
@@ -157,49 +157,24 @@ Now let's write our first test, and show you the benefits of using SUnit.
 
 !!!SUnit by example
 We show a step by step example. We use an example that tests the class ==Set==. Try entering the code as we go
-along.
+along. Pay attention that test classes (subclasses of ==TestCase==) have a different behavior that normal classes: their methods
+which start with ==test== are automatically executed on newly created instances of the class.
+
 
 !!!!Step 1: Create the test class
-First you should create a new subclass of ==TestCase== called
-==MyExampleSetTest==. Add two instance variables so that your new class looks
-like this:
+We use the class ==MyExampleSetTest== to group all the tests related to the
+class ==Set==. First you should create a new subclass of ==TestCase== called
+==MyExampleSetTest==. 
 
 [[[
 TestCase subclass: #MyExampleSetTest
-	instanceVariableNames: 'full empty'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	package: 'MySetTest'
 ]]]
 
-We will use the class ==MyExampleSetTest== to group all the tests related to the
-class ==Set==. It defines the context in which the tests will run. Here the
-context is described by the two instance variables ==full== and ==empty== that
-we will use to represent a full and an empty set.
 
-The name of the class is not critical, but by convention it should end in
-==Test==. If you define a class called ==Pattern== and call the corresponding
-test class ==PatternTest==, the two classes will be alphabetized together in the
-browser (assuming that they are in the same package). It ''is'' critical that
-your class is a subclass of ==TestCase==.
-
-!!!!Step 2 (optional) setting a reusable context
-
-The method ==TestCase >> setUp== defines the context in which each of  the tests will run.
- The message ==setUp== is sent before the execution of each test method defined in the test class.
-
-Define the ==setUp== method as follows, to initialize the ==empty== variable to
-refer to an empty set and the ==full== variable to refer to a set containing two
-elements.
-
-[[[
-MyExampleSetTest >> setUp
-	empty := Set new.
-	full := Set with: 5 with: 6
-]]]
-
-In testing jargon the context is called the ''fixture'' for the test.
-
-!!!!Step 3: write some test methods
+!!!!Step 2: Write some test methods
 
 Let's create some tests by defining some methods in the class
 ==MyExampleSetTest==. Each method represents one test. The names of the methods
@@ -213,6 +188,9 @@ test relies on the fact that the ==setUp== method has already run.
 
 [[[
 MyExampleSetTest >> testIncludes
+	| empty full |
+	empty := Set new.
+	full := Set with: 5 with: 6.
 	self assert: (full includes: 5).
 	self assert: (full includes: 6)
 ]]]
@@ -223,17 +201,26 @@ add another element 5 to the set.
 
 [[[
 MyExampleSetTest >> testOccurrences
+	| empty full |
+	empty := Set new.
+	full := Set with: 5 with: 6.
 	self assert: (empty occurrencesOf: 0) = 0.
 	self assert: (full occurrencesOf: 5) = 1.
 	full add: 5.
 	self assert: (full occurrencesOf: 5) = 1
 ]]]
 
+
+
+
 Finally, we test that the set no longer contains the element 5 after we have
 removed it.
 
 [[[
 MyExampleSetTest >> testRemove
+	| empty full |
+	empty := Set new.
+	full := Set with: 5 with: 6.
 	full remove: 5.
 	self assert: (full includes: 6).
 	self deny: (full includes: 5)
@@ -281,6 +268,9 @@ running a test method with a ''Do it'' from the browser, as shown below.
 [[[
 MyExampleSetTest >> testRemove
 	"self run: #testRemove"
+	| empty full |
+	empty := Set new.
+	full := Set with: 5 with: 6.
 	full remove: 5.
 	self assert: (full includes: 6).
 	self deny: (full includes: 5)
@@ -291,6 +281,9 @@ example, change ==6== to ==7==, as in:
 
 [[[
 MyExampleSetTest >> testRemove
+	| empty full |
+	empty := Set new.
+	full := Set with: 5 with: 6.
 	full remove: 5.
 	self assert: (full includes: 7).
 	self deny: (full includes: 5)
@@ -333,27 +326,41 @@ another testing framework such as JUnit, much of this will be familiar, since
 all these frameworks have their roots in SUnit. Normally you will use SUnit's
 GUI to run tests, but there are situations where you may not want to use it.
 
+!!!! About assert:equals:
+
+Note that we either used ==assert: aBoolean== and ==assert:equals: aValue==. The second one provides nicer 
+feedback when the assertion fails. The two following lines that equals. 
+
+[[[
+self assert: (empty occurrencesOf: 0) equals: 0.
+self assert: (empty occurrencesOf: 0) = 0.
+]]]
+
+Using ==assert:equals:== provides a better feedback when the test is failing because we
+said explicitly that the result should be 0. 
+
+
 !!!!Other assertions
 
 In addition to ==assert:== and ==deny:==, there are several other methods that
 can be used to make assertions.
 
-First, ==TestAsserter >> assert:description:== and ==TestAsserter >> deny:description:==
+First, ==assert:description:== and ==deny:description:==
 take a second argument which is a message string that describes
 the reason for the failure, if it is not obvious from the test itself. These
 methods are described in Section *@sec:descriptionStrings*.
 
-Next, SUnit provides two additional methods, ==TestAsserter >> should:raise:== and
-==TestAsserter >> shouldnt:raise:== for testing exception propagation.
+Next, SUnit provides two additional methods, ==should:raise:== and
+==shouldnt:raise:== for testing exception propagation.
 
 For example, you would use ==self should: aBlock raise: anException== to test
 that a particular exception is raised during the execution of ==aBlock==. The
 method below illustrates the use of ==should:raise:==.
 
-[[[caption=Testing error raising
-	MyExampleSetTest >> testIllegal
-		self should: [ empty at: 5 ] raise: Error.
-		self should: [ empty at: 5 put: #zork ] raise: Error
+[[[
+MyExampleSetTest >> testIllegal
+	self should: [ empty at: 5 ] raise: Error.
+	self should: [ empty at: 5 put: #zork ] raise: Error
 ]]]
 
 Try running this test. Note that the first argument of the ==should:== and
@@ -391,7 +398,60 @@ by hand and your class will have to implement all the essential ==TestCase==
 methods like ==assert:==. We recommend, however, that you not try to do this.
 The framework is there: use it.
 
+!!! Defining a fixture
 
+In the previous example, we defined the context in each test methods and it was a bit boring to 
+duplicate all the logic in any tests. In fact SUnit proposes a solution to this.
+
+!!!!Step 1: Define the class and context
+We can define the context using the two instance variables ==full== and ==empty== that
+we will use to represent a full and an empty set. 
+
+[[[
+TestCase subclass: #MyExampleSetTest
+	instanceVariableNames: 'full empty'
+	classVariableNames: ''
+	package: 'MySetTest'
+]]]
+
+!!!!Step 2: Setting a reusable context
+The method ==TestCase >> setUp== defines the context in which each of  the tests will run.
+ The message ==setUp== is sent before the execution of each test method defined in the test class.
+
+Define the ==setUp== method as follows, to initialize the ==empty== variable to
+refer to an empty set and the ==full== variable to refer to a set containing two
+elements. 
+
+[[[
+MyExampleSetTest >> setUp
+	empty := Set new.
+	full := Set with: 5 with: 6
+]]]
+
+In testing jargon the context is called the ''fixture'' for the test.
+
+!!!!Step 3: Write some test methods
+Now the previous tests methods are much more compact and contain less duplication.
+[[[
+MyExampleSetTest >> testIncludes
+	self assert: (full includes: 5).
+	self assert: (full includes: 6)
+]]]
+
+[[[
+MyExampleSetTest >> testOccurrences
+	self assert: (empty occurrencesOf: 0) equals 0.
+	self assert: (full occurrencesOf: 5) equals 1.
+	full add: 5.
+	self assert: (full occurrencesOf: 5) equals: 1
+]]]
+
+[[[
+MyExampleSetTest >> testRemove
+	full remove: 5.
+	self assert: (full includes: 6).
+	self deny: (full includes: 5)
+]]]
 
 !!!Chapter summary
 
