@@ -70,15 +70,12 @@ Alexandre Bergel for his examples on messages. Olivier Auverlot for his feedback
 Guillermo Polito for the idea of this cool example of files and directories. 
 
 !!! todo
-
-- Finish OOP in Nutshell (ongoing)
-
-- Finish tjj LAN and may be reunit it. 
-- See how to split syntax
-- Extract a test concept chapters. 
 - Revisit Inheritance chapter: find a non graphical example
+- Finish tjj LAN and may be reunit it. 
+- See how to get a simpler syntax chapter
 - Get a draft for Sending Messages
 -- may be using not | 
+
 - Implement game collector app
 - reread and implement Game of life
 - implement sokoban 
