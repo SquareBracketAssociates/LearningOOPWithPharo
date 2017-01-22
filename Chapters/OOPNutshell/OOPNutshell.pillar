@@ -1,18 +1,28 @@
-!! Object-oriented programming in a nutshell
-%%@cha:nutshell
+!! Objects and Classes
+@cha:objectclass
 
-This chapter is an overview of the key mechanisms that characterize object-oriented programming:
-''objects'', ''classes'', ''inheritance'', ''messages'', ''methods'' and finally ''late binding''.
-We will also present ''distribution of responsibilities'' as well as ''delegation'' and ''composition''.
+
+Pharo is a pure object-oriented programming language, i.e., everything in the system is an object i.e., an entity created by a class and reacting to messages. In this chapter you will learn the concepts of object-oriented programming: ''objects'' and ''classes''. 
+
+This chapter presents key mechanisms that characterize object-oriented programming: ''objects'', ''classes'',  ''messages'' and ''methods''.
+We will also present ''distribution of responsibilities'' which is one of the heart of object-oriented programming.
+ as well as ''delegation'' and ''composition''.
 Each of these mechanisms will be used and explained in the book under diverse forms: either a full dedicated chapter or usage in exercises.
 
-We start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation.
+We will start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation. The file example will be extended to present ''inheritance'' in Chapter *@cha:objectclass*.
+
+''Objects'' are created by ''classes'' that are object factories: Classes define the structure and behavior of objects (in terms of methods) but each object has a specific state and identity that is unique and different from all other objects. A class defines ''methods'' that specify how a ''message'' is actually implemented. 
+
 
 !!! Objects first 
 
 ''Instead of a bit-grinding processor ... plundering data structures, we have a universe of well-behaved objects that courteously ask each other to carry out their various desires.'' [Ingall 81]
 
 Object-oriented programming is about creating objects and interacting with objects by sending them ''messages''.
+
+Objects are entities that communicate via messages and react to messages by executing certain tasks. Moreover objects hide the way they define these tasks: the client of an object send a message to an object and the system find the corresponding method to be executed. Messages specify what should be done and methods how it should be done. 
+
+
 
 !!!! Turtles as an example
 Imagine that we have a logo turtle (you will implement it in the following chapters). We can do the following: create a turtle, send it messages to make it move, turn and trace some drawnings. 
@@ -47,7 +57,39 @@ t go: 100.
 
 Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a sequence of instructions as we will see later. 
 
-@@note Messages specify ''what'' the object should do and not how it should do it.
+
+!!!! Message: what should be executed
+
+The message ==square:== is send to a new turtle with 100 as argument. The message expresses what the receiver should do. 
+
+[[[
+Turtle new square: 100
+]]]
+
+!!!! Method: how we execute it
+
+The method definition ==square:== below defines step by step what are the actions to be done in response to the message ==square:==. We will show later how the mapping between a message and a method is done at runtime. 
+
+[[[
+square: size
+	4 timesRepeat: [ self go: size; turn: 90 ]
+]]]
+
+
+@@note A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
+
+An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line  color and send messages numbers.
+
++An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
+
+@@note An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
+
+
+
+
+
+
+
 
 
 !!!! Multiple instances: each with its own state. 

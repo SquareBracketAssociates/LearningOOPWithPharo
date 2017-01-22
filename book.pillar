@@ -6,29 +6,26 @@
 
 ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
-
 ! Getting in touch with Pharo
 
 %${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
 
 !! A glimpse at syntax
 
-${inputFile:Chapters/Tests/Tests.pillar}$
- 
+${inputFile:Chapters/Counter/Counter.pillar}$ 
+
+${inputFile:Chapters/Tests/Tests.pillar}$ 
 Turn the examples given in the first chapter into test
 
 ${inputFile:Chapters/Katas/GramKatas.pillar}$
 
 %${inputFile:Chapters/Katas/GramVariation.pillar}$
 
-${inputFile:Chapters/Counter/Counter.pillar}$ 
-
 ! About Objects and Classes
 In this book part we suggest to read carefully the next chapter and after to do the following ones.
 Since the following chapters are extremely simple exercises it can be tedious to do them all.
 
 ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
-
 
 ${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
