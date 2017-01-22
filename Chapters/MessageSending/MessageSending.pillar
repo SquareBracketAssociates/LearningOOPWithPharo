@@ -35,12 +35,12 @@ subclasses are both trivial:
 
 [[[caption=Implementations of ==ifTrue:ifFalse:==
 True >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
-    ^ trueAlternativeBlock value
+   ^ trueAlternativeBlock value
 ]]]
 
 [[[
 False >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
-    ^ falseAlternativeBlock value
+   ^ falseAlternativeBlock value
 ]]]
 
 Each of them execute the correct block depending on the receiver of the message.
@@ -51,12 +51,21 @@ instance of ==False== executes the ''false'' alternative. All the abstract
 ==Boolean== methods are implemented in this way for ==True== and ==False==. For
 example the implementation of negation (message ==not==) is defined the same way:
 
-[[[caption=Implementing negation
+[[[
 True >> not
-    "Negation--answer false since the receiver is true."
-    ^ false
-
-False >> not
-    "Negation--answer true since the receiver is false."
-    ^ true
+   "Negation--answer false since the receiver is true."
+   ^ false
 ]]]
+
+[[[
+False >> not
+   "Negation--answer true since the receiver is false."
+   ^ true
+]]]
+
+
+!!! Sending a message vs. calling a method
+The word “method” was introduced in Smalltalk as a metaphor - You tell objects to do something by sending them a message; the object then chooses the method it will use to handle that message.
+
+If you talk about “calling a method” you are breaking the metaphor - it makes no sense in English to “call someone’s method”!
+The point is that objects should encapsulate their behavior; you speak to their interface by sending a message. The method is internal – you should not know it.

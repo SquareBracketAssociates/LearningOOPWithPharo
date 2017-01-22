@@ -9,12 +9,12 @@ We will also present ''distribution of responsibilities'' which is one of the he
  as well as ''delegation'' and ''composition''.
 Each of these mechanisms will be used and explained in the book under diverse forms: either a full dedicated chapter or usage in exercises.
 
-We will start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation. The file example will be extended to present ''inheritance'' in Chapter *@cha:objectclass*.
+We will start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation. The file example will be extended to present ''inheritance'' in Chapter *@cha:inheritance*.
 
 ''Objects'' are created by ''classes'' that are object factories: Classes define the structure and behavior of objects (in terms of methods) but each object has a specific state and identity that is unique and different from all other objects. A class defines ''methods'' that specify how a ''message'' is actually implemented. 
 
 
-!!! Objects first 
+!!! Objects: Entities reacting to messages
 
 ''Instead of a bit-grinding processor ... plundering data structures, we have a universe of well-behaved objects that courteously ask each other to carry out their various desires.'' [Ingall 81]
 
@@ -41,7 +41,7 @@ for them.
 
 !!!! Sending messages
 
-The only way to interact with objects is to send them ''messages''.
+The only way to interact with objects is to send them ''messages''. 
 In the following snippets we send messages
 - to create an object , message ==new==,
 - to tell the turtle to turn, messsage ==turn:==, and
@@ -55,8 +55,31 @@ t turn: 180.
 t go: 100.
 ]]]
 
-Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a sequence of instructions as we will see later. 
 
+@@todo Add a figure once I have the turtle implemented. 
+
+When an object receives a message, it reacts by performing some actions. An object can return a value, change its internal state, or send messages to other objects. Here the turtle will change its direction and it will interact with the display to leave a trail.
+
+!!!! Multiple instances: each with its own state. 
+We can have multiple objects of the same class and each one has a specific state. Here we have two turles each one located to a specific position and pointing into its own direction. 
+
+[[[
+| t1 t2 |
+t1 := Turtle new. 
+t1 turn: 90.
+t1 go: 100.
+t1 turn: 180. 
+t1 go: 100.
+t2 := Turtle new.
+t2 go: 100.
+t2 turn: 40.
+t2 go: 100.
+]]]
+
+
+!!! Messages and Methods
+
+Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a sequence of instructions as we will see later. 
 
 !!!! Message: what should be executed
 
@@ -85,31 +108,52 @@ An object can also send messages to other objects. For example, when a turtle dr
 @@note An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
 
 
+!!! An object is a protective entity
 
+An object is responsible of the way it realizes its reaction to a
+message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
 
+@@note An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.
 
+@@note An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
 
-
-
-
-!!!! Multiple instances: each with its own state. 
-In the following example we show that we can have multiple objects
+From a turtle ''user'' point of view, the only relevant information is that the turtle effectively receiving the message ==square:== executes the method that draws a square. So changing the definition of the ==square:== method  to the one below does not have any consequence on the methods that call it. Figure *@fig:encapsulationAtWork2* illustrates this point.
 
 [[[
-| t1 t2 |
-t1 := Turtle new. 
-t1 turn: 90.
-t1 go: 100.
-t1 turn: 180. 
-t1 go: 100.
-t2 := Turtle new.
-t2 go: 100.
-t2 turn: 40.
-t2 go: 100.
+square: s
+   "Make the receiver draw a square of size s"
+
+   self go: s; turn: 90; go: s; turn: 90.
+   self go: s; turn: 90; go: s; turn: 90
 ]]]
 
-!!!! With counters
-Now that you got the main point of objects, we can see that it applies to everything. In Pharo ''everything'' is an object. In fact there is ''nothing'' else, only objects. Here is a little program with counters that you will implement in subsequent chapters. 
+
++The message ==square:== can be implemented differently this does not impact the sender of the message who is not concerned by the internals of the object.>file://figures/encapsulationAtWork2.pdf|width=45|label=fig:encapsulationAtWork2+
+
+Hiding the internal representation is not limited to object-oriented programming but it is central to object-oriented programming. 
+
+
+!!! An object protects its data
+
+An object holds some ''private data'' that represents its state (see Figure *@fig:objectOne*). Moreover, it controls its state and should not let other objects play directly with them because this could let him into an inconsistent state.  For example, you do not want to somebody else plays with the data of your bank account directly and really want to control your transaction.
+
+For example, a turtle can be represented by a position, a direction and a way to indicate if its pen is up or down. But, we cannot directly access these data and change them. For that we have to use the set of messages proposed by a turtle. These methods constitute the ''interface'' of an object. We say that the object state is ''encapsulated'', this means that not everybody can access it. In fact, object-oriented programming is based on encapsulation, i.e., the fact that per default objects are the only ones that can access their own state.
+
++A turtle is an object which has an interface, i.e., a set of messages to which it can reply and a private state that only its methods can access.>file://figures/privateData.pdf|width=45|label=fig:objectOne+
+
+In Pharo, a client cannot access the state of an object if the object does not define a method to access it.  Moreover, clients should not  rely on the internal representation of an object because an object is free to change the way it  implements its behavior. Exposing the internal state of an object by defining methods providing access to the object data weakens the control that an object has over its own state.
+
+%Our turtle (contrarily to the original Logo turtle) does not provide a way to change directly the status of its pen. The messages ==jump== and ==go== are actually changing the status of the turtle's pen and its position.   
+
++Two turtles have the same interface, i.e., set of messages  being understood but they have ''different'' private state representing their  direction, position and pen status.>file://figures/privateDataTwoInstances.pdf|width=70|label=fig:twoInstances+
+
+
+@@note An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class shares the same ''interface'' but have their own private state.
+
+
+
+!!! With counters
+Now that you got the main point of objects, we can see that it applies to everything. In Pharo ''everything'' is an object. In fact there is ''nothing'' else, only objects. Here is a little program with counters. 
 
 We create two counters that we store in variables ==c1== and ==c2== instances of the class ==Counter==. Each counter has its own state but exhibits the same behavior as all the counters defined by the class ==Counter==: 
 - when responding to the message ==count==, it returns its value,
@@ -190,6 +234,16 @@ Counter >> incrementByTwo
 When we execute the expression ==c1 incrementByTwo==, during the execution of the method ==incrementByTwo==, ==self== refers to ==c1==. 
 
 We will explain how a method is found when a message is sent but first we should explain inheritance, i.e., how a class is defined incrementally from a root class.
+
+!!!Class and instances are really different
+
+Classes and objects are different objects; they understand different messages. A class is a factory of objects. A class creates instances.
+
+For example, sending ==new== to the ==Counter== class returns a newly created counter, while sending ==new== to a counter results in an error. In the opposite way, sending ==increment== to the class ==Counter== leads also to an error because the class ==Counter== is a factory of objects not the objects themselves. Classes are molders of objects.
+
+@@note A class describes the structure (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+
+
 
 
 !!! A simple and naive file system
@@ -376,7 +430,7 @@ el1 printString.
 
 +A new class and its instances.>file://figures/FileV0.png|width=40|label=FileV0+
 
-!!!! A definition
+!!!! A new class definition
 Again a file needs a name, a parent and in addition a contents.
 
 We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later) as shown in Figure *@FileV0*.
@@ -465,6 +519,7 @@ Now that we saw some examples of objects, it is time to step back. Objects are d
 
 
 !!! Examples of distribution of responsibilities 
+We will now implement two functionalities: the size of directories and a search based on the contents of the files. This will set the context to explain the key concept of distribution of responsibilities.
 
 +Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
 !!!! File size 
@@ -560,6 +615,9 @@ Imagine that we add a new kind of directories we can introduce it and reuse exte
 
 @@note Creating polymorphic objects is a really powerful capability. It lets us extend and change programs without breaking them. 
 
+Most of the time it is better to give similar name to methods performing similar behavior, and different names when the methods are doing semantically different actions, so that users of the objects are not confused. 
+
+The  polymorphism is really a strength of object-oriented languages because it allows one to treat different objects, i.e., instances of different classes, uniformly as soon as they implement the same messages. Polymorphism works in synergy with the idea that an object is responsible to decide how to react to message reception. Indeed, the fact that different objects can implement the same messages let us write code that only tell the objects to execute some actions without worrying exactly about the kind of objects. 
 
 !!! Distribution of responsibilities
 This example as well as the printing of files and directories illustrates something fundamental in 

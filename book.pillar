@@ -27,7 +27,7 @@ Since the following chapters are extremely simple exercises it can be tedious to
 
 ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
 
-${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
+%${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
 ${inputFile:Chapters/Converter/Converter.pillar}$
 
