@@ -17,3 +17,243 @@ shape)
 # Reuse (the Rectangle class reuses everything it inherits from Shape)
 
 In a good object-oriented design, all three of these come together.
+
+
+
+
+!!! Inheritance
+
+Object-oriented programming is also based on the ''incremental'' definition of abstractions. This incremental definition mechanism is central to support reuse and extension of abstraction. It is called ''inheritance''. The idea is that you can define a new abstraction (a class) by refining an existing one (its superclass). We said that a subclass inherits from a superclass.
+
+Class inheritance creates trees of classes as shown in Figure *@fig:inhAnimal*. A class in such trees can have instances. All the instances share the behavior defined in their class and superclasses. 
+This is within such trees that the system looks up the method corresponding to a message.
+
+Inheritance supports code reuse because instance variable and methods defined on a root concept (class) may be applicable to its refinement. 
+
+We will take a really simple and naive example to illustrate some of the key aspects. This is a rather simple but nice to show the key aspects we want to illustrate: 
+- ''incremental definition'': a subclass is defined by expressing the difference with its superclass,
+- ''state reuse'': instances of a subclass have at least the state structure of the superclass,
+- ''behavior reuse'': when instances of a subclass receive a message, methods of the superclass may be executed, 
+- ''behavior redefinition (overriding)'': a subclass may change locally a method definition inherited from its superclass,
+- ''behavior extension'': a subclass may extend the behavior of one of its superclasses,
+- ''subclass behavior can be injected in superclass behavior'': behavior defined a subclass may be executed in place of the one of a superclass. This is a really important feature of inheritance.
+
+
++Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV1.png|width=60|label=FileDirectoryWithInheritanceV1+
+
+
+
++Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV2.png|width=60|label=FileDirectoryWithInheritanceV2+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+!!! Reuse of ancestor logic
+
+Imagine that we want to reuse the behavior of animal and to add extra behavior. We can now define a new class ==Dog== which inherits from the class ==Animal==. 
+
+[[[
+Animal subclass: #Dog
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'LOOP'
+]]]
+
+Since we did not add new instance variables during the definition of the class ==Dog==.
+It means that instances of the class ==Dog== will have the same structure as the class ==Animal==.
+
+What we can see is that the methods defined in the class ==Animal== can be executed on the instances 
+of ==Dog==. The following example show that the method ==name:==, ==presentYourself== and ==move==
+are reused as such. Note that usually when we define a new class it is to add state and new behavior or to extend existing one. 
+
+[[[
+(Dog new name: 'Dingo') presentYourself
+>>> 'I m a Dog. My name is Dingo, and I walk.'
+]]]
+
+Nothing prevents us to define methods in the class ==Dog==. Such methods, however, will only be available for ==Dog== and its subclass instances.
+
+
+!!! Method lookup
+
+Now it is time to explain what is happening when an object receives a message send. In fact this is really simple but extremely powerful. 
+When an object, the message receiver, receives a message, the method with the same selector than the message is looked up starting from the class of receiver. When a method with the same selector is found in a class is returned and executed on the receiver. When there is no method with the same selector, the look up continues in the superclass of the current class.
+
+
+
++Lookup: start in the class of the receiver and look for method in class and superclasses.>file://figures/Ref-LookupBasic.png|width=50|label=fig:Ref-LookupBasic+
+
+
+explanations here
+
+
+
+
+!!! Specialisation of ancestor behavior
+Now we want to show another aspect of inheritance, a subclass can override the behavior defined in a superclass. 
+Let us define a new subclass of ==Animal==, named ==Duck==.
+
+[[[
+Animal subclass: #Duck
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'LOOP'
+]]]
+
+Now we ''redefine'' the method ==move== to return a different value.
+[[[
+Duck >> move 
+	^ 'swim'
+]]]
+
+[[[
+(Duck new name: 'Donald') presentYourself 
+>>> 'I m a Duck. My name is Donald, and I swim.'
+]]]
+
+
++Overriding superclass behavior.>file://figures/Ref-LookupBasicOverride.png|width=60|label=fig:Ref-LookupBasicOverride+
+
+!!! Sending a message is making a choice
+
+@@note Sending messages is making a choice
+
+
+
+
+!!! Extending ancestor behavior
+
+A subclass may not only specialize but extend the behavior of one of its superclasses. Imagine that we want to define that a duck can swim ''in addition'' to walk. 
+
+
+Using ==self move== does not work because it creates an endless loop. 
+[[[
+Duck >> move 
+	^ self move , '& swim'
+]]]
+
+We need a way to invoke a method of the superclass ==Animal== even though the receiver of the message is an instance of the class ==Duck==.
+Pharo offers a special variable called ==super== for this exact purpose. 
+
+@@note ==super== refers to the message receiver (as ==self== does), but it invokes a method defined in classes above the class using it. 
+
+We redefine the method ==move== as follows:
+ 
+[[[
+Duck >> move 
+	^ super move , '& swim'
+]]]
+
+We see the result executing the same code snippet. 
+
+[[[
+(Duck new name: 'Donald') presentYourself 
+>>> 'I m a Duck. My name is Donald, and I walk & swim.'
+]]]
+
+What is happening is the following: 
+- the method ==presentYourself== defined on the class ==Animal== is executed and at some point, it executes ==self move==. ==self== here is ==donald== the instance of ==Duck==. 
+- the method ==move== defined on the class ==Duck==, is executed
+
++Extending superclass behavior.>file://figures/Ref-LookupBasicSuper.png|width=60|label=fig:Ref-LookupBasicSuper+
+
+!!! Messages are late bound
+
+move injected from subclasses into superclass' code. 
++Subclass behavior can be invoked from superclass behavior.>file://figures/Ref-LookupLateBinding.png|width=60|label=fig:Ref-LookupLateBinding+
+
+
+!!! Creating a hook
+With the concept of late binding in mind, each time we send a message to self we create a customization point for subclasses.
+
+
+
+@@note self sends are creating customization points. 
+
+
+
+%!!! Exercises 
+%We propose two exercises. First you should turn all the examples into automated tests as explained in the Unit Test %chapter.  This is important because it will helps you for the second exercise.
+%As a second exercise, we propose that you introduce a new kind of reposo
+
+%[[[
+%| el |
+%el := MFRoot new.
+%el printString = '/'
+%]]]
+
+%[[[
+%| el r |
+%el := MFDirectory new name: 'comics'.
+%r := MFDirectory new. 
+%r addFile: el.	
+%r printString = '/comics/'
+%]]]
+
+
+
+
+
+!!! Responsibility-driven design (bof)
+
+Objects are responsible to maintain information and provide services
+A good design exhibits:
+- high cohesion of operations and data within classes 
+- low coupling between classes and subsystems
+Every method should perform one, well-defined task:
+-High level of abstraction 
+ write to an interface, not an implementation
+
+
+ !!! About object-oriented 
+ Object-oriented programming
+ promotes a distribution of responsibilities:  such distribution of computation over objects is achieved via message passing
+ which dynamically looks and applies a potentially different method corresponding to a message.
+
+
+
+
+
+ Object-oriented design lets you simulate a virtual world, so model the domain objects as you want them to be. Note that we do not have to model the world as it is, but as we want to think about it! In our virtual world, objects can be active and take responsibility for their actions, unlike passive objects in the real world.
+
+  Every domain concept that plays a role in the application and assumes a responsibility is a potential object in the software design
+
+  Don’t distinguish between first and second class objects: everything that has a responsibility and plays a role should be an object.
+ 
+ Well-designed objects have clear responsibilities
+ 
+ 
+ Data-driven approaches are bad for encapsulation because they focus too quickly on implementation (representation) of objects rather than their interface. Instead, focus on the responsibilities of an object: what data and tasks is it responsible for?
+
+ Responsibility : what you know and maintain
+
+ This will lead you to focus on the interface of an object rather than its representation.
+ Identifying responsibilities will help you to discover missing objects, and it will also tell you whether an object is needed in your design or not.
+
+
+ !!! Design corner: About collaborators and limited responsibility
+ As with any paradigm, we can define well designed programs or poor ones. Poor programs are often more buggy, more difficult to understand and reuse.
+
+ Usually an object does not exist in isolation, it often collaborate to implement its behavior. 
+ For example, a graphic turtle interacts with numbers, colors, and a graphical canvas to draw on it. A book will interact with a publisher, authors and optionally a collection or library and renter.
+
+ Such collaborators are other objects that do not necessary define the state of the object itself (a canvas is not part of a turtle properties still a turtle interact with it.).
+
+ To help you design good classes you should carefully think about the collaborators of an object.
+ Usually an object should not have too many collaborators. 
+
+ Another design guideline is that an object should have a limited set of responsibilities. For example a graphic turtle knows how to display itself and draw on a canvas. A counter knows
+ how to store and manipulate a value.
+

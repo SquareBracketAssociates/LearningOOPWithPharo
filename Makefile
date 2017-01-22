@@ -11,6 +11,7 @@ CHAPTERS = \
 	Chapters/SimpleLAN/SimpleLANDefinition \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
 	Chapters/Counter/Counter \
+	Chapters/Inheritance/Inheritance \
 	Chapters/DSL/DSL \
 	Chapters/Solutions/Solutions \
 	Chapters/OOPNutshell/OOPNutshell \

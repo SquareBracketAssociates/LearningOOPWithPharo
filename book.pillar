@@ -1,36 +1,36 @@
-{ "metadata": { "title": "Learning Object-Oriented Programming and Design with Pharo" ,
+{ "metadata": { 
+	"title": "Learning Object-Oriented Programming, Design and TDD with Pharo" ,
 	"attribution" : "Stéphane Ducasse"} } 
 
 
 
 ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
-! Key concepts in a nutshell
 
-${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
+! Getting in touch with Pharo
 
-! Getting in touch with syntax
-
-${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
+%${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
 
 !! A glimpse at syntax
 
-!! Tests, tests and tests
-@@todo Copy and edit part of the Unit chapter. 
+${inputFile:Chapters/Tests/Tests.pillar}$
  
 Turn the examples given in the first chapter into test
 
 ${inputFile:Chapters/Katas/GramKatas.pillar}$
 
-${inputFile:Chapters/Katas/GramVariation.pillar}$
+%${inputFile:Chapters/Katas/GramVariation.pillar}$
 
-! Simple Objects
+${inputFile:Chapters/Counter/Counter.pillar}$ 
+
+! About Objects and Classes
 In this book part we suggest to read carefully the next chapter and after to do the following ones.
 Since the following chapters are extremely simple exercises it can be tedious to do them all.
 
-${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
+${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
 
-${inputFile:Chapters/Counter/Counter.pillar}$ 
+
+${inputFile:Chapters/ObjectsAndClasses/ObjectsAndClasses.pillar}$
 
 ${inputFile:Chapters/Converter/Converter.pillar}$
 
@@ -45,15 +45,11 @@ ${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
 ! Looking at Inheritance
 
-!! Inheritance (TBMigrated)
-- should find a non-graphical
-- check the old explanation
+${inputFile:Chapters/Inheritance/Inheritance.pillar}$
 
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 
 ${inputFile:Chapters/Expressions/Expressions.pillar}$
-
-
 
 
 ! Sending messages
@@ -255,8 +251,9 @@ with conditionals and polymorphism
 May be at the end of the book: class are objects too. 
 	Model2 in MyBooks/botsinc/BookTwo/SyntaxAndModel2
 
-! Solutions 	
+! Extra teaching materia
 
+! Solutions 	
 ${inputFile:Chapters/Solutions/Solutions.pillar}$
 
 ! Appendix
