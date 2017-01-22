@@ -560,12 +560,13 @@ MFDirectory >> size
 	^ sum
 ]]]
 
-For the purists, such definition in fact fits on one line.
+%For the purists, the previous definition of ==size== can be expressed in fact in one line.
+%==inject:into:== 
 
-[[[
-MFDirectory >> size
-	^ name size + (files inject: 0 into: [:s :e | s + e size ]) + 2
-]]]
+%[[[
+%MFDirectory >> size
+%	^ name size + (files inject: 0 into: [:s :e | s + e size ]) + 2
+%]]]
 
 !!!! Search 
 Let us imagine that we want to search the files matching a given string. 
