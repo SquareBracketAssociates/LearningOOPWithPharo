@@ -183,7 +183,7 @@ Instances have their own state but it follows the description given by the class
 
 The ''factory'' or mould metaphor is really useful to explain the difference between classes and instances. Here, the class ==Box== describes and creates boxes of different size, position and tilt but all have these three characteristics.
 
-!! Initializing Instances
+!!! Initializing Instances
 
 Once the class is defined, create and inspect one of its instances by
 executing~\scrref{scr:box} or by using an inspector (see~\charef{ch:usingInspector}).  The
