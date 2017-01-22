@@ -2,7 +2,7 @@
  
 
 In this chapter we will develop a simple domain specific language (DSL) for rolling dice. Players of games such as Dungeon and Dragons are familiar with the DSL that we will implement. An example of such DSL is ==2 D20 + 1 D6== which means that we should roll two 20-faces dices and one 6 faces die. 
-This little exercise shows how we can (1) simply reuse traditional operator such as ==\+==, (2) develop an embedded DSL and (3) use class extensions (the fact that we can define a method in another package than the one of the class of the method).
+This little exercise shows how we can (1) simply reuse traditional operator such as ==\+==, (2) develop an embedded domain specific language and (3) use class extensions (the fact that we can define a method in another package than the one of the class of the method).
 
 
 !!! Getting started
@@ -10,8 +10,7 @@ This little exercise shows how we can (1) simply reuse traditional operator such
 Using the code browser, define a package named ==Dice== or any name your like.
 
 
-!!!! Creating a test 
-
+!!!! Create a test 
 It is always empowering to verify that the code we write is always working as we defining it. For this purpose we will create a unit test. Remember unit testing was promoted by K. Beck first in the ancestor of Pharo. Nowadays this is a common practice but this is always useful to remember our roots!
 
 So we define the class ==DieTest== as a subclass of ==TestCase==.
@@ -21,14 +20,6 @@ TestCase subclass: #DieTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	package: 'Dice'
-]]]
-
-The first test we define is that creating an instance of the class ==Die== does not raise an Error. 
-It is not really a good test but enough to get started with. 
-
-[[[
-DieTest >> testInitializeIsOk
-    self shouldnt: [ Die new ] raise: Error
 ]]]
 
 What we can test is that the default number of faces of a die is 6. 
@@ -92,25 +83,27 @@ value comprised between 1 and 6. This is what the following test method is actua
 [[[
 DieTest >> testRolling
 	| d |
-	d := Die new. 
+	d := Die new. withFaces:
 	10 timesRepeat: [ self assert: (d roll between: 1 and: 6) ]
 ]]]
 
 @@note Often it is better to define the test even before the code it tests. Why? Because you can think about the API of your objects and a scenario that illustrate their correct behavior. It helps you to program your solution.
 
 !!! Instance creation interface
-We would like to get a simpler way to create ==Die== instances. For example we want to create a 20-faces die as follows: ==Die faces: 20==. Let us define a test for it.
+We would like to get a simpler way to create ==Die== instances. For example we want to create a 20-faces die as follows: ==Die withFaces: 20==. Let us define a test for it.
 
 [[[
 DieTest >> testCreationIsOk
-	self assert: (Die faces: 20) faces equals: 20
+	self assert: (Die withFaces: 20) faces equals: 20
 ]]]
 
-You should define the ''class'' method ==faces:== as follows. It creates an instance then send the message ==faces:== to it and returns the instance.
+What the test clearly shows is that we are sending a message to the ""class"" ==Die== itself. 
+You should define the ''class'' method ==withFaces:== as follows. It creates an instance then send the message ==faces:== to it and returns the instance.
+Pay really attention that we have a class method ==withFaces:== sent to a class, and an instance method sent to the newly created instance ==faces:==. Note that the class method could have also named ==faces:==, it does not matter, it is executed when the receiver is the class ==Die==
 
 [[[
-Die class >> faces: aNumber
-
+Die class >> withFaces: aNumber
+	"Create and initialize a new die with aNumber faces."
 	| instance |
 	instance := self new.
 	instance faces: aNumber.
@@ -125,13 +118,12 @@ Die >> faces: aNumber
 ]]]
 
 Now your tests should run. So even if the class ==Die== could implement more behavior, we are ready to implement a dice handle. 
-In a first reading you can skip the following discussion. 
 
-!!!! Alternate instance creation definition
-The ''class'' method definition ==faces:== above is strictly equivalent to the one below.
+!!!! [Optional] Alternate instance creation definition
+ In a first reading you can skip this discussion. The ''class'' method definition ==withFaces:== above is strictly equivalent to the one below.
 
 [[[
-Die class >> faces: aNumber
+Die class >> withFaces: aNumber
 	^ self new faces: aNumber; yourself
 ]]]
 
@@ -142,7 +134,7 @@ Die >> faces: aNumber
 	faces := aNumber. 
 	^ 33
 ]]]
-Without the use of ==yourself==, ==Die faces: 20== will return 33. With ==yourself== it will return the instance.
+Without the use of ==yourself==, ==Die withFDie withFaces:aces: 20== will return 33. With ==yourself== it will return the instance.
 
 The trick is that ==yourself== is a simple method defined on ==Object== class: The message ==yourself== returns the receiver of a message.
 The use of ==;== sends the message to the receiver of the previous message (here ==faces:==).  The message ==yourself== is then sent to the object resulting from the execution of the expression ==self new== (which returns a new instance of the class ==Die==), as a consequence it returns the new instance. 
@@ -154,8 +146,8 @@ Here is the API that we would like to offer for now. We create a new instance of
 
 [[[
 DiceHandle new 
-	addDie: (Die faces: 6);
-	addDie: (Die faces: 10);
+	addDie: (Die withFaces: 6);
+	addDie: (Die withFaces: 10);
 	yourself
 ]]]
 
@@ -176,8 +168,8 @@ We verify that the handle is composed of two dice.
 DiceHandleTest >> testCreationAdding
 	| handle |
 	handle := DiceHandle new 
-			addDie: (Die faces: 6);
-			addDie: (Die faces: 10);
+			addDie: (Die withFaces: 6);
+			addDie: (Die withFaces: 10);
 			yourself.
 	self assert: handle diceNumber = 2.
 ]]]
@@ -189,9 +181,9 @@ two dice having the same number of faces.
 DiceHandleTest >> testAddingTwiceTheSameDice
 	| handle |
 	handle := DiceHandle new. 
-	handle addDie: (Die faces: 6).
+	handle addDie: (Die withFaces: 6).
 	self assert: handle diceNumber = 1.
-	handle addDie: (Die faces: 6).
+	handle addDie: (Die withFaces: 6).
 	self assert: handle diceNumber = 2.
 ]]]
 
@@ -223,8 +215,8 @@ DiceHandle >> addDie: aDie
 Now you can execute the code snippet and inspect it. You should get an inspector as shown in Figure *@diceHandleNoDetail* 
 [[[
 DiceHandle new 
-	addDie: (Die faces: 6);
-	addDie: (Die faces: 10);
+	addDie: (Die withFaces: 6);
+	addDie: (Die withFaces: 10);
 	yourself
 ]]]
 
@@ -246,8 +238,8 @@ Now when you open an inspector you cannot see well the dice that compose the dic
 
 [[[
 DiceHandle new 
-	addDie: (Die faces: 6);
-	addDie: (Die faces: 10);
+	addDie: (Die withFaces: 6);
+	addDie: (Die withFaces: 10);
 	yourself
 ]]]
 
@@ -282,8 +274,8 @@ DiceHandle >> roll
 Now we can send the message ==roll== to a dice handle.
 [[[
 handle := DiceHandle new 
-		addDie: (Die faces: 6);
-		addDie: (Die faces: 10);
+		addDie: (Die withFaces: 6);
+		addDie: (Die withFaces: 10);
 		yourself.
 handle roll
 ]]]
@@ -387,104 +379,6 @@ DiceHandle >> + aDiceHandle
 
 Now we can execute the method ==(2 D20 + 1 D6) roll== nicely and start playing role playing games, of course.
 
-!!! Solutions
-
-Here are the possiblle solutions of the implementation we asked. 
-
-!!!! Define class Die
-
-[[[
-Object subclass: #Die
-	instanceVariableNames: 'faces'
-	classVariableNames: ''
-	package: 'Dice'
-]]]
-
-[[[
-Die >> initialize
-	super initialize.
-	faces := 6
-]]]
-
-!!!! Rolling a die
-
-[[[
-Die >> roll
-    ^ faces atRandom
-]]]
-
-!!!! Define class DieHandle
-
-[[[
-Object subclass: #DiceHandle
-	instanceVariableNames: 'dice'
-	classVariableNames: ''
-	package: 'Dice'
-]]]
-
-[[[
-DiceHandle >> initialize
-	super initialize.
-	dice := OrderedCollection new.
-]]]
-
-!!!! Die addition
-
-[[[
-DiceHandle >> addDie: aDie 
-	dice add: aDie
-]]]
-
-!!! Rolling a dice handle
-
-[[[
-DiceHandle >> roll
-	
-	| res |
-	res := 0.
-	dice do: [ :each | res := res + each roll ].
-	^ res
-]]]
-
-!!! Role playing syntax
-
-[[[
-Integer >> D20
-	| handle |
-	handle := DiceHandle new.
-	self timesRepeat: [ handle addDie: (Die faces: 20)].
-	^ handle
-]]]
-
-[[[
-Integer >> D: anInteger
-	
-	| handle |
-	handle := DiceHandle new.
-	self timesRepeat: [ handle addDie: (Die faces: anInteger)].
-	^ handle
-]]]
-
-!!! Adding DiceHandles
-
-[[[
-DiceHandle >> + aDiceHandle
-
-	| handle |
-	handle := self class new.
-	self dice do: [ :each | handle addDie: each ].
-	aDiceHandle dice do: [ :each | handle addDie: each ].
-	^ handle
-]]]
-
-This definition only works if the method ==dice== defined below has been defined
-
-[[[
-DiceHandle >> dice
-	^ dice 
-]]]
-
-Indeed the first expression ==self dice do: == could be rewritten as ==dice do: == because dice is an instance variable of the class ==DiceHandle==. Now the expression ==aDiceHandle dice do: == cannot. Why? Because in Pharo you cannot access the state of another object directly. Here ==2 D20==  is one handle and ==3 D10== another one. The first one cannot access the dice of the second one directly (while it can accessed its own). Therefore there is a need to define a message that provide access to the dice. 
 
 
 !!! Conclusion

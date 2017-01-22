@@ -1,6 +1,105 @@
 !! Solutions
 @cha_solutions
 
+!!! Die DSL 
+Here are the possiblle solutions of the implementation we asked for the DSL chapter. 
+
+!!!! Define class Die
+
+[[[
+Object subclass: #Die
+	instanceVariableNames: 'faces'
+	classVariableNames: ''
+	package: 'Dice'
+]]]
+
+[[[
+Die >> initialize
+	super initialize.
+	faces := 6
+]]]
+
+!!!! Rolling a die
+
+[[[
+Die >> roll
+    ^ faces atRandom
+]]]
+
+!!!! Define class DieHandle
+
+[[[
+Object subclass: #DiceHandle
+	instanceVariableNames: 'dice'
+	classVariableNames: ''
+	package: 'Dice'
+]]]
+
+[[[
+DiceHandle >> initialize
+	super initialize.
+	dice := OrderedCollection new.
+]]]
+
+!!!! Die addition
+
+[[[
+DiceHandle >> addDie: aDie 
+	dice add: aDie
+]]]
+
+!!! Rolling a dice handle
+
+[[[
+DiceHandle >> roll
+	
+	| res |
+	res := 0.
+	dice do: [ :each | res := res + each roll ].
+	^ res
+]]]
+
+!!! Role playing syntax
+
+[[[
+Integer >> D20
+	| handle |
+	handle := DiceHandle new.
+	self timesRepeat: [ handle addDie: (Die withFaces: 20)].
+	^ handle
+]]]
+
+[[[
+Integer >> D: anInteger
+	
+	| handle |
+	handle := DiceHandle new.
+	self timesRepeat: [ handle addDie: (Die withFaces: anInteger)].
+	^ handle
+]]]
+
+!!! Adding DiceHandles
+
+[[[
+DiceHandle >> + aDiceHandle
+	"Returns a new handle that represents the addition of the receiver and the argument."
+	| handle |
+	handle := self class new.
+	self dice do: [ :each | handle addDie: each ].
+	aDiceHandle dice do: [ :each | handle addDie: each ].
+	^ handle
+]]]
+
+This definition only works if the method ==dice== defined below has been defined
+
+[[[
+DiceHandle >> dice
+	^ dice 
+]]]
+
+Indeed the first expression ==self dice do: == could be rewritten as ==dice do: == because dice is an instance variable of the class ==DiceHandle==. Now the expression ==aDiceHandle dice do: == cannot. Why? Because in Pharo you cannot access the state of another object directly. Here ==2 D20==  is one handle and ==3 D10== another one. The first one cannot access the dice of the second one directly (while it can accessed its own). Therefore there is a need to define a message that provide access to the dice. 
+
+
 !!! Expression chapter
 @sec_expressionsolutions
 
