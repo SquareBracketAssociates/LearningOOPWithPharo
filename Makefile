@@ -16,6 +16,7 @@ CHAPTERS = \
 	Chapters/Solutions/Solutions \
 	Chapters/OOPNutshell/OOPNutshell \
 	Chapters/Tests/Tests \
+	Chapters/SyntaxGlimpse/SyntaxGlimpse \
 	Chapters/Expressions/Expressions \
 	Chapters/Wallet/Wallet
 
