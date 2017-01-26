@@ -8,7 +8,7 @@ Pharo syntax is based on a couple of constructs such as ''variable definition'',
 Pharo's syntax is minimal. Essentially there is syntax only for sending messages
 (i.e., expressions). Expressions are built up from a very small number of
 primitive elements (message sends, assignments, closures, returns...). There are
-only 6 keywords, and there is no syntax for control structures or declaring new
+only a couple a special variables, and there is no syntax for control structures or declaring new
 classes. Instead, nearly everything is achieved by sending messages to objects.
 For instance, instead of an if-then-else control structure, conditionals are
 expressed as messages (such as ==ifTrue:==) sent to Boolean objects. New
@@ -30,17 +30,38 @@ Comments are delimited by double quotes =="==.
 "Hello"
 ]]]
 
-!!!! Strings
+!!!! Characters, Strings and Symbols
+Characters short form creation is following the pattern dollar sign followed by the letter.  The expression ==$A== is the character A.
+
+[[[
+$A
+>>> $A
+]]]
+
 Strings are delimited by single quotes =='==.
 [[[
 'Hello'
 >>> 'Hello'
 ]]]
 
+Strings are sequence of characters.
+
+[[[
+'Hello' first
+>>> $A
+]]]
+
 We can concatenate strings using the message ==,==.
 [[[
 'Hello ', 'Pharoers'
 >>> 'Hello Pharoers'
+]]]
+
+Symbols are unique strings. They start with ==#==.
+
+[[[
+#'Hello Pharoers'
+>>> #'Hello Pharoers'
 ]]]
 
 !!!! Booleans
@@ -156,7 +177,7 @@ There are three kinds of messages in Pharo. This distinction has been made to re
 
 
 !!! Unary messages
-
+Unary message selectors consist of alphanumeric characters, and start with a lower case letter.
 Here is an example of unary message:
 [[[
 20 factorial 
@@ -175,10 +196,19 @@ Here is an example of binary message:
 
 We send the binary message ==\+== to the number ==12== with the argument ==15==. 
 A binary message is defined by a binary selector: a selector written without alphabetic characters, i.e., such ==+-/*\=\~ \< \>==.
+Binary message selectors consist of one or more characters from the following set:
+
+[[[
++ - / \ * ~ < > = @ % | & ? ,
+]]]
 
 !!! Keyword messages
+Keyword messages are messages with arguments. 
+Keyword message selectors consist of a series of alphanumeric keywords, where
+each keyword starts with a lower-case letter and ends with a colon.
 
-Keyword messages are messages with arguments. For example to access the element of an array we send the message ==at:== with as argument the index in the array. Arrays have their first element at index 1. 
+
+For example to access the element of an array we send the message ==at:== with as argument the index in the array. Arrays have their first element at index 1. 
 
 [[[
 #(11 22 33) at: 2
@@ -229,6 +259,30 @@ These rules make Pharo code as easy to read as possible. And most of the time yo
 >>> 40
 ]]]
 
+[[[
+2 raisedTo: 1 + 3 factorial
+>>> 128
+]]]
+
+First we send ==factorial== to 3, then we send ==\+ 6== to 1, and finally we
+send ==raisedTo: 7== to 2. Recall that we use the notation expression ==-\->==
+to show the result of evaluating an expression.
+
+Precedence aside, execution is strictly from left to right, so:
+
+[[[
+1 + 2 * 3 
+>>> 9
+]]]
+
+return 9 and not 7. Parentheses must be used to alter the order of evaluation:
+
+[[[
+1 + (2 * 3) 
+>>> 7
+]]]
+
+
 
 !!! Sending multiple messages to the same object
 
@@ -260,116 +314,18 @@ This has precisely the same effect as the previous example.
 
 !!! Blocks
 
-
-!!!Message sends
-
-
-
-
-!!!!!Unary messages.
-Unary message selectors consist of alphanumeric characters, and start with a lower case letter.
-
-!!!!!Binary messages.
-Binary message selectors consist of one or more characters from the following
-set:
-
-[[[
-+ - / \ * ~ < > = @ % | & ? ,
-]]]
-
-!!!!!Keyword message selectors.
-Keyword message selectors consist of a series of alphanumeric keywords, where
-each keyword starts with a lower-case letter and ends with a colon.
-
-!!!!!Message precedence.
-Unary messages have the highest precedence, then binary messages, and finally
-keyword messages, so:
-
-[[[
-2 raisedTo: 1 + 3 factorial
->>> 128
-]]]
-
-First we send ==factorial== to 3, then we send ==\+ 6== to 1, and finally we
-send ==raisedTo: 7== to 2. Recall that we use the notation expression ==-\->==
-to show the result of evaluating an expression.
-
-Precedence aside, execution is strictly from left to right, so:
-
-[[[
-1 + 2 * 3 
->>> 9
-]]]
-
-return 9 and not 7. Parentheses must be used to alter the order of evaluation:
-
-[[[
-1 + (2 * 3) 
->>> 7
-]]]
-
-
-
-!!!Method syntax
-
-Whereas expressions may be evaluated anywhere in Pharo (for example, in a
-playground, in a debugger, or in a browser), methods are normally defined in a
-browser window, or in the debugger. Methods can also be filed in from an
-external medium, but this is not the usual way to program in Pharo.
-
-Programs are developed one method at a time, in the context of a given class. A
-class is defined by sending a message to an existing class, asking it to create
-a subclass, so there is no special syntax required for defining classes.
-
-Here is the method ==lineCount== in the class ==String==. The usual ''convention''
-is to refer to methods as ClassName\>\>methodName. Here the method is then  String\>\>lineCount.
-Note that  ClassName\>\>methodName is not part of the Pharo syntax just
-a convention used in books to clearly define a method.
-
-[[[
-String >> lineCount
-	"Answer the number of lines represented by the receiver, where every cr adds one line."
-
-	| cr count |
-	cr := Character cr.
-	count := 1 min: self size.
-	self do: [:c | c == cr ifTrue: [count := count + 1]].
-	^ count
-]]]
-
-Syntactically, a method consists of:
-
-#the method pattern, containing the name (i.e., ==lineCount==) and any arguments (none in this example)
-#comments (these may occur anywhere, but the convention is to put one at the top that explains what the method does)
-#declarations of local variables (i.e., ==cr== and ==count==); and
-#any number of expressions separated by dots (here there are four)
-
-The execution of any expression preceded by a ==^== (a caret or upper
-arrow, which is Shift-6 for most keyboards) will cause the method to exit at
-that point, returning the value of that expression. A method that terminates
-without explicitly returning some expression will implicitly return ==self==.
-
-Arguments and local variables should always start with lower case letters. Names
-starting with upper-case letters are assumed to be global variables. Class
-names, like ==Character==, for example, are simply global variables referring to
-the object representing that class.
-
-
-
-!!!Block syntax
-
 Blocks (lexical closures) provide a mechanism to defer the execution of expressions. A block is
 essentially an anonymous function with a definition context. A block is executed by sending it the
 message ==value==. The block answers the value of the last expression in its
 body, unless there is an explicit return (with ^) in which case it returns the value of the returned expression.
 
-[[[language=smalltalk
+[[[
 [ 1 + 2 ] value 
 >>> 3
 ]]]
 
 
-[[[language=smalltalk
+[[[
 [ 3 = 3 ifTrue: [ ^ 33 ]. 44 ] value
 >>> 33
 ]]]
@@ -380,22 +336,18 @@ To evaluate a block with one parameter, you must send it the message value: with
 one argument. A two-parameter block must be sent ==value:value:==, and so on, up
 to 4 arguments.
 
-[[[language=smalltalk
+[[[
 [ :x | 1 + x ] value: 2 
 >>> 3
 [ :x :y | x + y ] value: 1 value: 2 
 >>> 3
 ]]]
 
-If you have a block with more than four parameters, you must use
-==valueWithArguments:== and pass the arguments in an array. (A block with a
-large number of parameters is often a sign of a design problem.)
-
 Blocks may also declare local variables, which are surrounded by vertical bars,
 just like local variable declarations in a method. Locals are declared after any
 arguments:
 
-[[[language=smalltalk
+[[[
 [ :x :y |
 	| z |
 	z := x + y.
@@ -418,6 +370,54 @@ Blocks are instances of the class ==BlockClosure==. This means that they are
 objects, so they can be assigned to variables and passed as arguments just like
 any other object.
 
+!!!Method syntax
+
+Whereas expressions may be evaluated anywhere in Pharo (for example, in a
+playground, in a debugger, or in a browser), methods are defined in a
+ class using a code browser, or in the debugger. Methods can also be filed in from an
+external medium, but this is not the usual way to program in Pharo.
+
+Programs are developed one method at a time, in the context of a given class. A
+class is defined by sending a message to an existing class, asking it to create
+a subclass, so there is no special syntax required for defining classes.
+
+Here is the method ==lineCount== in the class ==String==. The usual ''convention''
+is to refer to methods as ==ClassName\>\>methodName==. Here the method is then ==String\>\>lineCount==.
+Note that ==ClassName\>\>== is not part of the Pharo syntax just
+a convention used in books to clearly define a method. It means that when you define it you should
+ just type the selector (here ==lineCount==). 
+
+[[[
+String >> lineCount
+	"Answer the number of lines represented by the receiver, where every cr adds one line."
+
+	| cr count |
+	cr := Character cr.
+	count := 1 min: self size.
+	self do: [:c | c == cr ifTrue: [count := count + 1]].
+	^ count
+]]]
+
+Syntactically, a method consists of:
+
+#the method pattern, containing the name (i.e., ==lineCount==) and any arguments (none in this example)
+#comments (these may occur anywhere, but the convention is to put one at the top that explains what the method does)
+#declarations of local variables (i.e., ==cr== and ==count==); and
+#any number of expressions separated by dots (here there are four).
+
+The execution of any expression preceded by a ==^== (a caret or upper
+arrow, which is Shift-6 for most keyboards) will cause the method to exit at
+that point, returning the value of that expression. A method that terminates
+without explicitly returning some expression will implicitly return ==self==.
+
+Arguments and local variables should always start with lower case letters. Names
+starting with upper-case letters are assumed to be global variables. Class
+names, like ==Character==, for example, are simply global variables referring to
+the object representing that class.
+
+
+
+
 !!! Some conditionals
 
 Pharo offers no special syntax for control constructs. Instead, these are
@@ -431,6 +431,14 @@ Conditionals are expressed by sending one of the messages ==ifTrue:==,
 (17 * 13 > 220)
 	ifTrue: [ 'bigger' ]
 	ifFalse: [ 'smaller' ] 
+>>>'bigger'
+]]]
+
+Note that the order can be reserved too.
+[[[
+(17 * 13 > 220)
+	ifFalse: [ 'smaller' ]
+	ifTrue: [ 'bigger' ]
 >>>'bigger'
 ]]]
 
@@ -473,13 +481,12 @@ block that takes the current value of the loop counter as its argument:
 result := String new.
 1 to: 10 do: [:n | result := result, n printString, ' '].
 result 
->>> '1 2 3 4 5 6 7 8 9 10 '
+>>> '1 2 3 4 5 6 7 8 9 10'
 ]]]
 
 !!! Iterators
-Collections comprise a large number of different
-classes, many of which support the same protocol. The most important messages
-for iterating over collections include ==do:==, ==collect:==, ==select:==,
+Collections comprise a large number of different classes, many of which support the same set of messages.
+The most important messages for iterating over collections include ==do:==, ==collect:==, ==select:==,
 ==reject:==, ==detect:== and ==inject:into:==. These messages define high-level
 iterators that allow one to write very compact code.
 
@@ -520,22 +527,7 @@ the characters.
 >>> $e
 ]]]
 
-Finally, you should be aware that collections also support a functional-style
-fold operator in the ==inject:into:== method. You can also think of it as the
-Reduce in the MapReduce programming model. This lets you generate a cumulative
-result using an expression that starts with a seed value and injects each
-element of the collection. Sums and products are typical examples.
-
-[[[
-(1 to: 10) inject: 0 into: [ :sum :each | sum + each] 
->>> 55
-]]]
-
-This is equivalent to ==0\+\1\+2\+3\+4\+5\+6\+7\+8\+9\+10==.
-
-More about collections can be found in Chapter
-*: Collections>../Collections/Collections.pier@cha:collections*.
-
+More about collections can be found in Pharo by Example.
 
 !!!Chapter summary
 
