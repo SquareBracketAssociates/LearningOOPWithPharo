@@ -121,11 +121,11 @@ There are three kinds of message: ''unary'' (without any argument), ''binary'' (
 
 Here is an example of unary message:
 [[[
-12 factorial
->>> 479001600
+20 factorial 
+>>> 2432902008176640000
 ]]]
 
-We send the unary message ==factorial== to the number ==12==. Unary means that there is no argument and that the selector is 
+We send the unary message ==factorial== to the number ==20==. Unary means that there is no argument and that the selector is 
 composed of letters. 
 
 !!!!! Binary messages
