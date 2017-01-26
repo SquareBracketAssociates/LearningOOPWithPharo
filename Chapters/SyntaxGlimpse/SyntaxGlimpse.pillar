@@ -1,14 +1,12 @@
 !! A glimpse at Pharo's syntax
 @cha:syntax
 
-Pharo syntax is based on a couple of constructs such as variable definition, sequence, assignment, return 
-and two concepts used systematically: ''messages'' and ''blocks''.  This chapter provides some basic introduction
-to the key points. There will be not much more but the reader willing to get a deep and precise presentation of syntax 
-should read the corresponding chapters in Pharo By Example available at *http://books.pharobyexample.org*
+Pharo syntax is minimal: The complete syntax fits in one postcard.
+Pharo syntax is based on a couple of constructs such as ''variable definition'', ' ''assignment'', ''return'', ''sequence'', and two main construct used systematically: ''messages'' and ''blocks''.  This chapter provides some basic introduction to the key points. There will be not much more but the reader willing to get a deep and precise presentation of syntax should read the corresponding chapters in Pharo By Example available at *http://books.pharobyexample.org*
 
 !!! Minimal
 Pharo's syntax is minimal. Essentially there is syntax only for sending messages
-(i.e. expressions). Expressions are built up from a very small number of
+(i.e., expressions). Expressions are built up from a very small number of
 primitive elements (message sends, assignments, closures, returns...). There are
 only 6 keywords, and there is no syntax for control structures or declaring new
 classes. Instead, nearly everything is achieved by sending messages to objects.
@@ -16,45 +14,97 @@ For instance, instead of an if-then-else control structure, conditionals are
 expressed as messages (such as ==ifTrue:==) sent to Boolean objects. New
 (sub-)classes are created by sending a message to their superclass.
 
-Although Pharo's message syntax is simple, it is unconventional and can take
-some time getting used to. This chapter offers some guidance to help you get
+Although Pharo's message syntax is simple, it is unconventional. This chapter offers some guidance to help you get
 acclimatized to this special syntax for sending messages. If you already feel
 comfortable with the syntax, you may choose to skip this chapter, or come back
 to it later.
 
-!!!Key expressions
 
-In Pharo, except for the a few constructs
-(==\:= ^ . ; # () {} [ : | ]== ), everything is a message
-send. 
+!!! Literal objects
 
-There is no operators, just messages sent to objects. 
-Therefore you can define a message named ==\+== in your class but there is also no precedence
-because Pharo always takes the simplest form of definition. 
+In Pharo, most objects are created by sending the message ==new== to a class. There are also some objects that are directly created by the compiler. 
 
+!!!! Comments
+Comments are delimited by double quotes =="==. 
+[[[
+"Hello"
+]]]
+
+!!!! Strings
+Strings are delimited by single quotes =='==.
+[[[
+'Hello'
+>>> 'Hello'
+]]]
+
+We can concatenate strings using the message ==,==.
+[[[
+'Hello ', 'Pharoers'
+>>> 'Hello Pharoers'
+]]]
+
+!!!! Booleans
+There are two Booleans ==true== and ==false==. 
+
+[[[
+true not
+>>> false
+]]]
 
 !!!! Arrays
 
+Arrays can be created as any other objects by sending the message ==new== to the class ==Array==.
+In addition, Pharo supports two other ways: ==#( )== and =={ . }==. 
+
+The expression ==#(1 + 2 3)== creates an array with four objects: 1, ==\#\+==, 2, and 3. 
+
 [[[
-#(1 2 3)
->>> #(1 2 3)
+#(1 + 2 3)
+>>> #(1 + 2 3)
 ]]]
+
+The expression =={1 + 2}== creates an array with one object resulting from the expression ==1 + 2==.
+
+[[[
+{ 1 + 2}
+>>> #(3)
+]]]
+
+The expression =={1 + 2 . 3 + 4}== creates an array with two objects resulting from the execution of expressions separated by period.
 
 [[[
 { 1 + 2 . 3 + 4}
 >>> #(3 7)
 ]]]
 
+!!!Key expressions
+
+In Pharo, except for a few constructs (==\:= ^ . ; # () {} [ : | ]== ), everything else is a message send.
+There is no operators or control flow constructs,  just messages sent to objects. Therefore you can 
+define a message named ==\+== in your class. 
+
+
 !!!! Variable definition and assignment
+
+The expression ==| sum |== declares a local variable. The expression == sum := 0== changes the value of the variable ==sum== to 0. The assignment construct is ==\:\===.
 
 [[[
 | sum |
 sum := 0
 ]]]
 
+!!!! Special variables
 
+There are several special variables:
+- ==nil== is the object representing the pointer to nowhere. It is the default value of variables. 
+- ==true== and ==false== are Booleans.
+- ==self== is the receiver of the message (See Chapter *@cha:inheritance*).
+- ==super== is the receiver of the message (See Chapter *@cha:inheritance*).
 
 !!!! Returning an object
+
+By default a method returns the receiver of the message. If we want to return a different object
+we use the construct ==\^==. The expression ==\^ sum== returns the object pointed by the variable ==sum==.
 
 [[[
 | sum |
@@ -64,36 +114,79 @@ sum := sum + 1.
 ]]]
 
 !!!! Messages
+There are three kinds of message: ''unary'' (without any argument), ''binary'' (with two arguments) and ''keywords'' (with arguments).
 
-We send the unary message ==factorial== to the number 12. Unary means that there is no argument and that the selector is 
-composed of letters. 
 
+!!!!! Unary messages
+
+Here is an example of unary message:
 [[[
 12 factorial
->>>
+>>> 479001600
 ]]]
 
-We send the binary message ===== to the number 12 with the argument 15. 
-A binary message is defined by a binary selector: a selector written without alphabetic characters, i.e., such ==+-/*\=\~ \< \>==
+We send the unary message ==factorial== to the number ==12==. Unary means that there is no argument and that the selector is 
+composed of letters. 
+
+!!!!! Binary messages
+Here is an example of binary message:
 [[[
 12 + 15 
 >>> 27
 ]]]
 
+We send the binary message ==\+== to the number ==12== with the argument ==15==. 
+A binary message is defined by a binary selector: a selector written without alphabetic characters, i.e., such ==+-/*\=\~ \< \>==.
+
+!!!!! Keyword messages
+
+Keyword messages are messages with arguments. 
+
+For example to access the element of an array we send the message ==at:== with as argument the index in the array (Arrays have their first element at index 1). 
+[[[
+#(11 22 33) at: 2
+>>>22
+]]]
+
+Another keyword-based message is the message ==at:put:== to change the value of an array. 
+Here we put the number 66 in the second position. 
+[[[
+| a |
+a := #(11 22 33).
+a at: 2 put: 66.
+a
+>>>#(11 66 33)
+]]]
+
+Another example 
 [[[
 1 between: 0 and: 3 
 >>> true
 ]]]
 
-In the subsequent sections we will explain deeper messages. 
+This message would expressed in C-like syntax as follows: 
+
+[[[
+1.betweenAnd(0,3) 
+>>> true
+]]]
+
+
+[[[
+x ifTrue: [ ]
+]]]
+
 
 !!!! Sequence of expressions
 
 ==.== separates messages.
+
 [[[
-| sum |
-sum := 0.
-sum := sum + 1.
+| a |
+a := #(11 22 33).
+a at: 2 put: 66.
+a
+>>>#(11 66 33)
 ]]]
 
 !!!! Sending multiple messages to the same object
@@ -128,11 +221,7 @@ or a variable or the result of evaluating another message.
 
 
 
-!!! Messages
 
-!!! Assignment
-
-!!! return
 
 !!! Block
 
