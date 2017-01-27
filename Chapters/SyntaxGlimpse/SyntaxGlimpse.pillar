@@ -1,4 +1,4 @@
-!! A glimpse at Pharo's syntax
+!! Pharo's syntax overview
 @cha:syntax
 
 Pharo syntax is minimal: The complete syntax fits in one postcard.
