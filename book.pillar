@@ -10,7 +10,9 @@ ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
 %${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
 
-!! A glimpse at syntax
+${inputFile:Chapters/GettingStarted/GettingStarted.pillar}$ 
+
+${inputFile:Chapters/SyntaxGlimpse/SyntaxGlimpse.pillar}$ 
 
 ${inputFile:Chapters/Counter/Counter.pillar}$ 
 
