@@ -1,0 +1,61 @@
+!! Getting started with Pharo syntax
+@cha:started
+
+In Pharo everything is an object and most computation happens by sending object messages. 
+In this chapter we start with a simple path to get you understand the most important part
+of the Pharo syntax: messages and blocks. This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I think him for giving me the permission to reuse his ideas.
+
+Pharo syntax is simple and elegant. Let’s look at an example.
+
+[[[
+'hello' reversed
+]]]
+
+Selecting this piece of code and looking at the result of executing it (something you can do everywhere when working in Pharo) yields another object
+
+[[[
+'olleh'
+]]]
+as a result. 
+
+In this book, we will write a message and show its result after ==>>>== t as follows:
+
+[[[
+'hello' reversed
+>>> 'olleh'
+]]]
+
+What happened is that the message ==reversed== was sent to the string object =='hello'==, resulting in a new string object
+ with the characters reversed.
+The literal string ==‘hello’== is called the ''receiver'' while ==reversed== is called the message selector (kind of the name of the message). 
+
+Here is another example of message
+
+[[[
+'hello' asUppercase
+>>>
+'HELLO'
+]]]
+
+These kinds of messages are called ''unary'' messages because they take no arguments.
+
+
+[[[
+'hello' at: 1
+]]]
+returns
+
+The general form for messages that take arguments uses interpolated keywords ending in colons, like this.
+[[[
+'hello' copyFrom: 1 to: 3
+]]]
+
+which results in a new string object =='hel'==. Note that in the name of the previous message is ==copyFrom:to:==.
+The arguments of the messages 
+
+Note how natural keyword messages read and how they are self documenting with well-chosen names
+
+
+
+
+
