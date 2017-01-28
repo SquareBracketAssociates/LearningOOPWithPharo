@@ -1,9 +1,13 @@
 !! Getting started with Pharo syntax
 @cha:started
 
-In Pharo everything is an object and most computation happens by sending object messages. 
+In Pharo everything is an object and most computation happens by sending  messages to objects.
 In this chapter we start with a simple path to get you understand the most important part
-of the Pharo syntax: messages and blocks. This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I think him for giving me the permission to reuse his ideas.
+of the Pharo syntax: ''messages'', ''blocks'' and ''methods''. 
+This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I think him for giving me the permission to reuse his ideas.
+
+
+!!! Simplicity and elegance
 
 Pharo syntax is simple and elegant. Let’s look at an example.
 
@@ -11,39 +15,77 @@ Pharo syntax is simple and elegant. Let’s look at an example.
 'hello' reversed
 ]]]
 
-Selecting this piece of code and looking at the result of executing it (something you can do everywhere when working in Pharo) yields another object
+Selecting this piece of code and looking at the result of its execution (something you can do everywhere when working in Pharo) yields another object
 
 [[[
 'olleh'
 ]]]
 as a result. 
 
-In this book, we will write a message and show its result after ==>>>== t as follows:
 
-[[[
-'hello' reversed
->>> 'olleh'
-]]]
 
 What happened is that the message ==reversed== was sent to the string object =='hello'==, resulting in a new string object
  with the characters reversed.
-The literal string ==‘hello’== is called the ''receiver'' while ==reversed== is called the message selector (kind of the name of the message). 
+The literal string ==‘hello’== is called the ''receiver'' while ==reversed== is called the message selector (kind of the name of the message).
+
+!!!! Another message
 
 Here is another example of message
 
 [[[
 'hello' asUppercase
->>>
+]]]
+which returns the following new string object:
+[[[
 'HELLO'
 ]]]
 
-These kinds of messages are called ''unary'' messages because they take no arguments.
+!!!! Convention for showing results
+In this book, we will write a message and show its result after ==>>>== as follows:
+[[[
+'hello' asUppercase
+>>> 'HELLO'
+]]]
 
+
+!!!! A final example
+Let us take a final example. 
+
+[[[
+'hello' first
+>>> $h
+]]]
+
+The message ==first== returns the first character of the string. Strings in Pharo are sequence of characters. Literal characters are expressed by the character ==$== followed by a character. All of these strings and characters are objects because let me repeat it in Pharo ''everything'' is an object.
+
+All the messages we saw so far are called ''unary'' messages because they take no arguments.
+
+@@note Message without arguements are called ''unary'' messages. 
+
+
+!!!! Passing one argument to a message
+
+To access the first element of a string we can also send another message the message ==at:==.
 
 [[[
 'hello' at: 1
+>>>$h
 ]]]
-returns
+
+The message ==at:== requires an argument indicating which element we want to access.
+
+[[[
+'hello' at: 2
+>>>$e
+]]]
+
+So now you know how we can express with an argument. Simple, put a colon at the end of the selector and pass the argument: ==at: 2==.
+
+@@note Messages whose selector contains a colon ==:== expect an argument.
+
+
+!!!! Messages with arguments
+
 
 The general form for messages that take arguments uses interpolated keywords ending in colons, like this.
 [[[
@@ -56,6 +98,33 @@ The arguments of the messages
 Note how natural keyword messages read and how they are self documenting with well-chosen names
 
 
+!!! About classes
+
+To refer to a class, a capitalised name is used. Classes are an important entry point to create objects. Of course, this is done by sending messages such as ==new==to the class object.
+
+[[[
+String new
+>>> ''
+]]]
+
+Sending the message new to the class ==String== returns a new, empty string, ''. 
+Some classes understand different instance creation messages, like the class ==Float== that understands the message ==pi==.
+
+[[[
+Float pi
+>>> 3.141592653589793
+]]]
 
 
+
+!!!! Methods
+
+[[[
+first
+	"Answer the first element of the receiver"
+
+	^ self at: 1
+]]]
+
+If you want to see it in Pharo you should browse the superclasses of the class ==String== and you will find it in the class ==SequenceableCollection==. We will explain this in the chapter *@cha:inheritance*.
 
