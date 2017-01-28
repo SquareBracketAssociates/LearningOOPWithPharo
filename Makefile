@@ -1,6 +1,7 @@
 MAIN = book
 CHAPTERS = \
 	Chapters/Introduction/Introduction \
+	Chapters/GettingStarted/GettingStarted \
 	Chapters/PlayingWithTurtles/PlayingWithTurtles \
 	Chapters/SyntaxNutshell/SyntaxNutshell \
 	Chapters/Katas/GramKatas \
