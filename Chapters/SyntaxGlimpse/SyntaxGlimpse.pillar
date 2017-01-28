@@ -238,9 +238,7 @@ This message would expressed in C-like syntax as follows:
 >>> true
 ]]]
 
-[[[
-x ifTrue: [ ]
-]]]
+
 
 
 !!!Execution order and parentheses

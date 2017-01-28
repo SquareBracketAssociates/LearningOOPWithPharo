@@ -12,12 +12,12 @@ ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
 ${inputFile:Chapters/GettingStarted/GettingStarted.pillar}$ 
 
-${inputFile:Chapters/SyntaxGlimpse/SyntaxGlimpse.pillar}$ 
-
 ${inputFile:Chapters/Counter/Counter.pillar}$ 
 
 ${inputFile:Chapters/Tests/Tests.pillar}$ 
 Turn the examples given in the first chapter into test
+
+${inputFile:Chapters/SyntaxGlimpse/SyntaxGlimpse.pillar}$ 
 
 ${inputFile:Chapters/Katas/GramKatas.pillar}$
 

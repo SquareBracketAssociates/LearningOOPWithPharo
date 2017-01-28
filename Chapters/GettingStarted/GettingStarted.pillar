@@ -1,15 +1,17 @@
-!! Getting started with Pharo syntax
+!! Pharo syntax in a nutshell
 @cha:started
 
 In Pharo everything is an object and most computation happens by sending  messages to objects.
+Objects are created by classes sending them messages too. Classes defined the structure and the behavior of their instances. 
 In this chapter we start with a simple path to get you understand the most important part
 of the Pharo syntax: ''messages'', ''blocks'' and ''methods''. 
 This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I think him for giving me the permission to reuse his ideas.
 
 
 !!! Simplicity and elegance
+Pharo syntax is simple and elegant. There are three kind of messages.
 
-Pharo syntax is simple and elegant. Let’s look at an example.
+But let’s look at an example.
 
 [[[
 'hello' reversed
@@ -28,6 +30,8 @@ What happened is that the message ==reversed== was sent to the string object =='
  with the characters reversed.
 The literal string ==‘hello’== is called the ''receiver'' while ==reversed== is called the message selector (kind of the name of the message).
 
+@@note The object receiving the message is called the message receiver.
+
 !!!! Another message
 
 Here is another example of message
@@ -41,7 +45,7 @@ which returns the following new string object:
 ]]]
 
 !!!! Convention for showing results
-In this book, we will write a message and show its result after ==>>>== as follows:
+In this book, we write an expression and show its result after ==>>>==. The previous example is written as follows: 
 [[[
 'hello' asUppercase
 >>> 'HELLO'
@@ -73,6 +77,7 @@ To access the first element of a string we can also send another message the mes
 ]]]
 
 The message ==at:== requires an argument indicating which element we want to access.
+The message ==at: 1== will access the first element of the receiver. 
 
 [[[
 'hello' at: 2
@@ -84,31 +89,74 @@ So now you know how we can express with an argument. Simple, put a colon at the 
 @@note Messages whose selector contains a colon ==:== expect an argument.
 
 
-!!!! Messages with arguments
-
+!!!! Messages with multiple arguments
 
 The general form for messages that take arguments uses interpolated keywords ending in colons, like this.
+
 [[[
 'hello' copyFrom: 1 to: 3
+>>> 'hel'
 ]]]
 
-which results in a new string object =='hel'==. Note that in the name of the previous message is ==copyFrom:to:==.
-The arguments of the messages 
+The name of the previous message is ==copyFrom:to:==. The arguments of the messages are placed afer each colon e.g., ==copyFrom: 1 to: 3==. 
 
-Note how natural keyword messages read and how they are self documenting with well-chosen names
+Note how natural keyword messages read and how they are self documenting with well-chosen names. We call such message ''keyword-based'' messages because they are composed of words and colons. 
+
+@@note A message with multiple arguments is composed of words each terminating with a colon: e.g., ==copyFrom: 1 to: 3==.
 
 
-!!! About classes
+!!!Binary messages
+The third and last kind of messages are ''binary'' messages: Such messages have only one argument, hence involving two objects the receiver and one argument. These are used for arithmetic operations, among others.
 
-To refer to a class, a capitalised name is used. Classes are an important entry point to create objects. Of course, this is done by sending messages such as ==new==to the class object.
+[[[
+1 + 2
+]]]
+
+Here, the message ==+== is sent to the integer ==1== with ==2== as argument.
+
+Binary messages are messages whose selectors are not alphanumeric. For example, comma ==,== is the name for string concatenation 
+as shown: 
+
+[[[
+'Hello' , ' Pharoers'
+>>> 'Hello Pharoers'
+]]]
+
+Here the receiver of the message is =='Hello'== and the argument ==' Pharoers'==.
+
+!!!Which message is executed first?
+Pharo uses these kind of messages to get a readable syntax. There is one rule that defines which messages is executed first: 
+The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
+
+@@note The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
+
+Here is an example showing how elegant the syntax when multiple messages are used.
+
+[[[
+'string' asUppercase copyFrom: -1 + 2 to: 6 - 3
+>>>STR
+]]]
+
+Parenthesis can be used to control the order of evaluation since they are executed first. 
+[[[
+('string' asUppercase first: 9 / 3) reversed
+>>> 'RTS'
+]]]
+
+
+Note how you can send messages to the result of an expression: ==copyFrom:to:== and ==first:== were sent to the result of ==asUppercase==. This is called chaining messages.
+
+!!! Sending messages to classes
+
+Classes are an important entry point to create objects. Of course, this is also done by sending messages such as ==new==to the class object itself.
+Class name are capitalized. From example we can ask the class ==String== to create an empty string, by just sending it the message ==new==. 
 
 [[[
 String new
 >>> ''
 ]]]
 
-Sending the message new to the class ==String== returns a new, empty string, ''. 
-Some classes understand different instance creation messages, like the class ==Float== that understands the message ==pi==.
+ Some classes understand different instance creation messages, like the class ==Float== that understands the message ==pi==.
 
 [[[
 Float pi
@@ -116,15 +164,177 @@ Float pi
 ]]]
 
 
+!!! Sequence of statements
+
+Multiple statements are separated using a dot, just like sentences. Local variables are declared by writing their lowercase name in between vertical bars.
+
+
+[[[
+| anArray |
+anArray := Array new: 3. array at: 1 put: true.
+anArray at: 2 put: false.
+anArray
+]]]
+
+The result of the code above is a new array. Indexing is one-based, like normal humans count.
+The value of the variable ==anArray== is 
+[[[
+#(true false nil)
+]]]
+
+The literal array syntax for arrayis ==#( ... )==. The first element is the boolean constant true, the second its counterpart false. Uninitialised elements remain ==nil==, the undefined object constant. In Pharo, there are only six reserved keywords, the constants ==true==, ==false== and ==nil== are three of them.
+As you can see, assignment is done using ==:=== while the last statement defines the result for the whole program.
+
+!!! About literal objects
+In Pharo everything is an object and most of the time objects are created by sending the message ==new== to a class. 
+Now in addition the language supports the creation of certain objects in a compact way. For example the expression  ==#(true false nil)== 
+is equivalent to the previous snippet using ==Array new...==. 
+
+[[[
+#(true false nil)
+]]]
+
+In the same way ==$A== is equivalent to Character 
+
+[[[
+Character codePoint: 65
+>>> $A
+]]]
+
+!!! Sending multiple messages to the same object
+
+Often you’ll be sending multiple messages to the same object, to the same receiver. To make this easier, there is some syntactic sugar called a message ''cascade'' using a semicolon. 
+
+[[[
+| aStream |
+aStream := (String new: 100) writeStream.
+aStream nextPutAll: 'Today, '.
+aStream nextPutAll: Date today printString.
+aStream contents
+>>> 'Today, 28 January 2017'
+]]]
+
+The previous code snippet can be rewritten as follows: where several messages are all sent to the same receiver ==aStream== without the need to repeat it. 
+
+[[[
+| aStream |
+aStream := (String new: 100) writeStream.
+aStream 
+	nextPutAll: 'Today, ';
+	nextPutAll: Date today printString;
+	contents
+>>> 'Today, 28 January 2017'
+]]]
+
+
+Here is another example with our previous code snippet.
+[[[
+| anArray |
+anArray := Array new: 3. array at: 1 put: true.
+anArray at: 2 put: false.
+anArray
+]]]
+
+
+[[[
+(Array new: 3)
+	at: 1 put: true;
+	at: 2 put: false;
+	yourself
+]]]
+	
+The three indented messages form a cascade, they are all being sent to the same object, the new array. The last message, yourself, is particularly useful in a cascade: it returns the object it is sent to. This is necessary because the result of the before last message send was not the object itself - the ==at:put:== message returns the value assigned.
+
+
+!!! Blocks
+
+Square brackets ==[== and ==]== are used to specify ''blocks'' (also known as lexical closures), pieces of code to be executed later on.
+The adder local variable is assigned a one argument block. The code inside the block names the variables it accepts and the statements to be executed when it is evaluated. Evaluating a block is done by sending a message, value: with an actual object as argument. The argument gets bound to the variable and the block is executed, resulting in 101.
+
+[[[
+| adder |
+adder := [ :x | x + 1 ].
+adder value: 100
+>>> 101
+adder value: 200
+>>> 201
+]]]
+
+
+!!! Control structures
+
+Blocks are used to express all control structures, from standard conditionals and loops to the exotic application specific ones, using the normal messaging syntax. For example loops and conditions are all expressed using the message presented previously. Chapter *@cha:syntax* will introduce more loops and conditional but they are all using the same principle. 
+
+The message ==timesRepeat==: executes multiple time its argument (a block).
+Here we multiply by two a number 10 times. 
+[[[
+n := 1.
+10 timesRepeat: [ n := n * 2 ].
+n 
+>>> 1024
+]]]
+
+Conditionals are expressed by sending one of the messages ==ifTrue:==,
+==ifFalse:==, ==ifTrue:ifFalse:== or ==ifFalse:ifTrue:== to the result of a boolean expression.
+
+[[[
+(17 * 13 > 220)
+	ifTrue: [ 'bigger' ]
+	ifFalse: [ 'smaller' ] 
+>>>'bigger'
+]]]
+
+
+The message ==do:== allows one to express a loop over a sequence of objects: a block is executed on each of the elements. 
+Let us see how we can count the number of character ==i== in a given string. On each character we check 
+if the character if an ==$i== and increase the counter value if this is the case. 
+
+[[[
+| count |
+count := 0.
+'Fear is the little-death that brings total obliteration'
+	 do: [:c | c == $i ifTrue: [count := count + 1]].
+count
+>>> 5
+]]]
+
++Reading or editing a method using a code browser.>file://figures/allSatisfy.png|width=70|label=fig:allSatisfy+
 
 !!!! Methods
 
-[[[
-first
-	"Answer the first element of the receiver"
+Methods are edited one by one in a code browser, like the one shown in Figure *fig:allSatisfy*. 
+The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes.
+Inside a method, ==self== refers to the object itself, the receiver. 
 
-	^ self at: 1
+Imagine that we want to following behavior: checking that all the objects of a collection holds the given property. 
+
+[[[
+#(2 4 8 16 32) allSatisfy: [ :each | each even ]
+>>> true
 ]]]
 
-If you want to see it in Pharo you should browse the superclasses of the class ==String== and you will find it in the class ==SequenceableCollection==. We will explain this in the chapter *@cha:inheritance*.
+But the following is false because not all the numbers are odd.  
+[[[
+#(1 2 3 4 5 6) allSatisfy: [ :each | each odd ]
+>>> false
+]]]
+
+The message ==allSatisfy:== is one of the many super powerful behavior implemented in Collection. It is called an iterator. 
+
+In a method, the receiver (self) is the default return value of the whole method. Using a caret we can return something else or even return earlier. Here is the code of the method ==allSatify:== on the class ==Collection==.
+
+[[[
+allSatisfy: aBlock
+	"Evaluate aBlock with the elements of the receiver.
+	If aBlock returns false for any element return false.
+	Otherwise return true."
+	self do: [:each | (aBlock value: each) ifFalse: [^ false]].
+	^ true
+]]]
+	
+Let us explain the implementation of such method. Using the message ==do:== we iterate over all elements of the collection. For each element we execute block (a predicate) that returns a boolean value and act accordingly. As soon as we get a false value, we stop and return an overall false value. If every evaluation gave us true, we passed the whole test and can return ==true== as overal result.
+
+!!! Conclusion 
+
+You now know enough to read 95\% of Pharo code. Remember, it is all just messages being sent to objects.
 
