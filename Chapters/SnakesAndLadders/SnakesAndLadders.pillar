@@ -1,0 +1,330 @@
+!! Snakes and Ladders
+@cha:started
+
+
+Snakes and Ladders is a rather simple game suitable for teaching children how to apply rules. It is dull for adults because there is absolutely no strategy involved, but this makes it easy to implement! *http://en.wikipedia.org/wiki/Snakes_and_ladders*
+In this chapter you will implement SnakesAndLadders and we will use it as a pretext to explore design questions.
+
+
++Snakes and Ladders.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
+!!! Game Rules
+Snakes and Ladders originated in India as part of a family of dice games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
+
+- Players Snakes and Ladders is played by two to four players, each with her own token to move around the Game.
+- ""Moving Player"": he rolls a die, then moves the designated number of spaces, between one and six. Once they land on a tile, they have to perform any action designated by the tile. We decided that we can have multiple players in the same tile.
+- ""Ladders:"" If the space a player lands on is at the bottom of a ladder, he should climb the ladder, which brings him to a space higher on the Game.
+- ""Snakes:"" If the space a player lands on is at the top of a snake, she must slide down to the bottom of it, landing on a space closer to the beginning.
+- Winning the winner is the player who gets to the last space on the Game first, whether by landing on it from a roll, or by reaching it with a ladder.
+
+
+
+!!! Potential objects and responsibilities
+
+Look at the game rules, take a piece of paper and list the potential objects are their behavior. It is an important exercise, you should train to see how to discover the objects. 
+
+There exist techniques such Responsibilities driven design to help programmers. With responsibility driven design, subjects are turned in objects whose classes are abstracted from and verbs are grouped into behavior of the objects. Identification of synonyms is used to reduce and gather together similar objects or behavior. 
+
+Some alternate approaches look for patterns between objects such as part-whole, SD: more here. 
+
+Finally sketching scenario is a good approach. Here is a scenario. 
+
+The game should be created with a number of tile. 
+In particular the end and start tiles should exist. 
+Ladder and snake should be declared. 
+
+
+Another one is
+One defined game, once players are declared. After moving the first player a given number of tiles, this is the turn of the second player. 
+
+When a player arrives to a ladder start it should be moved to the ladder end. 
+
+Such scenario are interesting because they are a good basis for tests.
+
+!!!! Possible class candidates
+Game
+- keeps track of the game state: whose turn is, the players. 
+
+Player
+- 
+
+Board
+- to keep tiles
+
+Player
+- keeps track of where it is
+- moves over squares of the Game
+
+Tile
+- keeps track of any player on it
+
+Snake
+- sends a player back to an earlier square
+
+Ladder
+- sends a player ahead to a later square
+
+Last Tile
+- Players should land exactly on it, else they do not move.
+
+First Tile
+- can hold multiple players. 
+
+Die
+- can return a number
+
+
+It is not clear if all the ojects we identify by looking at the problem should be really turned into real objects. Also sometimes it is useful to get more classes to capture behavior and state variations. 
+
+In addition in an object-oriented design we distribute the state of the system to different objects. 
+
+We can implement the same system with different alternatives. For example we could have only one class implementing all the game and it would work. It is not obvious that this is a bad solution. However, it is often better to have objects with clear responsibilities. 
+For example if we want to have a nice user interface or different rules without having to rewrite everything. 
+Another point is that we should be able to understand and extend easily a system. 
+
+A question is should the game object keep the position of the players or just the player. 
+The game should keep the players list since it should compute who is the next player.
+
+!!! About design
+
+When designing a system, you will often have questions that cannot blindly and automatically be answered. Often there is no definite answer. This is what is difficult with object-oriented design and this is why practicing is important. 
+
+What composes the state of an object?
+The state of object should characterize the object over its lifetime. For example the name of  player identifies the player. 
+
+Now it may happen that some objects just because they are instances of different classes
+do not need the same state. For example 
+
+We can also distinguish between the intrinsic state of an object (e.g., name of player) and the state we use to represent the collaborators of an object. 
+
+The other important and difficult question is about the relationships between the objects. 
+For example imagine that we model a tile as an object, should this object points to the players it contains. 
+
+Some techniques exist to 
+- One object should have one main responsibility.
+- Move behavior close to data.
+- Prefer diomain object over literal objects.
+
+
+!!! Kind of data passed around
+Even if in Pharo, everything is an object, storing a mere integer object instead of a full tile can lead to different solutions. There is no perfect solution mainly consequences of choices and you should learn how to assess a situation to see which one has better characteristics for your problem. 
+
+Here is a question illustrating the problem: Should a ladder knows the tile it forwards the player to or is the index of a tile enough?
+
+When designing the ladder tile behavior, we should understand how we can
+access the target tile where the player should be moved to. 
+If we just give the index of the target to a ladder, the tile has to be able to access the board containing the tiles else it will be impossible to access to the target tile of the ladder. The alternative, i.e., passing the tile looks nicer because it represents a natural relation and there is no need to ask the board. 
+
+
+!!! Sending a self-message or a message to another object
+
+(to be put somewhere in the flow)
+Remember sending message is making a choice and classes represent choices with different behavior. Therefore sending a message to another object is different than sending a message to self. Especially if the class containing the message does not have subclasses.
+
+For example in the context of the game if we have only one game class we will gain benefit from dispatch.
+
+
+
+
+
+!!! starting
+
+
+[[[
+TestCase subclass: #SLGameTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGameTest >> testGameSetUp
+
+	| Game |
+	Game := SLGame new 
+		tileNumber: 12; 
+		setLadderFrom: 2 to: 4;
+		setLadderFrom: 7 to: 9;
+		setSnakeFrom: 11 to: 5.
+	self assert: (Game at: 2) isLadder. 
+	self deny: (Game at: 3) isLadder.
+	self assert: (Game at: 11) isSnake.
+]]]
+
+
+[[[
+Object subclass: #SLGame
+	instanceVariableNames: 'tiles'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGame >> tileNumber: aNumber
+
+		tiles := Array new: aNumber. 
+		self initializeDefaultTiles. 
+]]]
+
+[[[
+SLGame >> initializeDefaultTiles
+
+	1 to: tiles size do: [ :i | 
+		tiles at: i put: (SLTile new position: i) ]
+]]]
+
+
+[[[
+Object subclass: #SLTile
+	instanceVariableNames: 'position players'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGame >> initializeDefaultTiles
+
+	1 to: tiles size do: [ :i |
+			tiles at: i put: (SLTile new position: i) ].
+	self setStartTile.
+	self setEndTile.
+]]]
+
+[[[
+SLGame >> setStartTile
+	tiles at: 1 put: (SLStartTile new position: 1)
+]]]
+
+[[[
+SLTile subclass: #SLStartTile
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGame >> setEndTile
+	tiles at: 1 put: (SLEndTile new position: tiles size)
+]]]
+
+[[[
+SLTile subclass: #SLEndTile
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition
+	tiles at: aSourcePosition put: (SLLadderTile new from: aSourcePosition to: aTargetPosition)
+]]]
+
+[[[
+SLTile subclass: #SLLadderTile
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+setSnakeFrom: aSourcePosition to: aTargetPosition
+	tiles at: aSourcePosition put: (SLSnakeTile new from: aSourcePosition to: aTargetPosition)
+]]]
+
+[[[
+SLTile subclass: #SLSnakeTile
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLTile >> printOn: aStream
+
+	aStream << '['.
+	aStream << position printString.
+	players isNotEmpty ifTrue: [ players do: [ :aPlayer | aStream << aPlayer printString ]].
+	aStream << ']'
+]]]
+
+[[[
+testPrintingSimpleGame
+
+	| Game |
+	Game := SLGame new 
+		tileNumber: 12.
+	self assert: Game printString equals: '[1][2][3][4][5][6][7][8][9][10][11][12]'
+]]]
+
+	
+!!! Rethinking the hierarchy
+
+[[[
+Object subclass: #SLPositionedTile
+	instanceVariableNames: 'position'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLPositionedTile >> printOn: aStream
+	aStream << '['.
+	self printOnInside: aStream.
+	aStream << ']'
+]]]
+
+[[[	
+SLPositionedTile >> printOnInside: aStream
+	aStream << position printString.
+]]]
+
+[[[
+SLPositionedTile subclass: #SLPassiveTile
+	instanceVariableNames: 'players'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+
+[[[
+SLPassiveTile >> printOn: aStream
+	aStream << '['.
+	aStream << position printString.
+	players isNotEmpty ifTrue: [ players do: [ :aPlayer | aStream << aPlayer printString ]].
+	aStream << ']'
+]]]
+
+into 
+
+[[[
+SLPassiveTile >> printOnInside: aStream
+
+	super printOnInside: aStream. 
+	players isNotEmpty ifTrue: [ players do: [ :aPlayer | aStream << aPlayer printString ]].
+]]]
+
+
+[[[
+SLPositionedTile >> isLadder 
+	^ false
+]]]
+
+[[[
+SLLadderTile >> isLadder 
+	^ true
+]]]
+
+[[[
+SLPositionedTile >> isSnake
+	^ false
+]]]
+
+[[[
+SLSnakeTile >> isLadder 
+	^ true
+]]]
+
+!!! Variations
+
+- A player who lands on an occupied square must go back to the start square.
+- If you roll a number higher than the number of squares needs to reach the last square, you must continue moving backwards.
+
