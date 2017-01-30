@@ -122,9 +122,27 @@ Remember sending message is making a choice and classes represent choices with d
 
 For example in the context of the game if we have only one game class we will gain benefit from dispatch.
 
+!!! Creating a hook method
+We cannot redefine ==printOn:== or we will duplicate it in all subclasses because we want to change what is printed inside the '[]'.
+For a ladder we want to print ==[2 -> 5]==, when there is a player we want to print ==[2<jill>]==
 
+Imagine a solution. 
 
+[[[
+SLTile >> printOn: aStream
+	your code
+]]]
+ 
+What if we define a new method called for example ==printOnInside:== and we define it in the class ==Tile== and we use it for the definition of the ==printOn:== method itself. 
 
+[[[
+SLTile >> printOn: aStream
+	aStream nextPutAll: '['.
+	self printOnInside: aStream.
+	aStream nextPutAll: ']'
+]]]
+
+Each subclass will then easily be able to provide customized information.
 
 !!! starting
 
