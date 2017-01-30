@@ -1,29 +1,16 @@
 !! Inheritance: Reusing and Extending Behavior
 
-In the previous chapter we presented objects and classes. Objects are entities that communicate by exclusively sending and receiving messages. Objects are described by classes that are factories of objects. All the objects instances of the same class share the same behavior but have its own private state. Class define behavior and structure of all their instances. 
+In Chapter *@cha:objectclass*, we presented objects and classes. Objects are entities that communicate exclusively by sending and receiving messages. Objects are described by classes that are factories of objects. All the instances of a class share the same behavior but have their own private state. Classes define behavior and structure of all their instances. 
 
-In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a class programmer we do not want to rewrite from scratch a functionality if another class already offers it. We would prefer to express the difference between the implemented behavior and the new behavior we want. This is this difference between classes that inheritance lets us express. 
+In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a programmer we do not want to rewrite from scratch a functionality if another class already offers it. We prefer to express the difference between the implemented behavior and the new behavior we want. This is this difference between classes that inheritance lets us express. 
 
-To illustrate the important points we start by studying the class ==Flasher==. Later we define a subclass of the class ==Flasher== to illustrate the points we learned. Finally we will explain the issue of instance initialization. 
+Inheritance is based on dynamic method lookup: a method is looked up dynamically within the inheritance tree starting from the class of the receiver. Once this explained we will show that it is possible to get code a subclass invoked in place of the one of a superclass. 
 
-
-!!! To massage
-
-Inheritance is, simply seen, just a mechanism to share behaviour and state (i.e., methods and instance variables) between a class and its subclasses.
-As we shall see, inheritance can be used in object-oriented design for three different, but related purposes:
-# Conceptual hierarchy (a Rectangle is a Shape)
-# Polymorphism (I can use a rectangle anywhere I expect a
-shape)
-# Reuse (the Rectangle class reuses everything it inherits from Shape)
-
-In a good object-oriented design, all three of these come together.
-
-
+To illustrate the important points we revisit the example of Chapter *@cha:objectclass*. 
 
 
 !!! Inheritance
-
-Object-oriented programming is also based on the ''incremental'' definition of abstractions. This incremental definition mechanism is central to support reuse and extension of abstraction. It is called ''inheritance''. The idea is that you can define a new abstraction (a class) by refining an existing one (its superclass). We said that a subclass inherits from a superclass.
+Object-oriented programming is also based on the ''incremental'' definition of abstractions. This incremental definition mechanism is central to support reuse and extension of abstraction. It is called ''inheritance''. The idea is that you can define a new abstraction (a class) by refining an existing one (its superclass). We said that a subclass inherits from a superclass. This way we reuse the code of the superclass instead of rewriting everything from scratch.
 
 Class inheritance creates trees of classes as shown in Figure *@fig:inhAnimal*. A class in such trees can have instances. All the instances share the behavior defined in their class and superclasses. 
 This is within such trees that the system looks up the method corresponding to a message.
@@ -39,19 +26,22 @@ We will take a really simple and naive example to illustrate some of the key asp
 - ''subclass behavior can be injected in superclass behavior'': behavior defined a subclass may be executed in place of the one of a superclass. This is a really important feature of inheritance.
 
 
+
+
++Files and Directories are specialized abstractions sharing some common state and behavior classes via inheritance.>file://figures/FileDirectoryWithInheritanceV3.png|width=60|label=FileDirectoryWithInheritanceV3+
+
+
+
+
+
+!!! Files
++Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
+
+
+
+
+
 +Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV1.png|width=60|label=FileDirectoryWithInheritanceV1+
-
-
-
-+Two classes with inheritance.>file://figures/FileDirectoryWithInheritanceV2.png|width=60|label=FileDirectoryWithInheritanceV2+
-
-
-
-
-
-
-
-
 
 
 
@@ -254,6 +244,17 @@ Every method should perform one, well-defined task:
  To help you design good classes you should carefully think about the collaborators of an object.
  Usually an object should not have too many collaborators. 
 
- Another design guideline is that an object should have a limited set of responsibilities. For example a graphic turtle knows how to display itself and draw on a canvas. A counter knows
- how to store and manipulate a value.
+ Another design guideline is that an object should have a limited set of responsibilities. For example a graphic turtle knows how to display itself and draw on a canvas. A counter knows how to store and manipulate a value.
+ 
+ !!! Several forms of inheritance
+
+ Inheritance is, simply seen, just a mechanism to share behaviour and state (i.e., methods and instance variables) between a class and its subclasses.
+ As we shall see, inheritance can be used in object-oriented design for three different, but related purposes:
+ # Conceptual hierarchy (a Rectangle is a Shape)
+ # Polymorphism (I can use a rectangle anywhere I expect a
+ shape)
+ # Reuse (the Rectangle class reuses everything it inherits from Shape)
+
+ In a good object-oriented design, all three of these come together.
+ 
 
