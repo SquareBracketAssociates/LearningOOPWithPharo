@@ -35,9 +35,11 @@ ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
 ${inputFile:Chapters/DSL/DSL.pillar}$
 
-!! Tamagoshi (graphics TBMigrated)
+!! Tamagoshi (graphics TBMigrated or killed :))
 
-${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
+!! Do we do Joe the Box
+
+%${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
 
 ! Looking at Inheritance
