@@ -483,9 +483,9 @@ MFFile >> printOn: aStream
 +Printing a file: Sending messages inside a graph of different objects. >file://figures/InstancesRecursion2.png|width=60|label=InstancesRecursion2+
 
 
-!!! Lessons learned
+!!! One message multiple methods
 
-Before continuing let us step back and analyse the situation. 
+Before continuing let us step back and analyse the situation. We send the same messages and we execute different methods. 
 
 [[[
 | el1 dOldComics dComics |
