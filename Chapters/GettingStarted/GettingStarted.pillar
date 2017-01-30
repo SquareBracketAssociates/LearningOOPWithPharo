@@ -8,10 +8,11 @@ of the Pharo syntax: ''messages'', ''blocks'' and ''methods''.
 This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I think him for giving me the permission to reuse his ideas.
 
 
-!!! Simplicity and elegance
-Pharo syntax is simple and elegant. There are three kind of messages.
+!!!  Simplicity and elegance of messages
+Pharo syntax is simple and elegant. There are three kind of messages: unary, binary and keyword-based messages.
 
-But let’s look at an example.
+!!!! A first unary message
+But let’s look at an example of unary messages.
 
 [[[
 'hello' reversed
@@ -67,9 +68,12 @@ All the messages we saw so far are called ''unary'' messages because they take n
 @@note Message without arguements are called ''unary'' messages. 
 
 
-!!!! Passing one argument to a message
+!!!! A first keyword-based message
 
-To access the first element of a string we can also send another message the message ==at:==.
+Messages should often get an additional argument to let the receiver perfoms its task. 
+Therefore Pharo allows one to pass one argument to a message. Your message  (and its corresponding method name) should finish with a colon. 
+
+Let us look at an example, to access the first element of a string we can also send another message the message ==at:==.
 
 [[[
 'hello' at: 1
@@ -89,7 +93,7 @@ So now you know how we can express with an argument. Simple, put a colon at the 
 @@note Messages whose selector contains a colon ==:== expect an argument.
 
 
-!!!! Messages with multiple arguments
+!!!! Keyword-based messages with multiple arguments
 
 The general form for messages that take arguments uses interpolated keywords ending in colons, like this.
 
@@ -105,8 +109,8 @@ Note how natural keyword messages read and how they are self documenting with we
 @@note A message with multiple arguments is composed of words each terminating with a colon: e.g., ==copyFrom: 1 to: 3==.
 
 
-!!!Binary messages
-The third and last kind of messages are ''binary'' messages: Such messages have only one argument, hence involving two objects the receiver and one argument. These are used for arithmetic operations, among others.
+!!!! Binary messages
+The third and last kind of messages are ''binary'' messages: Such messages have only one argument, hence involving two objects the receiver and one argument. These are used for arithmetic operations, among others. Here you do not need to add a terminating colon because it would lead to critic code. 
 
 [[[
 1 + 2
@@ -124,7 +128,7 @@ as shown:
 
 Here the receiver of the message is =='Hello'== and the argument ==' Pharoers'==.
 
-!!!Which message is executed first?
+!!! Which message is executed first?
 Pharo uses these kind of messages to get a readable syntax. There is one rule that defines which messages is executed first: 
 The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
 
@@ -300,7 +304,7 @@ count
 
 +Reading or editing a method using a code browser.>file://figures/allSatisfy.png|width=70|label=fig:allSatisfy+
 
-!!!! Methods
+!!! Methods
 
 Methods are edited one by one in a code browser, like the one shown in Figure *fig:allSatisfy*. 
 The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes.
@@ -336,5 +340,8 @@ Let us explain the implementation of such method. Using the message ==do:== we i
 
 !!! Conclusion 
 
-You now know enough to read 95\% of Pharo code. Remember, it is all just messages being sent to objects.
 
+You have three kinds of messages and the simpler are executed prior to more complex one. Hence unary messages are executed before binary and binary before keyword-based messages. 
+Blocks are anymous methods that can be pass around and used to define control structures and loops.
+
+You now know enough to read 95\% of Pharo code. Remember, it is all just messages being sent to objects.
