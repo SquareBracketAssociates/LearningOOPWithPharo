@@ -110,9 +110,14 @@ Whenever you find yourself writing procedural code, extract that code into decla
 
 
 
+
+
+
 !! Playing with Visitors
 
 Here I should take the slides flow from the design mooc lectures. 
+Visitor then after I should make sure that we only return expressions
+of the same domain and with a stack
 
 
 
@@ -154,18 +159,18 @@ particular how inheritance can be used to reuse class already defined.
 !! Project:  Game Of Life (TBEvaluated)
 with conditionals and polymorphism
 
-!! Project: Path-finder (it is graphical so out or should get a textual version)
+%!! Project: Path-finder (it is graphical so out or should get a textual version)
 
 !! Classes are objects too
 
 May be at the end of the book: class are objects too. 
 	Model2 in MyBooks/botsinc/BookTwo/SyntaxAndModel2
 
+
 ! Extra teaching materia
 
 ! Solutions 	
 ${inputFile:Chapters/Solutions/Solutions.pillar}$
 
-! Appendix
-
-${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
+%! Appendix
+%${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
