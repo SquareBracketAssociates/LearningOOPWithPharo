@@ -1,26 +1,27 @@
 MAIN = book
 CHAPTERS = \
 	Chapters/Introduction/Introduction \
+	Chapters/Tests/Tests \
 	Chapters/GettingStarted/GettingStarted \
 	Chapters/PlayingWithTurtles/PlayingWithTurtles \
-	Chapters/SyntaxNutshell/SyntaxNutshell \
-	Chapters/BeaconAndSatellite/BeaconAndSatellite \
+	Chapters/SyntaxGlimpse/SyntaxGlimpse \
+	Chapters/Counter/Counter \
 	Chapters/Katas/GramKatas \
 	Chapters/Katas/GramVariation \
-	Chapters/ObjectsAndClasses/ObjectsAndClasses \
 	Chapters/Converter/Converter \
-	Chapters/JoeTheBox/JoeTheBox \
-	Chapters/SimpleLAN/SimpleLANDefinition \
-	Chapters/PaperStoneScissor/PaperStoneScissor \
-	Chapters/Counter/Counter \
-	Chapters/Inheritance/Inheritance \
+	Chapters/Wallet/Wallet \
 	Chapters/DSL/DSL \
-	Chapters/Solutions/Solutions \
-	Chapters/OOPNutshell/OOPNutshell \
-	Chapters/Tests/Tests \
-	Chapters/SyntaxGlimpse/SyntaxGlimpse \
+	Chapters/JoeTheBox/JoeTheBox \
+	Chapters/PaperStoneScissor/PaperStoneScissor \
+	Chapters/Inheritance/Inheritance \
 	Chapters/Expressions/Expressions \
-	Chapters/Wallet/Wallet
+	Chapters/SimpleLAN/SimpleLANDefinition \
+	Chapters/OOPNutshell/OOPNutshell \
+	Chapters/BeaconAndSatellite/BeaconAndSatellite \
+	Chapters/MessageSending/MessageSending \
+	Chapters/Solutions/Solutions \
+	Chapters/ObjectsAndClasses/ObjectsAndClasses \
+	Chapters/SyntaxNutshell/SyntaxNutshell \
 
 OUTPUTDIRECTORY = build
 LATEXTEMPLATE = support/templates/main.latex.mustache
