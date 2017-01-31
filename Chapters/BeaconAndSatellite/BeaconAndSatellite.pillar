@@ -1,0 +1,14 @@
+!! Beacons and Satellites 
+@ch:beacon
+
+In this chapter we will build a simulator for beacons and satellites. Beacons are in the sea and collect data and from time to time they should synchronise with satelittes. This simulator
+will present how we can implement communication between losely coupled objects.
+
+
+!!! Description
+
+
+
++Beacons and Satelittes.>file://figures/Beacon.png|width=70|label=fig:Beacon+
+
+
