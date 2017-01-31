@@ -55,6 +55,115 @@
 	<array>
 		<dict>
 			<key>Class</key>
+			<string>Group</string>
+			<key>Graphics</key>
+			<array>
+				<dict>
+					<key>Bounds</key>
+					<string>{{163.99999618530282, 183.6785564120743}, {24.645834386659164, 9.0476208641415816}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>ID</key>
+					<integer>498</integer>
+					<key>Shape</key>
+					<string>Bezier</string>
+					<key>ShapeData</key>
+					<dict>
+						<key>UnitPoints</key>
+						<array>
+							<string>{-0.47959183673469408, -0.49999999999999911}</string>
+							<string>{-0.47959183673469408, -0.49999999999999911}</string>
+							<string>{-0.50000000000000022, 0.50000000000000089}</string>
+							<string>{-0.50000000000000022, 0.50000000000000089}</string>
+							<string>{-0.50000000000000022, 0.50000000000000089}</string>
+							<string>{0.5, 0.22000000000000064}</string>
+							<string>{0.5, 0.22000000000000064}</string>
+							<string>{0.5, 0.22000000000000064}</string>
+							<string>{0.41836734693877542, -0.27999999999999847}</string>
+							<string>{0.41836734693877542, -0.27999999999999847}</string>
+							<string>{0.41836734693877542, -0.27999999999999847}</string>
+							<string>{0.051020408163264808, -0.37999999999999901}</string>
+							<string>{0.051020408163264808, -0.37999999999999901}</string>
+							<string>{0.051020408163264808, -0.37999999999999901}</string>
+							<string>{-0.47959183673469408, -0.49999999999999911}</string>
+						</array>
+					</dict>
+					<key>Style</key>
+					<dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{182.48437129729439, 176.6666470319926}, {24.645834386659164, 19.000003814697266}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>ID</key>
+					<integer>499</integer>
+					<key>Shape</key>
+					<string>Circle</string>
+					<key>Style</key>
+					<dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
+					<string>{{200.02082973687607, 181.64284171764186}, {24.645834386659164, 9.0476208641415816}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>HFlip</key>
+					<string>YES</string>
+					<key>ID</key>
+					<integer>500</integer>
+					<key>Shape</key>
+					<string>Bezier</string>
+					<key>ShapeData</key>
+					<dict>
+						<key>UnitPoints</key>
+						<array>
+							<string>{-0.47959183673469408, -0.49999999999999911}</string>
+							<string>{-0.47959183673469408, -0.49999999999999911}</string>
+							<string>{-0.50000000000000022, 0.50000000000000089}</string>
+							<string>{-0.50000000000000022, 0.50000000000000089}</string>
+							<string>{-0.50000000000000022, 0.50000000000000089}</string>
+							<string>{0.5, 0.22000000000000064}</string>
+							<string>{0.5, 0.22000000000000064}</string>
+							<string>{0.5, 0.22000000000000064}</string>
+							<string>{0.41836734693877542, -0.27999999999999847}</string>
+							<string>{0.41836734693877542, -0.27999999999999847}</string>
+							<string>{0.41836734693877542, -0.27999999999999847}</string>
+							<string>{0.051020408163264808, -0.37999999999999901}</string>
+							<string>{0.051020408163264808, -0.37999999999999901}</string>
+							<string>{0.051020408163264808, -0.37999999999999901}</string>
+							<string>{-0.47959183673469408, -0.49999999999999911}</string>
+						</array>
+					</dict>
+					<key>Style</key>
+					<dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>VFlip</key>
+					<string>YES</string>
+				</dict>
+			</array>
+			<key>ID</key>
+			<integer>497</integer>
+		</dict>
+		<dict>
+			<key>Class</key>
 			<string>LineGraphic</string>
 			<key>ID</key>
 			<integer>494</integer>
@@ -501,7 +610,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-01-31 07:48:02 +0000</string>
+	<string>2017-01-31 11:35:44 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
