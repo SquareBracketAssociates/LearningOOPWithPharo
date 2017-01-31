@@ -4,6 +4,7 @@ CHAPTERS = \
 	Chapters/GettingStarted/GettingStarted \
 	Chapters/PlayingWithTurtles/PlayingWithTurtles \
 	Chapters/SyntaxNutshell/SyntaxNutshell \
+	Chapters/BeaconAndSatellite/BeaconAndSatellite \
 	Chapters/Katas/GramKatas \
 	Chapters/Katas/GramVariation \
 	Chapters/ObjectsAndClasses/ObjectsAndClasses \
