@@ -306,7 +306,7 @@ count
 
 !!! Methods
 
-Methods are edited one by one in a code browser, like the one shown in Figure *fig:allSatisfy*. 
+Methods are edited one by one in a code browser, like the one shown in Figure *@fig:allSatisfy*. 
 The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes.
 Inside a method, ==self== refers to the object itself, the receiver. 
 
