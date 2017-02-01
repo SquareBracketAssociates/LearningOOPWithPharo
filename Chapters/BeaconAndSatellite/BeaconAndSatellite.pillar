@@ -5,7 +5,7 @@ In this chapter you will build a simulator for beacons and satellites. Beacons a
 
 In reality, satelittes broadcast signals and beacons are polling at regular interval for signals, then once they know that they are in range based on the first signal, a communication is established and data is exchanged.
 
-In the simulator we will present how we can implement communication between losely coupled objects. You will build step by step different variations around the observer/observable idiom. Beacons will register to satellites and when the satelittes are in range they will notify the beacons interested in the notification. 
+In the simulator we will present how we can implement communication between losely coupled objects. You will build step by step different variations around the observer/observable idiom. This idiom is important since it is used in Model-View-Controller and Self addressed stamped enveloppe (S.A.S.E) patterns. Beacons will register to satellites and when the satelittes are in range they will notify the beacons interested in the notification. 
 
 
 !!! Description
@@ -21,8 +21,127 @@ It can only communicate with beacons within such range.
 The system is fully dynamic in the sense that new beacons may be added or removed.
 Satelittes may be present or not.
 
+!!! A simple model
+
+[[[
+Object subclass: #Satelitte
+	instanceVariableNames: 'observers'
+	classVariableNames: ''
+	package: 'SatelitteAndBeacon'
+]]]
+
+[[[
+Satelitte >> initialize
+	observers := OrderedCollection new
+]]]
+
+[[[
+Object subclass: #Beacon
+	instanceVariableNames: 'data'
+	classVariableNames: ''
+	package: 'SatelitteAndBeacon'
+]]]
 
 
-!!! Simple observer / observable
-We start with a simple schema where beacons will register to satellites and when the satelittes are in range they notify the 
-A beacon register to a satellite. 
+
+!!! V1: Simple observer / observable
+We start with a simple schema where beacons 
+- register to satellites and
+- when the satelittes are in range they notify the beacons that registered.
+
+
+!!!! Registration
+A beacon register to a satellite as follows:
+
+[[[
+Satelitte >> register: aBeacon
+	self addObserver: aBeacon
+]]]
+
+!!!! Notification
+
+[[[
+Satelitte >> notify
+	observers do: [ :aBeacon | aBeacon salelittePositionChanged: self ]
+]]]
+
+!!! V1 Implementation
+
+???
+
+
+
+!!! V2: Analysis
+
+This first implementation has several drawbacks.
+- One of the problem is that the message is hardcoded. 
+- Second Imagine that the satellite should emit different notification for its position, protocol to be used, frequency.... and each kind of beacon can register for the notification kinds that fits it, we should have a list of each kind of event.
+
+
+!!! V2: Introducing events
+
+[[[
+Satelitte >> register: aBeacon
+	aSatelitte1 addObserver: aBeacon1 with: anEvent
+]]]
+
+[[[
+Satelitte >> notify
+	observers do: [ :aBeacon | aBeacon receiveEvent: (PositionChanged with: self)]
+]]]
+
+!!!! Implementation
+
+[[[
+Object subclass: #SBEvent
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SatelitteAndBeacon'
+]]]
+
+[[[
+SBEvent subclass: #SBPositionChanged
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SatelitteAndBeacon'
+]]]
+
+!!!! V2 analysis
+
+One event means that the message is also hardcoded 
+
+!!! V3 Specifying the message 
+
+Now the observer can specify the message that it wants to receive. 
+
+[[[
+aSatelitte when: anEvent sendTo: anObject
+	
+]]]
+
+[[[
+aSatelitte1 when: SBPositionChanged sendTo: aBeacon1
+]]]
+
+
+!!! V4 Register another object
+
+[[[
+when: send: to:
+]]]
+
+!!! V4 Implementation
+
+Now the implementation 
+
+!!! V5 Factoring out the announcer
+
+The notification and management at notification should be packaged as a separate class so that we can reuse it by just delegating to it. 
+
+
+
+
+!!! Discussion about lookup of events
+
+
+
