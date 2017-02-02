@@ -106,6 +106,8 @@ SBEvent subclass: #SBPositionChanged
 	package: 'SatelitteAndBeacon'
 ]]]
 
+
+
 !!!! V2 analysis
 
 One event means that the message is also hardcoded 
@@ -114,8 +116,9 @@ One event means that the message is also hardcoded
 
 Now the observer can specify the message that it wants to receive. 
 
+@@todo Argh how does it work here!!!
 [[[
-aSatelitte when: anEvent sendTo: anObject
+aSatelitte when: anEvent send: #anObject
 	
 ]]]
 
@@ -126,8 +129,20 @@ aSatelitte1 when: SBPositionChanged sendTo: aBeacon1
 
 !!! V4 Register another object
 
+
 [[[
 when: send: to:
+]]]
+
+@@todo Argh what is the example!!!
+
+
+[[[
+aSatelitte1 when: SBPositionChanged send: #readyForHandShakeWith: to: aBeacon1
+]]]
+
+[[[
+aSatelitte1 when: SBProtocolChanged send: #useProtocol: to: aBeacon1
 ]]]
 
 !!! V4 Implementation
