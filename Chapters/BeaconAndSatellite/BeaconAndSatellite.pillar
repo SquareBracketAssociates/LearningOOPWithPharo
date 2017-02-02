@@ -61,6 +61,12 @@ Satelitte >> register: aBeacon
 !!!! Notification
 
 [[[
+Satelitte >> position: aPoint
+	position := aPoint. 
+	self notify
+]]]
+
+[[[
 Satelitte >> notify
 	observers do: [ :aBeacon | aBeacon salelittePositionChanged: self ]
 ]]]
@@ -75,26 +81,39 @@ Satelitte >> notify
 
 This first implementation has several drawbacks.
 - One of the problem is that the message is hardcoded. 
-- Second Imagine that the satellite should emit different notification for its position, protocol to be used, frequency.... and each kind of beacon can register for the notification kinds that fits it, we should have a list of each kind of event.
+- Second Imagine that the satellite should emit different notification for its position, protocol to be used, frequency.... and each kind of beacon can register for the notification kinds that fits it. We must have a list of each kind of observed property.
 
 
 !!! V2: Introducing events
 
 [[[
-Satelitte >> register: aBeacon
-	aSatelitte1 addObserver: aBeacon1 with: anEvent
+Satelitte >> register: aBeacon forEvent: aEventClass
+	aSatelitte1 addObserver: aBeacon1 with: aEventClass
 ]]]
 
 [[[
-Satelitte >> notify
-	observers do: [ :aBeacon | aBeacon receiveEvent: (PositionChanged with: self)]
+Satelitte >> addObserver: anObserver with: anEventClass
+	observerDict at: anEventClass iAbsentPut: [OrderedCollection new].
+	(observerDict at: anEventClass) add: anObserver
+]]]
+
+[[[
+Satelitte >> position: aPoint
+	position := aPoint. 
+	self notify: (PositionChanged with: self)
+]]]
+
+[[[
+Satelitte >> notify: anEvent
+	(observersDict at: anEvent class) ifPresent: [ :aBeaconList | 
+		aBeaconList do: [:aBeacon| anEvent fireOn: aBeacon ]
 ]]]
 
 !!!! Implementation
 
 [[[
 Object subclass: #SBEvent
-	instanceVariableNames: ''
+	instanceVariableNames: 'observable'
 	classVariableNames: ''
 	package: 'SatelitteAndBeacon'
 ]]]
@@ -106,36 +125,35 @@ SBEvent subclass: #SBPositionChanged
 	package: 'SatelitteAndBeacon'
 ]]]
 
+[[[
+SBEvent subclass: #SBProtocolChanged
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SatelitteAndBeacon'
+]]]
+
+[[[
+SBPositionChanged >> fireOn: anObserver
+	anObserver salelittePositionChanged: observable
+]]]
+
+[[[
+SBProtocolChanged >> fireOn: anObserver
+	anObserver salelitteProtocolChanged: observable
+]]]
 
 
 !!!! V2 analysis
 
-One event means that the message is also hardcoded 
+Advantages
+- we reuse the same mechanism for different kind of observable properties.
 
-!!! V3 Specifying the message 
+Drawbacks
+- One event means that the message is also hardcoded. There is tight dependencies between  the event type and the kind of behavior that is available on the observer side. 
+
+!!! V3 Specifying the message
 
 Now the observer can specify the message that it wants to receive. 
-
-@@todo Argh how does it work here!!!
-[[[
-aSatelitte when: anEvent send: #anObject
-	
-]]]
-
-[[[
-aSatelitte1 when: SBPositionChanged sendTo: aBeacon1
-]]]
-
-
-!!! V4 Register another object
-
-
-[[[
-when: send: to:
-]]]
-
-@@todo Argh what is the example!!!
-
 
 [[[
 aSatelitte1 when: SBPositionChanged send: #readyForHandShakeWith: to: aBeacon1
@@ -145,15 +163,66 @@ aSatelitte1 when: SBPositionChanged send: #readyForHandShakeWith: to: aBeacon1
 aSatelitte1 when: SBProtocolChanged send: #useProtocol: to: aBeacon1
 ]]]
 
-!!! V4 Implementation
+[[[
+Satelitte >> when: anEventClass send: aSelector to: anObserver
+	observerDict at: anEventClass iAbsentPut: [OrderedCollection new].
+	(observerDict at: anEventClass) add: (aSelector -> anObserver)
+]]]
 
-Now the implementation 
+[[[
+Satelitte >> position: aPoint
+	position := aPoint. 
+	self notify: (PositionChanged with: self)
+]]]
+
+[[[
+Satelitte >> notify: anEvent
+	(observersDict at: anEvent class) ifPresent: [ :aBeaconList | 
+		aBeaconList do: [ :aBeaconAssoc | 
+			aBeaconAssoc value perform: aBeaconAssoc key with: anEvent) ]
+]]]
+
+
 
 !!! V5 Factoring out the announcer
 
 The notification and management at notification should be packaged as a separate class so that we can reuse it by just delegating to it. 
 
+[[[
+Object subclass: #BSAnnouncement
+	instanceVariableNames: 'selector observer'
+]]]
 
+[[[
+Object subclass: #BSAnnouncer
+	instanceVariableNames: 'observerDict'
+]]]
+
+[[[
+BSAnnouncer >> when: anEventClass send: aSelector to: anObserver
+	observerDict at: anEventClass iAbsentPut: [ OrderedCollection new] .
+	(observerDict at: anEventClass) add: 
+		(BSAnnouncement send: aSelector to: anObserver)
+]]]
+
+[[[
+BSAnnouncer >> notify: anEvent
+	(observersDict at: anEvent class) ifPresent: [ :aBeaconList | 
+		aBeaconList do: [ :anAnnouncement | 
+			anAnnouncement observer
+				perform: anAnnouncement selector 
+				with: anEvent) ]
+]]]
+
+[[[
+Satelitte >> notify: anEvent
+	self announcer notify: anEvent
+]]]
+
+[[[
+Satelitte >> when: anEventClass send: aSelector to: anObserver
+	self announcer when: anEventClass send: aSelector to: anObserver
+]]]
 
 
 !!! Discussion about lookup of events
