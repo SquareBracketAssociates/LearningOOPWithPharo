@@ -80,3 +80,39 @@ Guillermo Polito for the idea of this cool example of files and directories.
 - reread and implement Game of life
 - implement sokoban 
 
+!!! New todo
+
+!!!! Stef:
+	Heritage
+	Split book in three
+	Sending messages
+	looks for Tamagoshi new version
+	move tinyChat to book
+
+LAN 
+GoFLife
+Visitor
+Interpreter
+
+!!!!Alain
+-Lire 
+-	Beacons
+-	Ants
+-	Parser?
+-	Implementaiton turtle
+-	Read tinychat
+	
+!!!! other random stuff	
+Developing a simple counter to read and adpat
+-	shorten test
+-	Move solution of wallet
+-	DSL is bugged
+	
+Chapter 5 move later and rename	
+	More about the syntax
+	summary 
+	what is missing
+	
+More exercises
+- *https://github.com/cdlm/kata-uno*
+

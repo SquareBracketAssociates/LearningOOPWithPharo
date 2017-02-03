@@ -121,6 +121,34 @@ of the same domain and with a stack
 
 
 
+
+
+
+
+
+!! Playing with Interpreters
+
+Returning an integer is not really nice because we cross boundaries.
+
+!!! Using the Pharo execution stack
+
+[[[
+EEvaluator >> visitMultiplication: aMultiplication
+	^ (EConstant new
+		value: (self evaluate: aMultiplication left) * 
+					(self evaluate: aMultiplication right)  
+]]]
+
+!!! With an explicit interpretation  stack
+[[[
+EEvaluator >> visitMultiplication: aMultiplication
+	self evaluate: aMultiplication left.
+	self evaluate: aMultiplication right.
+	self push: (EConstant new
+					value: self pop value * self pop value)  
+]]]
+
+
 ${inputFile:Chapters/BeaconAndSatellite/BeaconAndSatellite.pillar}$
 
 
