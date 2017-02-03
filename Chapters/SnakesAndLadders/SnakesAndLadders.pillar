@@ -7,6 +7,8 @@ In this chapter you will implement SnakesAndLadders and we will use it as a pret
 
 
 +Snakes and Ladders.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
+
+
 !!! Game Rules
 Snakes and Ladders originated in India as part of a family of dice games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
 
