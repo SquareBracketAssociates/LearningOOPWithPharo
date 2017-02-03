@@ -287,7 +287,7 @@ dComics children
 >>> #(/comics/manga/ /comics/oldcomics/)
 ]]]
 
-+The ==Directory== class and some instances (directories).>file://figures/DirectoryAndInstancesV0.png|width=40|label=directories+
++The ==Directory== class and some instances (directories).>file://figures/DirectoryAndInstancesV0.png|width=35|label=directories+
 
 !!!!Defining a class
 Let us start by defining the directory class. 
@@ -375,7 +375,7 @@ el2 printString
 >> oldcomics
 ]]]
 
-+Navigating an object graph by sending message to different object. >file://figures/InstancesRecursion.png|width=35|label=InstancesRecursion+
+
 
 What would be nice it to get the full path so that we can immediately understand the configuration.
 For example we would like to have a first '/' when there is not parent to mimick the pwd unix command and finish with a '/' to indicate
@@ -403,6 +403,8 @@ MFDirectory >> printOn: aStream
 	aStream << '/'
 ]]]
 
++Navigating an object graph by sending message to different objects. >file://figures/InstancesRecursion.png|width=45|label=InstancesRecursion+
+
 Try it and it should print the expected results.
 What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents (as shown in Figure *@InstancesRecursion*).
 Similar to a recursive function navigating a structure composed of similar elements (like a linked-list or any structure defined by induction), each parent receives and executes another time the ==printOn:== method and returns the name for its part.
@@ -428,7 +430,7 @@ el1 printString.
 ]]] 
 
 
-+A new class and its instances.>file://figures/FileV0.png|width=40|label=FileV0+
++A new class and its instances.>file://figures/FileV0.png|width=35|label=FileV0+
 
 !!!! A new class definition
 Again a file needs a name, a parent and in addition a contents.
