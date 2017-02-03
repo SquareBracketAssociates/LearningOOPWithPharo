@@ -256,13 +256,13 @@ What the figure shows is that we have:
 +Some directories and files organised in a file system.>file://figures/comicsFileTree.png|width=50|label=directories+
 
 
-!!!! Example first 
+!!! Studying a first scenario
 Since what we want to develop may be a bit blurry for us, let us define first an example. In the rest of this book we will encode examples
 as tests that can automatically be executed. For now it would make the discourse too complex, so we just use little code example. 
 
 We create two directories. 
 [[[
-| dComics doldcomics dManga |
+| dComics dOldComics dManga |
 dComics := MFDirectory new name: 'comics'.
 dOldComics := MFDirectory new name: 'oldcomics'.
 ]]]
@@ -289,7 +289,7 @@ dComics children
 
 +The ==Directory== class and some instances (directories).>file://figures/DirectoryAndInstancesV0.png|width=35|label=directories+
 
-!!!!Defining a class
+!!! Defining a class
 Let us start by defining the directory class. 
 
 [[[
@@ -368,11 +368,11 @@ Let us try.
 | el1 el2 |
 el1 := MFDirectory new name: 'comics'.
 el2 := MFDirectory new name: 'oldcomics'.
-el1 addFile: el2.
+el1 addElement: el2.
 el1 printString
->>> comics
+>>> 'comics'
 el2 printString
->> oldcomics
+>> 'oldcomics'
 ]]]
 
 
@@ -385,9 +385,9 @@ that this is a directory as with the ls command on unix.
 | el1 el2 |
 el1 := MFDirectory new name: 'comics'.
 el2 := MFDirectory new name: 'oldcomics'.
-el1 addFile: el2.
-el1 >> printString. 
-/comics/
+el1 addElement: el2.
+el1 >> printString.
+'/comics/'
 el2 printString
 >> '/comics/oldcomics/'
 ]]]
@@ -426,7 +426,7 @@ dOldComics := MFDirectory new name: 'oldcomics'.
 dOldComics addElement: el1. 
 el1 printString.
 >>>
-/oldcomics/astroboy
+'/oldcomics/astroboy'
 ]]] 
 
 
@@ -469,8 +469,8 @@ MyFile >> parent
 ]]]
 
 [[[
-MyFile >> contents:
-	^ contents
+MyFile >> contents: aString
+	contents := aString
 ]]]
 
 At the stage we should be able to define a file and adding it to a directory.
@@ -479,6 +479,16 @@ Now we should redefine the implementation of ==printOn:== to print nicely the na
 
 [[[
 MFFile >> printOn: aStream
+	aStream << name
+]]]
+
+But this is enough because we will just get 'astroboy' and not '/oldcomics/astroboy'.
+So let us improve it.
+
+[[[
+MFFile >> printOn: aStream
+	parent isNil ifFalse: [ 
+		parent printOn: aStream ].
 	aStream << name
 ]]]
 
@@ -498,16 +508,16 @@ dComics addElement: dOldComics.
 dOldComics addElement: el1. 
 el1 printString.
 >>>
-/comics/oldcomics/astroboy
+'/comics/oldcomics/astroboy'
 ]]]
+
 [[[
 dOldComics printString.
 >>>
-/comics/oldcomics/
+'/comics/oldcomics/'
 ]]] 
 
-What we see is that there is one message and several implementations of methods and that sending a message will find and execute
-the correct method. For example, there are two methods ==printOn:== one for file and one for directory but only one message ==printOn:== sent from the ==printString== message.
+What we see is that there is one message and several implementations of methods and that sending a message will find and execute the correct method. For example, there are two methods ==printOn:== one for file and one for directory but only one message ==printOn:== sent from the ==printString== message.
 
 In addition a method can be defined in terms of messages sent to other objects. The method ==printOn:== for directories is complex and it delegates the same message to other objects, its parents (as illustrated by Figure *@InstancesRecursion2*). The method ==addElement:== delegates to the OrderedCollection sending a different message ==add:==.
 
@@ -524,6 +534,7 @@ Now that we saw some examples of objects, it is time to step back. Objects are d
 We will now implement two functionalities: the size of directories and a search based on the contents of the files. This will set the context to explain the key concept of distribution of responsibilities.
 
 +Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
+
 !!!! File size 
 Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantaisit but this is for the sake of the example.To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
 
@@ -537,11 +548,12 @@ el size = 'babar' size + 'Babar et Celeste' size.
 ]]]
 
 Second we define that the size of a directory is the size of its name plus the size of its files and we add and arbitrary number: 2. 
+
 [[[
 | p2 el |
 el := MFFile new name: 'babar'.
 p2 := MFDirectory new name: 'oldcomics'.
-p2 addFile: el. 
+p2 addElement: el. 
 p2 size = 'oldcomics' size + 'babar' size + 2
 >>> true
 ]]]
@@ -575,14 +587,14 @@ Let us imagine that we want to search the files matching a given string.
 Here is an example to set the stage.
 
 [[[
-| p el |
+| p el1 el2 |
 p := MFDirectory new name: 'comics'.
-el := MFFile new name: 'babar'; contents: 'Babar et Celeste'.
-p addFile: el.
-el2 := MFFIle new name: 'astroboy; contents: 'super cool robot'.
-p addFile: el2.
-(p search: 'Ba') asArray
->>> #(/comics/babar)
+el1 := MFFile new name: 'babar'; contents: 'Babar et Celeste'.
+p addElement: el1.
+el2 := MFFile new name: 'astroboy'; contents: 'super cool robot'.
+p addElement: el2.
+(p search: 'Ba') includes: el1
+>>> true
 ]]]
 
 To implement this behavior is quite simple: we define two methods one in each class (as shown in Figure *@FileDirectoryV1*).
@@ -593,7 +605,7 @@ MFFile >> search: aString
 
 [[[
 MFDirectory >> search: aString
-	 ^ self files select: [ :eachFile | eachFile search: aString ]
+	^ files select: [ :eachFile | eachFile search: aString ]
 ]]]
 
 !!! Important points
