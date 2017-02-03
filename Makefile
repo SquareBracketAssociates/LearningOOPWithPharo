@@ -4,7 +4,6 @@ CHAPTERS = \
 	Chapters/Tests/Tests \
 	Chapters/GettingStarted/GettingStarted \
 	Chapters/PlayingWithTurtles/PlayingWithTurtles \
-	Chapters/SyntaxGlimpse/SyntaxGlimpse \
 	Chapters/Counter/Counter \
 	Chapters/Katas/GramKatas \
 	Chapters/Katas/GramVariation \
@@ -14,10 +13,12 @@ CHAPTERS = \
 	Chapters/JoeTheBox/JoeTheBox \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
 	Chapters/Inheritance/Inheritance \
+	Chapters/SyntaxGlimpse/SyntaxGlimpse \
 	Chapters/Expressions/Expressions \
 	Chapters/SimpleLAN/SimpleLANDefinition \
 	Chapters/OOPNutshell/OOPNutshell \
 	Chapters/BeaconAndSatellite/BeaconAndSatellite \
+	Chapters/Tamagoshi/Tamagoshi \
 	Chapters/MessageSending/MessageSending \
 	Chapters/Solutions/Solutions \
 	Chapters/ObjectsAndClasses/ObjectsAndClasses \

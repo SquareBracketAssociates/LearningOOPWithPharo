@@ -1,11 +1,10 @@
-
-! A Digital Animal: A gluttonous Tamagoshi
+!! A Digital Animal: A gluttonous Tamagoshi
 
 In this chapter we propose you to develop a small digital animal that has its own life require care for you. 
 People were really fond of digital animals called tamagoshi. Therefore  we will build one step by step. 
 This project is a pretext for revisiting the basic actions to define a class, instance variables and methods. 
 
-!!A gluttonous Tamagoshi
+!!!A gluttonous Tamagoshi
 
 We have to decide the behavior that our digital beats should have. 
 Here is the list of the behavior we propose you to implement for our  tomagoshi. The Figure~\ref{fig:tomastate} represents how the tomagoshi changes its state. 
@@ -23,14 +22,14 @@ We choose to have blue when it is  satisfied possibly sleeping, black when sleep
 
 
 
-!!A Square Tamagoshi
+!!!A Square Tamagoshi
 
 
 
 
 
 
-!! Define a package named Tamagoshi
+!!! Define a package named Tamagoshi
 
 Define a new package named for example 'Tamagoshi' and define the class ==Tamagoshi==. As we would like to be able to interact with it and have a graphical representation, we define  the class ==Tamagoshi== as a subclass of the class ==Morph==. 
 
@@ -60,7 +59,7 @@ Tamagoshi new openInHand
 +A square and rudimentary tamagoshi>file://figures/squareTamagoshi.pdf|width=50|label=squareTamagoshi+
 
 
-!!!!Create a protocol named ==stepping==
+!!!!Create a protocol named stepping
 
 
 [[[
@@ -306,7 +305,7 @@ drawOn: aCanvas
 
 +A smiling tamagoshi.>file://figures/Smiling.pdf|width=50|label=Smiling+
 
-!! Eating Behavior
+!!! Eating Behavior
 
 Let us add a tummy to our tamagoshi. 
 
@@ -409,7 +408,7 @@ eat
 				  self changed]. 
 ]]]
 
-!!Digesting
+!!!Digesting
 
 
 Extract the code of the step method into a new method name talk.
@@ -525,7 +524,7 @@ step
 ]]]
 
 
-!! Hungry
+!!! Hungry
 
 Now we get ready to make our tamagoshi changing face when he is hungry. 
 
@@ -571,7 +570,7 @@ talk
 ]]]
 
 
-!!Nights and days
+!!!Nights and days
 Now we want to manage the night and day period of our tamagoshi. 
 
 
@@ -675,7 +674,7 @@ drawOn: aCanvas
 
 
 
-!! Further Experiments
+!!! Further Experiments
 Now we propose you different modifications to change the behavior of your tomagoshi. 
 
 
