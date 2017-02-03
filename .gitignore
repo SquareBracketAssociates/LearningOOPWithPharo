@@ -6,3 +6,4 @@ pharo
 pharo-ui
 pharo-vm/
 pillar
+*.mcz
