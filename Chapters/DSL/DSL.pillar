@@ -83,7 +83,7 @@ value comprised between 1 and 6. This is what the following test method is actua
 [[[
 DieTest >> testRolling
 	| d |
-	d := Die new. withFaces:
+	d := Die new.
 	10 timesRepeat: [ self assert: (d roll between: 1 and: 6) ]
 ]]]
 
@@ -97,7 +97,7 @@ DieTest >> testCreationIsOk
 	self assert: (Die withFaces: 20) faces equals: 20
 ]]]
 
-What the test clearly shows is that we are sending a message to the ""class"" ==Die== itself. 
+What the test clearly shows is that we are sending a message to the ""class"" ==Die== itself.
 You should define the ''class'' method ==withFaces:== as follows. It creates an instance then send the message ==faces:== to it and returns the instance.
 Pay really attention that we have a class method ==withFaces:== sent to a class, and an instance method sent to the newly created instance ==faces:==. Note that the class method could have also named ==faces:==, it does not matter, it is executed when the receiver is the class ==Die==
 
@@ -134,7 +134,7 @@ Die >> faces: aNumber
 	faces := aNumber. 
 	^ 33
 ]]]
-Without the use of ==yourself==, ==Die withFDie withFaces:aces: 20== will return 33. With ==yourself== it will return the instance.
+Without the use of ==yourself==, ==Die withFaces: 20== will return 33. With ==yourself== it will return the instance.
 
 The trick is that ==yourself== is a simple method defined on ==Object== class: The message ==yourself== returns the receiver of a message.
 The use of ==;== sends the message to the receiver of the previous message (here ==faces:==).  The message ==yourself== is then sent to the object resulting from the execution of the expression ==self new== (which returns a new instance of the class ==Die==), as a consequence it returns the new instance. 
