@@ -69,46 +69,37 @@ I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe for
 Alexandre Bergel for his examples on messages. Olivier Auverlot for his feedback and Tinychat. 
 Guillermo Polito for the idea of this cool example of files and directories. 
 
-!!! todo
-- Revisit Inheritance chapter: find a non graphical example
-- Finish tjj LAN and may be reunit it. 
-- See how to get a simpler syntax chapter
-- Get a draft for Sending Messages
--- may be using not | 
 
+
+!!! New todo
+- Revisit Inheritance chapter
+- Finish tjj LAN and may be reunit it. 
 - Implement game collector app
 - reread and implement Game of life
 - implement sokoban 
 
-!!! New todo
-
 !!!! Stef:
-	Heritage
-	move syntax chapter 
-	Split book in three
-	Sending messages
-	Snake And ladder
-	
-	move tinyChat to book
-
-LAN 
-GoFLife
-Visitor
-Interpreter
+- Heritage
+- write Snake And ladder
+- read LAN 
+- Implement Game of Life
+- Sending messages
+- Visitor
+- Interpreter
 
 !!!!Alain
--Lire 
--	Beacons
--	Ants
--	Parser?
--	Implementaiton turtle
--	Read tinychat
+Lire 
+- Beacons
+- Ants
+- Parser?
+- Implementaiton turtle
+- Read tinychat
 	
 !!!! other random stuffs	
-Developing a simple counter to read and adpat
+Developing a simple counter should be read and adpat
 -	shorten test
+- 	no class method
 -	Move solution of wallet
--	DSL is bugged
 	
 Chapter 5 move later and rename	
 	More about the syntax
