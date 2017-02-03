@@ -1,8 +1,6 @@
 { "metadata": { 
-	"title": "Learning Object-Oriented Programming, Design and TDD with Pharo" ,
-	"attribution" : "Stéphane Ducasse"} } 
-
-
+	"title": "Learning Object-Oriented Programming, Design and TDD with Pharo (vol I)" ,
+	"attribution" : "Stéphane Ducasse with Alain Plantec"} } 
 
 ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
@@ -16,8 +14,6 @@ ${inputFile:Chapters/Counter/Counter.pillar}$
 
 ${inputFile:Chapters/Tests/Tests.pillar}$ 
 Turn the examples given in the first chapter into test
-
-${inputFile:Chapters/SyntaxGlimpse/SyntaxGlimpse.pillar}$ 
 
 ${inputFile:Chapters/Katas/GramKatas.pillar}$
 
@@ -35,7 +31,7 @@ ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
 ${inputFile:Chapters/DSL/DSL.pillar}$
 
-!! Tamagoshi (graphics TBMigrated or killed :))
+!! Tamagoshi (graphics TBMigrated :))
 
 !! Do we do Joe the Box
 
@@ -48,6 +44,21 @@ ${inputFile:Chapters/Inheritance/Inheritance.pillar}$
 
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 
+! Little Projects
+
+${inputFile:Chapters/SnakesAndLadders/SnakesAndLadders.pillar}$
+
+${inputFile:Chapters/TinyChat/TinyChat.pillar}$
+
+${inputFile:Chapters/BeaconAndSatellite/BeaconAndSatellite.pillar}$
+
+
+
+
+! Second Volume 
+
+${inputFile:Chapters/SyntaxGlimpse/SyntaxGlimpse.pillar}$ 
+
 ${inputFile:Chapters/Expressions/Expressions.pillar}$
 
 
@@ -56,6 +67,39 @@ ${inputFile:Chapters/Expressions/Expressions.pillar}$
 ${inputFile:Chapters/MessageSending/MessageSending.pillar}$
 
 ${inputFile:Chapters/PaperStoneScissor/PaperStoneScissor.pillar}$
+
+!! Playing with Visitors
+
+Here I should take the slides flow from the design mooc lectures. 
+Visitor then after I should make sure that we only return expressions
+of the same domain and with a stack.
+
+
+!! Playing with Interpreters
+
+Returning an integer is not really nice because we cross boundaries.
+
+!!! Using the Pharo execution stack
+
+[[[
+EEvaluator >> visitMultiplication: aMultiplication
+	^ (EConstant new
+		value: (self evaluate: aMultiplication left) * 
+					(self evaluate: aMultiplication right)  
+]]]
+
+!!! With an explicit interpretation  stack
+[[[
+EEvaluator >> visitMultiplication: aMultiplication
+	self evaluate: aMultiplication left.
+	self evaluate: aMultiplication right.
+	self push: (EConstant new
+					value: self pop value * self pop value)  
+]]]
+
+!! Parsing alain?
+
+!! Ants?
 
 !! About Design
 
@@ -110,55 +154,17 @@ Whenever you find yourself writing procedural code, extract that code into decla
 
 
 
+! Volume 3
 
+!! Uno?
 
+!! Ants
 
-!! Playing with Visitors
+!! Project:  Managing Game Collection (TBD)
 
-Here I should take the slides flow from the design mooc lectures. 
-Visitor then after I should make sure that we only return expressions
-of the same domain and with a stack
+!! Project: Sokoban (TB DONE)
 
-
-
-
-
-
-
-
-!! Playing with Interpreters
-
-Returning an integer is not really nice because we cross boundaries.
-
-!!! Using the Pharo execution stack
-
-[[[
-EEvaluator >> visitMultiplication: aMultiplication
-	^ (EConstant new
-		value: (self evaluate: aMultiplication left) * 
-					(self evaluate: aMultiplication right)  
-]]]
-
-!!! With an explicit interpretation  stack
-[[[
-EEvaluator >> visitMultiplication: aMultiplication
-	self evaluate: aMultiplication left.
-	self evaluate: aMultiplication right.
-	self push: (EConstant new
-					value: self pop value * self pop value)  
-]]]
-
-
-${inputFile:Chapters/BeaconAndSatellite/BeaconAndSatellite.pillar}$
-
-
-! Project:  Managing Game Collection (TBD)
-
-! Project: TinyChat (TBIncluded)
-
-! Project: Sokoban (TB DONE)
-
-! Project: LSystem (TBMigrated)
+!! Project: LSystem (TBMigrated)
 
 Lindermayer systems, also called ''L-Systems'', have been developed
 by biology theorists to understand and simulate the growth of plants
@@ -174,7 +180,7 @@ Chapter ch:parametric introduces Parametric L-Systems that
 allows one to express more powerful L-Systems. This chapter shows in
 particular how inheritance can be used to reuse class already defined.
 
-!! Lindermayer Systems
+!!! Lindermayer Systems
 	MyBooks/botsinc/BookTwo/Debugger/
 
 !!!	LSystem

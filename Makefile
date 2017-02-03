@@ -10,6 +10,8 @@ CHAPTERS = \
 	Chapters/Converter/Converter \
 	Chapters/Wallet/Wallet \
 	Chapters/DSL/DSL \
+	Chapters/TinyChat/TinyChat \
+	Chapters/SnakesAndLadders/SnakesAndLadders \
 	Chapters/JoeTheBox/JoeTheBox \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
 	Chapters/Inheritance/Inheritance \
