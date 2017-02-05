@@ -165,33 +165,49 @@ Now it is time to explain what is happening when an object receives a message se
 - ""Method Lookup"". When an object, the message receiver, receives a message, the method with the same selector than the message is looked up starting from the ''class'' of receiver (step 1 in Figure *@BasicLookup*). When there is no method with the same selector, the look up continues in the superclass of the current class (step 2 in Figure *@BasicLookup*).
 - ""Method execution"". When a method with the same selector is found in a class, it is returned and executed on the receiver of the message (step 3 in Figure *@BasicLookup*). 
 
-Let us look at the our example. 
+Let us look at our example. 
 
 - When we send the message ==astroboy search: 'Ba'== the method named ==search:== is looked up in the class of the receiver ==MFFile==. This class defines such method, so it is returned and executed on the file ==astroboy==.
 
 - The tests pass because when we send the message ==parent:== to an instance of the class ==MFFile==, the corresponding method is lookup in the class ==MFFile==. Since there is no method ==parent:== in the class ==MFFile==, the lookup continues in the superclass and find it in the class ==MFElement== as shown in Figure *@BasicLookup*.
 
+!!!! Inheritance properties
+While rather simple, the previous situation shows some key properties of inheritance. 
 
-!!! Inheritance properties
-While really simple the previous situation shows some key properties of inheritance. 
+Inheritance is a mechanism to define abstraction incrementally: a subclass is defined by expressing the difference to its superclass. A subclass refines a general concept into a more specific ones. The classes ==MFFile== and ==MFDirectory== add extra behavior and state to the one defined in the superclass. As such they reuse the state and behavior of their superclass.
 
-- ''incremental definition'': a subclass is defined by expressing the difference to its superclass: ==MFFile== and ==MFDirectory== only define what is specific to their instances.
+- ''State reuse'': instances of a subclass have at least the structure of their superclasses (==name== and ==parent==), local state can be added in addition (==contents== and ==files==).
 
-- ''state reuse'': instances of a subclass have at least the structure of their superclasses (==name== and ==parent==), local state can be added in addition (==contents== and ==files==).
+- ''Behavior reuse'': when instances of a subclass receive a message, methods of the superclass may be executed. The method ==parent:==, ==parent==, and ==name== are defined in ==MFElement== but are executed on instances of the subclasses.
 
-- ''behavior reuse'': when instances of a subclass receive a message, methods of the superclass may be executed. The method ==parent:==, ==parent==, and ==name== are defined in ==MFElement== but are executed on instances of the subclasses
+Inheritance creates trees of abstraction. A superclass represents a more abstract concepts and its subclasses make it more and more specific by refining the superclass behavior or extending it by adding new behavior. 
+
+!!!! Basic overrides
+
+Since the method lookup starts from the class of the receiver, redefining a method in subclass will take precedence over the method defined in the superclasses.
+
+If we define a method with the same name that one of its superclass, this new method will be executed instead of the one in the superclass. This is called a ''method overrides''.
+We will see later that we can also invoke the method of the superclass while doing a method overrides: it is useful when we want to ''extend'' and not just fully change the superclass behavior. 
+
+But before explaining this, method lookup and execution are systematically applied and we will see in the following sections that it is even more powerful than it may look in first sight.
 
 
 
 
- 
- 
-!!! self and lookup
 
-So far we explain how when we send a message it is revolved. The same behavior happens when we send 
-To explain precisely the lookup and how 
 
-Let us define a new little behavior, to build a better user interface for end-users we add a new message called ==describe==.
+!!! self-send messages and lookup create hooks
+
+So far we explained how when we send a message it is revolved: the corresponding method is looked up from the class of the receiver. Now there is an implication that is really important: each time we send a message to ==self== (the receiver of the message), we invoke 
+the method lookup again. In particular, it means that when we have a message sent to ==self== in a superclass, this message may lead to the execution of method in subclasses.
+This is why self-sends are also called ''hooks'' methods.
+
+@@note Message sent to the receiver (self sends) are customization points that subclasses can take advantage of to potentially see their code being executed in place of the superclass' one.
+
+!!!! Example
+
+To explain precisely this important point, let us define a new little behavior: to build a better user interface for end-users we add a new message called ==describe== that present in more human friendly way the receiver of the message.
+Here is a small example: 
 
 [[[
 | p el1 el2 |
@@ -206,12 +222,24 @@ el1 describe
 >>> 'I m a file named babar'
 ]]]
 
-To implement this behavior, we define the following method
+
+We will implement the situation described by Figure *@fig:SelfSendLateBinding*.
+To implement this behavior, we define the following method ==describe== in the class ==MFElement==.
+
 [[[
 MFElement >> describe
-	^ 'I m a ', self kind, 'named ', self name  
+	^ 'I m a ', self kind, 'named ', name  
 ]]]
 
+We define the method ==kind== to return a default string, even though we do not expect 
+to create instances of this class and subclasses should define their own definition.
+
+[[[
+MFFile >> kind
+	^ 'element'
+]]]
+
+In each of the subclasses, we define a corresponding method ==kind==, as follows: 
 [[[
 MFDirectory >> kind
 	^ 'directory'
@@ -222,19 +250,35 @@ MFFile >> kind
 	^ 'file'
 ]]]
 
-!!! Definition of File is now just a delta
+!!!! Hook/Template explanations
+Now we are ready to explain what is happening. Let us illustrate the execution of the 
+
+[[[
+| el1 |
+el1 := MFFile new name: 'babar'.
+el1 describe
+>>> 'I m a file named babar'
+]]]
+
+The following steps are executed: 
+- The message ==describe== is sent to ==el1== an instance of the class ==MFFile==. 
+- The method ==describe== is looked up in the class ==MFFile== (step 1 in Figure *@fig:SelfSendLateBinding*). It is not found, therefore the lookup go to the superclass. 
+- The lookup looks for the method ==describe== in the class ==MFElement==  (step 2 in Figure *@fig:SelfSendLateBinding*). It is found and executed on the receiver: ==el1==. 
+- During the execution of the method ==describe==, a new message ==kind== using the expression ==self kind== is sent (step 2 in Figure *@fig:SelfSendLateBinding*).
+-  The message ==kind== is looked up starting from the class of the receiver, ==MFFile== (step 4 in Figure *@fig:SelfSendLateBinding*). The method ==kind== is found and executed. 
+- The rest of the method ==describe== is executed and the resulting string is returned. 
+
++A self-send creates a hook (==kind==) that subclasses override. The method == describe== is called a template because it creates a context.>file://figures/SelfSendLateBinding.png|width=65|label=fig:SelfSendLateBinding+
+
+!!!! Vocabulary
+A vocabulary point: the method ==describe== is called a ''template'' method because it creates a context in which the ==kind== methods can be executed. The message ==kind== is called a hook since subclass implementation may be invoked in this place. 
+
+This example illustrates the following important points:
+
+!!!!! Reuse of ancestor logic
 
 
-
-
-!!!! Reuse of ancestor logic
-
-!!! self 
-
-
-
-
-!!! Specialisation of ancestor behavior
+!!!!! Specialisation of ancestor behavior
 Now we want to show another aspect of inheritance, a subclass can override the behavior defined in a superclass. 
 Let us define a new subclass of ==Animal==, named ==Duck==.
 
@@ -242,8 +286,24 @@ Let us define a new subclass of ==Animal==, named ==Duck==.
 
 +Overriding superclass behavior.>file://figures/Ref-LookupBasicOverride.png|width=60|label=fig:Ref-LookupBasicOverride+
 
+!!!! instance variable vs. messages
 
+Creating a hook or not
 
+[[[
+MFElement >> describe
+	^ 'I m a ', self kind, 'named ', name  
+]]]
+
+[[[
+MFElement >> describe
+	^ 'I m a ', self kind, 'named ', self name  
+]]]
+
+[[[
+MFElement >> name
+	^ self name
+]]]
 
 
 
@@ -253,21 +313,7 @@ Let us define a new subclass of ==Animal==, named ==Duck==.
 
 
 
-
-!!! Messages are late bound
-
-move injected from subclasses into superclass' code. 
-+Subclass behavior can be invoked from superclass behavior.>file://figures/Ref-LookupLateBinding.png|width=60|label=fig:Ref-LookupLateBinding+
-
-
-!!! Creating a hook
-With the concept of late binding in mind, each time we send a message to self we create a customization point for subclasses.
-
-
-
-@@note self sends are creating customization points. 
-
-!!! Super 
+!!! Extending Super 
 
 %!!! Exercises 
 %We propose two exercises. First you should turn all the examples into automated tests as explained in the Unit Test %chapter.  This is important because it will helps you for the second exercise.
