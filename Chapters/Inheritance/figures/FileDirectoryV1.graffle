@@ -63,8 +63,8 @@
 			<integer>218</integer>
 			<key>Points</key>
 			<array>
-				<string>{357.57875514009322, 290.29547052548037}</string>
-				<string>{373.97368415287838, 237.45396887207013}</string>
+				<string>{357.57873060914955, 290.29547032815896}</string>
+				<string>{373.97358188015534, 237.45396505737287}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -135,8 +135,8 @@
 			<integer>216</integer>
 			<key>Points</key>
 			<array>
-				<string>{481.65219293865619, 290.32605328267476}</string>
-				<string>{455.1412280157831, 237.45396887207013}</string>
+				<string>{481.65223199301789, 290.3260528505005}</string>
+				<string>{455.14139161887636, 237.45396505737287}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -380,8 +380,8 @@ search: aString}</string>
 			<integer>140</integer>
 			<key>Points</key>
 			<array>
-				<string>{82.604491623822682, 290.29457851981709}</string>
-				<string>{104.72150214378773, 217.45396752929631}</string>
+				<string>{82.89445884962629, 290.29697525992356}</string>
+				<string>{99.871818666669611, 237.45396752929634}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -452,8 +452,8 @@ search: aString}</string>
 			<integer>132</integer>
 			<key>Points</key>
 			<array>
-				<string>{207.40803302095489, 290.31936342069093}</string>
-				<string>{173.63757600748488, 217.45396752929634}</string>
+				<string>{206.96722311870536, 290.32408525933744}</string>
+				<string>{181.0399645570711, 237.45396752929631}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -619,7 +619,7 @@ contents}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{51.000015258789062, 117.45396752929628}, {162, 100}}</string>
+					<string>{{51.000015258789062, 117.45396752929628}, {162, 120}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -664,6 +664,7 @@ contents}</string>
 name: \
 printOn: aStream\
 size\
+contents:\
 search: aString}</string>
 						<key>VerticalPad</key>
 						<integer>0</integer>
@@ -737,7 +738,7 @@ search: aString}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-03 11:48:40 +0000</string>
+	<string>2017-02-03 15:59:55 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -833,7 +834,7 @@ search: aString}</string>
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{24, 0}, {1256, 777}}</string>
+		<string>{{25, 0}, {1255, 777}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
@@ -845,7 +846,7 @@ search: aString}</string>
 		<key>SidebarWidth</key>
 		<integer>138</integer>
 		<key>VisibleRegion</key>
-		<string>{{-334, 1}, {1242, 680}}</string>
+		<string>{{-334, 1}, {1241, 680}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>

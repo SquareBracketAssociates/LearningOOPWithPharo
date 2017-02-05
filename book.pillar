@@ -33,8 +33,8 @@ ${inputFile:Chapters/DSL/DSL.pillar}$
 
 !! Tamagoshi (graphics TBMigrated :))
 
-!! Do we do Joe the Box
-
+!! Do we do Joe the Box?
+for this we should do the Turtle
 %${inputFile:Chapters/JoeTheBox/JoeTheBox.pillar}$
 
 
