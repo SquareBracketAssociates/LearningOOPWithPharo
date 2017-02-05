@@ -142,26 +142,45 @@ Run the tests and they should again all pass!.
 
 What is important to see is that if we create a new subclass of ==MFElement==, the instances of such class will automatically get ==name== and ==parent== as instance variables. This is one of the key property of inheritance: you can define a new abstraction structure by extending an existing one. 
 
-Now we can do the same for the behavior. 
+Now we can do the same for the behavior: we will move similar methods in the superclass and remove them from their respective classes. 
 
 !!! Factoring similar methods
-The methods ==parent:==, ==parent== and ==name:== are the same and defined in the two classes. We will move them to the superclass ==MFElement== following a similar process. 
+The methods ==parent:==, ==parent== and ==name:== are the same and defined in the two classes==MFFile== and ==MFDirectory==. We will move them to the superclass ==MFElement== following a similar process.
 
-First we will remove the method ==name:== from the two classes ==MFFile== and ==MFDirectory== and add one version to the class ==MFElement==. 
-Second for ==parent:==, use the method Refactoring Push Up Method that is available from the method list. You should obtain the system described in Figure *@FileDirectoryInhAccessors*.
+- First we will remove the method ==name:== from the two classes ==MFFile== and ==MFDirectory== and add one version to the class ==MFElement==. You can do this manually. 
+
+- Second for the method ==parent:==, use the method Refactoring ''Push Up Method'' that is available from the method list.  You can repeat this for the method ==parent== too. 
+
+You should obtain the system described in Figure *@FileDirectoryInhAccessors*.
 
 + State and Methods factored out in the superclass.>file://figures/FileDirectoryInhAccessors.png|width=50|label=FileDirectoryInhAccessors+
 
-Again run the tests and they should all pass. Why? Let us see that in detail now.
+Again run the tests and they should all pass. Why? Let us see what is happening when we send a message.
 
-!!! Method lookup 
-+When an object receives a message, the method is looked up in its class and its superclass.>file://figures/BasicLookup.png|width=50|label=BasicLookup+
+!!! Sending a message and method lookup 
++When an object receives a message, the method is looked up in its class and if necessary its superclasses(Step 1 and 2). The method is executed on the message receiver (Step 3).>file://figures/BasicLookupAndExecution.png|width=50|label=BasicLookup+
 
 Now it is time to explain what is happening when an object receives a message send. In fact this is really simple but extremely powerful. 
 
-When an object, the message receiver, receives a message, the method with the same selector than the message is looked up starting from the class of receiver. When a method with the same selector is found in a class is returned and executed on the receiver. When there is no method with the same selector, the look up continues in the superclass of the current class.
+- ""Method Lookup"". When an object, the message receiver, receives a message, the method with the same selector than the message is looked up starting from the ''class'' of receiver (step 1 in Figure *@BasicLookup*). When there is no method with the same selector, the look up continues in the superclass of the current class (step 2 in Figure *@BasicLookup*).
+- ""Method execution"". When a method with the same selector is found in a class, it is returned and executed on the receiver of the message (step 3 in Figure *@BasicLookup*). 
 
-Let us look at the our example. The tests pass because when we send the message ==parent:== to an instance of the class ==MFFile==, the corresponding method is lookup in the class ==MFFile==. Since there is no method ==parent:== in the class ==MFFile==, the lookup continues in the superclass and find it in the class ==MFElement== as shown in Figure *@BasicLookup*.
+Let us look at the our example. 
+
+- When we send the message ==astroboy search: 'Ba'== the method named ==search:== is looked up in the class of the receiver ==MFFile==. This class defines such method, so it is returned and executed on the file ==astroboy==.
+
+- The tests pass because when we send the message ==parent:== to an instance of the class ==MFFile==, the corresponding method is lookup in the class ==MFFile==. Since there is no method ==parent:== in the class ==MFFile==, the lookup continues in the superclass and find it in the class ==MFElement== as shown in Figure *@BasicLookup*.
+
+
+!!! Inheritance properties
+While really simple the previous situation shows some key properties of inheritance. 
+
+- ''incremental definition'': a subclass is defined by expressing the difference to its superclass: ==MFFile== and ==MFDirectory== only define what is specific to their instances.
+
+- ''state reuse'': instances of a subclass have at least the structure of their superclasses (==name== and ==parent==), local state can be added in addition (==contents== and ==files==).
+
+- ''behavior reuse'': when instances of a subclass receive a message, methods of the superclass may be executed. The method ==parent:==, ==parent==, and ==name== are defined in ==MFElement== but are executed on instances of the subclasses
+
 
 
 
@@ -225,10 +244,6 @@ Let us define a new subclass of ==Animal==, named ==Duck==.
 
 
 
-!!! Inheritance properties
-- ''incremental definition'': a subclass is defined by expressing the difference to its superclass,
-- ''state reuse'': instances of a subclass have at least the state structure of the superclass,
-- ''behavior reuse'': when instances of a subclass receive a message, methods of the superclass may be executed, 
 
 
 
