@@ -17,7 +17,7 @@ This is within such trees that the system looks up the method corresponding to a
 
 Inheritance supports code reuse because instance variable and methods defined in a root concept (class) are applicable to its refinements (subclasses).
 
-+Two classes understanding similar sets of messages and structuring their instances in a similar.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
++Two classes understanding similar sets of messages and structuring their instances in a similar.>file://figures/FileDirectoryV1.pdf|width=60|label=FileDirectoryV1+
 
 We will use a really simple and naive example to illustrate the key aspects of inheritance. This is a rather simple but enough to show the key properties of inheritance that we want to illustrate: 
 
@@ -49,13 +49,13 @@ Verify that the tests are all passing (green).
 
 !!!! Objectives
 
-In the following sections we will take advantage of defining a common superclass and reuse its definition as shown in Figure *@FileDirectoryWithInheritanceObjective*: It means sharing the maximum structure and behavior between the two classes. We will proceed step by step.
+In the following sections we will take advantage of defining a common superclass and reuse its definition as shown in Figure *@FileDirectoryWithInheritanceObjective*: It means sharing the maximum structure and behavior between the two classes. We will proceed step by step so that you can see all the steps and understand why this is working.
 
-+Two class taking advantages of inheriting from a common superclass.>file://figures/FileDirectoryWithInheritanceObjective.png|width=60|label=FileDirectoryWithInheritanceObjective+
++Two class taking advantages of inheriting from a common superclass.>file://figures/FileDirectoryWithInheritanceObjective.pdf|width=60|label=FileDirectoryWithInheritanceObjective+
 
 !!! Transformation strategies
 
-Let us define a new class called ==MFFile==. 
+Let us define a new class called ==MFElement==. 
 
 [[[
 Object subclass: #MFElement
@@ -64,13 +64,15 @@ Object subclass: #MFElement
 	package: 'MyFS2'
 ]]]
 
-As you may noticed it this is class is empty. Now we have two possible strategies: 
-- either we make ==MFFile== and ==MFDirectory== inherit from ==MFElement== and we migrate the common state and behavior to the superclass.
-- or we define new state and behavior in ==MFElement== and we remove it  from the two classes and when ready we inherit from ==MFElement==. 
+As you may noticed it, this is class is empty. Now we have two possible strategies: 
+- either we make ==MFFile== and ==MFDirectory== inherit from ==MFElement== and  step by step we migrate the common state and behavior to the superclass.
+- or we define new state and behavior in ==MFElement== and we remove it  from the two classes and when ready we make them inherit from ==MFElement==. 
 
-The second approach may work but it is too risky. Indeed with the first approach we can get a running system after any step we perform: why? because we first inherit from the new class and move element from the subclasses to the classes and doing so we automatically reuse the superclass behavior and state so our program externally (for example from the test perspective are not changed). In addition, we can run our tests after any change and control our enhancements. 
+The second approach may work but it is too risky. Indeed with the first approach we can get a running system after any step we perform: why? Because we first inherit from the new class and move element from the subclasses to the classes and doing so we automatically reuse the superclass behavior and state so our program externally (for example from the test perspective) is not changed. With such an approach we can run our tests after any change and control our enhancements.
 
-In addition, some of the operations such as moving an instance variable from a class to its superclass are tedious to perform. Here we will perform one manually but the second using ''refactorings'' (refactorings are program transformation that pay attention to keep the behavior of the program the same.)
+In addition, some of the operations such as moving an instance variable from a class to its superclass are tedious to perform. Here we will perform one manually but the second we will use ''refactorings'' -- refactorings are program transformations that keep the behavior of the program the same.
+
+Let us get started.
 
 !!! Factoring out state
 
@@ -89,14 +91,14 @@ MFElement subclass: #MFDirectory
 	package: 'MyFS2'
 ]]]
 
-Now you can execute the tests and they will all pass. 
+Now you can execute the tests and they will all pass. Now we get ready move some instance variables to the superclass.
 
-+Moving the instance variable name to the superclass.>file://figures/FileDirectoryInhStateNameOnly.png|width=50|label=FileDirectoryInhStateNameOnly+
++Moving the instance variable name to the superclass.>file://figures/FileDirectoryInhStateNameOnly.pdf|width=50|label=FileDirectoryInhStateNameOnly+
 
 !!!! Moving instance variable name to superclass
 
 Since both ==MFDIrectory== and ==MFFile== define that their instances should have a name, we can remove the instance variable ==name== from them and uniquely define it in the superclass. We obtain the situation depicted in Figure *@FileDirectoryInhStateNameOnly*.
-Let us do that as follows: 
+Let us do that as follows: We remove it first from the ==MFFile== and ==MFDirectory== classes.
 [[[
 MFElement subclass: #MFFile
 	instanceVariableNames: 'parent contents'
@@ -111,6 +113,8 @@ MFElement subclass: #MFDirectory
 	package: 'MyFS2'
 ]]]
 
+And we add the instance variable ==name== to the superclass ==MFElement==.
+
 [[[
 Object subclass: #MFElement
 	instanceVariableNames: 'name'
@@ -122,7 +126,7 @@ Pay attention that you should be careful and do it in this order else you may be
 
 Again run the tests they should pass again. 
 
-What the execution of the tests prove is that we did not change the structure of the instances of ==MFFile== and ==MFDirectory==. Indeed the structure of an instance is computed from the instance variables defined in their class and all the superclasses of that class.
+What the tests execution proves is that we did not change the structure of the instances of ==MFFile== and ==MFDirectory==. Indeed the structure of an instance is computed from the instance variable lists defined in their class and all the superclasses of that class.
 
 !!!! Moving parent to the superclass
 
@@ -136,7 +140,7 @@ The system will ask you which variable you want to pull up, select ==parent==. I
 code should be now in the situation depicted in Figure *@FileDirectoryInhFullStateOnly*.
 Run the tests and they should again all pass!.
 
-+State factored between the two classes the superclass.>file://figures/FileDirectoryInhFullStateOnly.png|width=50|label=FileDirectoryInhFullStateOnly+
++State factored between the two classes and their superclass.>file://figures/FileDirectoryInhFullStateOnly.pdf|width=50|label=FileDirectoryInhFullStateOnly+
 
 
 What is important to see is that if we create a new subclass of ==MFElement==, the instances of such class will automatically get ==name== and ==parent== as instance variables. This is one of the key property of inheritance: you can define a new abstraction structure by extending an existing one. 
