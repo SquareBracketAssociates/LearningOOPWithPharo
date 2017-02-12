@@ -291,17 +291,6 @@ This example illustrates the following important points:
 
 
 
-!!! Reuse of ancestor logic
-
-
-!!!!! Specialisation of ancestor behavior
-Now we want to show another aspect of inheritance, a subclass can override the behavior defined in a superclass. 
-Let us define a new subclass of ==Animal==, named ==Duck==.
-
-
-
-+Overriding superclass behavior.>file://figures/Ref-LookupBasicOverride.png|width=60|label=fig:Ref-LookupBasicOverride+
-
 !!!! instance variable vs. messages
 
 Creating a hook or not
@@ -321,15 +310,34 @@ MFElement >> name
 	^ self name
 ]]]
 
+!!! Conclusion
 
 
 
-+Files and Directories are specialized abstractions sharing some common state and behavior classes via inheritance.>file://figures/FileDirectoryWithInheritanceV3.png|width=60|label=FileDirectoryWithInheritanceV3+
 
 
 
 
-!!! Extending Super 
+
+
+!! Extending superclass behavior
+
+In the previous chapter we saw that inheritance allows the programmer to factor out state and behavior and as such to create class hierarchy where subclasses specialize behavior of their superclass. We saw that the method look up starts in the class of the receiver and goes up the inheritance chain. Then the found method is executed on the receiver of the initial message.
+We show that a subclass can specialize and override the behavior of its superclass by defining locally a method with the same name than one method of its superclass. 
+
+Now we will show that inheritance let us also redefine locally the behavior of a superclass while reusing it. We start 
+
+
+
+!!! Specialisation of ancestor behavior
+Now we want to show another aspect of inheritance, a subclass can override the behavior defined in a superclass. 
+Let us define a new subclass of ==Animal==, named ==Duck==.
+
+
++Overriding superclass behavior.>file://figures/Ref-LookupBasicOverride.png|width=60|label=fig:Ref-LookupBasicOverride+
+
+
+!!! Extending superclass behavior
 
 %!!! Exercises 
 %We propose two exercises. First you should turn all the examples into automated tests as explained in the Unit Test %chapter.  This is important because it will helps you for the second exercise.
@@ -354,9 +362,12 @@ For
 ==printOn:==
 
 
++Files and Directories are specialized abstractions sharing some common state and behavior classes via inheritance.>file://figures/FileDirectoryWithInheritanceV3.png|width=60|label=FileDirectoryWithInheritanceV3+
+
+!!! Super is the receiver of the message too!
+
+!!! Conclusion
 
 
-
- !!! Conclusion
  
  
