@@ -201,15 +201,14 @@ But before explaining this, method lookup and execution are systematically appli
 
 !!! self-send messages and lookup create hooks
 
-So far we explained how when we send a message it is revolved: the corresponding method is looked up from the class of the receiver and goes up the inheritance tree. It means that in response to a message, a superclass method may be executed on its subclass instances. 
-Now there is an implication that is really important: each time we send a message to ==self== (the receiver of the message), we also invoke the method lookup and ==self== may be one subclass instances.
-It implies that when we have a message sent to ==self== in a method superclass, this message may lead to the execution of method define in subclasses because a subclass may override such method. This is why self-sends are also called ''hooks'' methods. We will explain carefully this point. 
+So far we explained how a message is revolved: first the corresponding method is looked up from the class of the receiver and goes up the inheritance tree. Second, the found method is executed on the message receiver. It means that in response to a message, a superclass method may be executed on its subclass instances. This is the same for message sent to ==self== (the receiver of the message), we invoke the method lookup and ==self== may be one subclass instances.
 
+There is an important implication: when we have a message sent to ==self== in a method, this message may lead to the execution of a method defined in subclasses: because a subclass may override such method. This is why self-sends are also called ''hooks'' methods. We will explain carefully this point. 
 
 
 !!!! Example
 
-To explain precisely this important point, let us define a new little behavior: to build a better user interface for end-users we add a new message called ==describe== that present in more human friendly way the receiver of the message.
+To explain precisely this important point, let us define a new little behavior: to build a better user interface for end-users we add a new message called ==describe== that presents in more human friendly way the receiver of the message.
 Here is a small example: 
 
 [[[
@@ -225,8 +224,9 @@ el1 describe
 >>> 'I m a file named babar'
 ]]]
 
+!!!! Describe implementation 
 
-We will implement the situation described by Figure *@fig:SelfSendLateBinding*.
+We implement now the situation described by Figure *@fig:SelfSendLateBinding*.
 To implement this behavior, we define the following method ==describe== in the class ==MFElement==.
 
 [[[
@@ -254,31 +254,31 @@ MFFile >> kind
 ]]]
 
 !!!! Hook/Template explanations
-Now we are ready to explain what is happening. Let us illustrate the execution of the 
+Now we are ready to explain what is happening. Let us illustrate the execution of the ==(MFFile new name: 'astroboy') describe==.
 
 [[[
-| el1 |
-el1 := MFFile new name: 'babar'.
-el1 describe
->>> 'I m a file named babar'
+(MFFile new name: 'astroboy') describe
+>>> 'I m a file named astroboy'
 ]]]
 
 The following steps are executed: 
 - The message ==describe== is sent to ==el1== an instance of the class ==MFFile==. 
-- The method ==describe== is looked up in the class ==MFFile== (step 1 in Figure *@fig:SelfSendLateBinding*). It is not found, therefore the lookup go to the superclass. 
+- The method ==describe== is looked up in the class ==MFFile== (step 1 in Figure *@fig:SelfSendLateBinding*). It is not found, therefore the lookup continues to the superclass. 
 - The lookup looks for the method ==describe== in the class ==MFElement==  (step 2 in Figure *@fig:SelfSendLateBinding*). It is found and executed on the receiver: ==el1==. 
-- During the execution of the method ==describe==, a new message ==kind== using the expression ==self kind== is sent (step 2 in Figure *@fig:SelfSendLateBinding*).
--  The message ==kind== is looked up starting from the class of the receiver, ==MFFile== (step 4 in Figure *@fig:SelfSendLateBinding*). The method ==kind== is found and executed. 
-- The rest of the method ==describe== is executed and the resulting string is returned. 
+- During the execution of the method ==describe==, a new message ==kind== using the expression ==self kind== is sent (step 3 in Figure *@fig:SelfSendLateBinding*).
+-  The message ==kind== is looked up starting from the class of the receiver, ==MFFile== (step 4 in Figure *@fig:SelfSendLateBinding*). The method ==kind== is found in class ==MFFIle== and executed. 
+- The rest of the method ==describe== is executed and the resulting string is returned.
 
 +A self-send creates a hook (==kind==) that subclasses override. The method == describe== is called a template because it creates a context.>file://figures/SelfSendLateBinding.png|width=65|label=fig:SelfSendLateBinding+
 
 !!!! Vocabulary
-A vocabulary point: the method ==describe== is called a ''template'' method because it creates a context in which the ==kind== methods can be executed. The message ==kind== is called a hook since subclass implementation may be invoked in this place. 
+A vocabulary point: the method ==describe== is called a ''template'' method because it creates a context in which the ==kind== methods are executed. The message ==kind== is called a hook since subclass implementation may be invoked in this place.
+
 
 This example illustrates the following important points:
 
-
+- Each time we send a message the system chooses the correct method to be executed.
+- Each time we send a self-send messages we create a place where subclasses methods can be executed. We create customsation points. 
 @@note Message sent to the receiver (self sends) are customization points that subclasses can take advantage of to potentially see their code being executed in place of the superclass' one.
 
 
@@ -291,7 +291,7 @@ This example illustrates the following important points:
 
 
 
-!!!! instance variable vs. messages
+!!! Instance variables vs. messages
 
 Creating a hook or not
 
