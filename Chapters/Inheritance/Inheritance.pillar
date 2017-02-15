@@ -160,6 +160,8 @@ You should obtain the system described in Figure *@FileDirectoryInhAccessors*.
 
 Again run the tests and they should all pass. Why? Let us see what is happening when we send a message.
 
+
+
 !!! Sending a message and method lookup 
 +When an object receives a message, the corresponding method is looked up in its class and if necessary its superclasses (Step 1 and 2). Then the method is executed on the message receiver (Step 3).>file://figures/BasicLookupAndExecution.png|width=50|label=BasicLookup+
 
@@ -253,7 +255,7 @@ MFFile >> kind
 	^ 'file'
 ]]]
 
-!!!! Hook/Template explanations
+!!! Hook/Template explanations
 Now we are ready to explain what is happening. Let us illustrate the execution of the ==(MFFile new name: 'astroboy') describe==.
 
 [[[
@@ -271,29 +273,25 @@ The following steps are executed:
 
 +A self-send creates a hook (==kind==) that subclasses override. The method == describe== is called a template because it creates a context.>file://figures/SelfSendLateBinding.png|width=65|label=fig:SelfSendLateBinding+
 
-!!!! Vocabulary
+
 A vocabulary point: the method ==describe== is called a ''template'' method because it creates a context in which the ==kind== methods are executed. The message ==kind== is called a hook since subclass implementation may be invoked in this place.
 
 
 This example illustrates the following important points:
 
 - Each time we send a message the system chooses the correct method to be executed.
-- Each time we send a self-send messages we create a place where subclasses methods can be executed. We create customsation points. 
-@@note Message sent to the receiver (self sends) are customization points that subclasses can take advantage of to potentially see their code being executed in place of the superclass' one.
+- Each time we send a self-send message we create a place where subclass methods may be executed. We create customisation points.
+- Since ==self== represents the receiver and that the receiver may be an instance from a class that is not loaded at the time the method containing the self-send, we say that ==self== is dynamic. It represents the receiver of the message and the lookup for the method to execute starts in the class of the receiver. 
 
-
-
-
-
-
-
+@@note Messages sent to the receiver (==self== sends) define customization points that subclasses can take advantage of to potentially see their code being executed in place of the superclass' one.
 
 
 
 
 !!! Instance variables vs. messages
 
-Creating a hook or not
+Reading the previous section you should now understand that there is in fact a difference between accessing directly an instance variable such as ==name== in the method below and using an accessor as illustrated in the following redefinition. When you use an accessor, subclasses may redefine the behavior of the accessors. 
+Note, however, that such practice is not common.
 
 [[[
 MFElement >> describe
@@ -310,7 +308,26 @@ MFElement >> name
 	^ self name
 ]]]
 
+There is no systematic rule that states that we should systematically use accessors instead of instance variable access. 
+
+
+What is important is that if you decide to use an accessor is to use it consistently, else another programmer looking at your code
+may redefine the accessors in a subclass and his code may not be invoked (for example if you left places where you directly access an instance variable).
+So when you decide to use in your class an accessor it is also better that you do so for all the instance variables of the class.
+Else we may wonder why and uniformity makes the code more understandable.
+
+
 !!! Conclusion
+
+We presented the concept of inheritance: a subclass is defined as a refinement of a superclass. It reuses the superclass behavior and may extend the structure its instances will have. We show that method lookup happens dynamically and walks the inheritance chain starting from the receiver class.
+We show that self-sends are creating hooks in the sense that subclass methods may be executed in place of the superclass counterpart. 
+
+In the following chapter we will see that we can reuse even more methods between all the superclass and its subclasses.
+
+
+
+
+
 
 
 
