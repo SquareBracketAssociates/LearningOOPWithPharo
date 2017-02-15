@@ -340,10 +340,100 @@ In the following chapter we will see that we can reuse even more methods between
 !! Extending superclass behavior
 
 In the previous chapter we saw that inheritance allows the programmer to factor out state and behavior and as such to create class hierarchy where subclasses specialize behavior of their superclass. We saw that the method look up starts in the class of the receiver and goes up the inheritance chain. Then the found method is executed on the receiver of the initial message.
-We show that a subclass can specialize and override the behavior of its superclass by defining locally a method with the same name than one method of its superclass. 
+We showed that a subclass can specialize and override the behavior of its superclass by defining locally a method with the same name than one method of its superclass. 
+ 
+Now we will show that inheritance let us also extend locally the behavior of a superclass while reusing it. We will show that in an overriding method it is possible to invoke the behavior of the superclass to reuse it. 
 
-Now we will show that inheritance let us also redefine locally the behavior of a superclass while reusing it. We start 
+!!! Revisiting printOn:
 
+When we look at the following ==printOn:== methods defined in the classes ==MFDirectory== and ==MFFile==
+we see that there is code repetition. 
+
+[[[
+	parent isNil ifFalse: [ 
+		parent printOn: aStream ].
+	aStream << name
+]]]
+
+It means that if we define a new subclass we will have probably duplicate the same expression.
+
+
+[[[
+MFDirectory >> printOn: aStream
+	parent isNil 
+		ifTrue: [ aStream << '/' ]
+		ifFalse: [ parent printOn: aStream ].
+	aStream << name.
+	aStream << '/'
+]]]
+
+[[[
+MFFile >> printOn: aStream
+	parent isNil ifFalse: [ 
+		parent printOn: aStream ].
+	aStream << name
+]]]
+
+@@note add diagram 
+
+
+[[[
+MFElement >> printOn: aStream
+	parent isNil ifFalse: [ 
+		parent printOn: aStream ].
+	aStream << name
+]]]
+
+[[[
+MFDirectory >> printOn: aStream
+	parent isNil
+		ifTrue: [ aStream << '/' ].
+	super printOn: aStream. 
+	aStream << '/'
+]]]
+
+
+
+!!! Using super
+
+[[[
+MFDirectory >> size
+	| sum |
+	sum := 0.
+	files do: [ :each | sum := sum + each size ].
+	sum := sum + name size.
+	sum := sum + 2.
+	^ sum
+]]]
+
+
+[[[
+MFFile >> size
+	^ contents size + name size
+]]]
+
+
+The following example shows that if the computation of size based on name become more complex. We will reuse such definition. 
+
+[[[
+MFElement >> size
+	^ name size
+]]]
+
+[[[
+MFFile >> size
+	^ contents size + super size
+]]]
+
+[[[
+MFDirectory >> size
+	| sum |
+	sum := 0.
+	files do: [ :each | sum := sum + each size ].
+	sum := sum + super size.
+	sum := sum + 2.
+	^ sum
+]]]
 
 
 !!! Specialisation of ancestor behavior
