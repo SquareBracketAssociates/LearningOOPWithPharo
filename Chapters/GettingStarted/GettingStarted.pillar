@@ -1,11 +1,12 @@
 !! Pharo syntax in a nutshell
 @cha:started
 
-In Pharo everything is an object and most computation happens by sending  messages to objects.
-Objects are created by classes sending them messages too. Classes defined the structure and the behavior of their instances. 
-In this chapter we start with a simple path to get you understand the most important part
-of the Pharo syntax: ''messages'', ''blocks'' and ''methods''. 
-This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I think him for giving me the permission to reuse his ideas.
+In Pharo everything is an object and most computation happens by sending  ''messages'' to objects.
+Objects are created by classes by sending them messages too. Classes defined the structure and the behavior of their instances. 
+
+
+In this chapter we start with a simple path to get you understand the most important part of the Pharo syntax: ''messages'', ''blocks'' and ''methods''. 
+This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I thank him for giving me the permission to reuse his ideas.
 
 
 !!!  Simplicity and elegance of messages
@@ -15,15 +16,19 @@ Pharo syntax is simple and elegant. There are three kind of messages: unary, bin
 But let’s look at an example of unary messages.
 
 [[[
+	
 'hello' reversed
+
 ]]]
 
-Selecting this piece of code and looking at the result of its execution (something you can do everywhere when working in Pharo) yields another object
+Selecting this piece of code and looking at the result of its execution  yields another object
 
 [[[
+	
 'olleh'
+
 ]]]
-as a result. 
+as a result. Note that executing an expression is something you can do everywhere you can type text when working in Pharo.
 
 
 
@@ -52,8 +57,10 @@ In this book, we write an expression and show its result after ==>>>==. The prev
 >>> 'HELLO'
 ]]]
 
+@@note The convention shared between Pharo programmers is to use camel case i.e., writing ==asUppercase==, ==ifAbsentPut:== instead of ==asuppercase== and ==ifabsentput:==. 
 
-!!!! A final example
+
+!!!! A final unary example
 Let us take a final example. 
 
 [[[
@@ -61,7 +68,7 @@ Let us take a final example.
 >>> $h
 ]]]
 
-The message ==first== returns the first character of the string. Strings in Pharo are sequence of characters. Literal characters are expressed by the character ==$== followed by a character. All of these strings and characters are objects because let me repeat it in Pharo ''everything'' is an object.
+The message ==first== returns the first element of the string: It is a character because strings in Pharo are sequence of characters. Literal characters are expressed by the character ==$== followed by a character. All of the strings and characters are objects because let me repeat it in Pharo ''everything'' is an object.
 
 All the messages we saw so far are called ''unary'' messages because they take no arguments.
 
@@ -70,8 +77,8 @@ All the messages we saw so far are called ''unary'' messages because they take n
 
 !!!! A first keyword-based message
 
-Messages should often get an additional argument to let the receiver perfoms its task. 
-Therefore Pharo allows one to pass one argument to a message. Your message  (and its corresponding method name) should finish with a colon. 
+Messages should often get arguments to let the receiver perfoms its task. 
+Therefore Pharo allows us to pass arguments to a message. Your message  (and its corresponding method name) should finish with a colon for each arguments.
 
 Let us look at an example, to access the first element of a string we can also send another message the message ==at:==.
 
@@ -95,7 +102,7 @@ So now you know how we can express with an argument. Simple, put a colon at the 
 
 !!!! Keyword-based messages with multiple arguments
 
-The general form for messages that take arguments uses interpolated keywords ending in colons, like this.
+The general form for messages that take multiple arguments uses interpolated keywords ending in colons, like this.
 
 [[[
 'hello' copyFrom: 1 to: 3
@@ -106,7 +113,7 @@ The name of the previous message is ==copyFrom:to:==. The arguments of the messa
 
 Note how natural keyword messages read and how they are self documenting with well-chosen names. We call such message ''keyword-based'' messages because they are composed of words and colons. 
 
-@@note A message with multiple arguments is composed of words each terminating with a colon: e.g., ==copyFrom: 1 to: 3==.
+@@note A message with multiple arguments (keyword-based message) is composed of words each terminating with a colon: e.g., ==copyFrom: 1 to: 3==.
 
 
 !!!! Binary messages
@@ -129,7 +136,7 @@ as shown:
 Here the receiver of the message is =='Hello'== and the argument ==' Pharoers'==.
 
 !!! Which message is executed first?
-Pharo uses these kind of messages to get a readable syntax. There is one rule that defines which messages is executed first: 
+Pharo uses distinguish between three kind of messages to get a readable syntax. There is one rule that defines which messages is executed first: 
 The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
 
 @@note The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
@@ -141,19 +148,20 @@ Here is an example showing how elegant the syntax when multiple messages are use
 >>>STR
 ]]]
 
-Parenthesis can be used to control the order of evaluation since they are executed first. 
+Parentheses are used to control the order of evaluation since they are executed first. In the following expression ==('string' asUppercase first: 9 / 3)== is executed first, then the message ==reserved== is sent to the result of the first expression.
 [[[
 ('string' asUppercase first: 9 / 3) reversed
 >>> 'RTS'
 ]]]
 
 
-Note how you can send messages to the result of an expression: ==copyFrom:to:== and ==first:== were sent to the result of ==asUppercase==. This is called chaining messages.
+Note how you can send messages to the result of an expression: ==copyFrom:to:== and ==first:== were sent to the result of ==asUppercase==. This is called ''chaining messages''.
 
 !!! Sending messages to classes
 
-Classes are an important entry point to create objects. Of course, this is also done by sending messages such as ==new==to the class object itself.
-Class name are capitalized. From example we can ask the class ==String== to create an empty string, by just sending it the message ==new==. 
+Classes are an important entry point to create objects. Of course, this is also done by sending messages such as ==new== to the class object itself.
+In Pharo, class name are capitalized. The convention is that uppercase variables represents non-local variables i.e., shared globally or betwen a group of classes.
+From example we can ask the class ==String== to create an empty string, by just sending it the message ==new==. 
 
 [[[
 String new
