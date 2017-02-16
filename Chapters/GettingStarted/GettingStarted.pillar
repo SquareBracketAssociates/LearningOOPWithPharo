@@ -178,12 +178,13 @@ Float pi
 
 !!! Sequence of statements
 
-Multiple statements are separated using a dot, just like sentences. Local variables are declared by writing their lowercase name in between vertical bars.
+Multiple statements are separated using a dot, just like sentences. Local variables are declared by writing their lowercase name between vertical bars.
 
 
 [[[
 | anArray |
-anArray := Array new: 3. array at: 1 put: true.
+anArray := Array new: 3.
+anArray at: 1 put: true.
 anArray at: 2 put: false.
 anArray
 ]]]
@@ -194,19 +195,19 @@ The value of the variable ==anArray== is
 #(true false nil)
 ]]]
 
-The literal array syntax for arrayis ==#( ... )==. The first element is the boolean constant true, the second its counterpart false. Uninitialised elements remain ==nil==, the undefined object constant. In Pharo, there are only six reserved keywords, the constants ==true==, ==false== and ==nil== are three of them.
+The literal array syntax for array is ==#( ... )==. The first element is the boolean constant true, the second its counterpart false. Uninitialised elements remain ==nil==, the undefined object constant. In Pharo, there are only six reserved keywords: ==self==, ==super== and ==thisContext== and the objects ==true==, ==false== and ==nil==.
+
 As you can see, assignment is done using ==:=== while the last statement defines the result for the whole program.
 
 !!! About literal objects
-In Pharo everything is an object and most of the time objects are created by sending the message ==new== to a class. 
-Now in addition the language supports the creation of certain objects in a compact way. For example the expression  ==#(true false nil)== 
+In Pharo, everything is an object and most of the time objects are created by sending the message ==new== to a class. In addition the language supports the creation of certain objects in a compact way. For example the expression  ==#(true false nil)== 
 is equivalent to the previous snippet using ==Array new...==. 
 
 [[[
 #(true false nil)
 ]]]
 
-In the same way ==$A== is equivalent to Character 
+In the same way ==$A== is equivalent to ==Character codePoint: 65==
 
 [[[
 Character codePoint: 65
@@ -215,7 +216,7 @@ Character codePoint: 65
 
 !!! Sending multiple messages to the same object
 
-Often you’ll be sending multiple messages to the same object, to the same receiver. To make this easier, there is some syntactic sugar called a message ''cascade'' using a semicolon. 
+Often you’ll be sending multiple messages to the same object, to the same receiver. To make this easier, there is some syntactic sugar called a message ''cascade'' using a semicolon. Let us give an example, imagine the following: 
 
 [[[
 | aStream |
@@ -226,7 +227,7 @@ aStream contents
 >>> 'Today, 28 January 2017'
 ]]]
 
-The previous code snippet can be rewritten as follows: where several messages are all sent to the same receiver ==aStream== without the need to repeat it. 
+We rewrite the previous code snippet as follows: where several messages are all sent to the same receiver ==aStream== without the need to repeat it. 
 
 [[[
 | aStream |
@@ -239,17 +240,18 @@ aStream
 ]]]
 
 
-Here is another example with our previous code snippet.
+Here is another example with a previous code snippet.
 [[[
 | anArray |
-anArray := Array new: 3. array at: 1 put: true.
+anArray := Array new: 2. 
+anArray at: 1 put: true.
 anArray at: 2 put: false.
 anArray
 ]]]
 
 
 [[[
-(Array new: 3)
+(Array new: 2)
 	at: 1 put: true;
 	at: 2 put: false;
 	yourself
@@ -260,8 +262,9 @@ The three indented messages form a cascade, they are all being sent to the same 
 
 !!! Blocks
 
-Square brackets ==[== and ==]== are used to specify ''blocks'' (also known as lexical closures), pieces of code to be executed later on.
-The adder local variable is assigned a one argument block. The code inside the block names the variables it accepts and the statements to be executed when it is evaluated. Evaluating a block is done by sending a message, value: with an actual object as argument. The argument gets bound to the variable and the block is executed, resulting in 101.
+Square brackets ==[== and ==]==  specify ''blocks'' (also known as lexical closures), pieces of code to be executed later on.
+
+In the following example, the adder local variable is assigned a one argument block. The code inside the block describes the variables it accepts ==:x== and the statements to be executed when it is evaluated ==x + 1==. Evaluating a block is done by sending a message, ==value:== with an actual object as argument. The argument gets bound to the variable and the block is executed, resulting in 101.
 
 [[[
 | adder |
@@ -272,10 +275,11 @@ adder value: 200
 >>> 201
 ]]]
 
+@@note Blocks are technical lexical closures. Now in a first understanding, they represent a kind of anonymous methods that can be sorted, passed as arguments and executed on demand using the messages ==value==, ==value:==...
 
 !!! Control structures
 
-Blocks are used to express all control structures, from standard conditionals and loops to the exotic application specific ones, using the normal messaging syntax. For example loops and conditions are all expressed using the message presented previously. Chapter *@cha:syntax* will introduce more loops and conditional but they are all using the same principle. 
+Blocks are used to express all control structures, from standard conditionals and loops to the exotic application specific ones, using the normal messaging syntax. For example loops and conditions are all expressed using the message presented previously. Chapter *@cha:syntax* will present more loops and conditional but they are all using the same principle: a block is passed as argument and the loop definition defines when the block should be executed. 
 
 The message ==timesRepeat==: executes multiple time its argument (a block).
 Here we multiply by two a number 10 times. 
@@ -287,7 +291,7 @@ n
 ]]]
 
 Conditionals are expressed by sending one of the messages ==ifTrue:==,
-==ifFalse:==, ==ifTrue:ifFalse:== or ==ifFalse:ifTrue:== to the result of a boolean expression.
+==ifFalse:==, ==ifTrue:ifFalse:==, or ==ifFalse:ifTrue:== to the result of a boolean expression.
 
 [[[
 (17 * 13 > 220)
@@ -298,8 +302,9 @@ Conditionals are expressed by sending one of the messages ==ifTrue:==,
 
 
 The message ==do:== allows one to express a loop over a sequence of objects: a block is executed on each of the elements. 
+
 Let us see how we can count the number of character ==i== in a given string. On each character we check 
-if the character if an ==$i== and increase the counter value if this is the case. 
+if the character is an ==$i== and increase the counter value if this is the case. 
 
 [[[
 | count |
@@ -310,16 +315,13 @@ count
 >>> 5
 ]]]
 
-+Reading or editing a method using a code browser.>file://figures/allSatisfy.png|width=70|label=fig:allSatisfy+
++Reading or editing a method using a code browser. Topleft pane: list of packages then list of classes then protocols then method lists - middle pane: method definition. Last pane: quality assistant>file://figures/allSatisfy.png|width=95|label=fig:allSatisfy+
 
 !!! Methods
 
-Methods are edited one by one in a code browser, like the one shown in Figure *@fig:allSatisfy*. 
-The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes.
-Inside a method, ==self== refers to the object itself, the receiver. 
-
 Imagine that we want to following behavior: checking that all the objects of a collection holds the given property. 
 
+Here we check that all the numbers in the array are even numbers. 
 [[[
 #(2 4 8 16 32) allSatisfy: [ :each | each even ]
 >>> true
@@ -331,9 +333,13 @@ But the following is false because not all the numbers are odd.
 >>> false
 ]]]
 
-The message ==allSatisfy:== is one of the many super powerful behavior implemented in Collection. It is called an iterator. 
+The message ==allSatisfy:== is one of the many super powerful behavior implemented in Collection. It is called an iterator.
 
-In a method, the receiver (self) is the default return value of the whole method. Using a caret we can return something else or even return earlier. Here is the code of the method ==allSatify:== on the class ==Collection==.
+Methods are edited one by one in a code browser, like the one shown in Figure *@fig:allSatisfy*.
+
+The following code is the definition of the method ==allSatisfy:==. The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes. Inside a method, ==self== refers to the object itself, the receiver.
+
+Let us explain the implementation of such method. Using the message ==do:== we iterate over all elements of the collection. For each element we execute block (a predicate) that returns a boolean value and act accordingly. As soon as we get a false value, we stop and return an overall false value. If every evaluation gave us true, we passed the whole test and can return ==true== as overal result.
 
 [[[
 allSatisfy: aBlock
@@ -343,11 +349,12 @@ allSatisfy: aBlock
 	self do: [:each | (aBlock value: each) ifFalse: [^ false]].
 	^ true
 ]]]
+
+In a method, the receiver (==self==) is the default return value of the whole method. Using a caret (==\^==) a method returns something else or even return earlier. Here is the code of the method ==allSatify:== on the class ==Collection==.
 	
-Let us explain the implementation of such method. Using the message ==do:== we iterate over all elements of the collection. For each element we execute block (a predicate) that returns a boolean value and act accordingly. As soon as we get a false value, we stop and return an overall false value. If every evaluation gave us true, we passed the whole test and can return ==true== as overal result.
+
 
 !!! Conclusion 
-
 
 You have three kinds of messages and the simpler are executed prior to more complex one. Hence unary messages are executed before binary and binary before keyword-based messages. 
 Blocks are anymous methods that can be pass around and used to define control structures and loops.
