@@ -7,22 +7,25 @@ We then present a series of small examples showing how to use SUnit.
 !!! What is a test?
 
 A test is a context, a stimulus and an assertion (verification that we get the correct state).
-Here is an example one set. Remember sets are mathematical element having only one occurrence of their elements. 
+Here is an example on sets. Remember sets are mathematical element having only one occurrence of their elements.
 
 First we test that adding an element changes the size of the set.
 - ""Context:"" we take an empty set.
 - ""Stimulus:"" we add ==$A== into the empty set.
-- ""Assertion:"" the set has one element. 
+- ""Assertion:"" the set has one element.
 
 Another test is that a set only contains only one occurence of one element.
 - ""Context:"" we take an empty set.
 - ""Stimulus:"" we add ==$A== into the empty set.
-- ""Assertion:"" the set has one element. 
+- ""Assertion:"" the set has one element.
 - ""Stimulus:"" we add ==$A== into the empty set.
-- ""Assertion:"" the set has still one element. 
+- ""Assertion:"" the set has still one element.
 
-!!!! Do we declare it in Pharo?
-Easy one class and one method
+!!!! How do we declare a test in Pharo?
+This is really easy to declare one test: we define one class (that will host multiple test definitions) and one method per test.
+
+Here the class ==MyExampleSetTest== should inherit from ==TestCase==. It is the place to define the tests
+related to the class ==Set==. 
 
 [[[
 TestCase subclass: #MyExampleSetTest
@@ -31,6 +34,7 @@ TestCase subclass: #MyExampleSetTest
 	package: 'MySetTest'
 ]]]
 
+Now we can define one test expression as a method. There is one constraint the method selector should start with ==test==.
 [[[
 MyExampleSetTest >> testAddTwice
 	| s |
@@ -53,8 +57,7 @@ software quality would do well to adopt it. Indeed, developers in many languages
 have come to appreciate the power of unit testing.
 
 Neither testing, nor the building of test suites, is new. By now, everybody knows that
-tests are a good way to catch errors. By making testing a core practice and by emphasizing ''automated'' tests,  
-Extreme Programminghas helped to make testing
+tests are a good way to catch errors. By making testing a core practice and by emphasizing ''automated'' tests, Extreme Programming has helped to make testing
 productive and fun, rather than a chore that programmers dislike.
 
  The Pharo community has a long tradition of testing because of the incremental style of
@@ -93,25 +96,22 @@ application, or the environment in which it runs, changes in the future.
 
 Tests play several roles: 
 
-- First, they provide documentation of the functionality that they cover. This documentation is active: watching the tests pass
-tells you that the documentation is up to date. 
+- First, they provide documentation of the functionality that they cover. This documentation is active: watching the tests pass tells you that the documentation is up to date. 
 - Second, tests help developers to confirm that some changes that they have just made to a package have not broken anything else in the system, and to find the parts that break when that confidence turns out to be misplaced. 
 
 - Finally, writing tests during, or even before, programming forces you to think about the functionality that you want to design, ''and how it should appear to the client code'', rather than about how to implement it.
 
 By writing the tests first, i.e., before the code, you are compelled to state
-the context in which your functionality will run, the way it will
-interact with the client code, and the expected results.
-Your code style will definitively improve.
+the context in which your functionality will run, the way it will interact with the client code, and the expected results. Your code style will definitively improve.
 
 Several software development methodologies such as ''eXtreme Programming'' and
 Test-Driven Development (TDD) advocate writing tests before writing code. This
-may seem to go against our deep instincts as software developers. All we can say
+may seem to go against your deep instincts as software developers. All we can say
 is: go ahead and try it. Writing the tests before the code
-helps you know what we want to code, helps you know when we are done, and helps
+helps you know what we want to code, helps you know when you are done, and helps
 us conceptualize the functionality of a class and to design its interface.
-Moreover, test-first development gives us the courage to change our application, because we will 
-know when we break something.
+Moreover, test-first development gives you the courage to change our application, because you will 
+know when you break something.
 
 We cannot test all aspects of any realistic application. Covering a complete
 application is simply impossible and is the goal of testing. Even
@@ -153,18 +153,16 @@ stands for:
 - E: Can you force error conditions to happen?
 - P: Are performance characteristics within bounds?
 
-Now let's write our first test, and show you the benefits of using SUnit.
+Now let's go back and write a couple of tests using SUnit.
 
 !!!SUnit by example
-We show a step by step example. We use an example that tests the class ==Set==. Try entering the code as we go
-along. Pay attention that test classes (subclasses of ==TestCase==) have a different behavior that normal classes: their methods
-which start with ==test== are automatically executed on newly created instances of the class.
+We show a step by step example. We continue with the example that tests the class ==Set==. Try editing and compiling the code as we go along. 
+
+Pay attention: test classes are special classes. As subclasses of ==TestCase== they have a different behavior that normal classes: their methods which start with ==test== are automatically executed on newly created instances of the class.
 
 
 !!!!Step 1: Create the test class
-We use the class ==MyExampleSetTest== to group all the tests related to the
-class ==Set==. First you should create a new subclass of ==TestCase== called
-==MyExampleSetTest==. 
+We use the class ==MyExampleSetTest== to group all the tests related to the class ==Set==. First you should create a new subclass of ==TestCase== called ==MyExampleSetTest==. 
 
 [[[
 TestCase subclass: #MyExampleSetTest
@@ -178,13 +176,12 @@ TestCase subclass: #MyExampleSetTest
 
 Let's create some tests by defining some methods in the class
 ==MyExampleSetTest==. Each method represents one test. The names of the methods
-should start with the string =='test'== so that SUnit will collect them into
+should start with the string =='test'== so that SUnit collects them into
 test suites. Test methods take no arguments.
 
 Define the following test methods. The first test, named ==testIncludes==, tests
 the ==includes:== method of ==Set==. The test says that sending the message
-==includes: 5== to a set containing 5 should return ==true==. Clearly, this
-test relies on the fact that the ==setUp== method has already run.
+==includes: 5== to a set containing 5 should return ==true==. 
 
 [[[
 MyExampleSetTest >> testIncludes
@@ -210,9 +207,6 @@ MyExampleSetTest >> testOccurrences
 	self assert: (full occurrencesOf: 5) = 1
 ]]]
 
-
-
-
 Finally, we test that the set no longer contains the element 5 after we have
 removed it.
 
@@ -233,14 +227,14 @@ not be true. ==aTest deny: anExpression== is equivalent to
 !!!!Step 4: Run the tests
 
 The easiest way to run the tests is directly from the browser. Simply click on
-the icon of the class name, or on an individual test method, and select ''Run
-tests (t)'' or press the icon. The test methods will be flagged green or red,
+the icon of the class name, or on an individual test method, or use the  ''Run
+tests (t)'' . The test methods will be flagged green or red,
 depending on whether they pass or not (as shown in *@fig:browsertests*).
 
 +Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
 
 You can also select sets of test suites to run, and obtain a more detailed log
-of the results using the SUnit Test Runner, which you can open by selecting
+of the results using the SUnit Test Runner, which you can open by selecting the menu
 ==World > Test Runner==.
 
 The ''Test Runner'', shown in Figure *@fig:test-runner*, is designed to make it easy to
@@ -309,7 +303,7 @@ argument is true, the test passes; when the argument is false, the test fails.
 
 There are actually three possible outcomes of a test: ''passing'', ''failing'', and ''raising an error''.
 
-- ""Passing"". The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes. In the test runner, when all of the tests pass, the bar at the top turns green. However, there are two other ways that running a test can go wrong.
+- ""Passing"". The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes. In the test runner, when all of the tests pass, the bar at the top turns green. ss
 - ""Failing"". The obvious way is that one of the assertions can be false, causing the test to ''fail''.
 - ""Error"". The other possibility is that some kind of error occurs during the execution of the test, such as a ''message not understood'' error or an ''index out of bounds'' error. If an error occurs, the assertions in the test method may not have been executed at all, so we can't say that the test has failed; nevertheless, something is clearly wrong!
 
@@ -317,7 +311,7 @@ In the ''test runner'', failing tests cause the bar at the top to turn yellow, a
 the right, whereas tests with errors cause the bar to turn red, and are listed in
 the bottom pane on the right.
 
-Modify your tests to provoke both errors and failures.
+As an exercise, modify your tests to provoke both errors and failures.
 
 !!! The SUnit cookbook
 
@@ -347,8 +341,7 @@ can be used to make assertions.
 
 First, ==assert:description:== and ==deny:description:==
 take a second argument which is a message string that describes
-the reason for the failure, if it is not obvious from the test itself. These
-methods are described in Section *@sec:descriptionStrings*.
+the reason for the failure, if it is not obvious from the test itself. 
 
 Next, SUnit provides two additional methods, ==should:raise:== and
 ==shouldnt:raise:== for testing exception propagation.
@@ -379,8 +372,8 @@ MyExampleSetTest run: #testRemove
 
 !!!!Running all the tests in a test class
 
-Any subclass of ==TestCase== responds to the message ==suite==, which will build
-a test suite that contains all the methods in the class whose names start with
+Any subclass of ==TestCase== responds to the message ==suite== and builds
+a test suite that contains all the methods whose names start with
 the string ''test''.
 
 To run the tests in the suite, send it the message ==run==. For example:
