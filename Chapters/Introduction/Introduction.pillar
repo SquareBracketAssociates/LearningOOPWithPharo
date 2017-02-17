@@ -61,18 +61,34 @@ Since we need a language to express our programs, we will teach you the syntax o
 - closure
 - iterators
 
+!!! Typographic conventions
 
+Pharo expressions or code snippets are always represented either in the text as =='Hello'== and =='Hello' reversed'== or in specific paragraph as
+follows:
+[[[
+	
+'Hello'
+	 	
+]]]
+
+In addition when we want to show the result of an expression execution we use the message ==>>>== on a different line to stress the result itself.
+[[[
+	
+'Hello' reversed
+>>> 'olleH'
+
+]]]
 
 !!! Thanks
 
-I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe for their feedback. 
+I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou for their great feedback. 
 Alexandre Bergel for his examples on messages. Olivier Auverlot for his feedback and Tinychat. 
 Guillermo Polito for the idea of this cool example of files and directories. 
 
 
 
 !!! New todo
-- Revisit Inheritance chapter
+- Create super chapter
 - Finish tjj LAN and may be reunit it. 
 - read and simplify counter 
 - Implement game collector app

@@ -1,7 +1,3 @@
-{ "metadata": { 
-	"title": "Learning Object-Oriented Programming, Design and TDD with Pharo (vol I)" ,
-	"attribution" : "Stéphane Ducasse with Alain Plantec"} } 
-
 ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
 ! Getting in touch with Pharo
