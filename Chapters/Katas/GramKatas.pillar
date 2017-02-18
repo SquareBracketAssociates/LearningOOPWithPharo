@@ -5,7 +5,7 @@ This chapter propose some little challenges around words and sentences as a way 
 !!! Isogram
 
 An isogram is a word or phrase without a repeating letter. The following words are examples of isograms in english and french:
-- egoism, sea, lighthouse, lumberjacks, background, hacking, pathfinder, pharo
+- egoism, sea, lumberjacks, background, hacking, pathfinder, pharo
 - antipode, altruisme, absolument, bigornaux
 
 Isograms are interesting words also because they are often the basis of simple cifers. Isograms of length 10 are commonly used to encode numbers. This way salespeople of products can get access to the original cost of the product and control their sale. 
@@ -35,7 +35,7 @@ As with any collection, we can apply iterators such ==select:==, ==do:==, or ==c
 >>>'ouou'
 ]]]
 
-We can also apply all kinds of operations on the collection. Here we reserve it. 
+We can also apply all kinds of operations on the collection. Here we reverse it. 
 
 [[[
 'coucou' reverse
@@ -69,7 +69,7 @@ You can convert a string into a set of characters sending the string the message
 >>> a Set($u $c $o)
 ]]]
 
-Imagine how using a set of characters, you can determine if a string is a isogram. 
+Now this is your turn: Imagine how using a set of characters, you can determine if a string is a isogram.
 
 !!!! Hints
 If the size of a set with the contents of a string and this string are the same, it means that the string does not contain any letter twice! Bingo we can simply identify an isogram. 
@@ -144,7 +144,7 @@ And we test that our method is correct.
 
 [[[
 'phaoro' isIsogramSet 
->>> true
+>>> false
 ]]]
 
 Wait! We do not want to have to check manually all the time!
@@ -187,7 +187,7 @@ GramCheckerTest >> testIsogramSetImplementation
 
 @@note When you write a test, make sure that you test different situations or results. Why? Because imagine that your methods always return true, you would never be sure that not all the string are isograms. So always check for positive and negative results. 
 
-Messages ==assert:== and ==deny:== are equivalent as follows: assert(something) is equals to deny(something not) and assert(something not) is equivalent to deny(something). Hence the following expressions are strictly equivalent. 
+Messages ==assert:== and ==deny:== are equivalent as follows: assert (something) is equals to deny(something not) and assert (something not) is equivalent to deny (something). Hence the following expressions are strictly equivalent. 
 	
 [[[
 	self assert: 'phaoro' isIsogramSet not.
@@ -201,7 +201,7 @@ For that we will define a method in the test class that returns a collection of 
 
 [[[
 GramCheckerTest >> isograms
-	^    #('pharo' 'pathfinder' 'xavier' 'francois' 'lumberjacks' 'altruisme' 'antipode')
+	^ #('pharo' 'pathfinder' 'xavier' 'francois' 'lumberjacks' 'altruisme' 'antipode')
 ]]]
 
 Then we define a new test method == testAllIsogramSet== that simply iterates over the string array and for each verifies using ==assert:== that the element is indeed an isogram. 
@@ -242,12 +242,9 @@ Now we would like to find some isograms in french.
 *http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt* contains 330 000 french words one by line. So we would like to get all the lines.
 
 We will use ==ZnClient==, the HTTPClient that comes with Pharo.
-This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. Zn then assumes the encoding is utf8 (the most reasonable default today). So we have to tell the client which encoding to use using mime types. Mime-types can specify the encoding as follows: 'text/plain;charset=utf8' or 'text/plain;charset=latin1'.
+This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. ==ZnClient== then assumes the encoding is utf8 (the most reasonable default today). So we have to tell the client which encoding to use using mime types. Mime-types can specify the encoding as follows: =='text/plain;charset=utf8'== or =='text/plain;charset=latin1'==.
 
-Here is how to override the default in ZnClient. 
-Since this is a lot of data, when you execute use the Inspect it to get an inspector instead of a simple DoIt. 
-
-@@todo add a screen capture
+Here is how to override the default in ==ZnClient==. Since this is a lot of data, execute the expression using the ""Inspect It"" menu or shocut to get an inspector instead of a simple ""DoIt"".
 
 [[[
 | lines |
@@ -350,13 +347,10 @@ Note that we do not need the variable ==isPangram== anymore. We return true as l
 
 @@note When you define a method returning a boolean value, always think that you should at least return a true and a false value. This sounds like a stupid advice but developing such basic reflex is important. 
 
-@@note The execution of any expression preceded by a ==^== (a caret) will cause the method to exit at
-that point, returning the value of that expression. A method that terminates
-without explicitly returning some expression will implicitly return ==self==.
+@@note The execution of any expression preceded by a ==^== (a caret) will cause the method to exit at that point, returning the value of that expression. A method that terminates without explicitly returning some expression will implicitly return ==self==.
 
 !!! Handling alphabet
-A pangram is only valid within a given alphabet. *http://clagnut.com/blog/2380/* describes pangrams in many different languages. Now 
-we could follow one gag in Gaston Lagaffe with the 'les poux papas et les poux pas papas' and all their descendance. 
+A pangram is only valid within a given alphabet. The web site *http://clagnut.com/blog/2380/* describes pangrams in many different languages. Now we could follow one gag in Gaston Lagaffe with the 'Il y a des poux. Parmi les poux, il y a des poux papas et des poux pas papas. Parmi les poux papas, il y a des poux papas papas et des poux papas non papas....' and all their descendance. 
 'les poux papas et les poux pas papas' is not a pangram in french but a pangram in the alphabet 'apouxetl'.
 
 We would like to be able to specify the alphabet to be used to verify. Yes we define a new test.
@@ -392,10 +386,10 @@ String >> isEnglishPangram
 	"'The quick brown fox jumps over the dog' isEnglishPangram
 	>>> false"
 
-	^ self isPangramIn: 'abcdefghijklmnopqrstuvwxyz'.	
+	^ self isPangramIn: 'abcdefghijklmnopqrstuvwxyz'.
 ]]]
 
-Execute all the tests to verify that we did change anything. 
+Execute all the tests to verify that we did not change anything.
 
 If we keep to use french words that do not need accents, we can verify that some french sentences are also pangrams. 
 
@@ -422,14 +416,14 @@ GramCheckerTest >> testDetectFirstMissingLetter
 		detectFirstMissingLetterFor: 'abcdefghijklmnopqrstuvwxyz') equals: $q.
 ]]]
 
-Propose a definition for the method ==detectFirstMissingLetterFor:==
+""Your work:"" Propose a definition for the method ==detectFirstMissingLetterFor:==.
 
 [[[
 String >> detectFirstMissingLetterFor: alphabet
 	...
 ]]]
 
-In fact this method is close to the method ==isPangramIn: alphabet==.  It should iterate over the alphabet and check that the char is included in the string. When this is not the case it should return the character and we can return and empty string when there is missing letter. 
+In fact this method is close to the method ==isPangramIn: alphabet==.  It should iterate over the alphabet and check that the char is included in the string. When this is not the case, it should return the character and we can return an empty string when there is no missing letter. 
 
 Here is a possible implementation. Verify that the test is passing. 
 
@@ -447,7 +441,7 @@ String >> detectFirstMissingLetterFor: alphabet
 
 !!!! About the return values of detectFirstMissingLetterFor:
 
-Returning objects that are not polymorphic such as a single character or a string is really bad design. 
+Returning objects that are not polymorphic such as a single character or a string (which is not a character but a sequence of characters) is really bad design. 
 Why? Because the user of the method will be forced to check if the result is a single character or a collection of characters.
 
 @@note Avoid as much as possible to return objects that are not polymorphic. Return a collection and an empty collection. Not a collection and nil. Write methods returning the same kind of objects, this way their clients will be able to treat them without asking if they are different. This practice reinforces the ""Tell do not ask principle"".
@@ -497,7 +491,8 @@ GramCheckerTest >> testDetectAllMissingLetters
 ]]]
 
 
-Implement 
+""Your work:"" Implement the method ==detectAllMissingLettersFor:==.
+
 [[[
 String >> detectAllMissingLettersFor: alphabet
 	
