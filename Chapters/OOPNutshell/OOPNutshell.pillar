@@ -249,7 +249,7 @@ For example, sending ==new== to the ==Counter== class returns a newly created co
 !!! A simple and naive file system
 
 We start to present a simple example that we use to present and explain the concepts: a simple and naive file system as shown in Figure *@directories*. 
-What the figure shows is that we have:
+What the diagram shows is that we have:
 - files that also have a name and a contents. Here we get three different files ==Babar==, ==Astroboy== and ==tintinEtLesPicaros==.
 - directories that have a name and can contain other files or directories. Here we get the ==manga==, ==comics==, ==oldcomics== and ==belgiumSchool== directories. Directories can be nested: ==comics== contains three repositories. The ==belgiumSchool== directory contains ==tintinEtLesPicaros==. 
 
@@ -257,10 +257,9 @@ What the figure shows is that we have:
 
 
 !!! Studying a first scenario
-Since what we want to develop may be a bit blurry for us, let us define first an example. In the rest of this book we will encode examples
-as tests that can automatically be executed. For now it would make the discourse too complex, so we just use little code example. 
+Since what we want to develop may be a bit unclear for us, let us define first an example. In the rest of this book we will code such examples as tests that can automatically be executed. For now it would make the discourse too complex, so we just use little code examples. 
 
-We create two directories. 
+We create two directories.
 [[[
 | dComics dOldComics dManga |
 dComics := MFDirectory new name: 'comics'.
@@ -268,23 +267,47 @@ dOldComics := MFDirectory new name: 'oldcomics'.
 ]]]
 
 We add the oldcomics folder to comics and we check that the parent children relationship is well set. 
+
 [[[
+	...
 dComics addElement: dOldComics. 
-dOldComics parent
->>> /comics/
+dOldComics parent == dComics
+>>> true
+]]]
+
+Here we verify that the parent of ==dOldComics== is ==dComics==: the message == \=\= == checks that the receiver is the same object than the argument.  
+
+You can also inspect the receiver as follows and it you click on the instance variable parent of the receiver you should obtain the situation depicted by Figure *@inspectingComics*.
+
+[[[
+	...
+dOldComics inspect
+]]]
+
++Inspecting ==dOldComics== and clicking on the ==parent== variable >file://figures/inspectingComics.png|width=70|label=inspectingComics+
+
+We continue with some queries.
+[[[
+	...
 dComics parent
 >>> nil
-dComics children
->>> #(/comics/oldcomics/)
 ]]]
+
+Here we verify that ==dOldComics== is comprised in the children of ==dComics==. 
+[[[
+	...
+dComics children includes: dOldComics. 
+>>> true
+]]]
+
 
 We create a new repository and we check that once added to a parent repository, it is included in the 
 children.
 [[[
 dManga := MFDirectory new name: 'manga'.
 dComics addElement: dManga. 
-dComics children
->>> #(/comics/manga/ /comics/oldcomics/)
+dComics children includes: dManga
+>>> true
 ]]]
 
 +The ==Directory== class and some instances (directories).>file://figures/DirectoryAndInstancesV0.png|width=35|label=directories+
@@ -356,7 +379,7 @@ Such behavior is not specific to object, in procedural languages we can call ano
 !!! Printing a directory
 Now we would like to get the directory printed in a better way. Without too much explanation, you should know that the method ==printOn: astream== of an object is executed when the system or we send the message ==printString== to an object. So we can specialise it. 
 
-The argument passed to the method ==printOn:== is a stream. A stream is a object in which we can store information one after the other in sequence using the message ==<<==.
+The argument passed to the method ==printOn:== is a stream. A stream is an object in which we can store information one after the other in sequence using the message ==<<==. The argument of ==<<== should be a sequence of objects such as string (which is a sequence of characters).
 
 [[[
 MFDirectory >> printOn: aStream
@@ -371,15 +394,17 @@ el2 := MFDirectory new name: 'oldcomics'.
 el1 addElement: el2.
 el1 printString
 >>> 'comics'
+]]]
+
+[[[
+	...
 el2 printString
 >> 'oldcomics'
 ]]]
 
 
-
 What would be nice it to get the full path so that we can immediately understand the configuration.
-For example we would like to have a first '/' when there is not parent to mimick the pwd unix command and finish with a '/' to indicate
-that this is a directory as with the ls command on unix. 
+For example we would like to  finish with a '/' to indicate that this is a directory as with the ls command on unix. 
 
 [[[
 | el1 el2 |
@@ -387,9 +412,13 @@ el1 := MFDirectory new name: 'comics'.
 el2 := MFDirectory new name: 'oldcomics'.
 el1 addElement: el2.
 el1 >> printString.
-'/comics/'
+>>>'comics'
+]]]
+
+[[[
+	...
 el2 printString
->> '/comics/oldcomics/'
+>>> 'comics/oldcomics/'
 ]]]
 
 A possible definition is the following one:
@@ -397,7 +426,6 @@ A possible definition is the following one:
 [[[
 MFDirectory >> printOn: aStream
 	parent isNil 
-		ifTrue: [ aStream << '/' ]
 		ifFalse: [ parent printOn: aStream ].
 	aStream << name.
 	aStream << '/'
@@ -426,7 +454,7 @@ dOldComics := MFDirectory new name: 'oldcomics'.
 dOldComics addElement: el1. 
 el1 printString.
 >>>
-'/oldcomics/astroboy'
+'oldcomics/astroboy'
 ]]] 
 
 
@@ -508,13 +536,13 @@ dComics addElement: dOldComics.
 dOldComics addElement: el1. 
 el1 printString.
 >>>
-'/comics/oldcomics/astroboy'
+'comics/oldcomics/astroboy'
 ]]]
 
 [[[
 dOldComics printString.
 >>>
-'/comics/oldcomics/'
+'comics/oldcomics/'
 ]]] 
 
 What we see is that there is one message and several implementations of methods and that sending a message will find and execute the correct method. For example, there are two methods ==printOn:== one for file and one for directory but only one message ==printOn:== sent from the ==printString== message.
@@ -669,7 +697,7 @@ In the object-oriented version, we simply tell the object to perform its own com
 @@note Don't ask, tell. Object-oriented programming essence is about sending order not checking state.
 
 
-!!! So far so good? No!
+!!! So far so good? Not fully!
 
 We have a system with two classes and it offers some behavior composed out of well defined local behavior (see Figure *@FileDirectoryV1*). We can have objects composed out of other objects and messages flow within the graph. Object-oriented programming could stop here. Now it is annoying to have to duplicate structure and some methods between files and directories and this is what we will see when we will look at inheritance. 
 Inheritand is a mechanism to specialize incrementally classes from other classes. 
