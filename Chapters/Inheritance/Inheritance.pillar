@@ -355,9 +355,9 @@ we see that there is code repetition (as shown in Figure *@fig:FileDirectorySupe
 Here is the repeated code snippet.
 
 [[[
-	parent isNil ifFalse: [ 
-		parent printOn: aStream ].
-	aStream << name
+parent isNil ifFalse: [ 
+	parent printOn: aStream ].
+aStream << name
 ]]]
 
 Here is the definition in the two classes: 
@@ -391,7 +391,6 @@ MFElement >> printOn: aStream
 	aStream << name
 ]]]
 
-. 
 
 +Improving the logic (but not fully).>file://figures/FileDirectorySuperV1.pdf|width=65|label=fig:FileDirectorySuperV1+
 
@@ -407,12 +406,24 @@ It means that when we will add a new subclasses, this class will at least have a
 
 Now the duplication of logic is not addressed. The same code is duplicated between the class ==MFElement== and ==MFDirectory==. What we see is that even if the method ==printOn:== of class ==MFDirectory== is overriding the method of its superclass, we would like to be able to invoke the method of the superclass ==MFElement== and to add the behavior ==aStream << '/'==. 
 
+
+!!!! Why self does not!
+The following definition does not work because it introduces an endless loop. Indeed, since the method lookup starts in the class of the receiver, it will always find the same method and will not be able to access the method of the superclass.
+
+[[[
+MFDirectory >> printOn: aStream
+	self printOn: aStream.
+	aStream << '/'
+]]]
+
+
 In summary, we would like that while doing an override, to use the behavior we are overriding. This is possible as we will see in the following section. 
 
++Using ==super== to invoke the overridden method ==printOn:==.>file://figures/FileDirectorySuperV2.pdf|width=65|label=fig:FileDirectorySuperV2+
 
 !!! Extending superclass behavior using super
 
-Let us implement the solution first and discuss it after. We redefine the method ==printOn:== of the class ==MFDirectory== as follows and shown in Figure *@fig:FileDirectorySuperV2*. 
+Let us implement the solution first and discuss it after. We redefine the method ==printOn:== of the class ==MFDirectory== as follows and shown in Figure *@fig:FileDirectorySuperV2*.
 
 [[[
 MFDirectory >> printOn: aStream
@@ -420,9 +431,28 @@ MFDirectory >> printOn: aStream
 	aStream << '/'
 ]]]
 
+What we see is that the method ==printOn:== does not contain anymore the duplicated expressions with the method ==printOn:== of the superclass (==MFElement==). Instead by using the special variable ==super== the superclass method is invoked. Let us look at it in detail.
+
+- The method ==MFDirectory >> printOn:== overrides the method ==MFElement==: it means that during the lookup (activated because the message ==printOn:== has been sent to instances of ==MFDirectory== or future subclasses), the method ==MFElement >> printOn:== cannot be directly found. Indeed when a message is sent to an object, the corresponding method starts in the class of the receiver, therefore the method in ==MFDirectory== is found.
+
+- Using the special variable ==super==, the method lookup. When the expression ==super printOn: aStream== is sent, the lookup does not start anymore from the class of the receiver, it starts from the superclass of the class containing the expression ==super printOn:==, i.e. ==MFElement==, therefore the method of the superclass is found and executed. 
+
+- Finally, ==super== like ==self== represents the receiver of the messages (for example an instance of the class ==MFDirectory==). Therefore the method is found in the class ==MFDirectory== and executed on the original object that first received the message.
+
+What we see is that using ==super==, the programmer can extend the superclass behavior and reuse by invoing it.
 
 
-+Using ==super== to invoke the overridden method ==printOn:==.>file://figures/FileDirectorySuperV2.pdf|width=65|label=fig:FileDirectorySuperV2+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -489,22 +519,14 @@ MFFile new funky
 
 @@note The difference between ==self== and ==super== is that when we send a message to ==super== the method lookup starts in the superclass of the class containing the expression ==super==.
 
-!!! Specialisation of ancestor behavior
-Now we want to show another aspect of inheritance, a subclass can override the behavior defined in a superclass. 
-Let us define a new subclass of ==Animal==, named ==Duck==.
 
 
-+Overriding superclass behavior.>file://figures/Ref-LookupBasicOverride.png|width=60|label=fig:Ref-LookupBasicOverride+
-
-
-!!! Extending superclass behavior
-
-
+!!! Proposing the 
 
 
 +Files and Directories are specialized abstractions sharing some common state and behavior classes via inheritance.>file://figures/FileDirectoryWithInheritanceV3.png|width=60|label=FileDirectoryWithInheritanceV3+
 
-!!! Super is the receiver of the message too!
+
 
 !!! Conclusion
 
