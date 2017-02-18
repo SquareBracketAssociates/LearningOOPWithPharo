@@ -348,7 +348,6 @@ We will continue to use and improve the example of file and directories.
 !!! Revisiting printOn:
 
 +==MFFile== and ==MFDirectory== contains duplicated logic in ==printOn:==.>file://figures/FileDirectorySuperV0.pdf|width=65|label=fig:FileDirectorySuperV0+
-.
 
 When we look at the following ==printOn:== methods defined in the classes ==MFDirectory== and ==MFFile==
 we see that there is code repetition (as shown in Figure *@fig:FileDirectorySuperV0*).
@@ -366,7 +365,7 @@ Here is the definition in the two classes:
 [[[
 MFDirectory >> printOn: aStream
 	parent isNil 
-		ifTrue: [ aStream << '/' ]
+
 		ifFalse: [ parent printOn: aStream ].
 	aStream << name.
 	aStream << '/'
@@ -383,7 +382,7 @@ It means that if we define a new subclass we will have probably duplicate the sa
 
 !!! Improving the situation
 
-To improve the situation above we can move up the definition of the ==MFFile== class because it also works for ==MFElement==. 
+To improve the situation above we move up the definition of the ==MFFile== class because it also works for ==MFElement== (as shown in Figure *@fig:FileDirectorySuperV1*).
 
 [[[
 MFElement >> printOn: aStream
@@ -392,29 +391,48 @@ MFElement >> printOn: aStream
 	aStream << name
 ]]]
 
-It means that when we will add a new subclasses, this class will at least have a default definition for the ==printOn:== method. 
+. 
 
-@@note add diagram 
-
-
-
-[[[
-MFElement >> printOn: aStream
-	parent isNil ifFalse: [
-		parent printOn: aStream ].
-	aStream << name
-]]]
++Improving the logic (but not fully).>file://figures/FileDirectorySuperV1.pdf|width=65|label=fig:FileDirectorySuperV1+
 
 [[[
 MFDirectory >> printOn: aStream
-	parent isNil
-		ifTrue: [ aStream << '/' ].
-	super printOn: aStream. 
+	parent isNil ifFalse: [ 
+		parent printOn: aStream ].
+	aStream << name.
+	aStream << '/'
+]]]
+
+It means that when we will add a new subclasses, this class will at least have a default definition for the ==printOn:== method. 
+
+Now the duplication of logic is not addressed. The same code is duplicated between the class ==MFElement== and ==MFDirectory==. What we see is that even if the method ==printOn:== of class ==MFDirectory== is overriding the method of its superclass, we would like to be able to invoke the method of the superclass ==MFElement== and to add the behavior ==aStream << '/'==. 
+
+In summary, we would like that while doing an override, to use the behavior we are overriding. This is possible as we will see in the following section. 
+
+
+!!! Extending superclass behavior using super
+
+Let us implement the solution first and discuss it after. We redefine the method ==printOn:== of the class ==MFDirectory== as follows and shown in Figure *@fig:FileDirectorySuperV2*. 
+
+[[[
+MFDirectory >> printOn: aStream
+	super printOn: aStream.
 	aStream << '/'
 ]]]
 
 
-!!! Using super
+
++Using ==super== to invoke the overridden method ==printOn:==.>file://figures/FileDirectorySuperV2.pdf|width=65|label=fig:FileDirectorySuperV2+
+
+
+
+
+
+
+
+
+!!! Another example
+
 
 [[[
 MFDirectory >> size
@@ -455,6 +473,21 @@ MFDirectory >> size
 	^ sum
 ]]]
 
+!!! Really understanding super
+
+@@note ==super== is a special variable: ==super== (just like ==self==) is the receiver of the message! 
+
+[[[
+MFFile >> funky
+	^ super == self
+]]]
+
+[[[
+MFFile new funky
+>>> true
+]]]
+
+@@note The difference between ==self== and ==super== is that when we send a message to ==super== the method lookup starts in the superclass of the class containing the expression ==super==.
 
 !!! Specialisation of ancestor behavior
 Now we want to show another aspect of inheritance, a subclass can override the behavior defined in a superclass. 
@@ -466,27 +499,7 @@ Let us define a new subclass of ==Animal==, named ==Duck==.
 
 !!! Extending superclass behavior
 
-%!!! Exercises 
-%We propose two exercises. First you should turn all the examples into automated tests as explained in the Unit Test %chapter.  This is important because it will helps you for the second exercise.
-%As a second exercise, we propose that you introduce a new kind of reposo
 
-%[[[
-%| el |
-%el := MFRoot new.
-%el printString = '/'
-%]]]
-
-%[[[
-%| el r |
-%el := MFDirectory new name: 'comics'.
-%r := MFDirectory new. 
-%r addFile: el.	
-%r printString = '/comics/'
-%]]]
-
-For 
-==size== 
-==printOn:==
 
 
 +Files and Directories are specialized abstractions sharing some common state and behavior classes via inheritance.>file://figures/FileDirectoryWithInheritanceV3.png|width=60|label=FileDirectoryWithInheritanceV3+

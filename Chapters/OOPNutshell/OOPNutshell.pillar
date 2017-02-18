@@ -310,7 +310,7 @@ dComics children includes: dManga
 >>> true
 ]]]
 
-+The ==Directory== class and some instances (directories).>file://figures/DirectoryAndInstancesV0.png|width=35|label=directories+
++The ==Directory== class and some instances (directories).>file://figures/DirectoryAndInstancesV0.pdf|width=35|label=directories+
 
 !!! Defining a class
 Let us start by defining the directory class. 
@@ -431,7 +431,7 @@ MFDirectory >> printOn: aStream
 	aStream << '/'
 ]]]
 
-+Navigating an object graph by sending message to different objects. >file://figures/InstancesRecursion.png|width=45|label=InstancesRecursion+
++Navigating an object graph by sending message to different objects. >file://figures/InstancesRecursion.pdf|width=45|label=InstancesRecursion+
 
 Try it and it should print the expected results.
 What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents (as shown in Figure *@InstancesRecursion*).
@@ -441,7 +441,7 @@ Similar to a recursive function navigating a structure composed of similar eleme
 
 Now we want to add files. Once we will have defined files we will be able to have a graph of objects of different kinds represent our file system with directories and files as shown in Figure *@Instances*.
 
-+A graph of objects to represent our file system. >file://figures/Instances.png|width=35|label=Instances+
++A graph of objects to represent our file system. >file://figures/Instances.pdf|width=35|label=Instances+
 
 !!!! An example first
 
@@ -458,7 +458,7 @@ el1 printString.
 ]]] 
 
 
-+A new class and its instances.>file://figures/FileV0.png|width=35|label=FileV0+
++A new class and its instances.>file://figures/FileV0.pdf|width=35|label=FileV0+
 
 !!!! A new class definition
 Again a file needs a name, a parent and in addition a contents.
@@ -510,7 +510,7 @@ MFFile >> printOn: aStream
 	aStream << name
 ]]]
 
-But this is enough because we will just get 'astroboy' and not '/oldcomics/astroboy'.
+But this is enough because we will just get =='astroboy'== and not =='oldcomics/astroboy'==.
 So let us improve it.
 
 [[[
@@ -520,7 +520,7 @@ MFFile >> printOn: aStream
 	aStream << name
 ]]]
 
-+Printing a file: Sending messages inside a graph of different objects. >file://figures/InstancesRecursion2.png|width=60|label=InstancesRecursion2+
++Printing a file: Sending messages inside a graph of different objects. >file://figures/InstancesRecursion2.pdf|width=60|label=InstancesRecursion2+
 
 
 !!! One message multiple methods
@@ -561,7 +561,7 @@ Now that we saw some examples of objects, it is time to step back. Objects are d
 !!! Examples of distribution of responsibilities 
 We will now implement two functionalities: the size of directories and a search based on the contents of the files. This will set the context to explain the key concept of distribution of responsibilities.
 
-+Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.png|width=60|label=FileDirectoryV1+
++Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.pdf|width=60|label=FileDirectoryV1+
 
 !!!! File size 
 Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantaisit but this is for the sake of the example.To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
