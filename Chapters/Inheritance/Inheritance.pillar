@@ -41,7 +41,7 @@ Load the code so that you can get the tests that we asked you to define.
 [[[
 Gofer new
 	smalltalkhubUser: 'StephaneDucasse' project: 'Loop'; 
-	version: 'MyFS2-StephaneDucasse.1';
+	version: 'MyFS2-StephaneDucasse.4';
 	load
 ]]]
 
@@ -338,16 +338,22 @@ In the following chapter we will see that we can reuse even more methods between
 
 
 !! Extending superclass behavior
+In the previous chapter we saw that inheritance allows the programmer to factor out and reuse state and behavior. As such inheritance supports the definition of class hierarchy where subclasses specialize behavior of their superclass. We saw that the method look up starts in the class of the receiver and goes up the inheritance chain. We explained that the method found by the lookup is then executed on the receiver of the initial message.
+Finally we showed that a subclass can specialize and override the behavior of its superclass by defining locally a method with the same name than one method of its superclass. 
 
-In the previous chapter we saw that inheritance allows the programmer to factor out state and behavior and as such to create class hierarchy where subclasses specialize behavior of their superclass. We saw that the method look up starts in the class of the receiver and goes up the inheritance chain. Then the found method is executed on the receiver of the initial message.
-We showed that a subclass can specialize and override the behavior of its superclass by defining locally a method with the same name than one method of its superclass. 
- 
-Now we will show that inheritance let us also extend locally the behavior of a superclass while reusing it. We will show that in an overriding method it is possible to invoke the behavior of the superclass to reuse it. 
+Now inheritance mechanism is even more powerful. With inheritance we can extend locally the behavior of a superclass while reusing it. It is then possible to override a method and in addition to invoke the behavior of the superclass from within the overridden method. 
+
+We will continue to use and improve the example of file and directories.
 
 !!! Revisiting printOn:
 
++==MFFile== and ==MFDirectory== contains duplicated logic in ==printOn:==.>file://figures/FileDirectorySuperV0.pdf|width=65|label=fig:FileDirectorySuperV0+
+.
+
 When we look at the following ==printOn:== methods defined in the classes ==MFDirectory== and ==MFFile==
-we see that there is code repetition. 
+we see that there is code repetition (as shown in Figure *@fig:FileDirectorySuperV0*).
+
+Here is the repeated code snippet.
 
 [[[
 	parent isNil ifFalse: [ 
@@ -355,8 +361,7 @@ we see that there is code repetition.
 	aStream << name
 ]]]
 
-It means that if we define a new subclass we will have probably duplicate the same expression.
-
+Here is the definition in the two classes: 
 
 [[[
 MFDirectory >> printOn: aStream
@@ -374,12 +379,28 @@ MFFile >> printOn: aStream
 	aStream << name
 ]]]
 
-@@note add diagram 
+It means that if we define a new subclass we will have probably duplicate the same expression.
 
+!!! Improving the situation
+
+To improve the situation above we can move up the definition of the ==MFFile== class because it also works for ==MFElement==. 
 
 [[[
 MFElement >> printOn: aStream
 	parent isNil ifFalse: [ 
+		parent printOn: aStream ].
+	aStream << name
+]]]
+
+It means that when we will add a new subclasses, this class will at least have a default definition for the ==printOn:== method. 
+
+@@note add diagram 
+
+
+
+[[[
+MFElement >> printOn: aStream
+	parent isNil ifFalse: [
 		parent printOn: aStream ].
 	aStream << name
 ]]]
@@ -391,7 +412,6 @@ MFDirectory >> printOn: aStream
 	super printOn: aStream. 
 	aStream << '/'
 ]]]
-
 
 
 !!! Using super
