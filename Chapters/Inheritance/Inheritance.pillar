@@ -365,7 +365,6 @@ Here is the definition in the two classes:
 [[[
 MFDirectory >> printOn: aStream
 	parent isNil 
-
 		ifFalse: [ parent printOn: aStream ].
 	aStream << name.
 	aStream << '/'
@@ -407,14 +406,26 @@ It means that when we will add a new subclasses, this class will at least have a
 Now the duplication of logic is not addressed. The same code is duplicated between the class ==MFElement== and ==MFDirectory==. What we see is that even if the method ==printOn:== of class ==MFDirectory== is overriding the method of its superclass, we would like to be able to invoke the method of the superclass ==MFElement== and to add the behavior ==aStream << '/'==. 
 
 
-!!!! Why self does not!
-The following definition does not work because it introduces an endless loop. Indeed, since the method lookup starts in the class of the receiver, it will always find the same method and will not be able to access the method of the superclass.
+!!!! Why self does not work!
+The following definition does not work because it introduces an endless loop. Indeed, since the method lookup starts in the class of the receiver and ==self== represents the receiver, it will always find the same method and will not be able to access the method of the superclass.
 
 [[[
 MFDirectory >> printOn: aStream
 	self printOn: aStream.
 	aStream << '/'
 ]]]
+
+Let us make sure that you are fully with us.
+
+# We get the message ==dOldComics printOn: s==.
+# The method ==printOn:== is looked up starting in the class of ==dOldComics==, i.e., ==MDDirectory==.
+# The method is found and applied on ==dOldComics==.
+# The message ==self printOn: aStream==  is about to be executed.
+# The receiver is ==self== and represents ==dOldComics==. The method ==printOn: aStream== is lookup in the class of the receiver,  i.e., ==MDDirectory==.
+# The same method is found in the class ==MDDirectory== and the process restarts at point 3.
+
+
+
 
 
 In summary, we would like that while doing an override, to use the behavior we are overriding. This is possible as we will see in the following section. 
@@ -439,20 +450,19 @@ What we see is that the method ==printOn:== does not contain anymore the duplica
 
 - Finally, ==super== like ==self== represents the receiver of the messages (for example an instance of the class ==MFDirectory==). Therefore the method is found in the class ==MFDirectory== and executed on the original object that first received the message.
 
+Let us make sure that you are fully with us. You can compare with the previous execution simulation with ==self== above. 
+
+# We get, ==dOldComics printOn: s==.
+# The method ==printOn:== is lookup starting in the class of ==dOldComics==, i.e., ==MDDirectory==.
+# The method is found and applied on ==dOldComics==.
+# The message ==super printOn: aStream==  is about to be executed.
+# The receiver is ==super== and represents ==dOldComics==. The method ==printOn: aStream== is lookup in the superclass of the class containing the expression. The class containing the method is ==MDDirectory==, its superclass is then ==MDElement==. The lookup starts from ==MDElement==.
+# The method is found in ==MDElement== in the class.
+# The message ==parent isNil== is treated on the receiver ==dOldComics==.
+
 What we see is that using ==super==, the programmer can extend the superclass behavior and reuse by invoing it.
 
-
-
-
-
-
-
-
-
-
-
-
-
+@@note ==super== is the receiver of the message but when we send a message to ==super== the method lookup starts in the superclass of ""the class containing"" the expression ==super==.
 
 
 
