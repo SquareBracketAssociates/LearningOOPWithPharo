@@ -1,7 +1,9 @@
 !! A Basic Network Simulator
 @ch:lan
 
-The purpose of this chapter is to define a little network simulator. We will model a LAN (Local Area Network): A LAN is composed of nodes (computers, printers,). The nodes exchange packets. From an object-oriented point of view, it is really interesting because it shows that objects encapsulate responsibilities and that inheritance is used to define incremental behavior. This example is really naive but it focuses on key elements of object-oriented design. 
+The purpose of this chapter is to define a little network simulator as a pretext to revisit some concepts such as self, super and inheritance. 
+
+We model a LAN (Local Area Network): A LAN is composed of nodes (computers, printers,). The nodes exchange packets. From an object-oriented point of view, it is interesting because it shows that objects encapsulate responsibilities and that inheritance is used to define incremental behavior. This example is really naive but it focuses on key elements of object-oriented design. 
 
 You will define step by step an application that simulates a simple Local Area Network (LAN). You will create several classes: ==LNPacket== representing the information circulating in the network, ==LNNode==, ==LNWorkstation==, and ==LNPrintServer== representing different nodes composing the network. We start with the simplest version of a LAN. In subsequent exercises we will add new requirements and modify the proposed implementation to take them into account.
 
@@ -64,14 +66,37 @@ Responsibility:
 - send: aPacket - sends a packet to the next node.
 ]]]
 
-Such description says that the class of ==LNNode== inherits from ==Object==. The class ==Object== is the root of the class inheritance in Pharo. It represents the default behavior that all the objects in the system exhibit and share (such as error handling). The collaborators are the key objects with which a node will interact to define its expected behavior. Here it will interact with other instance of itself or its subclasses as well as the class ==LNPacket==. The responsibilities are the key behavior that the class should offer. 
+Such description says that the class of ==LNNode== inherits from ==Object==. The collaborators are the key objects with which a node will interact to define its expected behavior. Here it will interact with other instance of the class or its subclasses as well as the class ==LNPacket==. The responsibilities are the key behavior that the class should offer. 
+
+!!! Node class definition
+Now we will define the class and also a test class to verify that your methods are acting as they should.
+
+!!!!Define a test class
+
+Let us start by defining tests to make sure that the functionalities we just defined are working.
+We define a new class named ==#LNNodeTest== that inherits from ==TestCase==.
+
+[[[
+TestCase subclass: #LNNodeTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'MiniLAN'
+]]]
+
+We can start to write a first test ==testANodeHasAnID== that tests that a node has a unique ID.  
+[[[
+LNNodeTest >> testANodeHasAnID
+	| node |
+	node := LNNode new.
+	node id: #Node1.
+	self assert: node id = #Node1
+]]]
+
+We create a node, we set its id and we verify using the ==assert:== message that its id is the one we just set.  Remember that the ==assert:== message expects its argument to be true.
 
 
-!!! Creating the Node class 
-Now we will define the class and also a test class to verify that your methods are acting as they should. 
-
-!!!!Exercise: Class creation
-Create a new package ==LAN==, and create a subclass of ==Object== called ==LNNode==, with two instance variables: ==id== and ==nextNode==.
+!!!! Class creation
+Now create a new package ==MiniLAN==, and create a subclass of ==Object== called ==LNNode==, with two instance variables: ==id== and ==nextNode==.
 Here is a possible definition.
 
 [[[
@@ -82,7 +107,7 @@ Object subclass: #LNNode
 ]]]
 
 
-!!!!Exercise: accessor methods
+!!!!Add accessor methods
 Create accessors for the two instance variables. Document the mutators to inform users that the argument passed to ==id:== should be a ==Symbol==, and the arguments passed to ==nextNode:== should be a node. Here are possible definitions.
 
 [[[
@@ -105,39 +130,16 @@ LNNode >> nextNode: aNode
    nextNode := aNode 
 ]]]
 
-!!!!Exercise: Define a test class
+Execute the test. It should passed. 
 
-Now this is the time to write a test to make sure that the functionalities we just defined are working. (Yes there is not much to test but let us practice.)
-We define a new class named ==#NodeTest== that inherits from ==TestCase== and not ==Object== this time. 
-
-[[[
-TestCase subclass: #NodeTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'SimpleLAN'
-]]]
-
-We can start to write a first test ==testANodeHasAnID== that tests that a node has a unique ID.  Tests are expressed as methods defined in a class eventually inheriting from ==TestCase== and whose name starts with ==test==.
-
-[[[
-NodeTest >> testANodeHasAnID
-	| node |
-	node := LNNode new.
-	node id: #Node1.
-	self assert: node id = #Node1
-]]]
-
-We create a node, we set its id and we verify using the ==assert:== message that its id is the one we just set. 
-The ==assert:== statement expects its argument to be true.
-
-Execute the test. It should passed. Now we can write  a new test to specify the behavior of ==hasNextNode== 
-a method telling whether the receiver has a following node or not.
+!!!! Another test
+Now we can write  a new test to specify the behavior of ==hasNextNode==  a method telling whether the receiver has a following node or not.
 
 Here is a test that first checks that a node without following node returns ==false==.
 Then it checks that when we add a next node, the method ==hasNextNode== returns ==true==.
 
 [[[
-NodeTest >> testHasNextNode
+LNNodeTest >> testHasNextNode
 	| node followingNode |
 	node := LNNode new.
 	node id: #Node1.
@@ -152,7 +154,7 @@ NodeTest >> testHasNextNode
 ]]]
 
 
-!!!!Exercise: method hasNextNode
+!!!!Define method hasNextNode
 Define a method called ==hasNextNode== that returns whether the receiver has a next node or not. 
 Once you defined it, execute the test. It should be pass. 
 
@@ -161,20 +163,14 @@ LNNode >> hasNextNode
    ^ nextNode notNil 
 ]]]
 
-!!!!Exercise: method printOn:
 
-Create an instance method named ==printOn:== that puts the class name and name variable on the argument ==aStream==. Include my next node's name ONLY if there is a next node. Hint: look at the method ==printOn:== from previous exercises or other classes in the system, and consider that the instance variable ==id== is a symbol and ==nextNode== is a ==LNNode==. The expected ==printOn:== method behavior is described by the following code:
 
-[[[
-(LNNode new
-   name: #Node1 ;
-   nextNode: (LNNode new id: #PC1)) printString
+!!!!Define method printOn:
 
-> LNNode named: Node1 connected to: PC1
-]]]
+Again we write a test.
 
 [[[
-NodeTest >> testPrintOn
+LNNodeTest >> testPrintOn
 		| printed |
 		printed := (LNNode new
 			id: #Node1;
@@ -182,9 +178,12 @@ NodeTest >> testPrintOn
 		self assert: printed = 'Node named: Node1 connected to: PC1'
 ]]]
 
+Create an instance method named ==printOn:== that puts the class name and name variable on the argument ==aStream==. 
+
+Include the next node's name only if there is a next node. ""Hint:"" look at the method ==printOn:== from previous exercises or other classes in the system, and consider that the instance variable ==id== is a symbol and ==nextNode== is a ==LNNode==.
 
 
-!!! Sending/receiving
+!!! Sending/receiving packets
 A ==LNNode== has two basic messages to send and receive packets. 
 
 When a packet is sent to a node, the node has to accept the packet, and pass it on. Note that with this simple behavior the packet can loop infinitely in the LAN. We will propose some solutions to this issue later. 
@@ -209,12 +208,12 @@ LNNode >> send: aPacket
     self nextNode accept: aPacket.
 ]]]
 
-Note that 
+Note that: 
 - ==trace== displays in the transcript the result of sending the message ==printOn:== to the receiver.
 - ==traceCr== has a similar behavior but adds a carriage return at the end. 
 
 
-!!! Creating the Packet class
+!!! Create the Packet class
 
 A package is an object that represents a piece of information that is sent from node to node. So the responsibilities of this object are to allow us to define the originator of the packet emission, the address of the receiver and the contents.
 
@@ -228,33 +227,25 @@ Responsibility:
 - originator - references the node that sent the packet.
 ]]]
 
-Define such a class. 
 
-!!!!Exercise: defining class LNPacket
+!!!!Define class LNPacket
 
-In the ==LAN== package, create a subclass of ==Object== called ==LNPacket==, with three instance variables: ==contents==, ==addressee==, and ==originator==. Create accessors for each of them in the ==accessing== protocol. The addressee is represented as a symbol, the contents as a string and the originator has a reference to a ==LNNode==.
+In the ==MiniLAN== package, create a subclass of ==Object== called ==LNPacket==, with three instance variables: ==contents==, ==addressee==, and ==originator==. Create accessors for each of them in the ==accessing== protocol. The addressee is represented as a symbol, the contents as a string and the originator has a reference to a ==LNNode==.
 
-!!!!Exercise: adding a printOn: method  
+!!!!Add a printOn: method  
 Define the method ==printOn: aStream== that puts a textual representation of a LNPacket on its argument ==aStream==.
 
-!!!! Exercise: Adding isAddressedTo:
+!!!! Add the method isAddressedTo:
 Define the method ==isAddressedTo: aNode== which returns whether a packet is addressed to a given node. 
-
-
-
-
-
 
 
 @@todo we could split the chapter here and example inheritance in the middle.
 
 
 
-!!! Creating the class LNWorkstation
+!!! Create the class LNWorkstation
 
-A workstation is the entry point for new packets onto the LAN network. It can emit packets to other workstations, printers
-or file servers. Since it is kind of network ==LNNode==, but provides additional behavior, we will define it a subclass of ==LNNode==.
-Thus, it inherits the instance variables and methods defined in ==LNNode==. Moreover, a workstation has to process packets that are addressed to it.
+A workstation is the entry point for new packets onto the LAN network. It can emit packets to other workstations, printers or file servers. Since it is kind of network ==LNNode==, but provides additional behavior, we will define it a subclass of ==LNNode==. Thus, it inherits the instance variables and methods defined in ==LNNode==. Moreover, a workstation has to process packets that are addressed to it.
 
 Here is a description of the class ==Workstation==.
 
@@ -266,14 +257,14 @@ Responsibility: (the ones of LNNode)
 - accept: aPacket - perform an action on packets sent to the workstation (printing in the transcript). For the other packets just send them to the following nodes.
 ]]]
 
-!!!!Exercise: Define LNWorkstation
+!!!!Define LNWorkstation
 
-In the package ==LAN==, create a subclass of ==LNNode== called ==LNWorkstation== without instance variables. 
+Create a subclass of ==LNNode== called ==LNWorkstation== without instance variables.
 
-!!!!Exercise: Redefining the method accept:
+!!!!Redefine the method accept:
 
-Define the method ==accept: aLNPacket== so that if the workstation is the destination of the packet, the following message is written into 
-the Transcript. Note that if the packets are not addressed to the workstation they are sent to the next LNNode of the current one.
+Define the method ==accept: aPacket== so that if the workstation is the destination of the packet, the following message is written into 
+the Transcript. Note that if the packets are not addressed to the workstation they are sent to the next ==LNNode== of the current one.
 
 [[[
 (LNWorkstation new
@@ -281,25 +272,25 @@ the Transcript. Note that if the packets are not addressed to the workstation th
     nextNode: (LNPrinter new id: #PC1))
           			accept: (LNPacket new addressee: #Mac)
 
-A LNPacket is accepted by the Workstation Mac.
+A Packet is accepted by the Workstation Mac.
 ]]]
 
-Hints: To implement the acceptation of a ==LNPacket== not addressed to the workstation, you could copy and paste the code of the ==LNNode== class. However this is a bad practice, decreasing the reuse of code and the ''Say it only once'' rule. It is better to invoke the default code that is currently overriden by using ==super==.
+""Hints:"" To implement the acceptation of a packet not addressed to the workstation, you could copy and paste the code of the ==LNNode== class. However this is a bad practice, decreasing the reuse of code and the ''Say it only once'' rule. It is better to invoke the default code that is currently overriden by using ==super==.
 
-!!!!Exercise: Defining the method emit:
+!!!!Define the method emit:
 
 Define the method ==emit:== that is responsible for inserting packets in the network in the method protocol ==send-receive==. In particular a packet should be marked with its originator and then sent.
 
 [[[
 LNWorkstation >> emit: aPacket
   "This is how packets get inserted into the network. This is a likely method to be rewritten to permit
- packets to be entered in various ways. Currently, I assume that someone else creates the packet and
- passes it to me as an argument."
+  packets to be entered in various ways. Currently, I assume that someone else creates the packet and
+  passes it to me as an argument."
  
 	...
 ]]]
 
-!!! Creating the class LNPrinter
+!!! Create the LNPrinter class
 
 With nodes and workstations, we provide only limited functionality of a real LAN. Of course, we would like to do something with the packets that are travelling around the LAN. Therefore, you will now create a class ==LNPrinter==, a special node that when it receives packets addressed to it, prints them (on the Transcript). Implement the class ==LNPrinter==.
 
@@ -347,9 +338,8 @@ LNNode class >> anotherSimpleLan
 
 
 
-!!! Create the class FileServer
+!!! Create FileServer definition
 Now we can create new extensions for our LAN.  Create the class ==FileServer==, which is a special ==LNNode== that saves packets that are addressed to it. We can use a simple collection to keep the packet 
-
 
 [[[
 LNFileServer inherits from LNNode
@@ -367,104 +357,6 @@ Responsibility:
 
 In this chapter you defined a little simulator a small local network. We will use it in the following chapters as a basis to explain essential concepts of object-oriented programming such as late-binding (the fact that the method executed in response to a message is based on the receiver of the message). 
 
-
-!! Fundamentals on Self and Super
-
-
-This lesson is a reminder about self and super. If you understand well such concepts 
-you can skip this chpater. 
-
-!!! Self
-Let us have a look at ==self==. When the following message is executed: 
-
-[[[
-aWorkstation emit: (Packet new)==
-]]]
-
-- The system starts to look up the method ==emit:== in the class of the message receiver: ==Workstation==.
-- Since this class defines a method ==emit:==, the method lookup stops and this method is returned.
-- The returned method executed with self bound to aWorkstation and aPacket bound to the newly created ==Packet== instance.
-
-Following is the code of the ==emit:== method:
-[[[
-Workstation >> emit: aPacket
-   aPacket originator: self.
-   self send: aPacket
-]]]
-
-- It sends first the message ==originator:== to an instance of class Packet with as argument ==self== which represents the receiver of ==emit:== method. The same process occurs. The method ==originator:== is looked up in the class ==Packet==. As the class ==Packet== defines a method named ==originator:==, the method lookup stops and the method is returned and executed. As shown below the body of this method is to assign the value of the first argument (aNode) to the instance variable originator. Assignment is one of the few constructs of Pharo. It is not implemented as a message sent but handled by the compiler. So no more message sends are performed for this part of ==originator:==.
-[[[
-Packet >> originator: aNode
-    originator := aNode
-]]]
-- In the second line of the method ==emit:==, the message ==send: aPacket== is sent to ==self==. ==self== represents the instance that receives the ==emit:== message. The semantics of self specifies that the method lookup should start in the class of the message receiver: Here ==Workstation==. Since there is no method ==send:== defined on the class ==Workstation==, the method lookup continues in the superclass of ==Workstation==: class ==Node==. ==Node== implements ==send:==, so the method lookup stops: it is returned and executed ==send:==
-
-[[[
-Node >> send: thePacket
-    self nextNode accept: thePacket
-]]]
-
-!!! super
-
-Now we present the difference between the use of ==self== and ==super==. ==self== and ==super== are both pseudovariables
-that are set by the system at runtime. They both represent the receiver of the message
-being executed. However, there is no use to pass super as method argument, ==self== is enough for this.
-
-The main difference between ==self== and ==super== is their semantics regarding method lookup.
-- The semantics of ==self== is to start the method lookup into the class of the message receiver and to continue in its superclasses.
-- The semantics of super is to start the method lookup into the superclass of class of the method using super and to continue in its superclasses. 
-
-Take care the semantics is NOT to start the method lookup into the superclass of the receiver class, the system would loop with such a definition. Using ==super== to invoke a method allows one to invoke
-overridden methods.
-
-Let us illustrate with the following expression: the message ==accept:== is sent to an instance of ==Workstation==.
-
-[[[
-aWorkstation accept: (Packet new addressee: #Mac)
-]]]
-
-As explained before the method is looked up into the class of the receiver, here ==Workstation==. The
-method being defined into this class, the method lookup stops, the method is returned and the method is executed.
-
-[[[
-Workstation >> accept: aPacket
-    (aPacket addressee = self name)
-       ifTrue: [ Transcript show: 'Packet accepted', self name asString ]
-       ifFalse: [ super accept: aPacket ]
-]]]
-
-Imagine that the test returnsd false. The following expression is then executed:
-
-[[[
-super accept: aPacket
-]]]
-
-- The method ==accept:== is looked up in the superclass of the class in which the method using ==super== is used. Here the method using ==super==is defined in ==Workstation== so the lookup starts in the superclass of ==Workstation==: class ==Node==. The following code is executed following the rule explained before.
-
-
-[[[
-Node>>accept: aPacket
-    self hasNextNode
-        ifTrue: [ self send: aPacket ]
-]]]
-
-!!!! Remark
-The previous example does not show well the vicious point in the super semantics: the
-method look into the superclass of class of the method using ==super== and not in the superclass of the receiver class.
-Some (average) books use this wrong definition about super. 
-
-Do the following exercise to prove yourself that you understand well the nuance. Imagine now that we define a subclass of ==Workstation== called ==AnotherWorkstation== and that this class does NOT defined a method ==accept:==. Simulate the lookup  the following expression with both semantics:
-
-[[[
-anAnotherWorkstation accept: (Packet new addressee: #Mac)
-]]]
-
-Do you see that the lookup loop?
-
-!!! Conclusion
-
-We illustrated how ==self== and ==super== work. While both refer to the receiver. The semantics of ==self== is to start the method lookup into the class of the message receiver and to continue in its superclasses.
-The semantics of super is to start the method lookup into the superclass of class of the method using super and to continue in its superclasses. 
 
 
 
