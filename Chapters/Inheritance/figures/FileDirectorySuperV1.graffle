@@ -65,8 +65,8 @@
 			<array>
 				<string>{310.13468933105469, 401.58140757383723}</string>
 				<string>{297, 402}</string>
-				<string>{297, 556.86576969510281}</string>
-				<string>{310.75052701193943, 560.8695340074288}</string>
+				<string>{297, 586}</string>
+				<string>{310.73100861594918, 586.56168462100197}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -99,8 +99,8 @@
 			<key>Points</key>
 			<array>
 				<string>{180, 251}</string>
-				<string>{124, 251}</string>
-				<string>{123.65301722128292, 170.49999533763571}</string>
+				<string>{129, 251}</string>
+				<string>{128.65301722128291, 170.49999533763571}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -117,7 +117,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{21, 100}, {205, 70}}</string>
+			<string>{{21, 100}, {215, 70}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -153,7 +153,8 @@
 
 \f0\fs24 \cf0 printOn: aStream\
 	\
-	parent isNil ifFalse: [ \
+	
+\b parent isNil ifFalse: [ \
 		parent printOn: aStream ].\
 	aStream &lt;&lt; name}</string>
 				<key>VerticalPad</key>
@@ -164,7 +165,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{311.2305908203125, 549}, {206, 84}}</string>
+			<string>{{311.2305908203125, 549}, {216, 84}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -200,9 +201,11 @@
 
 \f0\fs24 \cf0 printOn: aStream\
 \
-	parent isNil ifFalse: [ \
+	
+\b parent isNil ifFalse: [ \
                  parent printOn: aStream ].\
-	aStream &lt;&lt; name.\
+	aStream &lt;&lt; name.
+\b0 \
 	aStream &lt;&lt; '/'}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
@@ -222,8 +225,8 @@
 			<integer>223</integer>
 			<key>Points</key>
 			<array>
-				<string>{342.15375063653238, 339}</string>
-				<string>{309.2743689737714, 298.72386499023378}</string>
+				<string>{342.32355892626072, 339}</string>
+				<string>{309.55816429021434, 298.72386499023378}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -259,8 +262,8 @@
 			<integer>159</integer>
 			<key>Points</key>
 			<array>
-				<string>{189.86585964447517, 369.00000463867173}</string>
-				<string>{228.2820647921821, 298.72386499023384}</string>
+				<string>{189.85003899335436, 369.00000463867173}</string>
+				<string>{228.23844878387393, 298.72386499023384}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -465,8 +468,8 @@ printOn: aStream}</string>
 			<integer>218</integer>
 			<key>Points</key>
 			<array>
-				<string>{372.42392695118485, 498.78470157618267}</string>
-				<string>{379.88400841526635, 459}</string>
+				<string>{372.42392722993912, 498.78470157618267}</string>
+				<string>{379.88400936650038, 459}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -537,8 +540,8 @@ printOn: aStream}</string>
 			<integer>216</integer>
 			<key>Points</key>
 			<array>
-				<string>{490.50065942103811, 498.92159879200193}</string>
-				<string>{450.80107836350004, 459}</string>
+				<string>{490.5006514278632, 498.92159888724365}</string>
+				<string>{450.80105053299559, 459}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -778,8 +781,8 @@ search: aString}</string>
 			<integer>140</integer>
 			<key>Points</key>
 			<array>
-				<string>{105.82831216446336, 498.86503229113276}</string>
-				<string>{140.35164089097316, 449.00000463867173}</string>
+				<string>{105.82217103649276, 498.86495972844614}</string>
+				<string>{140.32663719818754, 449.00000463867167}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -850,8 +853,8 @@ search: aString}</string>
 			<integer>132</integer>
 			<key>Points</key>
 			<array>
-				<string>{222.02950505672061, 498.84752878437234}</string>
-				<string>{192.08368233365684, 449.00000463867173}</string>
+				<string>{222.02216505201369, 498.84761393098967}</string>
+				<string>{192.05386484288829, 449.00000463867173}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1130,7 +1133,7 @@ search: aString}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-18 18:13:34 +0000</string>
+	<string>2017-02-19 08:10:25 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>

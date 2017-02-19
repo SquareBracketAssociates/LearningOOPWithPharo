@@ -66,7 +66,7 @@
 				<string>{310.13468933105469, 401.58140757383723}</string>
 				<string>{297, 402}</string>
 				<string>{297, 556.86576969510281}</string>
-				<string>{310.75052701193943, 560.8695340074288}</string>
+				<string>{310.74901652383505, 560.70533304287676}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -101,7 +101,7 @@
 				<string>{92, 400.10959110625794}</string>
 				<string>{27, 401}</string>
 				<string>{27, 582}</string>
-				<string>{35.500080413599242, 582.15246781010933}</string>
+				<string>{35.500073686970758, 582.14592401179345}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -123,7 +123,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{36, 549}, {205, 70}}</string>
+			<string>{{36, 549}, {215, 70}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -159,7 +159,8 @@
 
 \f0\fs24 \cf0 printOn: aStream\
 	\
-	parent isNil ifFalse: [ \
+	
+\b parent isNil ifFalse: [ \
 		parent printOn: aStream ].\
 	aStream &lt;&lt; name}</string>
 				<key>VerticalPad</key>
@@ -170,7 +171,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{311.2305908203125, 549}, {206, 84}}</string>
+			<string>{{311.2305908203125, 549}, {216, 84}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -206,9 +207,11 @@
 
 \f0\fs24 \cf0 printOn: aStream\
 \
-	parent isNil ifFalse: [ \
+	
+\b parent isNil ifFalse: [ \
                  parent printOn: aStream ].\
-	aStream &lt;&lt; name.\
+	aStream &lt;&lt; name.
+\b0 \
 	aStream &lt;&lt; '/'}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
@@ -228,8 +231,8 @@
 			<integer>223</integer>
 			<key>Points</key>
 			<array>
-				<string>{339.09583043820197, 339}</string>
-				<string>{304.16374876199069, 298.72384973144472}</string>
+				<string>{339.14974534957241, 339}</string>
+				<string>{304.25385509122896, 298.72384973144472}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -265,8 +268,8 @@
 			<integer>159</integer>
 			<key>Points</key>
 			<array>
-				<string>{202.27918370899732, 349.00000463867173}</string>
-				<string>{231.72007922321137, 298.72384973144477}</string>
+				<string>{202.27936797454763, 349.00000463867173}</string>
+				<string>{231.72044877202873, 298.72384973144477}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -470,8 +473,8 @@ name:}</string>
 			<integer>218</integer>
 			<key>Points</key>
 			<array>
-				<string>{372.42392536920818, 498.78470157618267}</string>
-				<string>{379.88400301685607, 459}</string>
+				<string>{372.42392695118485, 498.78470157618267}</string>
+				<string>{379.88400841526635, 459}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -542,8 +545,8 @@ name:}</string>
 			<integer>216</integer>
 			<key>Points</key>
 			<array>
-				<string>{490.50070527160659, 498.92159829198187}</string>
-				<string>{450.80123784678869, 459}</string>
+				<string>{490.50065942103811, 498.92159879200193}</string>
+				<string>{450.80107836350004, 459}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -783,8 +786,8 @@ search: aString}</string>
 			<integer>140</integer>
 			<key>Points</key>
 			<array>
-				<string>{105.55268757697996, 498.86177682028017}</string>
-				<string>{139.22965248952428, 449.00000463867167}</string>
+				<string>{105.55269034040379, 498.86177687238586}</string>
+				<string>{139.22966378948269, 449.00000463867173}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -855,8 +858,8 @@ search: aString}</string>
 			<integer>132</integer>
 			<key>Points</key>
 			<array>
-				<string>{223.56832511028131, 498.83009366332374}</string>
-				<string>{198.32720482614971, 449.00000463867167}</string>
+				<string>{223.56832299529393, 498.83009369351464}</string>
+				<string>{198.32719624130254, 449.00000463867173}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1136,7 +1139,7 @@ search: aString}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-18 17:54:49 +0000</string>
+	<string>2017-02-19 08:09:21 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
