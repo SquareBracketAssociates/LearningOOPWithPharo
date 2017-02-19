@@ -450,9 +450,9 @@ What we see is that the method ==printOn:== does not contain anymore the duplica
 
 - Finally, ==super== like ==self== represents the receiver of the messages (for example an instance of the class ==MFDirectory==). Therefore the method is found in the class ==MFDirectory== and executed on the original object that first received the message.
 
-Let us make sure that you are fully with us. You can compare with the previous execution simulation with ==self== above. 
+Let us make sure that you are fully with us. You can compare with the previous execution simulation with same method but using ==self== above.
 
-# We get, ==dOldComics printOn: s==.
+# We get the message ==dOldComics printOn: s==.
 # The method ==printOn:== is lookup starting in the class of ==dOldComics==, i.e., ==MDDirectory==.
 # The method is found and applied on ==dOldComics==.
 # The message ==super printOn: aStream==  is about to be executed.
@@ -466,13 +466,12 @@ What we see is that using ==super==, the programmer can extend the superclass be
 
 
 
-
-
-
-
-
 !!! Another example
+Before explaining with a more theoritical scenario super semantics, we want to show another example that illustrates that super expressions do not have to be the first expression of a method. We can invoke the overridden method at any place inside the overriding method.
 
+The example could be more realistic but it shows what 
+When we look at the definition of the two methods ==size== in ==MFDirectory== and ==MFFile==, we see that 
+==name size== is used in both. 
 
 [[[
 MFDirectory >> size
@@ -484,14 +483,15 @@ MFDirectory >> size
 	^ sum
 ]]]
 
-
 [[[
 MFFile >> size
 	^ contents size + name size
 ]]]
 
 
-The following example shows that if the computation of size based on name become more complex. We will reuse such definition. 
++Using ==super== to invoke the overridden method ==size==.>file://figures/FileDirectorySuperV3.pdf|width=65|label=fig:FileDirectorySuperV3+
+
+What we can do is the following: define ==size== in the superclass and invoke it using ==super== as shown in Figure *@fig:FileDirectorySuperV3*. Here is what we get.
 
 [[[
 MFElement >> size
@@ -512,6 +512,9 @@ MFDirectory >> size
 	sum := sum + 2.
 	^ sum
 ]]]
+
+What you see is that messages sent to ==super== can used anywhere inside in the overriding method and their results can be used as any other messages.
+
 
 !!! Really understanding super
 
