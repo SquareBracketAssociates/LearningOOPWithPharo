@@ -285,8 +285,60 @@ This example illustrates the following important points:
 
 @@note Messages sent to the receiver (==self== sends) define customization points that subclasses can take advantage of to potentially see their code being executed in place of the superclass' one.
 
+!!! Essence of self and dispatch
+
+Now we take some time to look abstractly at what we presented so far. 
+Imagine a situation as illustrated by Figure *@fig:LookupWithSelfInSuperclassMethod*.
+
+The first simple questions are simple and should be not a problem for you. Without looking at the solutions guess what are the results of the following messages.
+
+[[[
+A new foo
+>>> ... 
+B new foo
+>>> ...
+]]]
+
+What is more interesting is the process to get the result of ==B new bar==.
+
+[[[
+A new bar
+>>> ...
+B new bar
+>>> ...
+]]]
 
 
++Self semantics abstractly explained.>file://figures/LookupWithSelfInSuperclassMethod.pdf|width=35|label=fig:LookupWithSelfInSuperclassMethod+
+
+!!!! Solutions
+The solutions are the following ones.
+[[[
+A new foo
+>>> 10
+
+B new foo
+>>> 50
+
+A new bar
+>>> 10
+
+B new bar
+>>> 50
+]]]
+
+The most interesting one is ==B new bar==.  Let us look at the execution of ==aB bar==
+# ==aB=='s class is ==B==.
+# The method look up starts in the class ==B==.
+# There is no method ==bar== in ==B==.
+# The look up continues in ==A== and method ==bar== is found.
+# The method ==bar== is executed on the receiver  ==aB==.
+# ==self== refers to the receiver ==aB==.
+# The message ==foo== is sent to ==self==.
+# The look up of ==foo== starts in the ==aB=='s class: ==B==.
+# The method ==foo== is found in class ==B== and executed on the receiver ==aB==.
+
+@@note ==self== represents the receiver. Messages sent to it are looked up from the class of the class of the receiver. 
 
 !!! Instance variables vs. messages
 
@@ -518,7 +570,7 @@ What you see is that messages sent to ==super== can used anywhere inside in the 
 
 !!! Really understanding super
 
-@@note ==super== is a special variable: ==super== (just like ==self==) is the receiver of the message! 
+To convince you that ==self== and ==super== points to the same object you can use the message ==\=\=== to verify it as follows: 
 
 [[[
 MFFile >> funky
@@ -530,19 +582,57 @@ MFFile new funky
 >>> true
 ]]]
 
+@@note ==super== is a special variable: ==super== (just like ==self==) is the receiver of the message! 
+
+Now we take some time to look abstractly at what we presented so far. 
+Imagine a situation as illustrated by Figure *@fig:LookupWithSuperInSuperclassMethodThreeClasses*.
+
+
+
+
+[[[
+A new bar
+>>> ...
+c new bar
+>>> ...
+D new bar
+>>> ...
+]]]
+
+!!!! Solution 
+
++Example to understand ==super==>file://figures/LookupWithSuperInSuperclassMethodThreeClasses.pdf|width=35|label=fig:LookupWithSuperInSuperclassMethodThreeClasses+
+
+The solutions are the following ones:
+
+[[[
+A new bar
+>>> 10
+C new bar
+>>> 20
+D new bar
+>>> 100
+]]]
+
+Let us examine the evaluation of the message ==aD bar==: 
+# ==aD=='s class is ==D==.
+# There is no method ==bar== in D.
+# The method look up in ==C==. The method ==bar== is found.
+# The method ==bar== of ==C== is executed.
+# The message ==bar== is sent to ==super==.
+# ==super== represents ==aD== but the lookup starts in the superclass of the class containing the expression ==super== so it starts in ==B==.
+# The method ==bar== is not found in ==B==, the lookup continues in ==A==.
+# The method ==bar== is found in ==A== and it is executed on the receiver i.e., ==aD==.
+# The message ==foo== is sent to ==aD==.
+# The method ==foo== is found in ==D== and executed. It returns 50. 
+# Then to finish the execution of method ==bar== in ==C==, the rest of the expression ==\+ self foo== should be executed.
+# Message ==self foo== returns 50 too, so the result returns 100. 
+
 @@note The difference between ==self== and ==super== is that when we send a message to ==super== the method lookup starts in the superclass of the class containing the expression ==super==.
 
 
 
-!!! Proposing the 
-
-
-+Files and Directories are specialized abstractions sharing some common state and behavior classes via inheritance.>file://figures/FileDirectoryWithInheritanceV3.png|width=60|label=FileDirectoryWithInheritanceV3+
-
-
-
 !!! Conclusion
+In this chapter we saw that inheritance also supports the possibilities to override a method and from this overriding method to invoke the overridden one. This is done using the special variable ==super==. 
+==super== is the receiver of the message like ==self==. The difference is that the method lookup is changed when messages are sent to ==super==. The method is looked up in the superclass of the class containing the message sent to ==super==. 
 
-
- 
- 
