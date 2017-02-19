@@ -366,3 +366,251 @@ Responsibility:
 !!! Conclusion
 
 In this chapter you defined a little simulator a small local network. We will use it in the following chapters as a basis to explain essential concepts of object-oriented programming such as late-binding (the fact that the method executed in response to a message is based on the receiver of the message). 
+
+
+!! Fundamentals on Self and Super
+
+
+This lesson is a reminder about self and super. If you understand well such concepts 
+you can skip this chpater. 
+
+!!! Self
+Let us have a look at ==self==. When the following message is executed: 
+
+[[[
+aWorkstation emit: (Packet new)==
+]]]
+
+- The system starts to look up the method ==emit:== in the class of the message receiver: ==Workstation==.
+- Since this class defines a method ==emit:==, the method lookup stops and this method is returned.
+- The returned method executed with self bound to aWorkstation and aPacket bound to the newly created ==Packet== instance.
+
+Following is the code of the ==emit:== method:
+[[[
+Workstation >> emit: aPacket
+   aPacket originator: self.
+   self send: aPacket
+]]]
+
+- It sends first the message ==originator:== to an instance of class Packet with as argument ==self== which represents the receiver of ==emit:== method. The same process occurs. The method ==originator:== is looked up in the class ==Packet==. As the class ==Packet== defines a method named ==originator:==, the method lookup stops and the method is returned and executed. As shown below the body of this method is to assign the value of the first argument (aNode) to the instance variable originator. Assignment is one of the few constructs of Pharo. It is not implemented as a message sent but handled by the compiler. So no more message sends are performed for this part of ==originator:==.
+[[[
+Packet >> originator: aNode
+    originator := aNode
+]]]
+- In the second line of the method ==emit:==, the message ==send: aPacket== is sent to ==self==. ==self== represents the instance that receives the ==emit:== message. The semantics of self specifies that the method lookup should start in the class of the message receiver: Here ==Workstation==. Since there is no method ==send:== defined on the class ==Workstation==, the method lookup continues in the superclass of ==Workstation==: class ==Node==. ==Node== implements ==send:==, so the method lookup stops: it is returned and executed ==send:==
+
+[[[
+Node >> send: thePacket
+    self nextNode accept: thePacket
+]]]
+
+!!! super
+
+Now we present the difference between the use of ==self== and ==super==. ==self== and ==super== are both pseudovariables
+that are set by the system at runtime. They both represent the receiver of the message
+being executed. However, there is no use to pass super as method argument, ==self== is enough for this.
+
+The main difference between ==self== and ==super== is their semantics regarding method lookup.
+- The semantics of ==self== is to start the method lookup into the class of the message receiver and to continue in its superclasses.
+- The semantics of super is to start the method lookup into the superclass of class of the method using super and to continue in its superclasses. 
+
+Take care the semantics is NOT to start the method lookup into the superclass of the receiver class, the system would loop with such a definition. Using ==super== to invoke a method allows one to invoke
+overridden methods.
+
+Let us illustrate with the following expression: the message ==accept:== is sent to an instance of ==Workstation==.
+
+[[[
+aWorkstation accept: (Packet new addressee: #Mac)
+]]]
+
+As explained before the method is looked up into the class of the receiver, here ==Workstation==. The
+method being defined into this class, the method lookup stops, the method is returned and the method is executed.
+
+[[[
+Workstation >> accept: aPacket
+    (aPacket addressee = self name)
+       ifTrue: [ Transcript show: 'Packet accepted', self name asString ]
+       ifFalse: [ super accept: aPacket ]
+]]]
+
+Imagine that the test returnsd false. The following expression is then executed:
+
+[[[
+super accept: aPacket
+]]]
+
+- The method ==accept:== is looked up in the superclass of the class in which the method using ==super== is used. Here the method using ==super==is defined in ==Workstation== so the lookup starts in the superclass of ==Workstation==: class ==Node==. The following code is executed following the rule explained before.
+
+
+[[[
+Node>>accept: aPacket
+    self hasNextNode
+        ifTrue: [ self send: aPacket ]
+]]]
+
+!!!! Remark
+The previous example does not show well the vicious point in the super semantics: the
+method look into the superclass of class of the method using ==super== and not in the superclass of the receiver class.
+Some (average) books use this wrong definition about super. 
+
+Do the following exercise to prove yourself that you understand well the nuance. Imagine now that we define a subclass of ==Workstation== called ==AnotherWorkstation== and that this class does NOT defined a method ==accept:==. Simulate the lookup  the following expression with both semantics:
+
+[[[
+anAnotherWorkstation accept: (Packet new addressee: #Mac)
+]]]
+
+Do you see that the lookup loop?
+
+!!! Conclusion
+
+We illustrated how ==self== and ==super== work. While both refer to the receiver. The semantics of ==self== is to start the method lookup into the class of the message receiver and to continue in its superclasses.
+The semantics of super is to start the method lookup into the superclass of class of the method using super and to continue in its superclasses. 
+
+
+
+
+!! Improving the design
+
+Often seasoned object-oriented programmers use the following description to convey good design principles: 
+
+To be a good citizen an object should follow as much as possible the following rules:
+- Be private. Never let somebody else play with its data.
+- Be lazy. Let do other objects its job.
+- Be focused. Do only one main task.
+
+While these guidelines are generic, one of the main consequences is that this is the responsibility
+of an object to provide a well defined interface protecting itself from its clients. The other consequence
+is that by delegating to other objects, an object concentrates on a single task and responsibility. We now
+look how such guidelines can help us to provide better objects in our example.
+
+!!! Current situation
+
+The interface of the packet class is weak. It just provides free access to its data. The main impact of
+this weakness is the fact that the clients of the class ==Packet== like the class ==Workstation== rely on the internal coding
+of the ==Packet== class as shown in the first line of the following method. A workstation gets to know the internal structure of Packet.
+
+[[[
+Workstation>>accept: aPacket
+    aPacket addressee = self name
+        ifTrue: [ Transcript show: 'A packet is accepted by the Workstation ', self name asString ]
+        ifFalse: [ super accept: aPacket ]
+]]]
+
+As a consequence, if the structure of the class ==Packet== changes, the code of its clients would have
+to change too. Generalizing such a bad practice leads to systems that are badly coupled and being
+really difficult to change to meet new requirements.
+
+One of the solution to these problems is to give the responsibility to the objects to create well-formed instances.
+Several ways are possible:
+
+- When possible, providing default values for instance variable is a good way to provide well-defined instances.
+- It is also a good solution to propose a consistent and well-defined creation interface. For example one can only provide an instance creation method that requires the mandatory value for the instance and forbid the creation of other instances.
+
+
+!!! Enhancing the Packet API
+Let us start with the class ==Packet==.  This is the responsibility of a packet to say if the packet is addressed to a particular node or if it was sent
+by a particular node.
+- Define a method named ==isAddressedTo: aNode== in 'testing' protocol that answers if a given packet is addressed to the specified node.
+- Define a method named ==isOriginatedFrom: aNode== in 'testing' protocol that answers if a given packet is originated from the specified node.
+- Once these methods are defined, change the code of all the clients of the class ==Packet== to use them.
+
+
+!!! Instance Initialization
+
+Let us see how we can initialize instances. We investigate the two solutions for the ==Packet== class.
+
+Just remember that new is sent to classes (a class method) and that the message ==initialize== is sent to 
+instances (instance method). 
+
+[[[
+    Packet>>initialize
+        ....
+]]]
+
+In the ==Packet== class, the only instance variable that can have a default value is contents. We can define it as follows: 
+
+[[[
+    contents := 'no contents'
+]]]
+
+Ideally if a LAN should contain a default trash node, the default address and originator should point
+to it. We will implement this functionality in a future lesson. Implement first your own solution.
+
+Note that with this solution it would be convenient to know if a packet contents
+is the default one or not. For this purpose you can  provide the method ==hasDefaultContents== that tests
+that. You can implement it as :
+
+[[[
+Packet >> hasDefaultContents
+    ^ contents = 'no contents'
+
+Packet >> initialize
+    
+    contents := 'no contents'
+]]]
+
+But you should apply the rule: 'Say only once' and define a new method that returns the default content
+and use it as shown below:
+
+[[[
+Packet >> defaultContents
+    ^ 'no contents'
+	
+Packet >> initialize
+    ...
+    contents := self defaultContent
+    ...
+	
+Packet >> hasDefaultContent
+    ^ contents = self defaultContents
+]]]
+
+With this solution, we limit the knowledge to the internal coding of the default contents value to only
+one method. This way changing it does not affect the clients nor the other part of the class.
+
+!!! A Question of Creation Responsibility
+
+One of the problem with the previous approach for creating the nodes and the packets is the following: it
+is the responsibility of the client of the objects to create them well-formed. For example, it is possible to
+create a node without specifying a name. This is a disaster for our LAN system. The same problem occurs with the packet: it is possible to create a packet without address nor contents.
+
+We will find a solution to these problems.
+
+!!!! Exercise: new instance creation methods
+
+Define a ''class'' method named ==withName:== in the class ==Node== (protocol 'instance creation') that creates a new node and assign its name.
+
+[[[
+Node class>>withName: aSymbol
+    ....
+]]]
+
+!!!! Exercise: Strengthening packet creation
+
+We now apply the second approach by providing a better interface for creating packet. For this
+purpose we define a new creation method that requires a contents and an address.
+
+
+
+Define a class methods named ==send:to:== and ==to:== in the class Packet (protocol 'instance creation') that creates a new Packet with a contents and an address.
+
+[[[
+Packet class >> send: aString to: aSymbol
+	....
+	
+Packet class >> to: aSymbol
+	....
+]]]
+
+
+
+
+
+!!! Conclusion
+
+Object-oriented design cannot be systematically and automatically done. However, there are guidelines that help handling various pitfalls. 
+Among such guidelines the following ones are worth applying:
+- Create well initialize objects.
+- Offer adequate creation API.
+- Expose APIs that protect the internal representation of objects.
+- Avoid duplication logic.
