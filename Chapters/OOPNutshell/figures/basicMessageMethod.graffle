@@ -190,7 +190,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{328.69098815258639, 32.055377746621318}, {108.87585616438356, 44.765100671140935}}</string>
+			<string>{{328.69101867016451, 25.055377746621318}, {108.87585616438356, 44.765100671140935}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -485,7 +485,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{126, 165.91184997558594}, {153.75838926174484, 43.932363013698684}}</string>
+			<string>{{119.93226623535156, 165.91185188293457}, {153.75838926174484, 43.932363013698684}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -534,7 +534,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{453.04085100720135, 77.623855670635507}, {73.563194274902344, 42.413710552122943}}</string>
+			<string>{{458.42943132946698, 77.328880389873788}, {73.563194274902344, 42.413710552122943}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -585,7 +585,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{493, 169.45485164694583}, {89.530201342281956, 43.932363013698684}}</string>
+			<string>{{498.46978759765625, 169.45485164694583}, {89.530201342281956, 43.932363013698684}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -757,7 +757,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-02-20 20:51:18 +0000</string>
+	<string>2017-02-20 21:03:21 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -855,7 +855,7 @@
 		<key>SidebarWidth</key>
 		<integer>138</integer>
 		<key>VisibleRegion</key>
-		<string>{{-103, 1}, {796, 731}}</string>
+		<string>{{-103, -6}, {796, 731}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>

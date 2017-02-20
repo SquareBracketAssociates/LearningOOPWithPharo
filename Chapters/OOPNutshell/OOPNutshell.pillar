@@ -101,7 +101,7 @@ Note that finding the method corresponding tot he message is done at runtime and
 
 @@note A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
 
-An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line  color and send messages numbers.
+An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line color and send messages.
 
 +An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
 
@@ -113,7 +113,7 @@ An object can also send messages to other objects. For example, when a turtle dr
 An object is responsible of the way it realizes its reaction to a
 message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork2*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork2* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
 
-@@note An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.
+@@note An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful some data are most of the time required. Data are only accessed by the methods.
 
 @@note An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
 
@@ -128,7 +128,7 @@ square: s
 ]]]
 
 
-+The message ==square:== can be implemented differently this does not impact the sender of the message who is not concerned by the internals of the object.>file://figures/encapsulationAtWork2.pdf|width=45|label=fig:encapsulationAtWork2+
++The message ==square:== can be implemented differently. This different implementation does not impact the sender of the message who is not concerned by the internals of the object.>file://figures/encapsulationAtWork2.pdf|width=50|label=fig:encapsulationAtWork2+
 
 Hiding the internal representation is not limited to object-oriented programming but it is central to object-oriented programming. 
 
