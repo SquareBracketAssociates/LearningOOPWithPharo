@@ -2,14 +2,11 @@
 @cha:objectclass
 
 
-Pharo is a pure object-oriented programming language, i.e., everything in the system is an object i.e., an entity created by a class and reacting to messages. In this chapter you will learn the concepts of object-oriented programming: ''objects'' and ''classes''. 
+Pharo is a pure object-oriented programming language, i.e., everything in the system is an object i.e., an entity created by a class and reacting to messages.
 
-This chapter presents key mechanisms that characterize object-oriented programming: ''objects'', ''classes'',  ''messages'' and ''methods''.
-We will also present ''distribution of responsibilities'' which is one of the heart of object-oriented programming.
- as well as ''delegation'' and ''composition''.
-Each of these mechanisms will be used and explained in the book under diverse forms: either a full dedicated chapter or usage in exercises.
+This chapter presents key mechanisms that characterize object-oriented programming: ''objects'', ''classes'',  ''messages'' and ''methods''. We will also present ''distribution of responsibilities'' which is one of the heart of object-oriented programming as well as ''delegation'' and ''composition''. Each of these mechanisms will be used and illustrated again in this book.
 
-We will start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain late binding, distribution of responsibilities and delegation. The file example will be extended to present ''inheritance'' in Chapter *@cha:inheritance*.
+We start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain ''late binding'', ''distribution of responsibilities'' and ''delegation''. The file example will be extended to present ''inheritance'' in Chapter *@cha:inheritance*.
 
 ''Objects'' are created by ''classes'' that are object factories: Classes define the structure and behavior of objects (in terms of methods) but each object has a specific state and identity that is unique and different from all other objects. A class defines ''methods'' that specify how a ''message'' is actually implemented. 
 
@@ -25,7 +22,9 @@ Objects are entities that communicate via messages and react to messages by exec
 
 
 !!!! Turtles as an example
-Imagine that we have a logo turtle (you will implement it in the following chapters). We can do the following: create a turtle, send it messages to make it move, turn and trace some drawnings. 
+Imagine that we have a graphics turtle a la LOGO. We do the following: create a turtle, send it messages to make it move, turn, and trace some drawnings. Let us look at this in detail.
+
+@@todo Add a figure once I have the turtle implemented.
 
 !!!! Creating an object
 First we create a new turtle by sending the message ==new== to the class ==Turtle==. 
@@ -56,7 +55,7 @@ t go: 100.
 ]]]
 
 
-@@todo Add a figure once I have the turtle implemented. 
+
 
 When an object receives a message, it reacts by performing some actions. An object can return a value, change its internal state, or send messages to other objects. Here the turtle will change its direction and it will interact with the display to leave a trail.
 
@@ -79,7 +78,7 @@ t2 go: 100.
 
 !!! Messages and Methods
 
-Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods as we will see later). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a sequence of instructions as we will see later. 
+Messages specify ''what'' the object should do and not how it should do it (this is the duties of methods). When we send the message ==go:== we just specify what we expect the receiver to do.  Sending a message is similar to the abstraction provided by procedures or functions in procedural or functional programming language: it hides implementation details. However sending a message is much more than executing a sequence of instructions: it means that we have to find the method that should be executed in reaction to the message. 
 
 !!!! Message: what should be executed
 
@@ -91,13 +90,14 @@ Turtle new square: 100
 
 !!!! Method: how we execute it
 
-The method definition ==square:== below defines step by step what are the actions to be done in response to the message ==square:==. We will show later how the mapping between a message and a method is done at runtime. 
+The method definition ==square:== below defines step by step what are the actions to be done in response to the message ==square:==. It defines that to draw a square the turtle receiving the message ==square:== (represented by ==self==) should perform four times the following sequences of messages: move forward a distance (message ==go:==), turn 90 degrees (using the message ==turn:==).
 
 [[[
 square: size
 	4 timesRepeat: [ self go: size; turn: 90 ]
 ]]]
 
+Note that finding the method corresponding tot he message is done at runtime and depends on the object receiving the message.
 
 @@note A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
 
@@ -111,7 +111,7 @@ An object can also send messages to other objects. For example, when a turtle dr
 !!! An object is a protective entity
 
 An object is responsible of the way it realizes its reaction to a
-message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
+message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork2*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork2* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
 
 @@note An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.
 

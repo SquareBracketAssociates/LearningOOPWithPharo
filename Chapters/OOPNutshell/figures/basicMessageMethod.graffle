@@ -60,10 +60,10 @@
 			<integer>23</integer>
 			<key>Points</key>
 			<array>
-				<string>{235.47121429443359, 178.2859978871802}</string>
-				<string>{318.76844411316972, 167.87731170654297}</string>
-				<string>{360.74636630883953, 141.87731170654297}</string>
-				<string>{366.47121429443359, 194.87731170654297}</string>
+				<string>{234.94242858886719, 172.40868618063723}</string>
+				<string>{318.23965840760332, 162}</string>
+				<string>{360.21758060327312, 136}</string>
+				<string>{365.94242858886719, 189}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -128,11 +128,11 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720
 
-\f0\b\fs30 \cf0 square: size\
+\f0\b\fs38 \cf0 square: size\
    
 \b0 4 timesRepeat: [\
        self go: size; turn: 90]
-\fs38 \
+\fs46 \
 }</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
@@ -198,7 +198,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>18</integer>
@@ -232,7 +232,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs38 \cf0 color:}</string>
+\f0\fs52 \cf0 color:}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -241,7 +241,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{211.53022792068566, 259.14380077186377}, {107.31941806163398, 43.304326586273355}}</string>
+			<string>{{206.14165771052126, 265.14378932777197}, {107.31941806163398, 43.304326586273355}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -249,7 +249,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>17</integer>
@@ -283,7 +283,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs38 \cf0 south}</string>
+\f0\fs52 \cf0 south}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -292,7 +292,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{448.20638430183283, 261.11142304577589}, {101.67100791475386, 43.304318185913672}}</string>
+			<string>{{453.59499514167658, 265.14380219616652}, {101.67100791475386, 43.304318185913672}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -300,7 +300,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>16</integer>
@@ -334,7 +334,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs38 \cf0 north}</string>
+\f0\fs52 \cf0 north}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -350,6 +350,13 @@
 			<false/>
 			<key>Class</key>
 			<string>LineGraphic</string>
+			<key>FontInfo</key>
+			<dict>
+				<key>Font</key>
+				<string>Helvetica</string>
+				<key>Size</key>
+				<real>12</real>
+			</dict>
 			<key>ID</key>
 			<integer>14</integer>
 			<key>Points</key>
@@ -370,13 +377,13 @@
 					<key>TailArrow</key>
 					<string>0</string>
 					<key>Width</key>
-					<real>2</real>
+					<real>3</real>
 				</dict>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{328.69098856221819, 305.9326894531643}, {108.87585616438356, 44.765100671140935}}</string>
+			<string>{{328.69101907979632, 311.81000115970727}, {108.87585616438356, 44.765100671140935}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -384,7 +391,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>13</integer>
@@ -418,7 +425,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs38 \cf0 turn:}</string>
+\f0\fs52 \cf0 turn:}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -427,7 +434,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{215.37232747920839, 75.309629148841665}, {113.00171661376953, 41.497154352854608}}</string>
+			<string>{{210.87869739425602, 69.309632963538931}, {113.00171661376953, 41.497154352854608}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -435,7 +442,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>12</integer>
@@ -469,7 +476,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs38 \cf0 jump:}</string>
+\f0\fs52 \cf0 jump:}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -478,7 +485,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{139.47121429443359, 165.91185283660889}, {153.75838926174484, 43.932363013698684}}</string>
+			<string>{{126, 165.91184997558594}, {153.75838926174484, 43.932363013698684}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -486,7 +493,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>11</integer>
@@ -518,7 +525,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs38 \cf0 square:}</string>
+\f0\b\fs52 \cf0 square:}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -535,7 +542,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>10</integer>
@@ -569,7 +576,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs38 \cf0 go:}</string>
+\f0\fs52 \cf0 go:}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -578,7 +585,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{488.47121429443359, 169.45485164694583}, {89.530201342281956, 43.932363013698684}}</string>
+			<string>{{493, 169.45485164694583}, {89.530201342281956, 43.932363013698684}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -586,7 +593,7 @@
 				<key>Font</key>
 				<string>Helvetica</string>
 				<key>Size</key>
-				<real>18</real>
+				<real>25</real>
 			</dict>
 			<key>ID</key>
 			<integer>9</integer>
@@ -618,7 +625,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\fs38 \cf0 east}</string>
+\f0\fs52 \cf0 east}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -627,7 +634,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{66.5, 60.27367782592772}, {144, 29}}</string>
+			<string>{{52.5, 60.27367782592772}, {172, 35}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -664,7 +671,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs48 \cf0 square:
+\f0\b\fs58 \cf0 square:
 \b0  100}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
@@ -750,7 +757,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2016-11-20 18:02:20 +0000</string>
+	<string>2017-02-20 20:51:18 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
