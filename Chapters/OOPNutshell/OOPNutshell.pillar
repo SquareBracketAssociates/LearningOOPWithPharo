@@ -6,7 +6,8 @@ Pharo is a pure object-oriented programming language, i.e., everything in the sy
 
 This chapter presents key mechanisms that characterize object-oriented programming: ''objects'', ''classes'',  ''messages'' and ''methods''. We will also present ''distribution of responsibilities'' which is one of the heart of object-oriented programming as well as ''delegation'' and ''composition''. Each of these mechanisms will be used and illustrated again in this book.
 
-We start explaining objects, classes, messages and methods with really simple examples. Then we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain ''late binding'', ''distribution of responsibilities'' and ''delegation''. The file example will be extended to present ''inheritance'' in Chapter *@cha:inheritance*.
+We start explaining objects, classes, messages and methods with really simple examples. Then in the following chapter we will propose an example that illustrates what we can achieve by using objects of different classes. 
+
 
 ''Objects'' are created by ''classes'' that are object factories: Classes define the structure and behavior of objects (in terms of methods) but each object has a specific state and identity that is unique and different from all other objects. A class defines ''methods'' that specify how a ''message'' is actually implemented. 
 
@@ -103,19 +104,17 @@ Note that finding the method corresponding tot he message is done at runtime and
 
 An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line color and send messages.
 
-+An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
++An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name (called selector) is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
 
 @@note An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
 
 
 !!! An object is a protective entity
 
-An object is responsible of the way it realizes its reaction to a
-message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork2*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork2* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
+An object is responsible of the way it realizes its reaction to a message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork2*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork2* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
 
-@@note An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful some data are most of the time required. Data are only accessed by the methods.
+@@note An object presents to the other objects an ''interface'' (i.e., a set of messages) defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful some data are most of the time required. Data are only accessed by the methods.
 
-@@note An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
 
 From a turtle ''user'' point of view, the only relevant information is that the turtle effectively receiving the message ==square:== executes the method that draws a square. So changing the definition of the ==square:== method  to the one below does not have any consequence on the methods that call it. Figure *@fig:encapsulationAtWork2* illustrates this point.
 
@@ -132,12 +131,13 @@ square: s
 
 Hiding the internal representation is not limited to object-oriented programming but it is central to object-oriented programming. 
 
+@@note An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
 
 !!! An object protects its data
 
 An object holds some ''private data'' that represents its state (see Figure *@fig:objectOne*). Moreover, it controls its state and should not let other objects play directly with them because this could let him into an inconsistent state.  For example, you do not want to somebody else plays with the data of your bank account directly and really want to control your transaction.
 
-For example, a turtle can be represented by a position, a direction and a way to indicate if its pen is up or down. But, we cannot directly access these data and change them. For that we have to use the set of messages proposed by a turtle. These methods constitute the ''interface'' of an object. We say that the object state is ''encapsulated'', this means that not everybody can access it. In fact, object-oriented programming is based on encapsulation, i.e., the fact that per default objects are the only ones that can access their own state.
+For example, a LOGO turtle can be represented by a position, a direction and a way to indicate if its pen is up or down. But, we cannot directly access these data and change them. For that we have to use the set of messages proposed by a turtle. These methods constitute the ''interface'' of an object. We say that the object state is ''encapsulated'', this means that not everybody can access it. In fact, object-oriented programming is based on encapsulation, i.e., the fact that per default objects are the only ones that can access their own state.
 
 +A turtle is an object which has an interface, i.e., a set of messages to which it can reply and a private state that only its methods can access.>file://figures/privateData.pdf|width=45|label=fig:objectOne+
 
@@ -176,18 +176,18 @@ c2 count.
 >>> 1
 ]]]
 
-!!! A class: blueprint of objects
+!!! A class: blueprint or factory of objects
 
 A class is a mold or cast of objects. A class specifies two important aspects of their instances:
 - Instance ""structure"". All the instances of a class will have the same structure expressed in terms of ''instance variables''. Pay attention that the variables are the same for all the instances of a class but not their values. Each instance has specific values for its instance variables.
 - Instance ""behavior"". All the instances share the same behavior even if this one can be different because applied on different values. 
 
-@@note A class is as a blueprint for its instances. 
+@@note A class is as a blueprint for its instances. It is a factory of objects. All objects will have the same structure and share a common behavior. 
 
 Let us illustrate this with the class ==Counter==.
 
 !!!! Object structure
-Let us study the ==Counter== class definition.  The class ==Counter== defines that all the instances will have one instance variable named ==count== using the expression ==instanceVariableNames: 'count'==. And each instance of the class ==Counter== will have a ==count== variable with a ''different'' value as we showed in the examples above. 
+Let us study the ==Counter== class definition.  
 
 [[[
 Object subclass: #Counter
@@ -196,8 +196,15 @@ Object subclass: #Counter
 	package: 'LOOP'
 ]]]
 
+The expresion ==Object subclass: #Counter== indicates that the class ==Counter== is a subclass of the class ==Object==.
+It means that counter instances understand the messages defined also by the class ==Object==. In Pharo, classes should be at least be a subclass of the class ==Object==. You will learn more about subclassing and inheritance in Chapter *@cha:inheirtance*.
+
+Then the class ==Counter== defines that all the instances will have one instance variable named ==count== using the expression ==instanceVariableNames: 'count'==. And each instance of the class ==Counter== will have a ==count== variable with a ''different'' value as we showed in the examples above.
+
+Finally the class is defined in the package =='LOOP'==. A package is a kind of folder containing multiple classes. 
+
 !!!! Object behavior
-In addition a class is the place that groups the instance behavior. Indeed since all the instances of the class share the ''same'' behavior definitions, such behavior is defined and grouped in a class.
+In addition a class is the place that groups the behavior of its instances. Indeed since all the instances of the class share the ''same'' behavior definitions, such behavior is defined and grouped in a class.
 
 For counters, the class defines how to retrieve the counter value, how to increment 
 and decrement the count as used in the messages in the previous code snippets.
@@ -210,15 +217,46 @@ Counter >> increment
 	count := count + 1
 ]]]
 
+
 When we send a message to a counter for example in the expression ==c1 increment==, 
-this method ==increment== will be applied on ''that'' specific object ==c1==.
+the method ==increment== will be applied on ''that'' specific object ==c1==.
 In the expression ==c1 increment==, ==c1== is called the ""receiver"" of the message ==increment==. 
 
 In the method ==increment==,  the variable ==count== refers to the variable of the ""receiver"" of the message. 
 
-@@note A method specifies ""how"" a computation is performed, step by step contrarily to a message that expresses ""what"" should be performed. 
+@@note A class define methods that specify the behavior of all the instances created by the class.
 
-!!!! Self = receiver
+
+Multiple methods can accessed to the instance variables of the receiver. For example the methods ==increment==, ==count:== ==decrement== and ==printOn:== all access the instance variable ==count== of the receiver to perform different computation. 
+
+[[[
+Counter >> count: anInteger
+	count := anInteger
+]]]
+[[[
+Counter >> decrement
+	count := count - 1
+]]]
+
+[[[ 
+Counter >> printOn: aStream
+   super printOn: aStream.
+   aStream nextPutAll: ' with value: ', self count printString.
+]]]
+
+For example, once the following program is executed the count  instance variable of the counter ==c2== will hold the value 11, since the method ==count:== will set its value to 10, and ==increment== will set it to 11 and 12 and finally ==decrement== will set it to 11. 
+
+[[[
+| c2 |
+c2 := Counter new.
+c2 count: 10.
+c2 increment.
+c2 increment.
+c2 decrement.
+]]]
+
+
+!!!! Self is the message receiver
 Imagine that now we would like to send a message to the object that receives the message itself. We need a way to refer to the this object. Pharo defines a special variable for this exact purpose: ==self==. 
 
 @@note ==self== always refers to the message receiver that is currently executed.
@@ -233,27 +271,44 @@ Counter >> incrementByTwo
 
 When we execute the expression ==c1 incrementByTwo==, during the execution of the method ==incrementByTwo==, ==self== refers to ==c1==. 
 
-We will explain how a method is found when a message is sent but first we should explain inheritance, i.e., how a class is defined incrementally from a root class.
+We will explain  how a method is found when a message is sent but first we should explain inheritance, i.e., how a class is defined incrementally from a root class and all this will be explained  in Chapter *@cha:inheritance*.
 
 !!!Class and instances are really different
 
-Classes and objects are different objects; they understand different messages. A class is a factory of objects. A class creates instances.
+Classes and objects are different objects; they understand different messages. 
 
-For example, sending ==new== to the ==Counter== class returns a newly created counter, while sending ==new== to a counter results in an error. In the opposite way, sending ==increment== to the class ==Counter== leads also to an error because the class ==Counter== is a factory of objects not the objects themselves. Classes are molders of objects.
+For example, sending ==new== to the ==Counter== class returns a newly created counter, while sending ==new== to a counter results in an error. In the opposite way, sending ==increment== to the class ==Counter== leads also to an error because the class ==Counter== is a factory of objects not the objects themselves. 
+
+A class is a factory of objects. A class creates instances. An instance does not create other instances of the class.
 
 @@note A class describes the structure (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
 
+!!! Conclusion
+
+In this chapter you saw that: 
+
+- An object is a computer entity that once created receives messages and performs some actions in reaction.
+- An object has an unique identity.
+- An object holds some private data that represent its internal state.
+
+- A class is a factory of objects: It ''describes'' the internal structure of all its instances by means of instance variable. 
+- All objects of the same class share the same behavior, i.e., the same method definitions.
+- Instance variables are accessible by all the methods of a class. Instance variables have the same lifetime than the object to which they belong to.
+- In Pharo , instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
 
 
+!! Revisiting Objects and Classes
+
+In the previous chapter we presented objects and classes via simple example. In this chapter we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain ''late binding'', ''distribution of responsibilities'' and ''delegation''. The file example will be extended to present ''inheritance'' in Chapter *@cha:inheritance*.
 
 !!! A simple and naive file system
 
-We start to present a simple example that we use to present and explain the concepts: a simple and naive file system as shown in Figure *@directories*. 
+We start to present a simple example that we use to present and explain the concepts: a simple and naive file system as shown in Figure *@figdirectories*. 
 What the diagram shows is that we have:
 - files that also have a name and a contents. Here we get three different files ==Babar==, ==Astroboy== and ==tintinEtLesPicaros==.
 - directories that have a name and can contain other files or directories. Here we get the ==manga==, ==comics==, ==oldcomics== and ==belgiumSchool== directories. Directories can be nested: ==comics== contains three repositories. The ==belgiumSchool== directory contains ==tintinEtLesPicaros==. 
 
-+Some directories and files organised in a file system.>file://figures/comicsFileTree.png|width=50|label=directories+
++Some directories and files organised in a file system.>file://figures/comicsFileTree.png|width=50|label=figdirectories+
 
 
 !!! Studying a first scenario
@@ -706,15 +761,7 @@ Inheritand is a mechanism to specialize incrementally classes from other classes
 
 
 
-!!! Conclusion 
 
-- An object is a computer entity that once created receives messages and performs some actions in reaction.
-- An object has an unique identity.
-- An object holds some private data that represent its internal state.
--  All objects of the same class share the same behavior, i.e., the same method definitions.
-- A class ''describes'' the internal structure of all its instances by means of instance variable.
-- Instance variables are accessible by all the methods of a class. Instance variables have the same lifetime than the object to which they belong to.
-- In Pharo , instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
 -  A class describes the state (instance variables) and the behavior (methods) of all its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
 -  Methods define the behavior of all the instances  of the class they belong to.
 - Different objects, instances of different classes, can react differently to the same messages.
