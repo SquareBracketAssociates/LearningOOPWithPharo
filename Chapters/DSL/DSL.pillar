@@ -1,19 +1,19 @@
 !! Crafting a Simple Embedded DSL with Pharo
- 
+@cha:dsl
 
-In this chapter we will develop a simple domain specific language (DSL) for rolling dice. Players of games such as Dungeon and Dragons are familiar with the DSL that we will implement. An example of such DSL is ==2 D20 + 1 D6== which means that we should roll two 20-faces dices and one 6 faces die. 
-This little exercise shows how we can (1) simply reuse traditional operator such as ==\+==, (2) develop an embedded domain specific language and (3) use class extensions (the fact that we can define a method in another package than the one of the class of the method).
+In this chapter you will develop a simple domain specific language (DSL) for rolling dice. Players of games such as Dungeons \& Dragons are familiar with such DSL. An example of such DSL is the following expression: ==2 D20 + 1 D6== which means that we should roll two 20-faces dices and one 6 faces die. 
+It is called an embedded DSL because the DSL uses the syntax of the language used to implement it. Here we use the Pharo syntax to implement the Dungeons \& Dragons rolling die language. 
 
+This little exercise shows how we can (1) simply reuse traditional operator such as ==\+==, (2) develop an embedded domain specific language and (3) use class extensions (the fact that we can define a method in another package than the one of the class of the method). In addition we do not give you all the solutions. If you are really stuck you can find them in the Chapter *@cha:solutions*.
 
 !!! Getting started
 
-Using the code browser, define a package named ==Dice== or any name your like.
-
+Using the code browser, define a package named ==Dice== or any name you like.
 
 !!!! Create a test 
-It is always empowering to verify that the code we write is always working as we defining it. For this purpose we will create a unit test. Remember unit testing was promoted by K. Beck first in the ancestor of Pharo. Nowadays this is a common practice but this is always useful to remember our roots!
+It is always empowering to verify that the code we write is always working as we defining it. For this purpose you shouldl create a unit test. Remember unit testing was promoted by K. Beck first in the ancestor of Pharo. Nowadays this is a common practice but this is always useful to remember our roots!
 
-So we define the class ==DieTest== as a subclass of ==TestCase==.
+Define the class ==DieTest== as a subclass of ==TestCase== as follows: 
 
 [[[
 TestCase subclass: #DieTest
@@ -37,13 +37,16 @@ If you execute the test, the system will prompt you to create a class ==Die==. D
 The class ==Die== inherits from ==Object== and it has an instance variable, ==faces== to represent the number of faces one instance will have. 
 
 [[[
-Your code here
+Object subclass:
+	...
+	Your code here
 ]]]
 
 In the ==initialization== protocol, define the method ==initialize== so that it simply sets the default number of faces to 6. 
 
 [[[
 Die >> initialize
+	...
 	Your code here
 ]]]
 
@@ -65,11 +68,12 @@ Therefore we define the method ==roll==:
 
 [[[
 Die >> roll
-    Your code here 
+	...
+	Your code here 
 ]]]
 
 Now we can create an instance ==Die new== and send it the message  ==roll== and get a result.
-Do ==Die new inspect== and then type in the bottom pane ==self roll==.
+Do ==Die new inspect== to get an inspector and then type in the bottom pane ==self roll==.
 You should get an inspector like the one shown in Figure *@figDiceNoDetail*. With it you can interact with a die by writing expression in the bottom pane.
 
 +Inspecting and interacting with a die.>file://figures/DiceNoDetail.png|width=60|label=figDiceNoDetail+
@@ -90,7 +94,14 @@ DieTest >> testRolling
 @@note Often it is better to define the test even before the code it tests. Why? Because you can think about the API of your objects and a scenario that illustrate their correct behavior. It helps you to program your solution.
 
 !!! Instance creation interface
-We would like to get a simpler way to create ==Die== instances. For example we want to create a 20-faces die as follows: ==Die withFaces: 20==. Let us define a test for it.
+We would like to get a simpler way to create ==Die== instances. For example we want to create a 20-faces die as follows: ==Die withFaces: 20== instead of always have to send the new message to the class as in ==Die new faces: 20==.
+Both expressions are creating the same die but one is shorter.
+
+Let us look at it: 
+- In the expression ==Die withFaces:==, the message ==withFaces:== is sent to the class ==Die==. It is not new, we constantly sent the message ==new== to ==Die== to created instances. 
+- Therefore we should define a method that will be executed 
+
+Let us define a test for it.
 
 [[[
 DieTest >> testCreationIsOk
@@ -98,8 +109,13 @@ DieTest >> testCreationIsOk
 ]]]
 
 What the test clearly shows is that we are sending a message to the ""class"" ==Die== itself.
-You should define the ''class'' method ==withFaces:== as follows. It creates an instance then send the message ==faces:== to it and returns the instance.
-Pay really attention that we have a class method ==withFaces:== sent to a class, and an instance method sent to the newly created instance ==faces:==. Note that the class method could have also named ==faces:==, it does not matter, it is executed when the receiver is the class ==Die==
+
+@@todo add a screenshot
+!!!! Defining a class method
+
+Define the ''class'' method ==withFaces:== as follows. 
+- Click on the class button in the browser to make sure that you are editing a class method as shown in Figure XX.
+- Define the method as follows: 
 
 [[[
 Die class >> withFaces: aNumber
@@ -110,7 +126,15 @@ Die class >> withFaces: aNumber
 	^ instance
 ]]]
 
-If you execute it will not work since we did not create yet the method ==faces:==.  This is now the time to define it.
+Let us explain this method
+- The method == withFaces:== creates an instance using the message ==new==. Since ==self== represents the receiver of the message and the receiver of the message is the class ==Die== itself then ==self== represents the class ==Die==. 
+- Then the method sends the message ==faces:== to the instance and 
+- Finally returns the newly created instance.
+
+Pay really attention that a class method ==withFaces:== is sent to a class, and an instance method sent to the newly created instance ==faces:==. Note that the class method could have also named ==faces:== or any name we want, it does not matter, it is executed when the receiver is the class ==Die==.
+
+
+If you execute it will not work since we did not create yet the method ==faces:==.  This is now the time to define it. Pay attention the method ==faces:== is sent to an instance of the class ==Die== and not the class itself. It is an instance method, therefore make sure that you deselected the class button before editing it.
 
 [[[
 Die >> faces: aNumber
@@ -119,8 +143,10 @@ Die >> faces: aNumber
 
 Now your tests should run. So even if the class ==Die== could implement more behavior, we are ready to implement a dice handle. 
 
+@@note A class method is a method executed in reaction to messages sent to a ''class''. It is defined on the class side of the class. In ==Die withFaces: 20==, the message ==withFaces:== is sent to the class ==Die==. In ==Die new faces: 20==, the message ==new== is sent to the ''class'' ==Die== and the message ==faces:== is sent to the ''instance'' returned by ==Die new==. 
+
 !!!! [Optional] Alternate instance creation definition
- In a first reading you can skip this discussion. The ''class'' method definition ==withFaces:== above is strictly equivalent to the one below.
+ In a first reading you can skip this section. The ''class'' method definition ==withFaces:== above is strictly equivalent to the one below.
 
 [[[
 Die class >> withFaces: aNumber
@@ -142,7 +168,7 @@ The use of ==;== sends the message to the receiver of the previous message (here
 
 !!! First specification of a dice handle
 Let us define a new class ==DiceHandle== that represents a dice handle. 
-Here is the API that we would like to offer for now. We create a new instance of the handle then add some dice to it.
+Here is the API that we would like to offer for now. We create a new handle then add some dice to it.
 
 [[[
 DiceHandle new 
@@ -174,7 +200,7 @@ DiceHandleTest >> testCreationAdding
 	self assert: handle diceNumber = 2.
 ]]]
 
-In fact we can do it better and we add a new test method that verifies that we can even add
+In fact we can do it better. Let us add a new test method to verify that we can even add
 two dice having the same number of faces. 
 
 [[[
@@ -195,7 +221,9 @@ Easy!
 The class ==DiceHandle== inherits from ==Object== and it defines one instance variable to hold the dice it contains. 
 
 [[[
-Your code here
+Object subclass: ...
+	...
+	Your code here
 ]]]
 
 We simply initialize it so that its instance variable ==dice== contains an instance of ==OrderedCollection==.
@@ -209,6 +237,7 @@ Then define a simple method ==addDie:== to add a die to the list of dice of the 
 
 [[[
 DiceHandle >> addDie: aDie 
+	...
 	Your code here
 ]]]
 
@@ -263,10 +292,11 @@ Now in your inspector you can see effectively the number of faces a dice handle 
 Now we can define the rolling of a dice handle by simply summing result of rolling each of its dice. 
 Implement the ==roll== method of the ==DiceHandle== class. This method must collect the results of rolling each dice of the handle and sum them.
 
-@@note You may want to have a look at the method ==sum== in the class ==Collection== or use a simple loop. 
+You may want to have a look at the method ==sum== in the class ==Collection== or use a simple loop. 
 
 [[[
 DiceHandle >> roll
+	...
 	Your code here
 ]]]
 
@@ -284,6 +314,7 @@ Define a test to cover such behavior. Rolling an handle of n dice should be betw
 
 [[[
 DiceHandleTest >> testRoll
+	...
 	Your code here
 ]]]
 
@@ -301,13 +332,14 @@ DiceHandleTest >> testSimpleHandle
 	self assert: 2 D20 diceNumber = 2.
 ]]]
 
-Verify that the test is not working! It is much more satisfactory to get a test running when it was not working before. Now define the method ==D20== with a protocol named =='\*Dice==' (if you named your package 'Dice'). 
- The ==\*== (star) prefixing the protocol name indicates that the protocol belongs to another package. You can define this method either from the debugger resulting from the execution of the failed test or in the code browser.
+Verify that the test is not working! It is much more satisfactory to get a test running when it was not working before. Now define the method ==D20== with a protocol named ==\*NameOfYourPackage== (=='\*Dice==' if you named your package =='Dice'==).
+The ==\*== (star) prefixing a protocol name indicates that the protocol and its methods belong to another package than the package of the class. Here we want to say that while the method ==D20== is defined in the class ==Integer==, it should be saved with the package ==Dice==. 
  
 The method ==D20== simply creates a new dice handle, adds the correct number of dice to this handle, and returns the handle.
 
 [[[
 Integer >> D20
+	...
 	Your code here
 ]]]
 
@@ -326,30 +358,27 @@ Make sure that all the new methods are placed in the protocol =='*Dice'==. To ve
 
 [[[
 Integer >> D: anInteger
+	...
 	Your code here
 ]]]
 
 [[[
 Integer >> D4
-	
 	^ self D: 4
 ]]]
 
 [[[
 Integer >> D6
-	
 	^ self D: 6
 ]]]
 
 [[[
 Integer >> D10
-	
 	^ self D: 10
 ]]]
 
 [[[
 Integer >> D20
-	
 	^ self D: 20
 ]]]
 
@@ -373,6 +402,7 @@ The method ==\+== creates a new handle then add to it the dice of the receiver a
 
 [[[
 DiceHandle >> + aDiceHandle
+	...
 	Your code here 
 ]]]
 
@@ -385,7 +415,7 @@ Now we can execute the method ==(2 D20 + 1 D6) roll== nicely and start playing r
 !!! Conclusion
 
 This chapter illustrates how to create a small DSL based on the definition of some domain classes (here ==Dice== and  
- ==DiceHandle==) and the extension of core class such ==Integer==.
-It shows that in Pharo we can use usual operators to express natural models.
+ ==DiceHandle==) and the extension of core class such as ==Integer==. It also shows that we can create packages with all the methods that are needed even when such methods are defined on classes external (here ==Integer==) to the package.  
+It shows that in Pharo we can use usual operators such as ==+== to express natural models.
 
 
