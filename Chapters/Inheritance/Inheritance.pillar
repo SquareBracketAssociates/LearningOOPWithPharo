@@ -2,11 +2,11 @@
 
 In Chapter *@cha:objectclass*, we presented objects and classes. Objects are entities that communicate exclusively by sending and receiving messages. Objects are described by classes that are factories of objects. Classes define behavior and structure of all their instances: All the instances of a class share the same behavior but have their own private state. 
 
-In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a programmer we do not want to rewrite from scratch a functionality if another class already offers it. A programm specialises the implemented behavior into the new behavior he wants. Inheritance lets us express this concept specialisation.  Using inheritance we create tree of concepts the more precise ones refining more abstract and generic ones. 
+In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a programmer we do not want to rewrite from scratch a functionality if another class already offers it. A programm specialises the implemented behavior into the new behavior he wants. Inheritance lets us express this concept specialisation.  Using inheritance we create trees of concepts where more precise ones refine more abstract and generic ones. 
 
-Inheritance is based on dynamic method lookup: a method is looked up dynamically within the inheritance tree starting from the class of the receiver. Once this explained we will show that it is possible to get code a subclass invoked in place of the one of a superclass. 
+Inheritance is based on dynamic method lookup: a method is looked up dynamically within the inheritance tree starting from the class of the receiver. Once this explained we will show that it is possible to get code of a subclass invoked in place of the one of a superclass. 
 
-To illustrate the important points we revisit the example of Chapter *@cha:objectclass*. 
+To illustrate the important points of inheritance, we revisit the example of Chapter *@cha:objectclass*. 
 
 
 !!! Inheritance
@@ -19,24 +19,24 @@ Inheritance supports code reuse because instance variable and methods defined in
 
 +Two classes understanding similar sets of messages and structuring their instances in a similar.>file://figures/FileDirectoryV1.pdf|width=60|label=FileDirectoryV1+
 
-We will use a really simple and naive example to illustrate the key aspects of inheritance. This is a rather simple but enough to show the key properties of inheritance that we want to illustrate: 
+We will use and extend the simple and naive example of files and directories (seen in Chapter *@cha:objectclass*) to illustrate the key aspects of inheritance. While simple, it is enough to show the key properties of inheritance that we want to illustrate: 
 
 - ''incremental definition'': a subclass is defined by expressing the difference to its superclass. A subclass specialises its superclass behavior.
 - ''state reuse'': instances of a subclass have at least the state structure of the superclass.
 - ''behavior reuse'': upon message reception instances,  when the class of the receiver does not define a method, methods of the superclasses are executed instead.
 - ''behavior redefinition (overriding)'': a subclass may change locally a method definition inherited from its superclass.
 - ''behavior extension'': a subclass often extends the behavior of one of its superclasses by defining new methods and state.
-- ''subclass behavior can be invoked instead of superclass behavior'': behavior defined a subclass may be executed in place of the one of a superclass. It means that with behavior overriding subclass behavior can be invoked in place of superclass behavior. This is a really important feature of inheritance.
+- ''subclass behavior can be invoked instead of superclass behavior'': behavior defined in a subclass may be executed in place of the one of a superclass. It means that with behavior overriding subclass behavior can be invoked in place of superclass behavior. This is a really important feature of inheritance.
 
 
 
-!!! Improving files/directories example designafa
+!!! Improving files/directories example design
 
 Let us go back to the example of files and directories introduced in previous chapter. 
 When we look at the situation depicted by Figure *@FileDirectoryV1* we see that a file is not the same as a directory, even though they share some common state: both have a name and a parent. In addtion, they understand some common messages such as ==size==, ==search:==, ==parent:== and ==name:==. Remember that ==size== and ==search:== were not implemented the same way but the messages have indeed the same name. 
 
 
-Load the code so that you can get the tests that we asked you to define.
+Load the code so that you can get the tests that we asked you to define at the end of chapter *@cha:objectclass*.
 
 [[[
 Gofer new
@@ -65,12 +65,12 @@ Object subclass: #MFElement
 ]]]
 
 As you may noticed it, this is class is empty. Now we have two possible strategies: 
-- either we make ==MFFile== and ==MFDirectory== inherit from ==MFElement== and  step by step we migrate the common state and behavior to the superclass.
+- either we make ==MFFile== and ==MFDirectory== inherit from ==MFElement== and  step by step we migrate the common state and behavior to the superclass,
 - or we define new state and behavior in ==MFElement== and we remove it  from the two classes and when ready we make them inherit from ==MFElement==. 
 
 The second approach may work but it is too risky. Indeed with the first approach we can get a running system after any step we perform: why? Because we first inherit from the new class and move element from the subclasses to the classes and doing so we automatically reuse the superclass behavior and state so our program externally (for example from the test perspective) is not changed. With such an approach we can run our tests after any change and control our enhancements.
 
-In addition, some of the operations such as moving an instance variable from a class to its superclass are tedious to perform. Here we will perform one manually but the second we will use ''refactorings'' -- refactorings are program transformations that keep the behavior of the program the same.
+In addition, some of the operations such as moving an instance variable from a class to its superclass are tedious to perform. Here we will perform one operation manually but for the rest of the changes we will use ''refactorings'' -- refactorings are program transformations that keep the behavior of the program the same.
 
 Let us get started.
 
@@ -131,7 +131,7 @@ What the tests execution proves is that we did not change the structure of the i
 !!!! Moving parent to the superclass
 
 Since parent is defined in both subclasses, we can do the same for the instance variable parent to obtain the situation shown in Figure *@FileDirectoryInhFullStateOnly*.
-You can do it manually as we did for the instance variable ==name== but you can use a ''refactoring'': Refactorings are powerful program transformation. Bring the menu on the class ==MFFile== select refactoring and select the instance variable category and finally pull up as shown in Figure *@Refactoring*. 
+You can do it manually as we did for the instance variable ==name== but you can use a ''refactoring'': Refactorings are powerful program transformation. Using the system browser, bring the menu on the class ==MFFile== select refactoring and select the instance variable category and finally pull up as shown in Figure *@Refactoring*. 
 
 +Applying the Pull Up Instance variable refactoring.>file://figures/Refactoring.png|width=60|label=Refactoring+
 
@@ -203,7 +203,7 @@ But before explaining this, method lookup and execution are systematically appli
 
 !!! self-send messages and lookup create hooks
 
-So far we explained how a message is revolved: first the corresponding method is looked up from the class of the receiver and goes up the inheritance tree. Second, the found method is executed on the message receiver. It means that in response to a message, a superclass method may be executed on its subclass instances. This is the same for message sent to ==self== (the receiver of the message), we invoke the method lookup and ==self== may be one subclass instances.
+So far we explained how a message is resolved: first the corresponding method is looked up from the class of the receiver and goes up the inheritance tree. Second, the found method is executed on the message receiver. It means that in response to a message, a superclass method may be executed on its subclass instances. This is the same for message sent to ==self== (the receiver of the message), we invoke the method lookup and ==self== may be one subclass instances.
 
 There is an important implication: when we have a message sent to ==self== in a method, this message may lead to the execution of a method defined in subclasses: because a subclass may override such method. This is why self-sends are also called ''hooks'' methods. We will explain carefully this point. 
 
@@ -240,7 +240,7 @@ We define the method ==kind== to return a default string, even though we do not 
 to create instances of this class and subclasses should define their own definition.
 
 [[[
-MFFile >> kind
+MFElement >> kind
 	^ 'element'
 ]]]
 
@@ -259,7 +259,9 @@ MFFile >> kind
 Now we are ready to explain what is happening. Let us illustrate the execution of the ==(MFFile new name: 'astroboy') describe==.
 
 [[[
-(MFFile new name: 'astroboy') describe
+| el1 |
+el1 := (MFFile new name: 'astroboy').
+el1 describe
 >>> 'I m a file named astroboy'
 ]]]
 
@@ -290,7 +292,7 @@ This example illustrates the following important points:
 Now we take some time to look abstractly at what we presented so far. 
 Imagine a situation as illustrated by Figure *@fig:LookupWithSelfInSuperclassMethod*.
 
-The first simple questions are simple and should be not a problem for you. Without looking at the solutions guess what are the results of the following messages.
+The first questions are simple and should be not a problem for you. Without looking at the solutions guess what are the results of the following messages.
 
 [[[
 A new foo
@@ -342,8 +344,9 @@ The most interesting one is ==B new bar==.  Let us look at the execution of ==aB
 
 !!! Instance variables vs. messages
 
-Reading the previous section you should now understand that there is in fact a difference between accessing directly an instance variable such as ==name== in the method below and using an accessor as illustrated in the following redefinition. When you use an accessor, subclasses may redefine the behavior of the accessors. 
-Note, however, that such practice is not common.
+Reading the previous section you should now understand that there is in fact a difference between accessing directly an instance variable such as ==name== in the method below and using an accessor as illustrated in the next redefinition. 
+
+The two following method definitions are doing the same but have different extensibility potential.
 
 [[[
 MFElement >> describe
@@ -355,23 +358,24 @@ MFElement >> describe
 	^ 'I m a ', self kind, 'named ', self name  
 ]]]
 
+When you use an accessor, subclasses may redefine the behavior of the accessors.
+
 [[[
 MFElement >> name
-	^ self name
+	^ name
 ]]]
 
 There is no systematic rule that states that we should systematically use accessors instead of instance variable access. 
 
+What is important when you decide to use an accessor is to use it consistently. Indeed 
+if some parts use direct instance variable access and other parts use accessors, then a programmer extending your code may redefine the accessors in a subclass and his code may not be invoked (for example if you left places where you directly access an instance variable).
 
-What is important is that if you decide to use an accessor is to use it consistently, else another programmer looking at your code
-may redefine the accessors in a subclass and his code may not be invoked (for example if you left places where you directly access an instance variable).
-So when you decide to use in your class an accessor it is also better that you do so for all the instance variables of the class.
-Else we may wonder why and uniformity makes the code more understandable.
+In addition when you decide to use in your class an accessor it is also better that you do so for all the instance variables of the class. Else we may wonder why and uniformity makes the code more understandable.
 
 
 !!! Conclusion
 
-We presented the concept of inheritance: a subclass is defined as a refinement of a superclass. It reuses the superclass behavior and may extend the structure its instances will have. We show that method lookup happens dynamically and walks the inheritance chain starting from the receiver class.
+We presented the concept of inheritance: a subclass is defined as a refinement of a superclass. It reuses the superclass behavior and may extend the structure its instances will have. We show that method lookup happens dynamically and walks the inheritance tree starting from the receiver class.
 We show that self-sends are creating hooks in the sense that subclass methods may be executed in place of the superclass counterpart. 
 
 In the following chapter we will see that we can reuse even more methods between all the superclass and its subclasses.
