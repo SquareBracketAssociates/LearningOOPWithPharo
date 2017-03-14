@@ -15,6 +15,7 @@ CHAPTERS = \
 	Chapters/JoeTheBox/JoeTheBox \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
 	Chapters/Inheritance/Inheritance \
+	Chapters/Inheritance/Extending \
 	Chapters/SyntaxGlimpse/SyntaxGlimpse \
 	Chapters/Expressions/Expressions \
 	Chapters/SimpleLAN/SimpleLANDefinition \

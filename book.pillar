@@ -38,6 +38,8 @@ for this we should do the Turtle
 
 ${inputFile:Chapters/Inheritance/Inheritance.pillar}$
 
+${inputFile:Chapters/Inheritance/Extending.pillar}$
+
 ${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
 
 ! Little Projects
