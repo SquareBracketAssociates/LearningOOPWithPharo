@@ -1,4 +1,3 @@
-
 !! Extending superclass behavior
 In the previous chapter we saw that inheritance allows the programmer to factor out and reuse state and behavior. As such inheritance supports the definition of class hierarchy where subclasses specialize behavior of their superclass. We saw that the method look up starts in the class of the receiver and goes up the inheritance chain. We explained that the method found by the lookup is then executed on the receiver of the initial message.
 Finally we showed that a subclass can specialize and override the behavior of its superclass by defining locally a method with the same name than one method of its superclass. 
@@ -17,8 +16,8 @@ we see that there is code repetition (as shown in Figure *@fig:FileDirectorySupe
 Here is the repeated code snippet.
 
 [[[
-parent isNil ifFalse: [ 
-	parent printOn: aStream ].
+parent isNil 
+	ifFalse: [ parent printOn: aStream ].
 aStream << name
 ]]]
 
@@ -34,8 +33,8 @@ MFDirectory >> printOn: aStream
 
 [[[
 MFFile >> printOn: aStream
-	parent isNil ifFalse: [ 
-		parent printOn: aStream ].
+	parent isNil 
+		ifFalse: [ parent printOn: aStream ].
 	aStream << name
 ]]]
 
@@ -47,8 +46,8 @@ To improve the situation above we move up the definition of the ==MFFile== class
 
 [[[
 MFElement >> printOn: aStream
-	parent isNil ifFalse: [ 
-		parent printOn: aStream ].
+	parent isNil 
+		ifFalse: [ parent printOn: aStream ].
 	aStream << name
 ]]]
 
@@ -57,8 +56,8 @@ MFElement >> printOn: aStream
 
 [[[
 MFDirectory >> printOn: aStream
-	parent isNil ifFalse: [ 
-		parent printOn: aStream ].
+	parent isNil 
+		ifFalse: [ parent printOn: aStream ].
 	aStream << name.
 	aStream << '/'
 ]]]
@@ -77,14 +76,25 @@ MFDirectory >> printOn: aStream
 	aStream << '/'
 ]]]
 
-Let us make sure that you are fully with us.
+Let us make sure that you are fully with us. Imagine that we have the following expression: 
 
-# We get the message ==dOldComics printOn: s==.
-# The method ==printOn:== is looked up starting in the class of ==dOldComics==, i.e., ==MDDirectory==.
-# The method is found and applied on ==dOldComics==.
+[[[
+| p el1 el2 |
+p := MFDirectory new name: 'comics'.
+el1 := MFFile new name: 'babar'; contents: 'Babar et Celeste'.
+p addElement: el1.
+el2 := MFFile new name: 'astroboy'; contents: 'super cool robot'.
+p addElement: el2.
+String streamContents: [:s | p printOn: s ]
+]]]
+
+
+# We get the message ==p printOn: s==.
+# The method ==printOn:== is looked up starting in the class of ==p==, i.e., ==MFDirectory==.
+# The method is found and applied on ==p==.
 # The message ==self printOn: aStream==  is about to be executed.
-# The receiver is ==self== and represents ==dOldComics==. The method ==printOn: aStream== is lookup in the class of the receiver,  i.e., ==MDDirectory==.
-# The same method is found in the class ==MDDirectory== and the process restarts at point 3.
+# The receiver is ==self== and represents ==p==. The method ==printOn: aStream== is lookup in the class of the receiver,  i.e., ==MFDirectory==.
+# The same method is found in the class ==MFDirectory== and the process restarts at point 3.
 
 
 
@@ -108,32 +118,43 @@ What we see is that the method ==printOn:== does not contain anymore the duplica
 
 - The method ==MFDirectory >> printOn:== overrides the method ==MFElement==: it means that during the lookup (activated because the message ==printOn:== has been sent to instances of ==MFDirectory== or future subclasses), the method ==MFElement >> printOn:== cannot be directly found. Indeed when a message is sent to an object, the corresponding method starts in the class of the receiver, therefore the method in ==MFDirectory== is found.
 
-- Using the special variable ==super==, the method lookup. When the expression ==super printOn: aStream== is sent, the lookup does not start anymore from the class of the receiver, it starts from the superclass of the class containing the expression ==super printOn:==, i.e. ==MFElement==, therefore the method of the superclass is found and executed. 
+- Using the special variable ==super==, the method lookup is different than with ==self==. When the expression ==super printOn: aStream== is sent, the lookup does not start anymore from the class of the receiver, it starts ''from the superclass of the class containing the expression'' ==super printOn:==, i.e. ==MFElement==, therefore the method of the superclass is found and executed. 
 
 - Finally, ==super== like ==self== represents the receiver of the messages (for example an instance of the class ==MFDirectory==). Therefore the method is found in the class ==MFDirectory== and executed on the original object that first received the message.
 
-Let us make sure that you are fully with us. You can compare with the previous execution simulation with same method but using ==self== above.
+Let us make sure that you are fully with us. You can compare with the previous execution simulation.
 
-# We get the message ==dOldComics printOn: s==.
-# The method ==printOn:== is lookup starting in the class of ==dOldComics==, i.e., ==MDDirectory==.
-# The method is found and applied on ==dOldComics==.
+[[[
+| p el1 el2 |
+p := MFDirectory new name: 'comics'.
+el1 := MFFile new name: 'babar'; contents: 'Babar et Celeste'.
+p addElement: el1.
+el2 := MFFile new name: 'astroboy'; contents: 'super cool robot'.
+p addElement: el2.
+String streamContents: [:s | p printOn: s ]
+]]]
+
+# We get the message ==p printOn: s==.
+# The method ==printOn:== is lookup starting in the class of ==p==, i.e., ==MFDirectory==.
+# The method is found and applied on ==p==.
 # The message ==super printOn: aStream==  is about to be executed.
-# The receiver is ==super== and represents ==dOldComics==. The method ==printOn: aStream== is lookup in the superclass of the class containing the expression. The class containing the method is ==MDDirectory==, its superclass is then ==MDElement==. The lookup starts from ==MDElement==.
-# The method is found in ==MDElement== in the class.
-# The message ==parent isNil== is treated on the receiver ==dOldComics==.
+# The receiver is ==super== and represents ==p==. The method ==printOn: aStream== is lookup in the superclass of the class containing the expression. The class containing the method is ==MFDirectory==, its superclass is then ==MFElement==. The lookup starts from ==MFElement==.
+# The method is found in the class ==MFElement== in the class.
+# The message ==parent isNil== is treated on the receiver ==p==.
 
-What we see is that using ==super==, the programmer can extend the superclass behavior and reuse by invoing it.
+What we see is that using ==super==, the programmer can extend the superclass behavior and reuse by involving it.
 
 @@note ==super== is the receiver of the message but when we send a message to ==super== the method lookup starts in the superclass of ""the class containing"" the expression ==super==.
 
 
 
 !!! Another example
-Before explaining with a more theoritical scenario super semantics, we want to show another example that illustrates that super expressions do not have to be the first expression of a method. We can invoke the overridden method at any place inside the overriding method.
+Before explaining with a more theoritical scenario ''super'' semantics, we want to show another example that illustrates that super expressions do not have to be the first expression of a method. We can invoke the overridden method at any place inside the overriding method.
 
-The example could be more realistic but it shows what 
-When we look at the definition of the two methods ==size== in ==MFDirectory== and ==MFFile==, we see that 
-==name size== is used in both. 
+The example could be more realistic but it shows that super expression does not have to have 
+to be the first expression of a method. 
+
+Let us check the two definitions of the two methods ==size== in ==MFDirectory== and ==MFFile==, we see that ==name size== is used in both.
 
 [[[
 MFDirectory >> size
@@ -150,10 +171,9 @@ MFFile >> size
 	^ contents size + name size
 ]]]
 
-
 +Using ==super== to invoke the overridden method ==size==.>file://figures/FileDirectorySuperV3.pdf|width=65|label=fig:FileDirectorySuperV3+
 
-What we can do is the following: define ==size== in the superclass and invoke it using ==super== as shown in Figure *@fig:FileDirectorySuperV3*. Here is what we get.
+What we can do is the following: define ==size== in the superclass and invoke it using ==super== as shown in Figure *@fig:FileDirectorySuperV3*. Here is then the resulting situation.
 
 [[[
 MFElement >> size
