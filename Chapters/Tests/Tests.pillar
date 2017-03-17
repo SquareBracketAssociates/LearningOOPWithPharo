@@ -7,7 +7,7 @@ We then present a series of small examples showing how to use SUnit.
 !!! What is a test?
 
 A test is a context, a stimulus and an assertion (verification that we get the correct state).
-Here is an example on sets. Remember sets are mathematical element having only one occurrence of their elements.
+Here is an example on sets. Remember that sets are mathematical element having only one occurrence of their elements.
 
 First we test that adding an element changes the size of the set.
 - ""Context:"" we take an empty set.
@@ -34,7 +34,7 @@ TestCase subclass: #MyExampleSetTest
 	package: 'MySetTest'
 ]]]
 
-Now we can define one test expression as a method. There is one constraint the method selector should start with ==test==.
+Now we can define one test expression as a method. There is one constraint: the method selector should start with ==test==.
 [[[
 MyExampleSetTest >> testAddTwice
 	| s |
@@ -62,7 +62,7 @@ productive and fun, rather than a chore that programmers dislike.
 
  The Pharo community has a long tradition of testing because of the incremental style of
 development supported by its programming environment. In traditional Pharo
-development, a programmer write tests in a playground as soon as a method
+development, a programmer writes tests in a playground as soon as a method
 was finished. Sometimes a test would be incorporated as a comment at the head of
 the method that it exercised, or tests that needed some set up would be included
 as example methods in the class. The problem with these practices is that tests
@@ -256,8 +256,8 @@ button.
 You can also run a single test (and print the usual pass/fail result summary) by executing a
 ''Print it'' on the following code: ==MyExampleSetTest run: #testRemove==.
 
-Some people include an executable comment in their test methods that allows
-running a test method with a ''Do it'' from the browser, as shown below.
+Some people include an executable comment in their test methods as in ==testRemove== below. For example the contents of the comment ==self run: #testRemove== can be executed: select the expression inside the comment (but not the comment) and bring the menu to do a ''Do it''.
+It will execute the test. 
 
 [[[
 MyExampleSetTest >> testRemove
@@ -297,13 +297,13 @@ MyExampleSetTest debug: #testRemove
 
 The method ==assert:== is defined in the class ==TestAsserter==. This is a superclass
 of ==TestCase== and therefore all other ==TestCase== subclasses and is responsible for
-all kind of test result assertions.
+all kinds of test result assertions.
 The ==assert:== method expects a boolean argument, usually the value of a tested expression. When the
 argument is true, the test passes; when the argument is false, the test fails.
 
 There are actually three possible outcomes of a test: ''passing'', ''failing'', and ''raising an error''.
 
-- ""Passing"". The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes. In the test runner, when all of the tests pass, the bar at the top turns green. ss
+- ""Passing"". The outcome that we hope for is that all of the assertions in the test are true, in which case the test passes. In the test runner, when all of the tests pass, the bar at the top turns green. 
 - ""Failing"". The obvious way is that one of the assertions can be false, causing the test to ''fail''.
 - ""Error"". The other possibility is that some kind of error occurs during the execution of the test, such as a ''message not understood'' error or an ''index out of bounds'' error. If an error occurs, the assertions in the test method may not have been executed at all, so we can't say that the test has failed; nevertheless, something is clearly wrong!
 
@@ -322,8 +322,8 @@ GUI to run tests, but there are situations where you may not want to use it.
 
 !!!! About assert:equals:
 
-Note that we either used ==assert: aBoolean== and ==assert:equals: aValue==. The second one provides nicer 
-feedback when the assertion fails. The two following lines that equals. 
+Note that we either used both ==assert: aBoolean== and ==assert: expression equals: aValue==. The second one provides nicer 
+feedback when the assertion fails. The two following lines are equals. 
 
 [[[
 self assert: (empty occurrencesOf: 0) equals: 0.
@@ -352,6 +352,7 @@ method below illustrates the use of ==should:raise:==.
 
 [[[
 MyExampleSetTest >> testIllegal
+	| empty |
 	self should: [ empty at: 5 ] raise: Error.
 	self should: [ empty at: 5 put: #zork ] raise: Error
 ]]]
