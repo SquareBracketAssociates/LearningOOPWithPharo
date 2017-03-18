@@ -244,7 +244,7 @@ is always a good process.
 
 !!! Better object description
 
-When you open an inspect (putting a ==self halt== inside a method definition) you obtain an inspector or when you select the expression ==Counter new== and print its result (using the Print it menu of the editor) you obtain a simple string =='a Counter'==.
+When you select the expression ==Counter new== and print its result (using the Print it menu of the editor) you obtain a simple string =='a Counter'==.
 
 [[[
 Counter new
