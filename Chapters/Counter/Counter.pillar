@@ -27,18 +27,18 @@ In this part, you will create your first class. In Pharo, a class is defined in 
 
 
 !!!! Create a package
-Using the Browser create a package. The system will ask you a name, write ==Counter==. This new package is then created and added to the list. Figure *@figpackageCreated* shows the result of creating such a package.
+Using the Browser create a package. The system will ask you a name, write ==MyCounter==. This new package is then created and added to the list. Figure *@figpackageCreated* shows the result of creating such a package.
 
 !!!! Create a class
-Creating a class requires five steps. They consist basically in editing the class definition template to specify the class you want to create.
+Creating a class requires four steps. They consist basically in editing the class definition template to specify the class you want to create.
 
--  Superclass Specification. First, you should replace the word ==NameOfSuperclass== with the word ==Object==. Thus, you specify the superclass of the class you are creating. Note that this is not always the case that ==Object== is the superclass, since you may to inherit behavior from a class specializing already ==Object==.
+- By default, the system helps you to define a subclass of the class ==Object==. This is why it is written ==Object subclass: #NameOfSubclass==.
 
-- Class Name. Next, you should fill in the name of your class by replacing the word ==NameOfClass== with the word ==Counter==. Take care that the name of the class starts with a capital letter and that you do not remove the \#sign in front of ==NameOfClass==. This is because the class we want to create does not exist yet, so we have to give its name, and we use a Symbol (a unique string in Pharo) to do so. 
+- ""Class Name."" You should fill in the name of your class by replacing the word ==NameOfSubclass== with the word ==Counter==. Take care that the name of the class starts with a capital letter and that you do not remove the \#sign in front of ==NameOfClass==. This is because the class we want to create does not exist yet, so we have to give its name, and we use a Symbol (a unique string in Pharo) to do so. 
 
-- Instance Variable Specification. Then, you should fill in the names of the instance variables of this class. We need one instance variable called ==count==. Take care that you leave the string quotes!
+- ""Instance variable definition."" Then, you should fill in the names of the instance variables of this class. We need one instance variable called ==count==. Take care that you leave the string quotes!
 
-- Class Variable Specification. As we do not need any class variable make sure that the argument  for the class instance variables is an empty string ==classInstanceVariableNames: '\'==.
+- ""Class variable definition"". As we do not need any class variable make sure that the argument  for the class instance variables is an empty string ==classInstanceVariableNames: '\'==.
 
 You should get the following class definition.
 
@@ -78,13 +78,15 @@ The class we have defined has one instance variable named ==count==. You should 
 
 Therefore, there is no other mechanism to access the instance variable values from outside an object than sending a message to the object. What you can do is to define messages that return the value of the instance variable. Such methods are called ''accessors'', and it is a common practice to always define and use them. We start to create an accessor method for our instance variable ==count==.
 
-A method is usually sorted into a protocol. These protocols are just a group of methods without any language semantics, but convey important navigation information for the reader of your class. Although protocols can have any name, Pharo programmers follow certain conventions for naming these protocols. If you define a method and are not sure what protocol it should be in, first go through existing code and try to find a fitting name.
+A method is usually sorted into a protocol. These protocols are just a group of methods without any language semantics, but convey important navigation information for the reader of your class. You get protocol named: =='testing'== for method performing tests, =='printing'== for methods displaying the object, =='accessing'== for simple accessor methods and so on. 
+
+Although protocols can have any name, Pharo programmers follow certain conventions for naming these protocols. But don't be stressed if you do not name well your protocols. 
 
 !!!! Create a method
 
 Now let us create the accessor methods for the instance variable ==count==. Start by selecting the class ==Counter== in a browser, and make sure the you are editing the instance side of the class (i.e., we define methods that will be sent to instances) by deselecting the Class side radio button.
 
-Create a new protocol by bringing the menu of methods protocol list. Select the newly created protocol. Then in the bottom pane, the edit field displays a method template laying out the default structure of a method. As a general hint, double click at the end of or beginning of the text and start typing your method.
+Create a new protocol by bringing the menu of methods protocol list: click on the third list from the left. Select the newly created protocol. Then in the bottom pane, the edit field displays a method template laying out the default structure of a method. As a general hint, double click at the end of or beginning of the text and start typing your method.
 Replace the template with the following method definition:
 
 [[[
@@ -129,7 +131,7 @@ To define a test case we will define a class that inherits from ==TestCase==. Th
 TestCase subclass: #CounterTest
    instanceVariableNames: ''
    classVariableNames: ''
-   package: 'Counter'
+   package: 'MyCounter'
 ]]]
 
 Now we can write a first test by defining one method. Test methods should start with ''text'' to be automatically executed by the TestRunner or when you press on the icon of the method. Now to make sure that you understand in which class we define the method we prefix the method body with the class name and ==>>==.
@@ -161,24 +163,24 @@ Several ways to save your work exist.
 - ''Using a version control system''. It is better to use a version control system. In Pharo you can use Monticello and Git (even if it is more for advanced users).
 
 
-In this tutorial we explain the simplest way to get you done. Note that the complete set of Pharo packages is managed via Monticello (which is a distributed versioning control system - there is are chapters in ""Pharo by Example"" and ""Deep into Pharo"" books *http://books.pharo.org*).
+In this chapter, we explain the simplest way to get you done. Note that the complete set of Pharo packages is managed via Monticello (which is a distributed versioning control system - there is are chapters in ""Pharo by Example"" and ""Deep into Pharo"" books *http://books.pharo.org*).
 
 Use the ""Monticello Browser"" (available in Tools) to save your work. You can save a package locally on your harddisc or on a remote server on the web such *http://www.smalltalkhub.com*
 
 !!!! Saving using Monticello
 
 Using Monticello you can save your work:
-- ''Locally''. You can store your packages in a folder on your disc (use directory as a kind of repository).
+- ''Locally''. You can store your packages in a folder on your disc (use directory as a kind of repository below).
 - ''Remotely''. Using an account on a free server such *http://www.smalltalkhub.com/*. You can save your work and share it with others.
 Note each time you load or save a package, this package is also be stored on the folder named 'package-cache' on your hard-disc.
 
 
-!!!!! Add a repository.
+!!!!! Step 1: Add a repository
 Go to *http://www.smalltalkhub.com/* and create a member account then register a new project. You get an HTTP entry that refers to your project. Define a new HTTP repository using the Monticello Browser as shown by Figures *@figSelectingARepo* and *@figAddingARepo*.
 
 Figure *@figSelectingARepo* shows that you package is dirty: this is indicated with the little '*' in front of the packages. 
 
-Example. We are saving our examples into a special team named PharoMooc in the the Counter project so the template is the following one 
+""Example."" As authors we  are saving the examples for this chapter as a special team named PharoMooc in the the Counter project so our information is the following:  
 
 [[[
 MCHttpRepository
@@ -187,7 +189,7 @@ MCHttpRepository
 	password: ''
 ]]]
 
-So the template is the following: 
+Now for you, you should adapt the following template to use your own information: 
 
 [[[
 MCHttpRepository
