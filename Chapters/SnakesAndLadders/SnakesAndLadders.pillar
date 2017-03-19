@@ -2,112 +2,133 @@
 @cha:started
 
 
-Snakes and Ladders is a rather simple game suitable for teaching children how to apply rules. It is dull for adults because there is absolutely no strategy involved, but this makes it easy to implement! *http://en.wikipedia.org/wiki/Snakes_and_ladders*
-In this chapter you will implement SnakesAndLadders and we will use it as a pretext to explore design questions.
+Snakes and Ladders is a rather simple game suitable for teaching children how to apply rules (*http://en.wikipedia.org/wiki/Snakes_and_ladders*). It is dull for adults because there is absolutely no strategy involved, but this makes it easy to implement! 
+In this chapter you will implement SnakesAndLadders and we use it as a pretext to explore design questions.
 
-
-+Snakes and Ladders.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
++Snakes and Ladders: one possible board game with two ladders and one snake.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
 
 
 !!! Game Rules
 Snakes and Ladders originated in India as part of a family of dice games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
+Here is a little description of the rules: 
+- ""Players:"" Snakes and Ladders is played by two to four players, each with her/his own token to move around the board.
+- ""Moving Player"": a player rolls a die, then moves the designated number of tiles, between one and six. Once he lands on a tile, she/he has to perform any action designated by the tile. (Since the rules are fuzy we decided that we can have multiple players in the same tile).
+- ""Ladders:"" If the tile a player lands on is at the bottom of a ladder, she/he should climb the ladder, which brings him to a space higher on the board.
+- ""Snakes:"" If the tile a player lands on is at the top of a snake, she/he must slide down to the bottom of it, landing on a tile closer to the beginning.
+- ""Winning:"" the winner is the player who gets to the last tile first, whether by landing on it from a roll, or by reaching it with a ladder. We  decided that when the player does not land directly on the last tile, it does not move.
 
-- Players Snakes and Ladders is played by two to four players, each with her own token to move around the Game.
-- ""Moving Player"": he rolls a die, then moves the designated number of spaces, between one and six. Once they land on a tile, they have to perform any action designated by the tile. We decided that we can have multiple players in the same tile.
-- ""Ladders:"" If the space a player lands on is at the bottom of a ladder, he should climb the ladder, which brings him to a space higher on the Game.
-- ""Snakes:"" If the space a player lands on is at the top of a snake, she must slide down to the bottom of it, landing on a space closer to the beginning.
-- Winning the winner is the player who gets to the last space on the Game first, whether by landing on it from a roll, or by reaching it with a ladder.
+!!! Game possible run
+The following snippet is a possible way to program this game. We take as a board configuration the one depicted in Figure *fig:snakes*. It defines that our board game is composed of 12 tiles and have two ladders and one snake. Then two players are added. 
+And the game starts. 
 
+[[[
+| jill jack game |
+game := SLGame new tileNumber: 12.
+game 
+	setLadderFrom: 2 to: 6;
+	setLadderFrom: 7 to: 9;
+	setSnakeFrom: 11 to: 5.
+game 
+	addPlayer: (SLPlayer new name: 'Jill');
+	addPlayer: (SLPlayer new name: 'Jack'). 
+game play
+]]]
 
+You will develop a textual version of the game since we want to focus on the game logic 
+and avoid lengthly UI descriptions. 
+
+The following is a possible game execution: two players are on the first tile. 
+We see that the board displays the two ladders and one snake. 
+Then starting from Jill they drew and roll a dice and go to the corresponding tile and follow its effect.
+[[[
+[1<Jill><Jack>][2->6][3][4][5][6][7->9][8][9][10][5<-11][12]
+<Jill>drew 3: [1<Jack>][2->6][3][4<Jill>][5][6][7->9][8][9][10][5<-11][12]
+<Jack>drew 6: [1][2->6][3][4<Jill>][5][6][7->9][8][9<Jack>][10][5<-11][12]
+<Jill>drew 5: [1][2->6][3][4][5][6][7->9][8][9<Jack><Jill>][10][5<-11][12]
+<Jack>drew 1: [1][2->6][3][4][5][6][7->9][8][9<Jill>][10<Jack>][5<-11][12]
+<Jill>drew 3: [1][2->6][3][4][5][6][7->9][8][9][10<Jack>][5<-11][12<Jill>]
+]]]
 
 !!! Potential objects and responsibilities
 
-Look at the game rules, take a piece of paper and list the potential objects are their behavior. It is an important exercise, you should train to see how to discover the objects. 
+Look at the game rules, take a piece of paper and list the potential objects and their behavior. It is an important exercise, you should train to see how to discover potential objects and from then their classes.
 
-There exist techniques such Responsibilities driven design to help programmers. With responsibility driven design, subjects are turned in objects whose classes are abstracted from and verbs are grouped into behavior of the objects. Identification of synonyms is used to reduce and gather together similar objects or behavior. 
+There exist techniques such Responsibility Driven Design to help programmers during such phase. Responsibility Driven Design suggests to analyse the documents describing a project and to turn  subjects of sentences into objects and verbs are grouped into behavior of the objects. 
+Identification of synonyms is used to reduce and gather together similar objects or behavior. 
+Then later objects are grouped into classes. Some alternate approaches look for patterns between objects such as part-whole, locations, entity-owner... This could be the topic of a full book.
 
-Some alternate approaches look for patterns between objects such as part-whole, SD: more here. 
+Here we follow another path:  sketching scenarii. We describe some scenarii and from such scenario we identify key playing objects.
 
-Finally sketching scenario is a good approach. Here is a scenario. 
+- Scenario 1. The game should be created with a number of tiles. In particular the end and start tiles should exist. Ladders and snakes should be declared.
+- Scenario 2.  Players are declared. They start on the first tiles. After moving the first player a given number of tiles based on the result of dice roll, this is the turn of the second player.
+- Scenario 3. When a player arrives to a ladder start, it should be moved to the ladder end.
 
-The game should be created with a number of tile. 
-In particular the end and start tiles should exist. 
-Ladder and snake should be declared. 
-
-
-Another one is
-One defined game, once players are declared. After moving the first player a given number of tiles, this is the turn of the second player. 
-
-When a player arrives to a ladder start it should be moved to the ladder end. 
-
-Such scenario are interesting because they are a good basis for tests.
+Such scenarii are interesting because they are a good basis for tests.
 
 !!!! Possible class candidates
-Game
-- keeps track of the game state: whose turn is, the players. 
 
-Player
-- 
+When reading the rules and the scenario, here is a list of possible classes that we could use.
+We will refine it later and remove double or overlapping concepts.
 
-Board
-- to keep tiles
+- Game: it keeps track of the game state whose turn is, the players.
+- Board: it keeps the tile configuration. 
+- Player: it keeps track of where it is on the board and moves over tiles.
+- Tile: it keeps track of any player on it. 
+- Snake: it is special tile, it sends a player back to an earlier tile.
+- Ladder: it is a special tile, it sends a player ahead to a later tile.
+- Last Tile: players should land exactly on it, else they do not move.
+- First Tile: it holds multiple players at the beginning of the game.
+- Die: it rolls and returns a number depending on its face number. 
 
-Player
-- keeps track of where it is
-- moves over squares of the Game
+It is not clear if all the ojects we identify by looking at the problem and its scenario should be really turned into real objects. Also sometimes it is useful to get more classes to capture behavior and state variations. We should look to have an exact mapping between concepts identified in the problem scenario or description and the implementation. 
 
-Tile
-- keeps track of any player on it
+From analysing this list we can draw some observations: 
+- Game and Board are probably the same concept and we can merge them.
+- Die may be overkill. Having a full object just to produce a random number may not be worth, especially since we do not have a super fancy user interface showing the dice rolling and other effect. 
+- Tile, Snake, Ladder, Last and First Tile all look like tiles with some variations or specific actions. We suspect that we can reuse some logic by creating an inheritance hierarchy around the concept of Tile. 
 
-Snake
-- sends a player back to an earlier square
+!!!! About representation 
 
-Ladder
-- sends a player ahead to a later square
+We can implement the same system using different implementation choices. For example we could have only one class implementing all the game logic and it would work. Some people may also 
+argue that this is not a bad solution.
 
-Last Tile
-- Players should land exactly on it, else they do not move.
+Object-oriented design favors the distribution of the state of the system to different objects.
+It is often better to have objects with clear responsibilities. Why? Because you should consider that you will have to rethink, modify or extend your system. We should be able to understand and extend easily a system to be able to reply to new requirements.  
 
-First Tile
-- can hold multiple players. 
-
-Die
-- can return a number
+So while for a simple game not having a nice object-oriented decomposition may not be a problem, as soon as you will start to  model a more complex system not having a good decomposition will hurt you. Real life applications often have a lifetime up to 25 years. 
 
 
-It is not clear if all the ojects we identify by looking at the problem should be really turned into real objects. Also sometimes it is useful to get more classes to capture behavior and state variations. 
+!!! About object-oriented design
 
-In addition in an object-oriented design we distribute the state of the system to different objects. 
-
-We can implement the same system with different alternatives. For example we could have only one class implementing all the game and it would work. It is not obvious that this is a bad solution. However, it is often better to have objects with clear responsibilities. 
-For example if we want to have a nice user interface or different rules without having to rewrite everything. 
-Another point is that we should be able to understand and extend easily a system. 
-
-A question is should the game object keep the position of the players or just the player. 
-The game should keep the players list since it should compute who is the next player.
-
-!!! About design
-
-When designing a system, you will often have questions that cannot blindly and automatically be answered. Often there is no definite answer. This is what is difficult with object-oriented design and this is why practicing is important. 
+When designing a system, you will often have questions that cannot be blindly and automatically answered. Often there is no definite answer. This is what is difficult with object-oriented design and this is why practicing is important. 
 
 What composes the state of an object?
-The state of object should characterize the object over its lifetime. For example the name of  player identifies the player. 
+The state of object should characterize the object over its lifetime. For example the name of  player identifies the player.
 
 Now it may happen that some objects just because they are instances of different classes
-do not need the same state. For example 
+do not need the same state but still offer the same set of messages. For example the tiles and the ladder/snake tiles have probably a similar API but snake and ladder should hold information of their target tile.
 
 We can also distinguish between the intrinsic state of an object (e.g., name of player) and the state we use to represent the collaborators of an object. 
 
 The other important and difficult question is about the relationships between the objects. 
-For example imagine that we model a tile as an object, should this object points to the players it contains. 
+For example imagine that we model a tile as an object, should this object points to the players it contains. Similarly, should a tile knows its position or just the game should know the position of each tile. 
 
-Some techniques exist to 
+Should the game object keep the position of the players or just the player. 
+The game should keep the players list since it should compute who is the next player.
+
+!!!! CRC cards
+Some designers use CRC (for Class Responsibility Collaborators) cards: 
+the idea is to take the list of class we identified above. For each of them, we write on a little card: the class name, its responsibility in one or two sentence and list its collaborators. Once this is done, they take the scenario and see how the objects can play the scenario. Doing so they refine their design by adding more information (collaborators) to a class. 
+
+!!!! Some heuristics
+To help us taking decision, that are some heuristics: 
 - One object should have one main responsibility.
-- Move behavior close to data.
-- Prefer diomain object over literal objects.
+- Move behavior close to data. If a class defines the behavior of another object, there is a good chance that other clients of this object are doing the same and create duplicated and complex logic. If an object defines a clear behavior, clients just invoke it without duplicating it.
+- Prefer domain object over literal objects. As a general principle it is better to get a reference to a more general objects than a simple number. Because we can then invoke a larger set of behavior. 
 
 
-!!! Kind of data passed around
+
+!!!! Kind of data passed around
 Even if in Pharo, everything is an object, storing a mere integer object instead of a full tile can lead to different solutions. There is no perfect solution mainly consequences of choices and you should learn how to assess a situation to see which one has better characteristics for your problem. 
 
 Here is a question illustrating the problem: Should a ladder knows the tile it forwards the player to or is the index of a tile enough?
@@ -115,6 +136,12 @@ Here is a question illustrating the problem: Should a ladder knows the tile it f
 When designing the ladder tile behavior, we should understand how we can
 access the target tile where the player should be moved to. 
 If we just give the index of the target to a ladder, the tile has to be able to access the board containing the tiles else it will be impossible to access to the target tile of the ladder. The alternative, i.e., passing the tile looks nicer because it represents a natural relation and there is no need to ask the board. 
+
+
+!!!! Agility to adapt
+
+In addition it is important not to get stressed, writing tests that represent parts  or scenario 
+we want to implement is a good way to make sure that we can adapt in case we discover that we missed a point. 
 
 
 !!! Sending a self-message or a message to another object
@@ -347,4 +374,6 @@ SLSnakeTile >> isLadder
 
 - A player who lands on an occupied square must go back to the start square.
 - If you roll a number higher than the number of squares needs to reach the last square, you must continue moving backwards.
+
+It means that we may have to have a resolution object. 
 
