@@ -143,6 +143,263 @@ If we just give the index of the target to a ladder, the tile has to be able to 
 In addition it is important not to get stressed, writing tests that represent parts  or scenario 
 we want to implement is a good way to make sure that we can adapt in case we discover that we missed a point. 
 
+Now this game is interesting also from a test point of view because it may be difficult to test the parts in isolation (i.e., without requiring to have a game object).
+
+
+!!! Let us get started
+
+You will follow an iterative process and test first approach. You will take scenario implement a test and define the corresponding classes. 
+
+This game implementation raises an interesting question which is how do we test the game state
+without hardcoding too much implementation details in the tests themselves. Indeed tests that validate scenario only involving public messages and high-level interfaces are more likely to be stable over time and do not require modifications. Indeed if we check the exact class of certain objects you will have to change the implementation as well as the tests when modifying the implementation. In addition, since in Pharo the tests are normal clients of the objects they test, writing some tests may force us to define extra methods to access to private data. 
+
+But enough talking let's getting started.
+Let us start by defining a test class named ==SLGameTest==. We will see in the course of development if we define other test classes. Our feeling is that the tiles and players are objects with limited responsibility and their responsibility is best illustrated (and then tested) when they interact with each other in the context of a given game. Therefore
+the class ==SLGameTest== describes the place in which relevant scenario will occur. 
+
+Define the class ==SLGameTest==.
+
+[[[
+TestCase subclass: #SLGameTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+One of the first scenario that we would like to define it that a game is composed of a certain number of tiles. 
+
+We can write a test has follows but it does not have a lot of value. At the beginning of the development this is normal to have limited tests because we do not have enough objects to interact with. 
+
+[[[
+SLGameTest >> testCheckingSimpleGame
+
+	| game |
+	game := SLGame new tileNumber: 12.
+	self assert: game tileNumber equals: 12
+]]]
+
+Now we should make this test pass. Some strong advocates of TDD say that we should code 
+the first simplest method that would make the test pass and go to the next one. 
+Let us see what it would be (of course this method will be changed later).
+
+First we should define the class ==SLGame==.
+
+[[[
+Object subclass: #SLGame
+	instanceVariableNames: 'tiles'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+Now you can define the methods ==tileNumber:== and ==tileNumber==. This is not really nice
+because we should get a collection of hold the tiles and now we put a number.
+
+[[[
+SLGame >> tileNumber: aNumber
+
+	tiles := aNumber
+]]]
+
+
+[[[
+SLGame >> tileNumber: aNumber
+
+	tiles := aNumber
+]]]
+
+These method definitions are enough to make our test pass. So it means that our test was not that good.
+
+!!! A first real test
+
+Since we would like to be able to check that our game is correct we can use its textual representation and test it as a way to check the game state. 
+The following test should what we want. 
+
+[[[
+SLGameTest >> testPrintingSimpleGame
+
+	| game |
+	game := SLGame new tileNumber: 12.
+	self assert: game printString equals: '[1][2][3][4][5][6][7][8][9][10][11][12]'
+]]]
+
+What we would like is that the printing of the game asks the tiles to print themselves this way we will be able to take advantage that there will be different tiles in a modular way: i.e. we will not change the game to display the ladder and snake just have different tiles with different behavior. 
+
+The first step is then to define a class named ==SLTile== as follows:
+
+[[[
+Object subclass: #SLTile
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+Now we would like to test the printing of a single tile. So let us define a test case named ==SLTileTest==. This test case will test some basic behavior but it is nice to decompose our
+implementation process. We are trying to minimize the gap between one functionality and one test.
+
+[[[
+TestCase subclass: #SLTileTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+Now we can write a simple test to make sure that we can print a tile.
+
+[[[
+SLTileTest >> testPrinting
+
+	| tile |
+	tile := SLTile new position: 6.
+	self assert: tile printString equals: '[6]'
+]]]
+
+Tile position could have been managed by the game itself.  But it means that we would have to ask the game for the position of a given tile and while it would work, it does not feel good.
+This is where you see that the fact that the code is running is not a quality test for good Object-Oriented Design. In Object-Oriented Design, we should distribute responsibilities to objects and their state is the first responsibilities. Since the position is an attribute of a position, better define it there.
+
+In particular it means that we should add an accessor to set the position and to add an instance variable ==position== to the class. Execute the test and follow the request of the IDE and you will have defined this accessor and the instance variable. 
+
+
+Now we can define the ==printOn:== for tiles as follows.
+
+[[[
+SLTile >> printOn: aStream
+
+	aStream << '['.
+	aStream << position printString.
+	aStream << ']'
+]]]
+
+Your tile test should pass now. And we are ready to finish the printing of the game itself. 
+Now we can define the method ==printOn:== of the game to print all its tiles.
+Note that this will not work since so far we did not create tiles. 
+
+[[[
+SLGame >> printOn: aStream
+
+	tiles do: [ :aTile | 
+		aStream << aTile printString ]
+]]]
+
+We modify the method ==tileNumber:== to create an array of the given size and store it inside the ==tiles== instance variable and to put a new tile for each position. Pay attention the tile should have the correct position.
+
+[[[
+SLGame >> tileNumber: aNumber
+	...
+]]]
+
+Now you printing tests should be working both for the tile and the game. 
+But wait if we run the test ==testCheckingSimpleGame== it fails.
+Indeed we did not change the definition ==tileNumber==.
+Do it and make sure that your tests all pass. And save your code. 
+
+!!! More.
+
+
+
+[[[
+SLGameTest >> testTileAt
+
+	| game |
+	game := SLGame new tileNumber: 12.
+	self assert: (game tileAt: 6) printString equals: '[6]'
+]]]
+
+
+
+
+
+
+
+
+!!! A tile has a position
+
+Tile position could be managed by the game itself. It means that we would have to ask the game for the position of a given tile and while it would work, it does not feel good.
+Since the position is an attribute of a position
+
+
+
+
+!!! Adding Players
+
+[[[
+SLGameTest >> testPlayerAtStart
+
+	| game jill |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
+	self assert: ((game tileAt: 1) players includes: jill).
+]]]
+
+
+
+[[[
+SLGameTest >> testTileOfPlayer
+	
+	| jill jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. "first player" 
+	game addPlayer: jack. 
+	self assert: (game tileOfPlayer: jill) position equals: 1.
+]]]
+
+
+
+[[[
+SLGameTest >> testTileForAtDistance
+	
+	| jill jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. "first player" 
+	game addPlayer: jack. 
+	self assert: (game tileFor: jill atDistance: 4) position equals: 5.
+]]]
+
+[[[
+testPrintingSimpleGame
+
+	| game |
+	game := SLGame new tileNumber: 12.
+	self assert: game printString equals: '[1][2][3][4][5][6][7][8][9][10][11][12]'
+]]]
+
+[[[
+SLGameTest >> testGameSetUp
+
+	| Game |
+	Game := SLGame new 
+		tileNumber: 12; 
+		setLadderFrom: 2 to: 4;
+		setLadderFrom: 7 to: 9;
+		setSnakeFrom: 11 to: 5.
+	self assert: (Game at: 2) isLadder. 
+	self deny: (Game at: 3) isLadder.
+	self assert: (Game at: 11) isSnake.
+]]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 !!! Sending a self-message or a message to another object
 
@@ -173,202 +430,8 @@ SLTile >> printOn: aStream
 
 Each subclass will then easily be able to provide customized information.
 
-!!! starting
 
 
-[[[
-TestCase subclass: #SLGameTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-SLGameTest >> testGameSetUp
-
-	| Game |
-	Game := SLGame new 
-		tileNumber: 12; 
-		setLadderFrom: 2 to: 4;
-		setLadderFrom: 7 to: 9;
-		setSnakeFrom: 11 to: 5.
-	self assert: (Game at: 2) isLadder. 
-	self deny: (Game at: 3) isLadder.
-	self assert: (Game at: 11) isSnake.
-]]]
-
-
-[[[
-Object subclass: #SLGame
-	instanceVariableNames: 'tiles'
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-SLGame >> tileNumber: aNumber
-
-		tiles := Array new: aNumber. 
-		self initializeDefaultTiles. 
-]]]
-
-[[[
-SLGame >> initializeDefaultTiles
-
-	1 to: tiles size do: [ :i | 
-		tiles at: i put: (SLTile new position: i) ]
-]]]
-
-
-[[[
-Object subclass: #SLTile
-	instanceVariableNames: 'position players'
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-SLGame >> initializeDefaultTiles
-
-	1 to: tiles size do: [ :i |
-			tiles at: i put: (SLTile new position: i) ].
-	self setStartTile.
-	self setEndTile.
-]]]
-
-[[[
-SLGame >> setStartTile
-	tiles at: 1 put: (SLStartTile new position: 1)
-]]]
-
-[[[
-SLTile subclass: #SLStartTile
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-SLGame >> setEndTile
-	tiles at: 1 put: (SLEndTile new position: tiles size)
-]]]
-
-[[[
-SLTile subclass: #SLEndTile
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition
-	tiles at: aSourcePosition put: (SLLadderTile new from: aSourcePosition to: aTargetPosition)
-]]]
-
-[[[
-SLTile subclass: #SLLadderTile
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-setSnakeFrom: aSourcePosition to: aTargetPosition
-	tiles at: aSourcePosition put: (SLSnakeTile new from: aSourcePosition to: aTargetPosition)
-]]]
-
-[[[
-SLTile subclass: #SLSnakeTile
-	instanceVariableNames: ''
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-SLTile >> printOn: aStream
-
-	aStream << '['.
-	aStream << position printString.
-	players isNotEmpty ifTrue: [ players do: [ :aPlayer | aStream << aPlayer printString ]].
-	aStream << ']'
-]]]
-
-[[[
-testPrintingSimpleGame
-
-	| Game |
-	Game := SLGame new 
-		tileNumber: 12.
-	self assert: Game printString equals: '[1][2][3][4][5][6][7][8][9][10][11][12]'
-]]]
-
-	
-!!! Rethinking the hierarchy
-
-[[[
-Object subclass: #SLPositionedTile
-	instanceVariableNames: 'position'
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-[[[
-SLPositionedTile >> printOn: aStream
-	aStream << '['.
-	self printOnInside: aStream.
-	aStream << ']'
-]]]
-
-[[[	
-SLPositionedTile >> printOnInside: aStream
-	aStream << position printString.
-]]]
-
-[[[
-SLPositionedTile subclass: #SLPassiveTile
-	instanceVariableNames: 'players'
-	classVariableNames: ''
-	package: 'SnakesAndLadders'
-]]]
-
-
-[[[
-SLPassiveTile >> printOn: aStream
-	aStream << '['.
-	aStream << position printString.
-	players isNotEmpty ifTrue: [ players do: [ :aPlayer | aStream << aPlayer printString ]].
-	aStream << ']'
-]]]
-
-into 
-
-[[[
-SLPassiveTile >> printOnInside: aStream
-
-	super printOnInside: aStream. 
-	players isNotEmpty ifTrue: [ players do: [ :aPlayer | aStream << aPlayer printString ]].
-]]]
-
-
-[[[
-SLPositionedTile >> isLadder 
-	^ false
-]]]
-
-[[[
-SLLadderTile >> isLadder 
-	^ true
-]]]
-
-[[[
-SLPositionedTile >> isSnake
-	^ false
-]]]
-
-[[[
-SLSnakeTile >> isLadder 
-	^ true
-]]]
 
 !!! Variations
 
@@ -377,3 +440,20 @@ SLSnakeTile >> isLadder
 
 It means that we may have to have a resolution object. 
 
+
+!!! Solutions
+
+
+[[[
+SLGame >> tileNumber: aNumber
+
+	tiles := Array new: aNumber. 
+	1 to: tiles size do: [ :i | 
+		tiles at: i put: (SLTile new position: i) ].
+]]]
+
+[[[
+SLGame >> tileNumber
+	
+	^ tiles size
+]]]
