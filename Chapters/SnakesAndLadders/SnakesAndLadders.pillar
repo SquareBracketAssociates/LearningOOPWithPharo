@@ -60,8 +60,12 @@ Then later objects are grouped into classes. Some alternate approaches look for 
 Here we follow another path:  sketching scenarii. We describe some scenarii and from such scenario we identify key playing objects.
 
 - Scenario 1. The game should be created with a number of tiles. In particular the end and start tiles should exist. Ladders and snakes should be declared.
-- Scenario 2.  Players are declared. They start on the first tiles. After moving the first player a given number of tiles based on the result of dice roll, this is the turn of the second player.
-- Scenario 3. When a player arrives to a ladder start, it should be moved to the ladder end.
+- Scenario 2. Players are declared. They start on the first tiles. 
+- Scenario 3. When player rolls a dice, he should move the number of tiles given by the dice.
+- Scenario 4. After moving the first player a given number of tiles based on the result of dice roll, this is the turn of the second player.
+- Scenario 5. When a player arrives to a ladder start, it should be moved to the ladder end.
+- Scenario 6. When a player should move further than the end tile, he does not move.
+- Scenario 7. When a player ends its course on the end tile, he wins and the game is finished.
 
 Such scenarii are interesting because they are a good basis for tests.
 
@@ -196,15 +200,13 @@ because we should get a collection of hold the tiles and now we put a number.
 
 [[[
 SLGame >> tileNumber: aNumber
-
 	tiles := aNumber
 ]]]
 
 
 [[[
-SLGame >> tileNumber: aNumber
-
-	tiles := aNumber
+SLGame >> tileNumber
+	^ tiles
 ]]]
 
 These method definitions are enough to make our test pass. So it means that our test was not that good.
@@ -219,7 +221,9 @@ SLGameTest >> testPrintingSimpleGame
 
 	| game |
 	game := SLGame new tileNumber: 12.
-	self assert: game printString equals: '[1][2][3][4][5][6][7][8][9][10][11][12]'
+	self 
+		assert: game printString 
+		equals: '[1][2][3][4][5][6][7][8][9][10][11][12]'
 ]]]
 
 What we would like is that the printing of the game asks the tiles to print themselves this way we will be able to take advantage that there will be different tiles in a modular way: i.e. we will not change the game to display the ladder and snake just have different tiles with different behavior. 
@@ -259,7 +263,7 @@ This is where you see that the fact that the code is running is not a quality te
 In particular it means that we should add an accessor to set the position and to add an instance variable ==position== to the class. Execute the test and follow the request of the IDE and you will have defined this accessor and the instance variable. 
 
 
-Now we can define the ==printOn:== for tiles as follows.
+Now we can define the ==printOn:== method for tiles as follows.
 
 [[[
 SLTile >> printOn: aStream
@@ -292,9 +296,9 @@ But wait if we run the test ==testCheckingSimpleGame== it fails.
 Indeed we did not change the definition ==tileNumber==.
 Do it and make sure that your tests all pass. And save your code. 
 
-!!! More.
+!!! Accessing one tile
 
-
+Now we will need to be able to ask the game for a given tile, for example with the message ==tileAt:==. Let us add a test for it. 
 
 [[[
 SLGameTest >> testTileAt
@@ -304,22 +308,19 @@ SLGameTest >> testTileAt
 	self assert: (game tileAt: 6) printString equals: '[6]'
 ]]]
 
+Define the method.
+
+[[[
+SLGame >> tileAt: aNumber
+	...
+]]]
 
 
+!!! Adding players
 
+Now we should add players. The first scenario to test is that when we add a player to game, it should be one the first tile.
 
-
-
-
-!!! A tile has a position
-
-Tile position could be managed by the game itself. It means that we would have to ask the game for the position of a given tile and while it would work, it does not feel good.
-Since the position is an attribute of a position
-
-
-
-
-!!! Adding Players
+Let us write test: we create a game and a player. Then we add the player to the game and the player should be part of the players of the first tile. 
 
 [[[
 SLGameTest >> testPlayerAtStart
@@ -330,6 +331,97 @@ SLGameTest >> testPlayerAtStart
 	game addPlayer: jill. 
 	self assert: ((game tileAt: 1) players includes: jill).
 ]]]
+
+
+[[[
+Object subclass: #SLPlayer
+	instanceVariableNames: 'name'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+Define the method ==name:== in the class ==SLPlayer==
+Now we should think a bit how we should manage the players. 
+We suspect that the game itself should get a list of players so that in the future it can ask each player to play its turn. Notice the previous sentence: we say each player to play and not the game to play the next turn - again this is Object-Oriented Design in action.
+
+Now our test does not really cover the point that the game should keep track of the players
+so we will not do it. Similarly we may wonder if a player should know its position. At this point we do not know and we postpone this decision for another scenario.
+
+[[[
+SLGame >> addPlayer: aPlayer	
+	(tiles at: 1) addPlayer: aPlayer
+]]]
+
+Now what is clear is that a tile should keep a player list. Add an instance variable ==players== to the ==SLTile== class and initialize it to be an OrderedCollection. 
+
+[[[
+SLTile >> initialize
+	...
+]]]
+
+Then implement the method ==addPlayer:==
+
+[[[
+SLTile >> addPlayer: aPlayer
+	...
+]]]
+
+Now all your test should pass.
+
+Let us the opportunity to write better tests. We should check that we can add two players and that both are on the starting tile. 
+
+[[[
+SLGameTest >> testSeveralPlayersAtStart
+
+	| game jill jack |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	jack := SLPlayer new name: 'Jack'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	self assert: ((game tileAt: 1) players includes: jill).
+	self assert: ((game tileAt: 1) players includes: jack).
+
+]]]
+
+This  test should pass and this is the time to save and take a break. 
+
++Playground in action. Use Do it and go - to get an embedded inspector.>file://figures/playground.png|width=70|label=fig:snakesplay+
+
+!!! About tools
+
+Pharo is living environment so we can interact with the objects. Let us see a bit that.
+
+Type the following game creation in a playground (as shown here *fig:snakesplay*).
+[[[
+| game jill jack |
+game := SLGame new tileNumber: 12.
+jill := SLPlayer new name: 'Jill'.
+jack := SLPlayer new name: 'Jack'.
+game addPlayer: jill.
+game addPlayer: jack.
+game 
+]]]
+
+Now you inspect the game either doing it inspect or sending the message inspect to the game as in ==game inspect==. You can also use the doit and go menu of a playground window. 
+You should get a picture similar to the one **
+
++Inspecting the game.>file://figures/inspector1.png|width=70|label=fig:ginspector1+
+
++Navigating inside the game.>file://figures/inspector2.png|width=70|label=fig:ginspector3+
+
++Checking that the first tile get effectively the players.>file://figures/inspector3.png|width=70|label=fig:ginspector3+
+
+
+
+!!! Displaying players
+
+To help us follow the game 
+
+
+
+
+!!! Finding the tile of a player
 
 
 
@@ -344,6 +436,11 @@ SLGameTest >> testTileOfPlayer
 	game addPlayer: jack. 
 	self assert: (game tileOfPlayer: jill) position equals: 1.
 ]]]
+
+We should 
+
+
+!!! up to here
 
 
 
@@ -443,6 +540,7 @@ It means that we may have to have a resolution object.
 
 !!! Solutions
 
+!!!! A first real test
 
 [[[
 SLGame >> tileNumber: aNumber
@@ -456,4 +554,42 @@ SLGame >> tileNumber: aNumber
 SLGame >> tileNumber
 	
 	^ tiles size
+]]]
+
+!!!! Accessing on tile
+
+[[[
+SLGame >> tileAt: aNumber
+
+	^ tiles at: aNumber
+]]]
+
+
+!!!! Adding players
+[[[
+SLPlayer >> name: aString 
+	name := aString
+]]]
+
+
+[[[
+Object subclass: #SLTile
+	instanceVariableNames: 'position players'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGame >> initialize
+	players := OrderedCollection new. 
+]]]
+
+[[[
+SLTile >> addPlayer: aPlayer	
+	players add: aPlayer
+]]]
+
+[[[
+SLTile >> players 
+	^ players
 ]]]
