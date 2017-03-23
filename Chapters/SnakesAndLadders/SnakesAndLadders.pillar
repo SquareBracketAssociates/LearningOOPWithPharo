@@ -403,66 +403,193 @@ game addPlayer: jack.
 game 
 ]]]
 
-Now you inspect the game either doing it inspect or sending the message inspect to the game as in ==game inspect==. You can also use the doit and go menu of a playground window. 
-You should get a picture similar to the one **
+Now you can inspect the game either using the inspect command-i or sending the message ==inspect== to the game as in ==game inspect==. You can also use the "doit and go" menu itemof a playground window.  You should get a picture similar to the one *fig:ginspector1*.
+We see that the object is a ==SLGame== instance and its ==tiles== instance variable. You can navigate on the instance variables as shown in Figure *fig:ginspector2*. Figure *fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go the first tile and see the two players. At each moment you can interact with the selected object and sent it messages. 
 
-+Inspecting the game.>file://figures/inspector1.png|width=70|label=fig:ginspector1+
++Inspecting the game: a game instance and its instance variable ==tiles==.>file://figures/inspector1.png|width=70|label=fig:ginspector1+
 
-+Navigating inside the game.>file://figures/inspector2.png|width=70|label=fig:ginspector3+
++Navigating inside the game: getting inside the tiles and checking the players.>file://figures/inspector2.png|width=70|label=fig:ginspector2+
 
-+Checking that the first tile get effectively the players.>file://figures/inspector3.png|width=70|label=fig:ginspector3+
++Navigating the objects using the navigation facilities of the inspector.>file://figures/inspector3.png|width=100|label=fig:ginspector3+
 
 
 
 !!! Displaying players
 
-To help us follow the game 
+Navigating the structure of the game is nice when we want to debug and interact with the game entities. Now we propose to display the player objects in a nicer way. We will reuse such behavior when printing the game to follow the movement of the player on the board. 
 
-
-
-
-!!! Finding the tile of a player
-
-
+Since we love test, let us write one before. 
 
 [[[
-SLGameTest >> testTileOfPlayer
-	
-	| jill jack game |
+SLGameTest >> testPrintingSimpleGameWithPlayers
+
+	| game jill jack |
 	game := SLGame new tileNumber: 12.
 	jack := SLPlayer new name: 'Jack'.
 	jill := SLPlayer new name: 'Jill'.
 	game addPlayer: jill. "first player" 
 	game addPlayer: jack. 
+	self 
+		assert: game printString 
+		equals: '[1<Jill><Jack>][2][3][4][5][6][7][8][9][10][11][12]'
+]]]
+
+To make this test pass, you should define a ==printOn:== on ==SLPlayer== and make sure that the ==printOn:== of tile invokes the one of player.
+
+[[[
+SLPlayer >> printOn: aStream
+	...
+]]]
+
+Here is a possible implementation for the tile logic. 
+[[[
+SLTile >> printOn: aStream
+		aStream << '['.
+		aStream << position printString.
+		players do: [ :aPlayer | aPlayer printOn: aStream ].
+		aStream << ']'
+]]]
+
+Run your tests, they should pass. 
+
+Now we have two options: 
+
+!!! Preparing to move players
+
+To move the player we need to know the tile on which it will arrive.  We want to ask the game: what is the target tile if this player (for example, jill) is moving a given distance.
+Let us write a test for the message ==tileFor: aPlayer atDistance: aNumber==.
+
+[[[
+SLGameTest >> testTileForAtDistance
+	
+	| jill game |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
+	self assert: (game tileFor: jill atDistance: 4) position equals: 5.
+]]]
+
+What is implied is that a player should know it location or that the game should start to look from the beginning to find what is the current position of a player. 
+The first option looks more reasonable in terms of efficiency and this is the one we will implement. 
+
+Let us write a simpler test for the introduction of the position in a player. 
+
+[[[
+SLGameTest >> testPlayerAtStartIsAtPosition1
+
+	| game jill |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	self assert: jill position equals: 1.
+]]]
+
+
+Define the methods ==position== and ==position:== in the class ==SLPlayer== and add an instance
+variable ==position== to the class. If you run the test it should fail saying that it got nil instead of one. This is normal because we never set the position of a player.
+Modify the ==addPlayer:== to handle this case. 
+
+[[[
+SLGame >> addPlayer: aPlayer
+	...
+]]]
+
+The test ==testPlayerAtStartIsAtPosition1== should now pass and we can return to the ==testTileForAtDistance==. Since we lost a bit track, the best thing to do is to run our tests and check why they are failing. 
+We get an error saying that a game instance does not understand the message ==tileFor:atDistance:== this is normal since we never implemented it.
+For now we do not consider that a roll can bring the player further than the last tile.
+
+Let us fix that now. Define the method ==tileFor:atDistance:==
+
+[[[
+SLGame >> tileFor: aPlayer atDistance: aNumber
+	...
+]]]
+
+Now all your test should be pass and this is a good time to save your code.
+
+
+!!! Finding the tile of a player
+We can start to move a player from a tile to another one. 
+We should get the tile destination using the message ==tileFor:atDistance:== and add the player there. Of course we should not forget that the tile where the player is currently positioned 
+should be updated. So we need to know what is the tile of the player.
+
+Now once a player has position it is then easy to find the tile on top of which it is.
+Let us write a test for it. 
+
+[[[
+SLGameTest >> testTileOfPlayer
+	
+	| jill game |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
 	self assert: (game tileOfPlayer: jill) position equals: 1.
 ]]]
 
-We should 
+Implement ==itleOfPlayer:==.
+
+[[[
+SLGame >> tileOfPlayer: aSLPlayer 
+	...
+]]] 
+
+Now propose an implementation of the method ==movePlayer: aPlayer distance: anInteger==.
+You should remove the player from its current tile, add it to the destination tile and change the position of the player to reflect its new position. 
+
+[[[
+SLGame >> movePlayer: aPlayer distance: anInteger 
+	| targetTile | 
+	targetTile := self tileFor: aPlayer atDistance: anInteger.
+	(self tileOfPlayer: aPlayer) remove: aPlayer.
+	targetTile addPlayer: aPlayer. 
+	aPlayer position: targetTile position. 
+]]]
+
+
+
+
+!!! Moving to another tile
+
+Now we are ready to work on moving a player from one tile to the other. 
+Let us express a test: we test that after the move,  the new position is the one of the target, that the original tile players is empty and the target tile has effectively a new player.
+
+[[[
+SLGame >> testMovePlayerADistance
+	
+	| jill game |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
+	game movePlayer: jill distance: 4.
+	self assert: jill position equals: 5.
+	self assert: (game tileAt: 1) players isEmpty.
+	self assert: ((game tileAt: 5) players includes: jill).
+]]]
+
+We suspect that when we will introduce ladder and snake we will have to revisit this method
+because snakes and ladders do not store players just move them around.
+
+
+Since we should remove the player of a tile when it moves, implement the method
+
+[[[
+SLTile >> removePlayer: aPlayer
+	...
+]]]
+
+[[[
+SLGame >> movePlayer: aPlayer distance: anInteger 
+	...
+]]]
+
+The solution we propose for this method is not as nice as we would like. Why? Because we do not give a chance to the tiles to extend the behavior and our experience tells us that we will need when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
+
++Current simple design: three classes with a player acting a simple object.>file://figures/SLDesign0.pdf|width=70|label=fig:sldesign0+
 
 
 !!! up to here
 
 
-
-[[[
-SLGameTest >> testTileForAtDistance
-	
-	| jill jack game |
-	game := SLGame new tileNumber: 12.
-	jack := SLPlayer new name: 'Jack'.
-	jill := SLPlayer new name: 'Jill'.
-	game addPlayer: jill. "first player" 
-	game addPlayer: jack. 
-	self assert: (game tileFor: jill atDistance: 4) position equals: 5.
-]]]
-
-[[[
-testPrintingSimpleGame
-
-	| game |
-	game := SLGame new tileNumber: 12.
-	self assert: game printString equals: '[1][2][3][4][5][6][7][8][9][10][11][12]'
-]]]
 
 [[[
 SLGameTest >> testGameSetUp
@@ -477,8 +604,6 @@ SLGameTest >> testGameSetUp
 	self deny: (Game at: 3) isLadder.
 	self assert: (Game at: 11) isSnake.
 ]]]
-
-
 
 
 
@@ -592,4 +717,66 @@ SLTile >> addPlayer: aPlayer
 [[[
 SLTile >> players 
 	^ players
+]]]
+
+[[[
+SLPlayer >> printOn: aStream
+	aStream << '<' << name << '>'
+]]]
+
+!!!! Preparing to move players
+
+[[[
+SLPlayer >> position
+	^ position
+]]]
+
+[[[
+SLPlayer >> position: anInteger 
+	position := anInteger
+]]]
+
+[[[
+Object subclass: #SLPlayer
+	instanceVariableNames: 'name position'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGame >> addPlayer: aPlayer
+	aPlayer position: 1.
+	(tiles at: 1) addPlayer: aPlayer
+]]]
+
+[[[
+SLGame >> tileFor: aPlayer atDistance: aNumber
+	
+	^ self tileAt: (aPlayer position + aNumber)
+
+]]]
+
+
+!!!! Finding the tile of a player
+
+[[[
+SLGame >> tileOfPlayer: aSLPlayer 
+	^ tiles at: aSLPlayer position
+]]] 
+
+
+!!!! Moving a player
+
+[[[
+SLTile >> removePlayer: aPlayer
+	players remove: aPlayer
+]]]
+
+[[[
+SLGame >> movePlayer: aPlayer distance: anInteger 
+	| targetTile | 
+	targetTile := self tileFor: aPlayer atDistance: anInteger.
+	(self tileOfPlayer: aPlayer) remove: aPlayer.
+	targetTile addPlayer: aPlayer. 
+	aPlayer position: targetTile position. 
 ]]]
