@@ -63,8 +63,8 @@
 			<integer>227</integer>
 			<key>Points</key>
 			<array>
-				<string>{323.63699977437608, 182}</string>
-				<string>{371.3503068225034, 249.00000268554777}</string>
+				<string>{407.27766779952833, 209}</string>
+				<string>{407.58618759749561, 249.00000268554777}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -96,8 +96,8 @@
 			<integer>226</integer>
 			<key>Points</key>
 			<array>
-				<string>{254, 298.87308402401516}</string>
-				<string>{326, 298.7812453278251}</string>
+				<string>{254, 298.96101830945003}</string>
+				<string>{326, 298.93281045297169}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -124,7 +124,7 @@
 			<array>
 				<dict>
 					<key>Bounds</key>
-					<string>{{217, 110}, {162, 20}}</string>
+					<string>{{326, 137}, {162, 20}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -172,7 +172,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{217, 130}, {162, 40}}</string>
+					<string>{{326, 157}, {162, 40}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -223,7 +223,7 @@ position}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{217, 170}, {162, 12}}</string>
+					<string>{{326, 197}, {162, 12}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -667,7 +667,7 @@ movePlayer:distance:}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-03-23 17:47:24 +0000</string>
+	<string>2017-03-25 19:01:25 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -763,7 +763,7 @@ movePlayer:distance:}</string>
 		<key>ExpandedCanvases</key>
 		<array/>
 		<key>Frame</key>
-		<string>{{108, -20}, {1255, 777}}</string>
+		<string>{{25, 0}, {1255, 777}}</string>
 		<key>ListView</key>
 		<false/>
 		<key>OutlineWidth</key>
