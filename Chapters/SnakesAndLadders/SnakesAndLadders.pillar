@@ -269,7 +269,7 @@ Now we can define the ==printOn:== method for tiles as follows.
 SLTile >> printOn: aStream
 
 	aStream << '['.
-	aStream << position printString.
+	position printOn: aStream.
 	aStream << ']'
 ]]]
 
@@ -281,7 +281,7 @@ Note that this will not work since so far we did not create tiles.
 SLGame >> printOn: aStream
 
 	tiles do: [ :aTile | 
-		aStream << aTile printString ]
+		aTile printOn: aStream ]
 ]]]
 
 We modify the method ==tileNumber:== to create an array of the given size and store it inside the ==tiles== instance variable and to put a new tile for each position. Pay attention the tile should have the correct position.
@@ -444,10 +444,10 @@ SLPlayer >> printOn: aStream
 Here is a possible implementation for the tile logic. 
 [[[
 SLTile >> printOn: aStream
-		aStream << '['.
-		aStream << position printString.
-		players do: [ :aPlayer | aPlayer printOn: aStream ].
-		aStream << ']'
+	aStream << '['.
+	position printOn: aStream.
+	players do: [ :aPlayer | aPlayer printOn: aStream ].
+	aStream << ']'
 ]]]
 
 Run your tests, they should pass. 
@@ -585,6 +585,240 @@ SLGame >> movePlayer: aPlayer distance: anInteger
 The solution we propose for this method is not as nice as we would like. Why? Because we do not give a chance to the tiles to extend the behavior and our experience tells us that we will need when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
 
 +Current simple design: three classes with a player acting a simple object.>file://figures/SLDesign0.pdf|width=70|label=fig:sldesign0+
+
+
+
+!!! Snakes and ladders
+
+Now we can introduce the two special tiles: the snakes and ladders. 
+Let us analyse a bit their behavior: when a player lands on such tile, it is automatically moved to another tile. As such, snake and ladder tiles do not need to keep references to players because players never stay on them. 
+
+Snakes is really similar to ladders: we could just have a special kind of tiles to manage them. 
+Now we will define two separate classes so that we can add extra behavior. Remember creating a class is cheap. One behavior we will implement is a different printed version so that we can identify the kind of tile we have.
+
+At the beginning of the chapter we used ==->== for ladders and ==<-== for snakes. 
+
+[[[
+[1<Jill><Jack>][2->6][3][4][5][6][7->9][8][9][10][5<-11][12]
+]]]
+
+!!! A hierarchy of tiles
+We have now our default tile and two kinds of different ''active'' tiles. Now we will split our current tile class to be able to reuse a bit of its state and behavior with the new tiles. Our current tile class will then be one of the leaves of our hierarchy tree.
+To factor the behavior of the active tiles we will introduce a new class named ==ActiveTile==.
+Once we will be done we should have a hierarchy as the one presented in the Figure *@fig:sldesign1*.
+
++A hierarchy of tiles.>file://figures/SLDesign1.pdf|width=70|label=fig:sldesign1+
+
+Let us start create the hierarchy.
+
+!!!! Split Tile class in two 
+Let us do the following actions:
+- Using the class refactoring "insert superclass" (click on the ==SLTile== and check the class refactoring menu), introduce a new superclass to ==SLTile==. Name it ==SLAbstractTile==. 
+- Run the tests and they should pass.
+- Using the class instance variable refactoing "pull up", push the position instance variable
+- Run the tests and they should pass.
+- Using the method refactoring "push up", push the methods ==position== and ==position:==.
+- Run the tests and they should pass.
+
+What you see is that we did not execute the actions randomly but we want to control that each step we are under control using the tests. :
+
+Here are the classes and methods ==printOn:==.
+
+[[[
+Object subclass: #SLAbstractTile
+	instanceVariableNames: 'position'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+Define a ==printOn:== method so that all the subclasses can be displayed in the board by their position.
+
+[[[
+SLAbstractTile >> printOn: aStream
+	aStream << '['.
+	position printOn: aStream.
+	aStream << ']'
+]]]
+
+[[[
+SLAbstractTile subclass: #SLTile
+	instanceVariableNames: 'players'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+
+!!!! Adding snake and ladder tiles
+
+Now we can add a new subclass to ==SLAbstractTile==.
+
+[[[
+SLAbstractTile subclass: #SLActiveTile
+	instanceVariableNames: 'targetTile'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+We add a method ==to:== to set the destination tile.
+
+[[[
+SLActiveTile >> to: aTile
+	targetTile := aTile
+]]]
+
+Then we add the two new subclass of ==SLActiveTile==
+[[[
+SLActiveTile subclass: #SLSnakeTile
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLSnakeTile >> printOn: aStream
+
+	aStream << '['.
+	targetTile position printOn: aStream. 
+	aStream << '<-'.
+	position printOn: aStream.
+	aStream << ']'
+]]]
+
+[[[
+SLActiveTile subclass: #SLLadderTile
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+This is fun to see that the order when to print the position of the tile is different between the snakes and ladders.
+
+[[[
+SLLadderTile >> printOn: aStream
+
+	aStream << '['.
+	position printOn: aStream.
+	aStream << '->'.
+	targetTile position printOn: aStream.
+	aStream << ']'
+]]]
+
+We did on purpose not to ask you to define tests to cover the changes. This exercise should show you how long sequence of programming without adding new tests expose us to 
+potential bugs. They are often more stressful.
+
+So let us add some tests to make sure that our code is correct.
+
+[[[
+SLTileTest >> testPrintingLadder
+
+	| tile |
+	tile := SLLadderTile new position: 2; to: (SLTile new position: 6). 
+	self assert: tile printString equals: '[2->6]'
+]]]
+
+[[[
+SLTileTest >> testPrintingSnake
+
+	| tile |
+	tile := SLSnakeTile new position: 11; to: (SLTile new position: 5). 
+	self assert: tile printString equals: '[5<-11]'
+]]]
+
+Run the tests and they should pass. Save your code. Take a rest!
+
+!!! New printing hook
+
+When we look at the printing situation we see code duplication logic
+For example, we see always at least the repetition of the first and last expression.
+
+[[[
+SLTile >> printOn: aStream
+
+	aStream << '['.
+	position printOn: aStream.
+	players do: [ :aPlayer | aPlayer printOn: aStream ].
+	aStream << ']'
+]]]
+
+[[[
+SLLadderTile >> printOn: aStream
+
+	aStream << '['.
+	position printOn: aStream.
+	aStream << '->'.
+	targetTile position printOn: aStream.
+	aStream << ']'
+]]]
+
+Do you think that we can do better? What would be the solution?
+
+In fact what we would like is to have a method that we can reuse and that 
+will emit the '[]'. And in addtion we would like to have another method for the contents between the parentheses and that we can specialize it.  This way each class can define its own behavior for the inside part and reuse the parenthesis part.  
+
+This is what you will do now.
+Let us split the ==printOn:== method of the class ==SLAbstractTile== in two methods:
+- a new method named ==printInsideOn:== just printing the position, and
+- the ==printOn:== method using this new method. 
+
+
+[[[
+SLAbstractTile >> printInsideOn: aStream
+
+	position printOn: aStream
+]]]
+
+Now define the method ==printOn:== to produce the same behavior as before but calling the message ==printInsideOn:==. 
+
+[[[
+SLAbstractTile >> printOn: aStream
+	...
+]]]
+
+Run your tests and they should run. You may have noticed that this is normal because none of them is covering the abstract tile.
+
+What you should see is that we will have only on method defining the behavior of representing a cell and this is much better if one day we want to change it. 
+
+!!! Using the new hook
+Now you are ready to express the printing behavior of ==SLTile==, ==SLSnake== and ==SLLadder== in a much more compact fashion. Of course you should remove the ==printOn:== methods in such classes, else they will hide the new behavior (If you do not get why you should read again the chapter on inheritance). 
+
+[[[
+SLTile >> printInsideOn: aStream
+
+	super printInsideOn: aStream.
+	players do: [ :aPlayer | aPlayer printOn: aStream ].
+]]]
+
+[[[
+SLLadderTile >> printInsideOn: aStream
+
+	super printInsideOn: aStream.
+	aStream << '->'.
+	targetTile position printOn: aStream
+]]]
+
+[[[
+SLSnakeTile >> printInsideOn: aStream
+
+	targetTile position printOn: aStream. 
+	aStream << '<-'.
+	super printInsideOn: aStream
+]]]
+
+In we are creating what we call a Hook/Template situation. The template method is the ==printOn:== method and the ==printInsideOn:== is the hook that got specialized for each subclass.
+
+
+!!!! HERE
+
+
+!!!! Snake and ladder declaration
+
+
+!!!! Better tile protocol
+enter
+
+
+
+
 
 
 !!! up to here
@@ -779,4 +1013,15 @@ SLGame >> movePlayer: aPlayer distance: anInteger
 	(self tileOfPlayer: aPlayer) remove: aPlayer.
 	targetTile addPlayer: aPlayer. 
 	aPlayer position: targetTile position. 
+]]]
+
+
+!!!! New printing hook
+
+[[[
+SLAbstractTile >> printOn: aStream
+
+		aStream << '['.
+		self printInsideOn: aStream.
+		aStream << ']'	
 ]]]
