@@ -3,6 +3,7 @@ CHAPTERS = \
 	Chapters/Introduction/Introduction \
 	Chapters/Tests/Tests \
 	Chapters/GettingStarted/GettingStarted \
+	Chapters/GettingStarted/ChallengingYourself \
 	Chapters/PlayingWithTurtles/PlayingWithTurtles \
 	Chapters/Counter/Counter \
 	Chapters/Katas/GramKatas \

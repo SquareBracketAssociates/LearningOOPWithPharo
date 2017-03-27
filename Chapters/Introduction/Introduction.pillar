@@ -91,17 +91,15 @@ Guillermo Polito for the idea of this cool example of files and directories.
 
 
 !!! New todo
-- Finish tjj LAN and may be reunit it. 
-- read and simplify counter 
+- finish Snake And ladde
 - Implement game collector app
 - reread and implement Game of life
 - implement sokoban 
-- read LAN 
-
-!!!! Stef:
-- write Snake And ladde
+- read LAN Finish tjj LAN and may be reunit it. 
+- Read tinychat
 - Implement Game of Life
 - Sending messages
+
 Volume two 
 - Visitor
 - Interpreter
@@ -112,7 +110,7 @@ Lire
 - Ants
 - Parser?
 - Implementaiton turtle
-- Read tinychat
+
 	
 !!!! other random stuffs	
 Developing a simple counter should be read and adpat

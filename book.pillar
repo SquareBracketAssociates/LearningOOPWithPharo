@@ -6,6 +6,9 @@ ${inputFile:Chapters/Introduction/Introduction.pillar}$
 
 ${inputFile:Chapters/GettingStarted/GettingStarted.pillar}$ 
 
+${inputFile:Chapters/GettingStarted/ChallengingYourself.pillar}$
+
+
 ${inputFile:Chapters/Counter/Counter.pillar}$ 
 
 ${inputFile:Chapters/Tests/Tests.pillar}$ 
