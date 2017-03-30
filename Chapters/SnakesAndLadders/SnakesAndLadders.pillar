@@ -835,30 +835,259 @@ Finally what is important to realize is that even ==position printOn: aStream.==
 
 
 
-!!! HERE Snake and ladder declaration
+!!! Snake and ladder declaration
+
+Now we should add to the game some messages to declare snake and ladder tiles. 
+We propose to name the messages ==setLadderFrom:to:== and ==setSnakeFrom:to:==.
+Now let us write a test and make sure that it fails before starting.
 
 [[[
-SLGameTest >> testGameSetUp
+SLGameTest >> testFullGamePrintString
 
-	| Game |
-	Game := SLGame new 
-		tileNumber: 12; 
-		setLadderFrom: 2 to: 4;
+	| game |
+	game := SLGame new tileNumber: 12.
+	game
+		setLadderFrom: 2 to: 6;
 		setLadderFrom: 7 to: 9;
 		setSnakeFrom: 11 to: 5.
-		...
+	self 
+		assert: game printString 
+		equals: '[1][2->6][3][4][5][6][7->9][8][9][10][5<-11][12]'
 ]]]
 
+Define the method ==setSnakerFrom:to:== that takes two positions, the first one is the position of the tile and the second one is the position of the target. Pay attention that the message ==to:== of the active tiles expect a tile and not a position. 
+
+[[[
+SLGame >> setSnakeFrom: aSourcePosition to: aTargetPosition
+	...
+]]]
+
+
+[[[
+SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition
+	...
+]]]
+
+Run your tests! And save your code. 
+
 !!! Better tile protocol
-enter
+Now we should define what should happen when a player lands on an active tiles (snake or ladder). Indeed for the normal tiles, we implemented that the player change its position, then the origin tiles loses the player and the receiving tile agains the player. 
+
+We implemented such behavior in the method ==movePlayer: aPlayer distance: anInteger== shown below. We paid attention that a player cannot be in two places at the same time: we remove it from its tile, then move it to its destination.
+
+[[[
+Game >> movePlayer: aPlayer distance: anInteger
+	| targetTile |
+	targetTile := self tileFor: aPlayer atDistance: anInteger.
+	(self tileOfPlayer: aPlayer) remove: aPlayer.
+	targetTile addPlayer: aPlayer.
+	aPlayer position: targetTile position.
+]]]
+
+At that moment we said that we did like too much this implementation. And now this is the time 
+to understand why and do improve the situation. 
+
+First it would good that the behavior to manage the entering and leaving of a tile would be closer to the objects performing it. 
+We have two solutions: we could move it to the tile or to the player class. 
+Second we should take another factor into play: different tiles has different behavior; default tiles manages players and active tiles are placing player on their target tile and they do not manage players. Therefore it is more interesting to define a variation point on the tile because
+we will be able to exploit it for normal and active tiles. 
+
+We propose to define two methods on the tile: one to accept a new player named ==acceptPlayer:== and to release a player named ==releasePlayer:==. 
+Let us rewrite ==movePlayer: aPlayer distance: anInteger== with such methods. 
+
+[[[
+SLTile >> acceptPlayer: aPlayer
+	self addPlayer: aPlayer.
+	aPlayer position: position.
+]]]
+
+The use in this definition of self messages or direct instance variable access is an indication that definition belongs to this class. Now we define the method ==releasePlayer:== as follow:
+
+[[[
+SLTile >> releasePlayer: aPlayer
+	self removePlayer: aPlayer
+]]]
+
+Defining the method ==releasePlayer:== was not necessary but we did it because it is more
+symmetrical. 
+
+Now we can redefine ==movePlayer: aPlayer distance: anInteger==.
+
+[[[
+SLGame >> movePlayer: aPlayer distance: anInteger
+	| targetTile |
+	targetTile := self tileFor: aPlayer atDistance: anInteger.
+	(self tileOfPlayer: aPlayer) releasePlayer: aPlayer.
+	targetTile acceptPlayer: aPlayer.
+]]]
+
+All the tests should pass. And this is the power of test driven development, we change the implementation of our game and we can verify that we did not change its behavior.
+
+!!!! Another little improvement
+
+Now we can improve the definition of ==acceptPlayer:==. We can implement its behavior partly on ==SLAbstractTile== and partly on ==SLTile==. This way the definition of the methods are closer to the definition of the instance variables and the state of the objects.
+
+[[[
+SLAbstractTile >> acceptPlayer: aPlayer
+	aPlayer position: position
+]]]
+
+[[[
+SLTile >> acceptPlayer: aPlayer
+	super acceptPlayer: aPlayer.
+	self addPlayer: aPlayer
+]]]
+
+Note that we change the order of execution by invoking the superclass behavior first (using ==super acceptPlayer: aPlayer==) because we prefer to invoke first the superclass method, because we prefer to think that a subclass is extending an existing behavior. 
+
+To be complete, we define that ==releasePlayer:== does nothing on ==SLAbstractTile==. We define it to document the two faces of the protocol.
+
+[[[
+SLAbstractTile >> releasePlayer: aPlayer
+	"Do nothing by default, subclasses may modify this behavior."
+]]]
+
+!!! Active tile actions
+Now we are ready to implement the behavior of the active tiles. But.... yes we will write a test first.  What we want to test is that when a player lands on a snake it falls back on the target and that the original tile does not have this player anymore. This is what this test expresses.
+
+[[[
+SLGameTest >> testPlayerStepOnASnake
+	
+	| jill game |
+	game := SLGame new
+			tileNumber: 12;
+			setLadderFrom: 2 to: 6;
+			setLadderFrom: 7 to: 9;
+			setSnakeFrom: 11 to: 5.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game movePlayer: jill distance: 10.
+	self assert: jill position equals: 5.
+	self assert: (game tileAt: 1) players isEmpty.
+	self assert: ((game tileAt: 5) players includes: jill).
+]]]
+
+Now we just have to implement it!
+
+[[[
+SLActiveTile >> acceptPlayer: aPlayer
+	...
+]]]
+
+There is nothing to do for the message ==releasePlayer:==, because the player is never added to the active tile. Once you are done run the tests and save.
+
+!!! Alternating players
+We are nearly finished with the game. First we should manage that each turn a different player is playing and that the game finish when the current player lands on the final tile. 
+
+We would like to be able to 
+- make the game play in automatic mode
+- make the game one step at the time so that humans can play.
+
+The logic for the automatic play can be expressed as follows:
+
+[[[
+play
+	[ self isNotOver ] whileTrue: [
+		self playPlayer: (self currentPlayer) roll: 6 atRandom ]
+]]]
+
+Until the game is finished, the game identifies the current player and plays this player for a given number given by a dice of six faces. The expression ==6 atRandom== selects randomly a number between 1 and 6. 
+
+
+!!! Player turns and current player
+The game does not keep track of the players and their order.
+We will have to support it so that each player can play in alternance. It will also help us to compute the end of the game. Given a turn, we should identify the current player.
+
+The following test verifies that we obtain the correct player for a given turn.
+[[[
+SLGame >> testCurrentPlayer
+	
+	| jack game jill |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jack; addPlayer: jill. 
+	game turns: 1.
+	self assert: game currentPlayer equals: jack. 
+	game turns: 2.
+	self assert: game currentPlayer equals: jill. 
+	game turns: 3.
+	self assert: game currentPlayer equals: jack. 
+]]]
+
+You should add two instance variables ==players== and ==turns== to the ==SLGame== class. 
+
+
+Then you should initialize the two new instance variables adequately: the ==players== instance variable to an orderedCollection and the ==turns== instance variable to zero. 
+[[[
+SLGame >> initialize
+	...
+]]]
+
+You should modify the method ==addPlayer:== to add the player to the list of players as shown by the method below.
+
+[[[
+SLGame >> addPlayer: aPlayer
+	aPlayer position: 1.
+	players add: aPlayer. 
+	(tiles at: 1) addPlayer: aPlayer
+]]]
+
+We define also the setter method ==turns:== to help us for the test. This is where you see that 
+it would be good in Pharo to have the possibility to write tests inside the class but the SUnit does not allow such behavior. 
+
+[[[
+SLGame >> turn: aNumber
+	turn := aNumber
+]]]
+
+Now we should define the method ==currentPlayer==. Imagine a moment that we have two players Jack-Jill. The turns are the following ones: Jack 1, Jill 2, Jack 3, Jill 4, Jack 5. 
+
+At turn 5, the rest of the division of 5 by 2, gives us 1 so this is the turn of the first player. At turn 4, the rest of the division of 5 by 2 is zero so we take the latest player: Jill. 
+
+[[[
+SLGame >> currentPlayer
+
+	| rest |
+	rest := (turns \\ players size).
+	^ players at: (rest isZero
+		ifTrue: [ players size ]
+		ifFalse: [ rest ])	
+]]]
+
+
+!!! Game end
+Checking for the end of the game can be implemented in at least two ways: 
+- the game can check if any of the player is on the last tile.
+- or when a player lands on the last tile, its effect is to end the game. 
+
+We will implement the first solution but let us write a test first.
+
+[[[
+GameTest >> testIsOver
+	
+	| jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	game addPlayer: jack. 
+	self assert: jack position equals: 1. 
+	game movePlayer: jack distance: 11.
+	self assert: jack position equals: 12.
+	self assert: game isOver.
+]]]
 
 
 
+!!!! Alternate solution
+
+To implement the second version, we can introduce a new tile ==SLEndTile==.
+Here is the list of what should be done:
+- define a new class.
+- redefine the ==acceptPlayer:== to stop the game. Note that it means that the tile should have a reference to the game. This should be added to this special tile.
+- initialize the last tile of the game to be an instance of such class.
 
 
-
-
-
+!!! Alternating players
 
 
 
@@ -1008,3 +1237,49 @@ SLLadderTile >> printInsideOn: aStream
 	targetTile position printOn: aStream
 ]]]
 
+
+!!!! Snake and ladder declaration
+
+[[[
+SLGame >> setSnakeFrom: aSourcePosition to: aTargetPosition
+
+	tiles 
+		at: aSourcePosition 
+		put: (SLSnakeTile new 
+				position: aSourcePosition; 
+				to: (tiles at: aTargetPosition) ; yourself)
+]]]
+
+[[[
+SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition
+
+	tiles 
+		at: aSourcePosition 
+		put: (SLLadderTile new 
+				position: aSourcePosition ; 
+				to: (tiles at: aTargetPosition) ; yourself)
+]]]
+
+!!!! Active tile actions
+
+[[[
+SLActiveTile >> acceptPlayer: aPlayer
+	targetTile acceptPlayer: aPlayer
+]]]
+
+
+!!!! Player turns and current player
+
+
+[[[
+Object subclass: #SLGame
+	instanceVariableNames: 'tiles players turns'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+]]]
+
+[[[
+SLGame >> initialize
+	players := OrderedCollection new. 
+	turns := 0
+]]]
