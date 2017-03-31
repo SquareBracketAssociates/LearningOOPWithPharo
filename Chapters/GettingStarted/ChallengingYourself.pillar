@@ -1,8 +1,7 @@
 !! Challenge yourself
 @cha:challenging
 
-In Pharo everything is an object and most computation happens by sending  ''messages'' to objects.
-In this chapter we propose a list of exercises to challenge you with the syntax.
+In Pharo everything is an object and most computation happens by sending  ''messages'' to objects. In this chapter we propose a list of exercises to challenge you with the syntax.
 
 
 !!!Challenge: Message identification
@@ -32,7 +31,7 @@ Date today
 ]]]
 
 [[[
-anArray at: 1 put: 'hello'
+#('' 'World') at: 1 put: 'Hello'
 
 	receiver: 
 	selector:
@@ -41,7 +40,7 @@ anArray at: 1 put: 'hello'
 ]]]
 
 [[[
-anArray at: i 
+#(1 22 333) at: 2
 
 	receiver: 
 	selector:
@@ -349,21 +348,21 @@ Date today
 ]]]
 
 [[[
-anArray at: 1 put: 'hello'
+#('' 'World') at: 1 put: 'Hello'
 
-	receiver: anArray
+	receiver: #('' 'World')
 	selector: at:put:
-	arguments: 1 and 'hello'
-	results:
+	arguments: 1 and 'Hello'
+	results: #('Hello' 'World')
 ]]]
 
 [[[
-anArray at: i 
+#(1 22 333) at: 2
 
-	receiver: anArray 
+	receiver: #(1 22 333)
 	selector:	at:
-	arguments: _
-	results: Grab the i element
+	arguments: 2
+	results: 22
 ]]]
 
 [[[
@@ -381,7 +380,7 @@ anArray at: i
 	receiver: 25
 	selector: @
 	arguments: 50
-	results: a point
+	results: 25@50 (a point)
 ]]]
 
 [[[
