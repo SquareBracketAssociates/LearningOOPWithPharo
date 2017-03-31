@@ -1191,7 +1191,7 @@ SLGame >> playOneStepWithRoll: aNumber
 	Transcript show: self; cr.
 ]]]
 
-+Playing step by step inside the inspector.>file://figures/playingInsideInspector.png|width=70|label=fig:playingInsideInspector+
++Playing step by step inside the inspector.>file://figures/playingInsideInspector.png|width=100|label=fig:playingInsideInspector+
 
 Now we can verify that when a player lands on a ladder it is getting up. 
 
@@ -1231,7 +1231,7 @@ game inspect
 ]]]
 
 
-+Automated play.>file://figures/AutomatedPlay.png|width=70|label=fig:AutomatedPlay+
++Automated play.>file://figures/AutomatedPlay.png|width=100|label=fig:AutomatedPlay+
 
 !!! Automated play
 
