@@ -1045,15 +1045,35 @@ Now we should define the method ==currentPlayer==. Imagine a moment that we have
 
 At turn 5, the rest of the division of 5 by 2, gives us 1 so this is the turn of the first player. At turn 4, the rest of the division of 5 by 2 is zero so we take the latest player: Jill. 
 
+Here is an expression that shows the result when we have two players and we use the division. 
+[[[
+(1 to: 10) collect: [ :each | each -> (each \\ 2) ] 
+> {1->1. 2->0. 3->1. 4->0. 5->1. 6->0. 7->1. 8->0. 9->1. 10->0}
+]]]
+
+Here is an expression that shows the result when we have two players and we use the division. 
+[[[
+(1 to: 10) collect: [ :each | each -> (each \\ 3) ] 
+> {1->1. 2->2. 3->0. 4->1. 5->2. 6->0. 7->1. 8->2. 9->0. 10->1}
+]]]
+
+What you see is that each time we get 0, it measn that this is the last player (second in the first case and third in the second). 
+
+This is what we do with the following method. We compute the rest of the division. 
+We obtain a number between 0 and the player number minus one. This number indicates the index of the number in the ==players== ordered collection. When it is zero it means that we should take the latest player. 
+
 [[[
 SLGame >> currentPlayer
 
-	| rest |
+	| rest playerIndex |
 	rest := (turns \\ players size).
-	^ players at: (rest isZero
-		ifTrue: [ players size ]
-		ifFalse: [ rest ])	
+	playerIndex := (rest isZero
+					ifTrue: [ players size ]
+					ifFalse: [ rest ]).
+	^ players at: 	playerIndex
 ]]]
+
+Run your tests and make sure that they all pass and save.
 
 
 !!! Game end
@@ -1064,7 +1084,7 @@ Checking for the end of the game can be implemented in at least two ways:
 We will implement the first solution but let us write a test first.
 
 [[[
-GameTest >> testIsOver
+SLGameTest >> testIsOver
 	
 	| jack game |
 	game := SLGame new tileNumber: 12.
@@ -1076,6 +1096,12 @@ GameTest >> testIsOver
 	self assert: game isOver.
 ]]]
 
+Now define the method ==isOver==. You cna use ==anySatisfy:== a messsage that returns true if one of the elements of a collection (the receiver) satisfy a condition. The condition is that a player position is the number of tiles (since the last tile position is equal to the number of tiles).
+
+[[[
+SLGame >> isOver
+	...
+]]]
 
 
 !!!! Alternate solution
@@ -1087,17 +1113,210 @@ Here is the list of what should be done:
 - initialize the last tile of the game to be an instance of such class.
 
 
-!!! Alternating players
+!!! Playing one move
 
+Before automating the play of the game we should make sure that a dice roll will not bring our player outside the board.
+
+Here is a simple test covering the situations.
+
+[[[
+SLGameTest >> testCanMoveToPosition
+	
+	| game |
+	game := SLGame new tileNumber: 12.
+	self assert: (game canMoveToPosition: 8).
+	self assert: (game canMoveToPosition: 12).
+	self deny: (game canMoveToPosition: 13).
+]]]
+
+Define the method ==canMoveToPosition:==. It takes as input the position of the potential move. 
+[[[
+SLGame >> canMoveToPosition: aNumber
+	...
+]]]
+
+
+!!!! Playing one game step
+
+Now we are finally ready to finish the implementation of the game. Here are two tests that check that the game can play a step correctly, i.e., picking the correct player and moving it 
+in the correct place. 
+
+[[[
+SLGameTest >> testPlayOneStep
+	
+	| jill jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	self assert: jill position equals: 1.
+	game playOneStepWithRoll: 3.
+	self assert: jill position equals: 4.
+	self assert: (game tileAt: 1) players size equals: 1.
+	self assert: ((game tileAt: 4) players includes: jill)
+]]]
+	
+[[[	
+SLGameTest >> testPlayTwoSteps
+	
+	| jill jack game |
+	game := SLGame new tileNumber: 12.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	game playOneStepWithRoll: 3.
+	game playOneStepWithRoll: 2.
+	"nothing changes for jill"
+	self assert: jill position equals: 4.
+	self assert: ((game tileAt: 4) players includes: jill).
+	"now let us verify that jack moved correctly to tile 3"	
+	self assert: (game tileAt: 1) players size equals: 0.
+	self assert: jack position equals: 3.
+	self assert: ((game tileAt: 3) players includes: jack)
+]]]
+	
+Here is a possible implementation of the method ==playOneStepWithRoll:==. 
+
+[[[
+SLGame >> playOneStepWithRoll: aNumber
+		
+	| currentPlayer |
+	turns := turns + 1.
+	currentPlayer := self currentPlayer. 
+	Transcript show: currentPlayer printString, 'drew ', aNumber printString, ': '. 
+	(self canMoveToPosition: currentPlayer position + aNumber)
+		ifTrue: [ self movePlayer: currentPlayer distance: aNumber ].
+	Transcript show: self; cr.
+]]]
+
++Playing step by step inside the inspector.>file://figures/playingInsideInspector.png|width=70|label=fig:playingInsideInspector+
+
+Now we can verify that when a player lands on a ladder it is getting up. 
+
+[[[
+SLGameTest >> testPlayOneStepOnALadder
+	
+	| jill jack game |
+	game := SLGame new 
+				tileNumber: 12; 
+				setLadderFrom: 2 to: 6;
+				setLadderFrom: 7 to: 9;
+				setSnakeFrom: 11 to: 5.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	game playOneStepWithRoll: 1.
+	self assert: jill position equals: 6.
+	self assert: (game tileAt: 1) players size equals: 1.
+	self assert: ((game tileAt: 6) players includes: jill).
+]]]
+
+You can try this method inside an inspector and see the result of the moves displayed in the transcript as shown in Figure *@fig:playingInsideInspector*.
+
+[[[
+| jill jack game |
+game := SLGame new 
+			tileNumber: 12; 
+			setLadderFrom: 2 to: 6;
+			setLadderFrom: 7 to: 9;
+			setSnakeFrom: 11 to: 5.
+jack := SLPlayer new name: 'Jack'.
+jill := SLPlayer new name: 'Jill'.
+game addPlayer: jill.
+game addPlayer: jack.
+game inspect
+]]]
+
+
++Automated play.>file://figures/AutomatedPlay.png|width=70|label=fig:AutomatedPlay+
+
+!!! Automated play
+
+Now we can can define the ==play== method as follows and use it as shown in Figure *@fig:AutomatedPlay*.
+
+[[[
+SLGame >> play
+
+	Transcript show: self; cr.
+	[ self isOver not ] whileTrue: [
+		self playOneStepWithRoll: 6 atRandom ] 
+]]]
+
+!!!! Some final tests
+
+We would like to make sure that the player is not moved when it does not land on the last tile or that the game is finished when one player land on the last tile. Here are two tests covering such behavior.
+
+[[[
+SLGameTest >> testPlayOneStepOnExactFinish
+	
+	| jill jack game |
+	game := SLGame new 
+			tileNumber: 12; 
+			setLadderFrom: 2 to: 6;
+			setLadderFrom: 7 to: 9;
+			setSnakeFrom: 11 to: 5.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
+	game addPlayer: jack. 
+
+	game playOneStepWithRoll: 11.
+	"jill lands on the finish tile!"
+	self assert: jill position equals: 12.
+	self assert: (game tileAt: 1) players size equals: 1. 
+	self assert: ((game tileAt: 12) players includes: jill).
+	self assert: game isOver.
+]]]
+
+[[[
+SLGameTest >> testPlayOneStepOnInexactFinish
+	
+	| jill jack game |
+	game := SLGame new 
+			tileNumber: 12; 
+			setLadderFrom: 2 to: 6;
+			setLadderFrom: 7 to: 9;
+			setSnakeFrom: 11 to: 5.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
+	game addPlayer: jack. 
+    "jill moves"
+	game playOneStepWithRoll: 9.
+	self assert: jill position equals: 10.
+	self assert: ((game tileAt: 10) players includes: jill).
+	"jack moves"
+	game playOneStepWithRoll: 2. 
+	"jill tries to move but in fact stays at her place"
+	game playOneStepWithRoll: 5.
+	self assert: jill position equals: 10.
+	self assert: ((game tileAt: 10) players includes: jill).
+	self deny: game isOver.
+]]]
 
 
 !!! Variations
 
-- A player who lands on an occupied square must go back to the start square.
-- If you roll a number higher than the number of squares needs to reach the last square, you must continue moving backwards.
+As you see this single game has multiple variations. Here are some of the ones you may want to implement. 
+- A player who lands on an occupied tile must go back to its originating tile.
+- If you roll a number higher than the number of tiles needed to reach the last square, you must continue moving backwards from the end. 
 
-It means that we may have to have a resolution object. 
+You will see that such extensions can be implemented in different manner. We suggest to avoid conditions but define objects responsible for the behavior and its variations. 
 
+!!! Conclusion
+This chapter went step by step to the process of getting from requirements to an actual implementation covered by tests. 
+
+This chapter shows that design is an iterative process. What is also important is that without tests we would be a lot more worried about breaking something without be warned immediately.
+With tests we were able to change some parts of the design and rapidly make sure that the
+previous specification still hold.
+
+This chapter shows that identifying the objects and their interactions is not always straightforward and multiple design are often valid. 
+
+
+!! Snake and ladder solutions
 
 !!! Solutions
 
@@ -1283,3 +1502,21 @@ SLGame >> initialize
 	players := OrderedCollection new. 
 	turns := 0
 ]]]
+
+!!!! Game end
+
+[[[
+SLGame >> isOver
+
+	^ players anySatisfy: [ :each | each position = tiles size ]
+]]]
+
+!!!! Playing one move
+[[[
+SLGame >> canMoveToPosition: aNumber
+	"We can only move if we stay within the game.
+	This implies that the player should draw an exact number to land on the finish tile."
+	
+	^ aNumber <= tiles size
+]]]
+
