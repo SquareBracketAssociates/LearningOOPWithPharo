@@ -170,23 +170,23 @@ The use of ==;== sends the message to the receiver of the previous message (here
 
 
 !!! First specification of a dice handle
-Let us define a new class ==DiceHandle== that represents a dice handle. 
+Let us define a new class ==DieHandle== that represents a dice handle. 
 Here is the API that we would like to offer for now (as shown in Figure *@fig:DiceDesign*). We create a new handle then add some dice to it.
 
 +A dice handle is composed of dice.>file://figures/DiceDesign.pdf|width=60|label=fig:DiceDesign+
 
 
 [[[
-DiceHandle new 
+DieHandle new 
 	addDie: (Die withFaces: 6);
 	addDie: (Die withFaces: 10);
 	yourself
 ]]]
 
-Of course we will define tests first for this new class. We define the class ==DiceHandleTest==.
+Of course we will define tests first for this new class. We define the class ==DieHandleTest==.
 
 [[[
-TestCase subclass: #DiceHandleTest
+TestCase subclass: #DieHandleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	package: 'Dice'
@@ -197,9 +197,9 @@ We define a new test method as follows. We create a new handle and add one die o
 We verify that the handle is composed of two dice. 
 
 [[[
-DiceHandleTest >> testCreationAdding
+DieHandleTest >> testCreationAdding
 	| handle |
-	handle := DiceHandle new 
+	handle := DieHandle new 
 			addDie: (Die withFaces: 6);
 			addDie: (Die withFaces: 10);
 			yourself.
@@ -210,9 +210,9 @@ In fact we can do it better. Let us add a new test method to verify that we can 
 two dice having the same number of faces. 
 
 [[[
-DiceHandleTest >> testAddingTwiceTheSameDice
+DieHandleTest >> testAddingTwiceTheSameDice
 	| handle |
-	handle := DiceHandle new. 
+	handle := DieHandle new. 
 	handle addDie: (Die withFaces: 6).
 	self assert: handle diceNumber = 1.
 	handle addDie: (Die withFaces: 6).
@@ -222,9 +222,9 @@ DiceHandleTest >> testAddingTwiceTheSameDice
 Now that we specified what we want, we should implement the expected class and messages. 
 Easy!
 
-!!! Defining the DiceHandle class
+!!! Defining the DieHandle class
 
-The class ==DiceHandle== inherits from ==Object== and it defines one instance variable to hold the dice it contains. 
+The class ==DieHandle== inherits from ==Object== and it defines one instance variable to hold the dice it contains. 
 
 [[[
 Object subclass: ...
@@ -235,33 +235,33 @@ Object subclass: ...
 We simply initialize it so that its instance variable ==dice== contains an instance of ==OrderedCollection==.
 
 [[[
-DiceHandle >> initialize
+DieHandle >> initialize
 	Your code here
 ]]]
 
 Then define a simple method ==addDie:== to add a die to the list of dice of the handle. You can use the message ==add:== sent to a collection.
 
 [[[
-DiceHandle >> addDie: aDie 
+DieHandle >> addDie: aDie 
 	...
 	Your code here
 ]]]
 
-Now you can execute the code snippet and inspect it. You should get an inspector as shown in Figure *@diceHandleNoDetail* 
+Now you can execute the code snippet and inspect it. You should get an inspector as shown in Figure *@DieHandleNoDetail* 
 [[[
-DiceHandle new 
+DieHandle new 
 	addDie: (Die withFaces: 6);
 	addDie: (Die withFaces: 10);
 	yourself
 ]]]
 
-+Inspecting a DiceHandle.>file://figures/DiceHandleNoDetail.png|width=60|label=diceHandleNoDetail+
++Inspecting a DieHandle.>file://figures/DieHandleNoDetail.png|width=60|label=DieHandleNoDetail+
 
 
-Finally we should add the method ==diceNumber== to the ==DiceHandle== class to be able to get the number of dice of the handle. We just return the size of the dice collection.
+Finally we should add the method ==diceNumber== to the ==DieHandle== class to be able to get the number of dice of the handle. We just return the size of the dice collection.
 
 [[[
-DiceHandle >> diceNumber  
+DieHandle >> diceNumber  
 	^ dice size
 ]]]
 
@@ -272,7 +272,7 @@ Now your tests should run and this is good moment to save and publish your code.
 Now when you open an inspector you cannot see well the dice that compose the dice handle. Click on the ==dice== instance variable and you will only get a list of ==a Dice== without further information. What we would like to get is something like ==a Die (6)== or ==a Die (10)== so that in a glance we know the faces a die has. 
 
 [[[
-DiceHandle new 
+DieHandle new 
 	addDie: (Die withFaces: 6);
 	addDie: (Die withFaces: 10);
 	yourself
@@ -287,21 +287,21 @@ Die >> printOn: aStream
 	aStream nextPutAll: ' (', faces printString, ')'
 ]]]
 
-Now in your inspector you can see effectively the number of faces a dice handle has as shown by Figure *@diceDetail* and it is now easier to check the dice contained inside a handle (See Figure *@diceHandleDetail*).
+Now in your inspector you can see effectively the number of faces a dice handle has as shown by Figure *@diceDetail* and it is now easier to check the dice contained inside a handle (See Figure *@DieHandleDetail*).
 
 +Die details.>file://figures/DiceDetail.png|width=60|label=diceDetail+ 
 
-+Dice Handle with more information.>file://figures/DiceHandleDetail.png|width=100|label=diceHandleDetail+ 
++Dice Handle with more information.>file://figures/DieHandleDetail.png|width=100|label=DieHandleDetail+ 
 
 !!! Rolling a dice handle
 
 Now we can define the rolling of a dice handle by simply summing result of rolling each of its dice. 
-Implement the ==roll== method of the ==DiceHandle== class. This method must collect the results of rolling each dice of the handle and sum them.
+Implement the ==roll== method of the ==DieHandle== class. This method must collect the results of rolling each dice of the handle and sum them.
 
 You may want to have a look at the method ==sum== in the class ==Collection== or use a simple loop. 
 
 [[[
-DiceHandle >> roll
+DieHandle >> roll
 	...
 	Your code here
 ]]]
@@ -309,7 +309,7 @@ DiceHandle >> roll
 
 Now we can send the message ==roll== to a dice handle.
 [[[
-handle := DiceHandle new 
+handle := DieHandle new 
 		addDie: (Die withFaces: 6);
 		addDie: (Die withFaces: 10);
 		yourself.
@@ -319,19 +319,19 @@ handle roll
 Define a test to cover such behavior. Rolling an handle of n dice should be between n and the sum of the face number of each die. 
 
 [[[
-DiceHandleTest >> testRoll
+DieHandleTest >> testRoll
 	...
 	Your code here
 ]]]
 
-!!! About Dice and DiceHandle API
+!!! About Dice and DieHandle API
 
-It is worth to spend some times looking at the relationship between ==DiceHandle== and ==Dice==. 
+It is worth to spend some times looking at the relationship between ==DieHandle== and ==Dice==. 
 A dice handle is composed of dices. What is an important design decision is that the API of the main behavior (==roll==) is the same for a die or a dice handle. You can send the message ==roll== to a dice or a dice handle. This is an important property.
 
-Why? because it means that from a client perspective, she/he can treat the receiver without having to take care about the kind of object it is manipulating. A client just sends the message ==roll== to an object and get back a number (as shown in Figure *@figDiceHandleComposition*). The client is not concerned by the fact that the receiver is composed out a simple object or a complex one. Such design decision supports the ''Don't ask, tell'' principle.
+Why? because it means that from a client perspective, she/he can treat the receiver without having to take care about the kind of object it is manipulating. A client just sends the message ==roll== to an object and get back a number (as shown in Figure *@figDieHandleComposition*). The client is not concerned by the fact that the receiver is composed out a simple object or a complex one. Such design decision supports the ''Don't ask, tell'' principle.
 
-+A polymorphic API supports the ''Don't ask, tell'' principle.>file://figures/DiceHandleComposition.pdf|width=60|label=figDiceHandleComposition+
++A polymorphic API supports the ''Don't ask, tell'' principle.>file://figures/DieHandleComposition.pdf|width=60|label=figDieHandleComposition+
 
 @@note Offering polymorphic API is a tenet of good object-oriented design. It enforces the ''Don't ask, tell'' principle. Clients do not have to worry about the type of the objects to whom they talk to. 
 
@@ -346,12 +346,12 @@ Composite objects such document objects (a book is composed of chapters, a chapt
 
 Now we are ready to offer a syntax following practice of role playing game, i.e., using ==2 D20== to create a handle of two 20 faces dice.  For this purpose we will define class extensions: we will define methods in the class ==Integer== but these methods will be only available when the package Dice will be loaded. 
 
-But first let us specify  what we would like to obtain by writing a new  test in the class ==DiceHandleTest==. Remember
+But first let us specify  what we would like to obtain by writing a new  test in the class ==DieHandleTest==. Remember
 to always take  any opportunity to write tests.  When we execute ==2 D20== we  should get a new handle  composed of two
 dice and can verify that. This is what the method ==testSimpleHandle== is doing.
 
 [[[
-DiceHandleTest >> testSimpleHandle
+DieHandleTest >> testSimpleHandle
 	self assert: 2 D20 diceNumber = 2.
 ]]]
 
@@ -368,7 +368,7 @@ Integer >> D20
 
 !!!! About class extensions
 
-We asked you to place the method ==D20== in a protocol starting with a star and having the name of the package (=='*Dice'==) because we want this method to be saved (and packaged) together with the code of the classes we already created (==Die==, ==DiceHandle==,...) 
+We asked you to place the method ==D20== in a protocol starting with a star and having the name of the package (=='*Dice'==) because we want this method to be saved (and packaged) together with the code of the classes we already created (==Die==, ==DieHandle==,...) 
 Indeed in Pharo we can define methods in classes that are not defined in our package. Pharoers call this action a class extension: we can add methods to a class that is not ours. For example ==D20== is defined on the class ==Integer==. Now such methods only make sense when the package ==Dice== is loaded. 
 This is why we want to save and load such methods with the package we created. This is why we are defining the protocol as =='*Dice'==.
 This notation is a way for the system to know that it should save the methods with the package and not with the package of the class ==Integer==. 
@@ -411,7 +411,7 @@ We have now a compact form to create dice and we are ready for the last part: th
 Now what is missing is that possibility to add several handles as follows: ==2 D20 + 3 D10==. Of course let's write a test first to be clear on what we mean.
 
 [[[
-DiceHandleTest >> testSumming
+DieHandleTest >> testSumming
 	| handle |
 	handle := 2 D20 + 3 D10.
 	self assert: handle diceNumber = 5.
@@ -424,7 +424,7 @@ Now we should ask ourself what is the semantics of adding two handles. Should we
 The method ==\+== creates a new handle then add to it the dice of the receiver and the one of the handle passed as argument to the message. Finally we return it. 
 
 [[[
-DiceHandle >> + aDiceHandle
+DieHandle >> + aDieHandle
 	...
 	Your code here 
 ]]]
@@ -438,7 +438,7 @@ Now we can execute the method ==(2 D20 + 1 D6) roll== nicely and start playing r
 !!! Conclusion
 
 This chapter illustrates how to create a small DSL based on the definition of some domain classes (here ==Dice== and  
- ==DiceHandle==) and the extension of core class such as ==Integer==. It also shows that we can create packages with all the methods that are needed even when such methods are defined on classes external (here ==Integer==) to the package.  
+ ==DieHandle==) and the extension of core class such as ==Integer==. It also shows that we can create packages with all the methods that are needed even when such methods are defined on classes external (here ==Integer==) to the package.  
 It shows that in Pharo we can use usual operators such as ==+== to express natural models.
 
 
