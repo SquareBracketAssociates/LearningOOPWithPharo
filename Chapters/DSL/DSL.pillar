@@ -34,7 +34,9 @@ If you execute the test, the system will prompt you to create a class ==Die==. D
 
 !!!! Define the class Die
 
-The class ==Die== inherits from ==Object== and it has an instance variable, ==faces== to represent the number of faces one instance will have. 
+The class ==Die== inherits from ==Object== and it has an instance variable, ==faces== to represent the number of faces one instance will have. Figure *@figOneClassDiceDesign* gives an overview of the messages. 
+
++A single class with a couple of messages.>file://figures/OneClassDiceDesign.pdf|width=25|label=figOneClassDiceDesign+
 
 [[[
 Object subclass:
@@ -110,7 +112,8 @@ DieTest >> testCreationIsOk
 
 What the test clearly shows is that we are sending a message to the ""class"" ==Die== itself.
 
-@@todo add a screenshot
+
+
 !!!! Defining a class method
 
 Define the ''class'' method ==withFaces:== as follows. 
@@ -168,7 +171,10 @@ The use of ==;== sends the message to the receiver of the previous message (here
 
 !!! First specification of a dice handle
 Let us define a new class ==DiceHandle== that represents a dice handle. 
-Here is the API that we would like to offer for now. We create a new handle then add some dice to it.
+Here is the API that we would like to offer for now (as shown in Figure *@fig:DiceDesign*). We create a new handle then add some dice to it.
+
++A dice handle is composed of dice.>file://figures/DiceDesign.pdf|width=60|label=fig:DiceDesign+
+
 
 [[[
 DiceHandle new 
@@ -317,6 +323,23 @@ DiceHandleTest >> testRoll
 	...
 	Your code here
 ]]]
+
+!!! About Dice and DiceHandle API
+
+It is worth to spend some times looking at the relationship between ==DiceHandle== and ==Dice==. 
+A dice handle is composed of dices. What is an important design decision is that the API of the main behavior (==roll==) is the same for a die or a dice handle. You can send the message ==roll== to a dice or a dice handle. This is an important property.
+
+Why? because it means that from a client perspective, she/he can treat the receiver without having to take care about the kind of object it is manipulating. A client just sends the message ==roll== to an object and get back a number (as shown in Figure *@figDiceHandleComposition*). The client is not concerned by the fact that the receiver is composed out a simple object or a complex one. Such design decision supports the ''Don't ask, tell'' principle.
+
++A polymorphic API supports the ''Don't ask, tell'' principle.>file://figures/DiceHandleComposition.pdf|width=60|label=figDiceHandleComposition+
+
+@@note Offering polymorphic API is a tenet of good object-oriented design. It enforces the ''Don't ask, tell'' principle. Clients do not have to worry about the type of the objects to whom they talk to. 
+
+!!!! About composition
+Composite objects such document objects (a book is composed of chapters, a chapter is composed of sections, a section is composed of paragraphs) have often a more complex composition relationship than the composition between die and dice handle. Often the composition is recursive in the sense that an element can be the whole: for example, a diagram can be composed of lines, circles, and other diagrams. We will see an example of such composition in the Expression Chapter *cha:expressions*.
+
+
+
 
 
 !!! Role playing syntax
