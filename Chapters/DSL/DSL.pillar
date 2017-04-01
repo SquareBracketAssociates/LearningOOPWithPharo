@@ -144,7 +144,7 @@ Die >> faces: aNumber
 	faces := aNumber
 ]]]
 
-Now your tests should run. So even if the class ==Die== could implement more behavior, we are ready to implement a dice handle. 
+Now your tests should run. So even if the class ==Die== could implement more behavior, we are ready to implement a die handle. 
 
 @@note A class method is a method executed in reaction to messages sent to a ''class''. It is defined on the class side of the class. In ==Die withFaces: 20==, the message ==withFaces:== is sent to the class ==Die==. In ==Die new faces: 20==, the message ==new== is sent to the ''class'' ==Die== and the message ==faces:== is sent to the ''instance'' returned by ==Die new==. 
 
@@ -169,11 +169,11 @@ The trick is that ==yourself== is a simple method defined on ==Object== class: T
 The use of ==;== sends the message to the receiver of the previous message (here ==faces:==).  The message ==yourself== is then sent to the object resulting from the execution of the expression ==self new== (which returns a new instance of the class ==Die==), as a consequence it returns the new instance. 
 
 
-!!! First specification of a dice handle
-Let us define a new class ==DieHandle== that represents a dice handle. 
+!!! First specification of a die handle
+Let us define a new class ==DieHandle== that represents a die handle. 
 Here is the API that we would like to offer for now (as shown in Figure *@fig:DiceDesign*). We create a new handle then add some dice to it.
 
-+A dice handle is composed of dice.>file://figures/DiceDesign.pdf|width=60|label=fig:DiceDesign+
++A die handle is composed of dice.>file://figures/DiceDesign.pdf|width=60|label=fig:DiceDesign+
 
 
 [[[
@@ -192,7 +192,7 @@ TestCase subclass: #DieHandleTest
 	package: 'Dice'
 ]]]
 
-!!!! Testing a Dice Handle
+!!!! Testing a die handle
 We define a new test method as follows. We create a new handle and add one die of 6 faces and one die of 10 faces.
 We verify that the handle is composed of two dice. 
 
@@ -255,7 +255,7 @@ DieHandle new
 	yourself
 ]]]
 
-+Inspecting a DieHandle.>file://figures/DieHandleNoDetail.png|width=60|label=DieHandleNoDetail+
++Inspecting a DieHandle.>file://figures/DiceHandleNoDetail.png|width=60|label=DieHandleNoDetail+
 
 
 Finally we should add the method ==diceNumber== to the ==DieHandle== class to be able to get the number of dice of the handle. We just return the size of the dice collection.
@@ -269,7 +269,7 @@ Now your tests should run and this is good moment to save and publish your code.
 
 !!! Improving programmer experience
 
-Now when you open an inspector you cannot see well the dice that compose the dice handle. Click on the ==dice== instance variable and you will only get a list of ==a Dice== without further information. What we would like to get is something like ==a Die (6)== or ==a Die (10)== so that in a glance we know the faces a die has. 
+Now when you open an inspector you cannot see well the dice that compose the die handle. Click on the ==dice== instance variable and you will only get a list of ==a Dice== without further information. What we would like to get is something like ==a Die (6)== or ==a Die (10)== so that in a glance we know the faces a die has. 
 
 [[[
 DieHandle new 
@@ -287,15 +287,15 @@ Die >> printOn: aStream
 	aStream nextPutAll: ' (', faces printString, ')'
 ]]]
 
-Now in your inspector you can see effectively the number of faces a dice handle has as shown by Figure *@diceDetail* and it is now easier to check the dice contained inside a handle (See Figure *@DieHandleDetail*).
+Now in your inspector you can see effectively the number of faces a die handle has as shown by Figure *@diceDetail* and it is now easier to check the dice contained inside a handle (See Figure *@DieHandleDetail*).
 
 +Die details.>file://figures/DiceDetail.png|width=60|label=diceDetail+ 
 
-+Dice Handle with more information.>file://figures/DieHandleDetail.png|width=100|label=DieHandleDetail+ 
++die handle with more information.>file://figures/DiceHandleDetail.png|width=100|label=DieHandleDetail+ 
 
-!!! Rolling a dice handle
+!!! Rolling a die handle
 
-Now we can define the rolling of a dice handle by simply summing result of rolling each of its dice. 
+Now we can define the rolling of a die handle by simply summing result of rolling each of its dice. 
 Implement the ==roll== method of the ==DieHandle== class. This method must collect the results of rolling each dice of the handle and sum them.
 
 You may want to have a look at the method ==sum== in the class ==Collection== or use a simple loop. 
@@ -307,7 +307,7 @@ DieHandle >> roll
 ]]]
 
 
-Now we can send the message ==roll== to a dice handle.
+Now we can send the message ==roll== to a die handle.
 [[[
 handle := DieHandle new 
 		addDie: (Die withFaces: 6);
@@ -327,16 +327,16 @@ DieHandleTest >> testRoll
 !!! About Dice and DieHandle API
 
 It is worth to spend some times looking at the relationship between ==DieHandle== and ==Dice==. 
-A dice handle is composed of dices. What is an important design decision is that the API of the main behavior (==roll==) is the same for a die or a dice handle. You can send the message ==roll== to a dice or a dice handle. This is an important property.
+A die handle is composed of dices. What is an important design decision is that the API of the main behavior (==roll==) is the same for a die or a die handle. You can send the message ==roll== to a dice or a die handle. This is an important property.
 
 Why? because it means that from a client perspective, she/he can treat the receiver without having to take care about the kind of object it is manipulating. A client just sends the message ==roll== to an object and get back a number (as shown in Figure *@figDieHandleComposition*). The client is not concerned by the fact that the receiver is composed out a simple object or a complex one. Such design decision supports the ''Don't ask, tell'' principle.
 
-+A polymorphic API supports the ''Don't ask, tell'' principle.>file://figures/DieHandleComposition.pdf|width=60|label=figDieHandleComposition+
++A polymorphic API supports the ''Don't ask, tell'' principle.>file://figures/DiceHandleComposition.pdf|width=60|label=figDieHandleComposition+
 
 @@note Offering polymorphic API is a tenet of good object-oriented design. It enforces the ''Don't ask, tell'' principle. Clients do not have to worry about the type of the objects to whom they talk to. 
 
 !!!! About composition
-Composite objects such document objects (a book is composed of chapters, a chapter is composed of sections, a section is composed of paragraphs) have often a more complex composition relationship than the composition between die and dice handle. Often the composition is recursive in the sense that an element can be the whole: for example, a diagram can be composed of lines, circles, and other diagrams. We will see an example of such composition in the Expression Chapter *cha:expressions*.
+Composite objects such document objects (a book is composed of chapters, a chapter is composed of sections, a section is composed of paragraphs) have often a more complex composition relationship than the composition between die and die handle. Often the composition is recursive in the sense that an element can be the whole: for example, a diagram can be composed of lines, circles, and other diagrams. We will see an example of such composition in the Expression Chapter *cha:expressions*.
 
 
 
@@ -358,7 +358,7 @@ DieHandleTest >> testSimpleHandle
 Verify that the test is not working! It is much more satisfactory to get a test running when it was not working before. Now define the method ==D20== with a protocol named ==\*NameOfYourPackage== (=='\*Dice==' if you named your package =='Dice'==).
 The ==\*== (star) prefixing a protocol name indicates that the protocol and its methods belong to another package than the package of the class. Here we want to say that while the method ==D20== is defined in the class ==Integer==, it should be saved with the package ==Dice==. 
  
-The method ==D20== simply creates a new dice handle, adds the correct number of dice to this handle, and returns the handle.
+The method ==D20== simply creates a new die handle, adds the correct number of dice to this handle, and returns the handle.
 
 [[[
 Integer >> D20
