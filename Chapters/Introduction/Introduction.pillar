@@ -21,11 +21,20 @@ In addition some chapters are key and conceptual while others are more little tu
 !!!! Fast track
 The following chapers contain more conceptual information:
 
-- OOP in a nutshell
-- Syntax and Tests
-- Objects and classes. (Counter), Domain Specific Language
+In the volume 1
+- Glimpse at the Syntax
+- Tests, tests and tests
+- Objects and Classes
+- Revisiting Objects and Classes
+- Domain Specific Language
 - Inheritance and Expressions
-- Sending Message, Scissors, Aliens and sheeps
+- Snakes and Ladders
+
+In the volume 2
+- Sending Message, 
+- Scissors
+- Visitors
+- Aliens and sheeps
 
 
 
@@ -36,30 +45,34 @@ The following chapers contain more conceptual information:
 I would like to present the concepts that I want to teach you and that hopefully you should acquire. What is key to understand is that I will focus on the ''key'' conceptual elements. It is easy for me because I will not explain OOP/D in general but within the context of Pharo and Pharo is the essence of Object-Oriented programming since it object model is minimal 
 but it covers the key and essential aspect of OOP. For example I will not present method modifiers, types, overloading (which is a bad concept).
 
-I will focus on OOP concepts and object-oriented design 
+I will focus on object-oriented programming concepts and object-oriented design 
 - Objects / Classes 
 - Messages / Methods
 - self and its semantics
 - Inheritance
 - super and its semantics
 
-And  OOP design
+And  Object-oriented design
+- Class responsibility collaboration
 - Delegation
 - Message sends are choice (what would be the equivalent to not)
 - Message sends are plans for reuse
 - Double Dispatch
-- Don't ask tell
+- The "Don't ask, tell" Principle
 - Tests are your life ensurance
 - Polymorphism
-- Composite
-- Hook template
-- Strategy 
+- Composite Pattern
+- Visitor Pattern
+- Hook template Design Pattern
+- Strategy Design Pattern
 
 !!!! Syntax, Blocks and Iterators
-Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple  
-- one postcard
-- closure
-- iterators
+Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple chapters to get you started. 
+
+Now in a nutshell you should know that the Pharo syntax
+- fits in one postcard; 
+- is based on objects, messages and closure;
+Closures are not a late addition to the language but a central cornestone. They enable this messages all over syntax as well as really powerful iterators.
 
 !!! Typographic conventions
 
@@ -91,11 +104,10 @@ Guillermo Polito for the idea of this cool example of files and directories.
 
 
 !!! New todo
-- finish Snake And ladde
+- read LAN Finish tjj LAN and may be reunit it. 
 - Implement game collector app
 - reread and implement Game of life
 - implement sokoban 
-- read LAN Finish tjj LAN and may be reunit it. 
 - Read tinychat
 - Implement Game of Life
 - Sending messages
