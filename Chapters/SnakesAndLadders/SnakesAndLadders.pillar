@@ -9,7 +9,7 @@ In this chapter you will implement SnakesAndLadders and we use it as a pretext t
 
 
 !!! Game Rules
-Snakes and Ladders originated in India as part of a family of dice games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
+Snakes and Ladders originated in India as part of a family of die games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
 Here is a little description of the rules: 
 - ""Players:"" Snakes and Ladders is played by two to four players, each with her/his own token to move around the board.
 - ""Moving Player"": a player rolls a die, then moves the designated number of tiles, between one and six. Once he lands on a tile, she/he has to perform any action designated by the tile. (Since the rules are fuzy we decided that we can have multiple players in the same tile).
@@ -39,7 +39,7 @@ and avoid lengthly UI descriptions.
 
 The following is a possible game execution: two players are on the first tile. 
 We see that the board displays the two ladders and one snake. 
-Then starting from Jill they drew and roll a dice and go to the corresponding tile and follow its effect.
+Then starting from Jill they drew and roll a die and go to the corresponding tile and follow its effect.
 [[[
 [1<Jill><Jack>][2->6][3][4][5][6][7->9][8][9][10][5<-11][12]
 <Jill>drew 3: [1<Jack>][2->6][3][4<Jill>][5][6][7->9][8][9][10][5<-11][12]
@@ -61,8 +61,8 @@ Here we follow another path:  sketching scenarii. We describe some scenarii and 
 
 - Scenario 1. The game should be created with a number of tiles. In particular the end and start tiles should exist. Ladders and snakes should be declared.
 - Scenario 2. Players are declared. They start on the first tiles. 
-- Scenario 3. When player rolls a dice, he should move the number of tiles given by the dice.
-- Scenario 4. After moving the first player a given number of tiles based on the result of dice roll, this is the turn of the second player.
+- Scenario 3. When player rolls a die, he should move the number of tiles given by the die.
+- Scenario 4. After moving the first player a given number of tiles based on the result of die roll, this is the turn of the second player.
 - Scenario 5. When a player arrives to a ladder start, it should be moved to the ladder end.
 - Scenario 6. When a player should move further than the end tile, he does not move.
 - Scenario 7. When a player ends its course on the end tile, he wins and the game is finished.
@@ -88,7 +88,7 @@ It is not clear if all the ojects we identify by looking at the problem and its 
 
 From analysing this list we can draw some observations: 
 - Game and Board are probably the same concept and we can merge them.
-- Die may be overkill. Having a full object just to produce a random number may not be worth, especially since we do not have a super fancy user interface showing the dice rolling and other effect. 
+- Die may be overkill. Having a full object just to produce a random number may not be worth, especially since we do not have a super fancy user interface showing the die rolling and other effect. 
 - Tile, Snake, Ladder, Last and First Tile all look like tiles with some variations or specific actions. We suspect that we can reuse some logic by creating an inheritance hierarchy around the concept of Tile. 
 
 !!!! About representation 
@@ -991,7 +991,7 @@ play
 		self playPlayer: (self currentPlayer) roll: 6 atRandom ]
 ]]]
 
-Until the game is finished, the game identifies the current player and plays this player for a given number given by a dice of six faces. The expression ==6 atRandom== selects randomly a number between 1 and 6. 
+Until the game is finished, the game identifies the current player and plays this player for a given number given by a die of six faces. The expression ==6 atRandom== selects randomly a number between 1 and 6. 
 
 
 !!! Player turns and current player
@@ -1115,7 +1115,7 @@ Here is the list of what should be done:
 
 !!! Playing one move
 
-Before automating the play of the game we should make sure that a dice roll will not bring our player outside the board.
+Before automating the play of the game we should make sure that a die roll will not bring our player outside the board.
 
 Here is a simple test covering the situations.
 
