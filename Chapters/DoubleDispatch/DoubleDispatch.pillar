@@ -1,0 +1,113 @@
+
+
+!!! Adding two dice
+
+[[[
+testAddTwoDice
+
+	| hd |
+	hd := (Die faces: 6) + (Die faces: 6).
+	self assert: hd dice size = 2.
+]]]	
+
+[[[	
+Die >> + aDie
+	
+	^ DiceHandle new 
+		addDie: self; 
+		addDie: aDie; yourself
+]]]
+
+
+!!! Preparing the mix
+
+[[[
+Die >> + aDie	
+	^ aDie sumFromDie: self
+]]]
+
+[[[
+Die >> sumFromDie: aDie
+
+	^ DiceHandle new 
+		addDie: self; 
+		addDie: aDie; yourself
+]]]
+
+
+[[[
+DiceHandle >> sumFromHandle: aDiceHandle
+	| handle |
+	handle := self class new.
+	self dice do: [ :each | handle addDie: each ].
+	aDiceHandle dice do: [ :each | handle addDie: each ].
+	^ handle
+]]]
+
+
+[[[
+DiceHandle >> + aDiceHandle
+	^ aDiceHandle sumFromHandle: self
+]]]
+
+Up until here we did not change much and all the tests should run. 
+
+
+
+!!! Adding an handle and a die 
+
+[[[
+DiceHandleTest >> testAddingAnHandleWithADie
+	| handle res |
+	handle := DiceHandle new
+		addDie: (Die faces: 6);
+		addDie: (Die faces: 10);
+		yourself.
+	res := handle + (Die faces: 20).
+	self assert: res diceNumber = 3
+]]]
+
+[[[
+Die >> sumFromHandle: aDiceHandle
+	
+	| hd |
+	hd := DiceHandle new.
+	hd addDie: self.
+	aDiceHandle dice do: [ :each | hd addDie: each ].
+	^ hd
+]]]
+
+
+!!! Adding a die and an handle
+[[[
+DieTest >> testAddingADiceAndHandle
+
+	| hd |
+	hd := (Die faces: 6) + (DiceHandle new addDie:  6; yourself).
+	self assert: hd dice size = 2.
+]]]
+
+[[[
+DiceHandle >> sumFromDie: aDie
+	| handle |
+	handle := self class new.
+	self dice do: [ :each | handle addDie: each ].
+	handle addDie: aDie.
+	^ handle
+]]]
+
+
+
+!!! For a better documentation
+
+[[[
+Die >> + aDicable	
+	^ aDicable sumFromDie: self
+]]]
+
+
+[[[
+DiceHandle >> + aDiceHandle
+	^ aDiceHandle sumFromHandle: self
+]]]
+
