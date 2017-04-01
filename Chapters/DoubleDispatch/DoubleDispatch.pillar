@@ -6,14 +6,14 @@
 testAddTwoDice
 
 	| hd |
-	hd := (Die faces: 6) + (Die faces: 6).
+	hd := (Die withFaces: 6) + (Die withFaces: 6).
 	self assert: hd dice size = 2.
 ]]]	
 
 [[[	
 Die >> + aDie
 	
-	^ DiceHandle new 
+	^ DieHandle new 
 		addDie: self; 
 		addDie: aDie; yourself
 ]]]
@@ -29,25 +29,25 @@ Die >> + aDie
 [[[
 Die >> sumFromDie: aDie
 
-	^ DiceHandle new 
+	^ DieHandle new 
 		addDie: self; 
 		addDie: aDie; yourself
 ]]]
 
 
 [[[
-DiceHandle >> sumFromHandle: aDiceHandle
+DieHandle >> sumFromHandle: aDieHandle
 	| handle |
 	handle := self class new.
 	self dice do: [ :each | handle addDie: each ].
-	aDiceHandle dice do: [ :each | handle addDie: each ].
+	aDieHandle dice do: [ :each | handle addDie: each ].
 	^ handle
 ]]]
 
 
 [[[
-DiceHandle >> + aDiceHandle
-	^ aDiceHandle sumFromHandle: self
+DieHandle >> + aDieHandle
+	^ aDieHandle sumFromHandle: self
 ]]]
 
 Up until here we did not change much and all the tests should run. 
@@ -57,23 +57,23 @@ Up until here we did not change much and all the tests should run.
 !!! Adding an handle and a die 
 
 [[[
-DiceHandleTest >> testAddingAnHandleWithADie
+DieHandleTest >> testAddingAnHandleWithADie
 	| handle res |
-	handle := DiceHandle new
+	handle := DieHandle new
 		addDie: (Die faces: 6);
 		addDie: (Die faces: 10);
 		yourself.
-	res := handle + (Die faces: 20).
+	res := handle + (Die withFaces: 20).
 	self assert: res diceNumber = 3
 ]]]
 
 [[[
-Die >> sumFromHandle: aDiceHandle
+Die >> sumFromHandle: aDieHandle
 	
 	| hd |
-	hd := DiceHandle new.
+	hd := DieHandle new.
 	hd addDie: self.
-	aDiceHandle dice do: [ :each | hd addDie: each ].
+	aDieHandle dice do: [ :each | hd addDie: each ].
 	^ hd
 ]]]
 
@@ -83,12 +83,13 @@ Die >> sumFromHandle: aDiceHandle
 DieTest >> testAddingADiceAndHandle
 
 	| hd |
-	hd := (Die faces: 6) + (DiceHandle new addDie:  6; yourself).
+	hd := (Die withFaces: 6) + 
+	(DieHandle new addDie: (Die withFaces: 6); yourself).
 	self assert: hd dice size = 2.
 ]]]
 
 [[[
-DiceHandle >> sumFromDie: aDie
+DieHandle >> sumFromDie: aDie
 	| handle |
 	handle := self class new.
 	self dice do: [ :each | handle addDie: each ].
@@ -107,7 +108,7 @@ Die >> + aDicable
 
 
 [[[
-DiceHandle >> + aDiceHandle
-	^ aDiceHandle sumFromHandle: self
+DieHandle >> + aDieHandle
+	^ aDieHandle sumFromHandle: self
 ]]]
 
