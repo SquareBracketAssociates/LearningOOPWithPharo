@@ -1,38 +1,30 @@
 !! A Digital Animal: A gluttonous Tamagoshi
 
-In this chapter we propose you to develop a small digital animal that has its own life require care for you. 
-People were really fond of digital animals called tamagoshi. Therefore  we will build one step by step. 
-This project is a pretext for revisiting the basic actions to define a class, instance variables and methods. 
+In this chapter we propose you to develop a small digital animal that has its own life and requires care from you. People were really fond of digital animals called tamagoshi. Therefore  we will build one step by step. This project is a pretext for revisiting the basic actions to define a class, instance variables, messages and methods. We will also discuss encapsulation.
 
 !!!A gluttonous Tamagoshi
 
-We have to decide the behavior that our digital beats should have. 
-Here is the list of the behavior we propose you to implement for our  tomagoshi. The Figure~\ref{fig:tomastate} represents how the tomagoshi changes its state. 
+We have to decide the behavior that our digital monster should have.
+Here is the list of the behavior we propose you to implement for our  tamagoshi. 
+%The Figure~\ref{fig:tomastate} represents how the tomagoshi changes its state. 
 
 
--- It can eat and digest food. It can be hungry when its tummy is empty and satisfied when it eats enough food.
--- It has its own life cycle with its own isNights and days. It goes to sleep at isNight and wake up the morning. 
--- It is gluttonous and selfish so falls asleep as soon as it eats enough. 
--- Its change color depending on its mood.  
+- It can eat and digest food. It can be hungry when its tummy is empty and satisfied when it eats enough food.
+- It has its own life cycle with its own nights and days. It goes to sleep at night and wake up the morning.
+- It is gluttonous and selfish so falls asleep as soon as it eats enough.
+- Its change color depending on its mood.
 
-We choose to have blue when it is  satisfied possibly sleeping, black when sleeping but hungry, green when waking up, and red when it is hungry. 
-
+We choose some colors to describe its state: 
+- blue when it is satisfied possibly sleeping, 
+- black when sleeping but hungry, 
+- green when wakened up,
+- and red when it is hungry.
 
 % \includegraphics[width=8cm]{figures/tomastate}
-
-
-
-!!!A Square Tamagoshi
-
-
-
-
-
 
 !!! Define a package named Tamagoshi
 
 Define a new package named for example 'Tamagoshi' and define the class ==Tamagoshi==. As we would like to be able to interact with it and have a graphical representation, we define  the class ==Tamagoshi== as a subclass of the class ==Morph==. 
-
 
 [[[
 Morph subclass: #Tamagoshi
@@ -41,15 +33,13 @@ Morph subclass: #Tamagoshi
 	category: 'Tamagoshi'
 ]]]
 
-
-
-We edit the class comment by pressing the =?=button and write something in the vein of:
+We edit the class comment and write something in the vein of:
 
 [[[
 I represent a tamagoshi. A small virtual animal that have its own life.
 ]]]
 
-Executing the following snippet should get you a blue square as shown in *squareTamagoshi*.
+Executing the following snippet should get you a blue square as shown in *@squareTamagoshi*.
 
 [[[
 Tamagoshi new openInHand

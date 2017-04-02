@@ -353,9 +353,7 @@ Responsibility:
 ]]]
 
 
-!!! Conclusion
 
-In this chapter you defined a little simulator a small local network. We will use it in the following chapters as a basis to explain essential concepts of object-oriented programming such as late-binding (the fact that the method executed in response to a message is based on the receiver of the message). 
 
 
 
@@ -495,14 +493,11 @@ Packet class >> to: aSymbol
 ]]]
 
 
-
-
-
 !!! Conclusion
 
-Object-oriented design cannot be systematically and automatically done. However, there are guidelines that help handling various pitfalls. 
+In this chapter you defined a little simulator a small local network.  Object-oriented design cannot be systematically and automatically done. However, there are guidelines that help handling various pitfalls.
 Among such guidelines the following ones are worth applying:
-- Create well initialize objects.
+- Create well initialized objects.
 - Offer adequate creation API.
 - Expose APIs that protect the internal representation of objects.
 - Avoid duplication logic.

@@ -24,6 +24,8 @@ Since the following chapters are extremely simple exercises it can be tedious to
 
 ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
 
+!! A graphic Turtle
+
 ${inputFile:Chapters/Converter/Converter.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
@@ -54,7 +56,7 @@ ${inputFile:Chapters/TinyChat/TinyChat.pillar}$
 ${inputFile:Chapters/BeaconAndSatellite/BeaconAndSatellite.pillar}$
 
 
-!! to see what we do with that.
+!! to see what we do with that
 
 !!! Responsibility-driven design (bof)
 
