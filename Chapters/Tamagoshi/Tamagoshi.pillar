@@ -1,8 +1,8 @@
-!! A Digital Animal: A gluttonous Tamagoshi
+!! A Digital Animal: A gluttonous Tamagotchi
 
-In this chapter we propose you to develop a small digital animal that has its own life and requires care from you. People were really fond of digital animals called tamagoshi. Therefore  we will build one step by step. This project is a pretext for revisiting the basic actions to define a class, instance variables, messages and methods. We will also discuss encapsulation.
+In this chapter we propose you to develop a small digital animal that has its own life and requires care from you. People were really fond of digital animals called tamagotchi. Therefore  we will build one step by step. This project is a pretext for revisiting the basic actions to define a class, instance variables, messages and methods. We will also discuss encapsulation.
 
-!!!A gluttonous Tamagoshi
+!!!A gluttonous Tamagotchi
 
 We have to decide the behavior that our digital monster should have.
 Here is the list of the behavior we propose you to implement for our  tamagoshi. 
@@ -22,93 +22,90 @@ We choose some colors to describe its state:
 
 % \includegraphics[width=8cm]{figures/tomastate}
 
-!!! Define a package named Tamagoshi
+!!! Define Tamagotchi class
 
-Define a new package named for example 'Tamagoshi' and define the class ==Tamagoshi==. As we would like to be able to interact with it and have a graphical representation, we define  the class ==Tamagoshi== as a subclass of the class ==Morph==. 
+Define a new package named for example 'Tamagotchi' and define the class ==Tamagoshi==. As we would like to be able to interact with it and have a graphical representation, we define  the class ==Tamagotchi== as a subclass of the class ==Morph==. A morph is a graphical entity in Pharo. It knows how to draw itself on the screen. 
 
 [[[
-Morph subclass: #Tamagoshi
+Morph subclass: #Tamagotchi
 	instanceVariableNames: ''
 	classVariableNames: ''
-	category: 'Tamagoshi'
+	package: 'Tamagoshi'
 ]]]
 
 We edit the class comment and write something in the vein of:
 
 [[[
-I represent a tamagoshi. A small virtual animal that have its own life.
+I represent a tamagotchi: A small virtual animal that has its own life.
 ]]]
 
-Executing the following snippet should get you a blue square as shown in *@squareTamagoshi*.
+Executing the following snippet should get you a blue square as shown in *@squareTamagoshi*. Of course this is not really exciting but this is a start.
 
 [[[
-Tamagoshi new openInHand
+| t |
+t := Tamagotchi new.
+t openInHand
 ]]]
 
+%+A square and rudimentary tamagotchi>file://figures/squareTamagoshi.pdf|width=40|label=squareTamagoshi+
++Our tamagotchi says hello in the Transcript. >file://figures/tamagotchiAndHello.png|width=50|label=squareTamagoshi+
 
-+A square and rudimentary tamagoshi>file://figures/squareTamagoshi.pdf|width=50|label=squareTamagoshi+
 
+!!!! Open a Transcript
+We will use the Transcript little window as a way to get some information from the tamagoshi. You can open a transcript using the tools menu or programmatically as follows:
 
-!!!!Create a protocol named stepping
+[[[ 
+Transcript open
+]]]
 
+The method ==step== of a morph is called by the system at regular interval.
+We can redefine the method ==step== of ==Morph== as follows and we will obtain the situation depicted by Figure *@squareTamagoshi*.
 
 [[[
-stepTime 
+Tamagoshi >> step
+	self logCr: 'hello'
+]]]
+
+We should also define the interval between two steps, by defining the method ==stepTime==.
+
+[[[
+Tamagotchi >> stepTime 
 	"Return the time interval for action"
 	
 	^ 500
 ]]]
 
 
+!!! Interacting with our live friend
+Before continuing any further, we want to show you some ways to interact with the tamagotchi.
 
-!!!! Open a Transcript
+!!!! Halos
+Pharo offers little graphical menus called halos. To bring them, click and press option, command/control and shift.
 
++You can bring the halos around your tamagotchi by clicking on it while pressing option \+ command/control \+ shift >file://figures/TamaWithHalo.pdf|width=50|label=TamaWithHalo+
 
+With the halos you can 
+- delete your tamagotchi. Pay attention you cannot bring it back.
+- move it
+- bring a menu and get an inspector as shown in Figure *@TamaWithInspectMenu*.
 
-[[[
-step
++Bringing an inspector to interact with a tamgotchi.>file://figures/TamaWithInspectMenu.pdf|width=50|label=TamaWithInspectMenu+
 
-	self logCr: 'hello'
-]]]
-
-!!!! Open a Transcript
-
-
-+helloInTranscript>file://figures/helloInTranscript.pdf|width=50|label=helloInTranscript+
-
-
-
-!!!! Recreate a new tamagoshi
-
+Note that it is easier to bring an inspector while creating the tamagotchi using the message ==inspect== as follows:
 
 [[[
-Tamagoshi new openInHand
+| t |
+t := Tamagotchi new.
+t openInHand.
+t inspect
 ]]]
 
-To stop bring halos and click on cross it should delete the tamagoshi
+!!!! Better use the playground
+You can also use the menu item do it and go of the playground to obtain an integrated inspector. In Figure *@TamaWithInspectorAndInstruction*. We created a tamagotchi and we selected ""do it and go"" and we ask the tamagotchi to display itself.  
+
++Using Playground to get an inspector on a tamagotchi and sending it the message ==openInHand==. >file://figures/TamaWithInspectorAndInstruction.png|width=100|label=TamaWithInspectorAndInstruction+
 
 
-+TamaWithHalo>file://figures/TamaWithHalo.pdf|width=50|label=TamaWithHalo+
-
-
-To interact with it
-- select the menu inspect 
-
-+TamaWithHalo>file://figures/TamaWithInspectMenu.pdf|width=50|label=TamaWithInspectMenu+
-
-
-
-+TamagoshiWithInspector>file://figures/TamagoshiWithInspector.pdf|width=50|label=TamagoshiWithInspector+
-
-
-+TamaWithInspectorAndInstruction>file://figures/TamaWithInspectorAndInstruction.pdf|width=50|label=TamaWithInspectorAndInstruction+
-
-
-To open an inspector when we create a tamagoshi we can send the message inspect as follows: 
-
-[[[
-Tamagoshi new openInHand inspect
-]]]
 
 !!! Adding a Name
 
