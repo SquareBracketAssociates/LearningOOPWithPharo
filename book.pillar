@@ -30,9 +30,9 @@ ${inputFile:Chapters/Converter/Converter.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
 
-${inputFile:Chapters/DSL/DSL.pillar}$
+${inputFile:Chapters/Tamagoshi/Tamagoshi.pillar}$
 
-!! Tamagoshi (graphics TBMigrated :))
+${inputFile:Chapters/DSL/DSL.pillar}$
 
 !! Do we do Joe the Box?
 for this we should do the Turtle
