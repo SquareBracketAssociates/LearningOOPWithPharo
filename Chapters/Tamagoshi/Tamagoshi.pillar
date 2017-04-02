@@ -109,6 +109,7 @@ You can also use the menu item do it and go of the playground to obtain an integ
 
 !!! Adding a Name
 
+
 [[[
 Morph subclass: #Tamagoshi
 	instanceVariableNames: 'name'
@@ -117,25 +118,17 @@ Morph subclass: #Tamagoshi
 ]]]
 
 
-
-Make sure that if we do not give a name it is named =='pika'==.  when we create a new object by sending  the new message, the message initialize is sent. So we redefine it to put a new value with the string =='pika'==. 
+Make sure that if we do not give a name it is named =='pika'==.  When we create a new object by sending  the ==new== message, the message ==initialize== is sent. 
+So we redefine it to put a new value with the string =='pika'==. We use the expression ==super initialize== to make sure that the Morph is well initialized. This concept will be explained later in the book. 
 
 [[[
-Tamagoshi>>initialize
-
+Tamagotchi >> initialize
 	super initialize. 
 	name := 'pika'
 ]]]
 
 
-Recreate a new tamagoshi
-[[[
-Tamagoshi new openInHand inspect
-]]]
-
-
-you should get the following:
-
+When we add a new instance variable to a class, all the existing instances get this instance variable but it will not be initialized correctly. So the best is to kill the tamagotchi and recreate one. You can kill a tamagotchi either using the halos or sending the message ==delete== using the inspector. 
 
 +TamaWithName>file://figures/TamaWithName.pdf|width=50|label=TamaWithName+
 
@@ -157,14 +150,13 @@ UIManager default request:  'Give a name to your tamagoshi'
 
 
 [[[
-promptForName
-
+Tamagotchi >> nameMe
 	name := UIManager default request: 'Give a name please'
 ]]]
 
 
 [[[
-step
+Tamagotchi >> step
 
 	self logCr: 'hello, my name is ', name
 ]]]
