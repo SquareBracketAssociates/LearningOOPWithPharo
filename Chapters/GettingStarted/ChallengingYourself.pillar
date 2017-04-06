@@ -558,7 +558,7 @@ anArray at: 2
 [[[
 #(2 3 -10 3) collect: [ :each | each * each]
 
-> #(2 3 10 3)
+> #(4 9 100 9)
 ]]]
 
 [[[
