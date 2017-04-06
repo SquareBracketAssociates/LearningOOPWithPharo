@@ -1,8 +1,7 @@
 !! Snakes and Ladders
 @cha:started
 
-
-Snakes and Ladders is a rather simple game suitable for teaching children how to apply rules (*http://en.wikipedia.org/wiki/Snakes_and_ladders*). It is dull for adults because there is absolutely no strategy involved, but this makes it easy to implement! 
+Snakes and Ladders is a simple game suitable for teaching children how to apply rules (*http://en.wikipedia.org/wiki/Snakes_and_ladders*). It is dull for adults because there is absolutely no strategy involved, but this makes it easy to implement! 
 In this chapter you will implement SnakesAndLadders and we use it as a pretext to explore design questions.
 
 +Snakes and Ladders: one possible board game with two ladders and one snake.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
@@ -10,16 +9,15 @@ In this chapter you will implement SnakesAndLadders and we use it as a pretext t
 
 !!! Game Rules
 Snakes and Ladders originated in India as part of a family of die games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
-Here is a little description of the rules: 
+Here is a brief description of the rules: 
 - ""Players:"" Snakes and Ladders is played by two to four players, each with her/his own token to move around the board.
 - ""Moving Player"": a player rolls a die, then moves the designated number of tiles, between one and six. Once he lands on a tile, she/he has to perform any action designated by the tile. (Since the rules are fuzy we decided that we can have multiple players in the same tile).
 - ""Ladders:"" If the tile a player lands on is at the bottom of a ladder, she/he should climb the ladder, which brings him to a space higher on the board.
-- ""Snakes:"" If the tile a player lands on is at the top of a snake, she/he must slide down to the bottom of it, landing on a tile closer to the beginning.
-- ""Winning:"" the winner is the player who gets to the last tile first, whether by landing on it from a roll, or by reaching it with a ladder. We  decided that when the player does not land directly on the last tile, it does not move.
+- ""Snakes:"" If the tile a player lands on is at the top of a snake, she/he must slide down the snake, landing on a tile closer to the beginning.
+- ""Winning:"" the winner is the player who gets to the last tile first, whether by landing on it from a roll, or by reaching it with a ladder. We  decided that when the player does not move if he does not land directly on the last tile, it does not move.
 
 !!! Game possible run
-The following snippet is a possible way to program this game. We take as a board configuration the one depicted in Figure *fig:snakes*. It defines that our board game is composed of 12 tiles and have two ladders and one snake. Then two players are added. 
-And the game starts. 
+The code snippet below is a possible way to program this game. We take as a board configuration the one depicted in Figure *fig:snakes*. It defines a board game composed of 12 tiles with two ladders and one snake. We  add two players and then start the game.
 
 [[[
 | jill jack game |
@@ -34,19 +32,21 @@ game
 game play
 ]]]
 
-You will develop a textual version of the game since we want to focus on the game logic 
-and avoid lengthly UI descriptions. 
+Since we want to focus on the game logic, you will develop a textual version of the game and avoid any lengthy UI descriptions.
 
-The following is a possible game execution: two players are on the first tile. 
-We see that the board displays the two ladders and one snake. 
-Then starting from Jill they drew and roll a die and go to the corresponding tile and follow its effect.
+The following is an example game execution: Two players are on the first tile. The board contains two ladders, [2->6] and [7->9], and one snake [5<-11].
+
+Jill rolls a die and throws a 3 and moves to the corresponding tile.
+Jack rolls a die and throws a 6 and moves to the corresponding tile and follow its effect, climbing the ladder at tile 7 up to tile 9.
+Jack and Jill continue to alternate taking turns until Jill ends up on the last tile.
+
 [[[
 [1<Jill><Jack>][2->6][3][4][5][6][7->9][8][9][10][5<-11][12]
-<Jill>drew 3: [1<Jack>][2->6][3][4<Jill>][5][6][7->9][8][9][10][5<-11][12]
-<Jack>drew 6: [1][2->6][3][4<Jill>][5][6][7->9][8][9<Jack>][10][5<-11][12]
-<Jill>drew 5: [1][2->6][3][4][5][6][7->9][8][9<Jack><Jill>][10][5<-11][12]
-<Jack>drew 1: [1][2->6][3][4][5][6][7->9][8][9<Jill>][10<Jack>][5<-11][12]
-<Jill>drew 3: [1][2->6][3][4][5][6][7->9][8][9][10<Jack>][5<-11][12<Jill>]
+<Jill>throws 3: [1<Jack>][2->6][3][4<Jill>][5][6][7->9][8][9][10][5<-11][12]
+<Jack>throws 6: [1][2->6][3][4<Jill>][5][6][7->9][8][9<Jack>][10][5<-11][12]
+<Jill>throws 5: [1][2->6][3][4][5][6][7->9][8][9<Jack><Jill>][10][5<-11][12]
+<Jack>throws 1: [1][2->6][3][4][5][6][7->9][8][9<Jill>][10<Jack>][5<-11][12]
+<Jill>throws 3: [1][2->6][3][4][5][6][7->9][8][9][10<Jack>][5<-11][12<Jill>]
 ]]]
 
 !!! Potential objects and responsibilities
@@ -74,15 +74,15 @@ Such scenarii are interesting because they are a good basis for tests.
 When reading the rules and the scenario, here is a list of possible classes that we could use.
 We will refine it later and remove double or overlapping concepts.
 
-- Game: it keeps track of the game state whose turn is, the players.
-- Board: it keeps the tile configuration. 
-- Player: it keeps track of where it is on the board and moves over tiles.
-- Tile: it keeps track of any player on it. 
-- Snake: it is special tile, it sends a player back to an earlier tile.
-- Ladder: it is a special tile, it sends a player ahead to a later tile.
-- Last Tile: players should land exactly on it, else they do not move.
-- First Tile: it holds multiple players at the beginning of the game.
-- Die: it rolls and returns a number depending on its face number. 
+- Game: keeps track of the game state, the players, and whose turn it is.
+- Board: keeps the tile configuration. 
+- Player:  keeps track of location on the board and moving over tiles.
+- Tile: keeps track of any player on it. 
+- Snake: is a special tile which sends a player back to an earlier tile.
+- Ladder: it is a special tile which sends a player ahead to a later tile.
+- First Tile: holds multiple players at the beginning of the game.
+- Last Tile: players must land exactly on this tile, or else they do not move.
+- Die: rolls and returns a number depending on its face number. 
 
 It is not clear if all the ojects we identify by looking at the problem and its scenario should be really turned into real objects. Also sometimes it is useful to get more classes to capture behavior and state variations. We should look to have an exact mapping between concepts identified in the problem scenario or description and the implementation. 
 
