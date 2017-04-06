@@ -290,7 +290,7 @@ Therefore at the instance side, you should create a protocol ==initialization==,
 [[[
 Counter >> initialize
   "set the initial value of the value to 0"
-  count := 0.
+  count := 0
 ]]]
 
 
