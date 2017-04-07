@@ -211,8 +211,7 @@ removed it.
 
 [[[
 MyExampleSetTest >> testRemove
-	| empty full |
-	empty := Set new.
+	| full |
 	full := Set with: 5 with: 6.
 	full remove: 5.
 	self assert: (full includes: 6).
