@@ -41,9 +41,9 @@ MyExampleSetTest >> testAddTwice
 	s := Set new. 
 	self assert: s isEmpty.
 	s add: $A.
-	self assert: s size 1 equals: 1.
+	self assert: s size equals: 1.
 	s add: $A.
-	self assert: s size 1 equals: 1.
+	self assert: s size equals: 1.
 ]]]
 
 Then using the Test runner or pressing on icons of the Pharo browser, you will be able to execute the method ==testAddTwice== and it will tell you if it passes or fails (i.e., if its assertions are true). Now that you know that writing a test is not complex. Let us look a bit at the theory before going into more details. 
