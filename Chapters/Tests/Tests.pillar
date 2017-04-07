@@ -185,8 +185,7 @@ the ==includes:== method of ==Set==. The test says that sending the message
 
 [[[
 MyExampleSetTest >> testIncludes
-	| empty full |
-	empty := Set new.
+	| full |
 	full := Set with: 5 with: 6.
 	self assert: (full includes: 5).
 	self assert: (full includes: 6)
