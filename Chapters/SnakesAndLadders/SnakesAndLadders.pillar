@@ -172,7 +172,7 @@ Define the class ==SLGameTest==.
 TestCase subclass: #SLGameTest
 	instanceVariableNames: ''
 	classVariableNames: ''
-	package: 'SnakesAndLadders'
+	package: 'SnakesAndLadders-Test'
 ]]]
 
 One of the first scenario is that a game is composed of a certain number of tiles. 
@@ -248,7 +248,7 @@ implementation process. We are trying to minimize the gap between one functional
 TestCase subclass: #SLTileTest
 	instanceVariableNames: ''
 	classVariableNames: ''
-	package: 'SnakesAndLadders'
+	package: 'SnakesAndLadders-Test'
 ]]]
 
 Now we can write a simple test to make sure that we can print a tile.
@@ -451,7 +451,7 @@ SLGameTest >> testSeveralPlayersAtStart
 
 !!! About tools
 
-Pharo is living environment so we can interact with the objects. Let us see a bit that.
+Pharo is a living environment in which we can interact with the objects. Let us see a bit of that in action now.
 
 Type the following game creation in a playground (as shown here *fig:snakesplay*).
 [[[
@@ -479,7 +479,7 @@ We see that the object is a ==SLGame== instance and its ==tiles== instance varia
 
 Navigating the structure of the game is nice when we want to debug and interact with the game entities. Now we propose to display the player objects in a nicer way. We will reuse such behavior when printing the game to follow the movement of the player on the board. 
 
-Since we love test, let us write one before. 
+Since we love testing, let us write a test describing what we expect when displaying a game. 
 
 [[[
 SLGameTest >> testPrintingSimpleGameWithPlayers
@@ -495,7 +495,7 @@ SLGameTest >> testPrintingSimpleGameWithPlayers
 		equals: '[1<Jill><Jack>][2][3][4][5][6][7][8][9][10][11][12]'
 ]]]
 
-To make this test pass, you should define a ==printOn:== on ==SLPlayer== and make sure that the ==printOn:== of tile invokes the one of player.
+To make this test pass, you must define a ==printOn:== on ==SLPlayer== and make sure that the ==printOn:== of SLTile also invokes this new method on the player.
 
 [[[
 SLPlayer >> printOn: aStream
@@ -587,7 +587,7 @@ SLGameTest >> testTileOfPlayer
 	self assert: (game tileOfPlayer: jill) position equals: 1.
 ]]]
 
-Implement ==itleOfPlayer:==.
+Implement ==tileOfPlayer:==.
 
 [[[
 SLGame >> tileOfPlayer: aSLPlayer 
@@ -940,7 +940,7 @@ We implemented such behavior in the method ==movePlayer: aPlayer distance: anInt
 Game >> movePlayer: aPlayer distance: anInteger
 	| targetTile |
 	targetTile := self tileFor: aPlayer atDistance: anInteger.
-	(self tileOfPlayer: aPlayer) remove: aPlayer.
+	(self tileOfPlayer: aPlayer) removePlayer: aPlayer.
 	targetTile addPlayer: aPlayer.
 	aPlayer position: targetTile position.
 ]]]
@@ -1068,18 +1068,18 @@ SLGame >> testCurrentPlayer
 	jack := SLPlayer new name: 'Jack'.
 	jill := SLPlayer new name: 'Jill'.
 	game addPlayer: jack; addPlayer: jill. 
-	game turns: 1.
+	game turn: 1.
 	self assert: game currentPlayer equals: jack. 
-	game turns: 2.
+	game turn: 2.
 	self assert: game currentPlayer equals: jill. 
-	game turns: 3.
+	game turn: 3.
 	self assert: game currentPlayer equals: jack. 
 ]]]
 
-You should add two instance variables ==players== and ==turns== to the ==SLGame== class. 
+You should add two instance variables ==players== and ==turn== to the ==SLGame== class. 
 
 
-Then you should initialize the two new instance variables adequately: the ==players== instance variable to an orderedCollection and the ==turns== instance variable to zero. 
+Then you should initialize the two new instance variables adequately: the ==players== instance variable to an OrderedCollection and the ==turn== instance variable to zero. 
 [[[
 SLGame >> initialize
 	...
@@ -1094,8 +1094,10 @@ SLGame >> addPlayer: aPlayer
 	(tiles at: 1) addPlayer: aPlayer
 ]]]
 
-We define also the setter method ==turns:== to help us for the test. This is where you see that 
-it would be good in Pharo to have the possibility to write tests inside the class and not to be forced to add an method definition just for a test but  SUnit does not allow such behavior.
+We define also the setter method ==turn:== to help us for the test. This is where you see that 
+it would be good in Pharo to have the possibility to write tests inside the class and not to be forced to add a method definition just for a test but SUnit does not allow such behavior.
+One approach to resolve this amd ensuring only test code makes use of ==turn:== is to use class extensions. We make ==turn:== belong to the ==*SnakesAndLadders-Test== protocol. 
+In this way if we only load the ==SnakesAndLadders== package then it will not include any test specific methods.
 
 [[[
 SLGame >> turn: aNumber
@@ -1132,7 +1134,7 @@ We obtain a number between 0 and the player number minus one. This number indica
 SLGame >> currentPlayer
 
 	| rest playerIndex |
-	rest := (turns \\ players size).
+	rest := (turn \\ players size).
 	playerIndex := (rest isZero
 					ifTrue: [ players size ]
 					ifFalse: [ rest ]).
@@ -1162,7 +1164,7 @@ SLGameTest >> testIsOver
 	self assert: game isOver.
 ]]]
 
-Now define the method ==isOver==. You cna use ==anySatisfy:== a messsage that returns true if one of the elements of a collection (the receiver) satisfy a condition. The condition is that a player position is the number of tiles (since the last tile position is equal to the number of tiles).
+Now define the method ==isOver==. You can use the ==anySatisfy:== message which returns true if one of the elements of a collection (the receiver) satisfy a condition. The condition is that a player position is the number of tiles (since the last tile position is equal to the number of tiles).
 
 [[[
 SLGame >> isOver
@@ -1220,7 +1222,7 @@ SLGameTest >> testPlayOneStep
 	game playOneStepWithRoll: 3.
 	self assert: jill position equals: 4.
 	self assert: (game tileAt: 1) players size equals: 1.
-	self assert: ((game tileAt: 4) includePlayer: jill)
+	self assert: ((game tileAt: 4) includesPlayer: jill)
 ]]]
 	
 [[[	
@@ -1236,11 +1238,11 @@ SLGameTest >> testPlayTwoSteps
 	game playOneStepWithRoll: 2.
 	"nothing changes for jill"
 	self assert: jill position equals: 4.
-	self assert: ((game tileAt: 4) includePlayer: jill).
+	self assert: ((game tileAt: 4) includesPlayer: jill).
 	"now let us verify that jack moved correctly to tile 3"	
 	self assert: (game tileAt: 1) players size equals: 0.
 	self assert: jack position equals: 3.
-	self assert: ((game tileAt: 3) includePlayer: jack)
+	self assert: ((game tileAt: 3) includesPlayer: jack)
 ]]]
 	
 Here is a possible implementation of the method ==playOneStepWithRoll:==. 
@@ -1249,7 +1251,7 @@ Here is a possible implementation of the method ==playOneStepWithRoll:==.
 SLGame >> playOneStepWithRoll: aNumber
 		
 	| currentPlayer |
-	turns := turns + 1.
+	turn := turn + 1.
 	currentPlayer := self currentPlayer. 
 	Transcript show: currentPlayer printString, 'drew ', aNumber printString, ': '. 
 	(self canMoveToPosition: currentPlayer position + aNumber)
@@ -1333,7 +1335,7 @@ SLGameTest >> testPlayOneStepOnExactFinish
 	"jill lands on the finish tile!"
 	self assert: jill position equals: 12.
 	self assert: (game tileAt: 1) players size equals: 1. 
-	self assert: ((game tileAt: 12) includePlayer: jill).
+	self assert: ((game tileAt: 12) includesPlayer: jill).
 	self assert: game isOver.
 ]]]
 
@@ -1353,13 +1355,13 @@ SLGameTest >> testPlayOneStepOnInexactFinish
     "jill moves"
 	game playOneStepWithRoll: 9.
 	self assert: jill position equals: 10.
-	self assert: ((game tileAt: 10) includePlayers: jill).
+	self assert: ((game tileAt: 10) includesPlayers: jill).
 	"jack moves"
 	game playOneStepWithRoll: 2. 
 	"jill tries to move but in fact stays at her place"
 	game playOneStepWithRoll: 5.
 	self assert: jill position equals: 10.
-	self assert: ((game tileAt: 10) includePlayer: jill).
+	self assert: ((game tileAt: 10) includesPlayer: jill).
 	self deny: game isOver.
 ]]]
 
@@ -1506,7 +1508,7 @@ SLTile >> removePlayer: aPlayer
 SLGame >> movePlayer: aPlayer distance: anInteger 
 	| targetTile | 
 	targetTile := self tileFor: aPlayer atDistance: anInteger.
-	(self tileOfPlayer: aPlayer) remove: aPlayer.
+	(self tileOfPlayer: aPlayer) removePlayer: aPlayer.
 	targetTile addPlayer: aPlayer. 
 	aPlayer position: targetTile position. 
 ]]]
@@ -1567,7 +1569,7 @@ SLActiveTile >> acceptPlayer: aPlayer
 
 [[[
 Object subclass: #SLGame
-	instanceVariableNames: 'tiles players turns'
+	instanceVariableNames: 'tiles players turn'
 	classVariableNames: ''
 	package: 'SnakesAndLadders'
 ]]]
@@ -1575,7 +1577,7 @@ Object subclass: #SLGame
 [[[
 SLGame >> initialize
 	players := OrderedCollection new. 
-	turns := 0
+	turn := 0
 ]]]
 
 !!!! Game end
