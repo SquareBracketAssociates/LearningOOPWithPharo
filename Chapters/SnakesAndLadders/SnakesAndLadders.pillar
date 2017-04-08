@@ -50,16 +50,15 @@ Jack and Jill continue to alternate taking turns until Jill ends up on the last 
 ]]]
 
 !!! Potential objects and responsibilities
+Take a piece of paper, study the game rules and list any potential objects and their behavior. This is an important exercise to practice, training yourself to discover potential objects and classes.
 
-Look at the game rules, take a piece of paper and list the potential objects and their behavior. It is an important exercise, you should train to see how to discover potential objects and from then their classes.
+Techniques such as ''Responsibility Driven Design'' exist to help programmers during this phase of object discovery. Responsibility Driven Design suggests analysing the documents describing a project, and turning the subjects of sentences into candidate objects and grouping verbs as the behavior of these objects. 
+Any synonyms are identifed and used to reduce and gather together similar objects or behavior. 
+Then later objects are grouped into classes. Some alternate approaches look for relationship patterns between objects such as part-whole, locations, entity-owner... This could be the topic of a full book.
 
-There exist techniques such Responsibility Driven Design to help programmers during such phase. Responsibility Driven Design suggests to analyse the documents describing a project and to turn  subjects of sentences into objects and verbs are grouped into behavior of the objects. 
-Identification of synonyms is used to reduce and gather together similar objects or behavior. 
-Then later objects are grouped into classes. Some alternate approaches look for patterns between objects such as part-whole, locations, entity-owner... This could be the topic of a full book.
+Here we follow another path:  sketching scenarios. We describe several scenarios and from such scenario we identify key playing objects.
 
-Here we follow another path:  sketching scenarii. We describe some scenarii and from such scenario we identify key playing objects.
-
-- Scenario 1. The game should be created with a number of tiles. In particular the end and start tiles should exist. Ladders and snakes should be declared.
+- Scenario 1. The game is created with a number of tiles. The game must have an end and start tiles. Ladders and snakes should be declared.
 - Scenario 2. Players are declared. They start on the first tiles. 
 - Scenario 3. When player rolls a die, he should move the number of tiles given by the die.
 - Scenario 4. After moving the first player a given number of tiles based on the result of die roll, this is the turn of the second player.
@@ -67,7 +66,7 @@ Here we follow another path:  sketching scenarii. We describe some scenarii and 
 - Scenario 6. When a player should move further than the end tile, he does not move.
 - Scenario 7. When a player ends its course on the end tile, he wins and the game is finished.
 
-Such scenarii are interesting because they are a good basis for tests.
+Such scenarios are interesting because they are a good basis for tests.
 
 !!!! Possible class candidates
 
@@ -79,12 +78,12 @@ We will refine it later and remove double or overlapping concepts.
 - Player:  keeps track of location on the board and moving over tiles.
 - Tile: keeps track of any player on it. 
 - Snake: is a special tile which sends a player back to an earlier tile.
-- Ladder: it is a special tile which sends a player ahead to a later tile.
+- Ladder: is a special tile which sends a player ahead to a later tile.
 - First Tile: holds multiple players at the beginning of the game.
 - Last Tile: players must land exactly on this tile, or else they do not move.
-- Die: rolls and returns a number depending on its face number. 
+- Die: rolls and indicates the number of tiles that a player must move over.
 
-It is not clear if all the ojects we identify by looking at the problem and its scenario should be really turned into real objects. Also sometimes it is useful to get more classes to capture behavior and state variations. We should look to have an exact mapping between concepts identified in the problem scenario or description and the implementation. 
+It is not clear if all the objects we identify by looking at the problem and its scenario should be really turned into real objects. Also sometimes it is useful to get more classes to capture behavior and state variations. We should look to have an exact mapping between concepts identified in the problem scenario or description and the implementation. 
 
 From analysing this list we can draw some observations: 
 - Game and Board are probably the same concept and we can merge them.
@@ -97,9 +96,12 @@ We can implement the same system using different implementation choices. For exa
 argue that this is not a bad solution.
 
 Object-oriented design favors the distribution of the state of the system to different objects.
-It is often better to have objects with clear responsibilities. Why? Because you should consider that you will have to rethink, modify or extend your system. We should be able to understand and extend easily a system to be able to reply to new requirements.  
+It is often better to have objects with clear responsibilities. Why? Because you should consider that you will have to rethink, modify or extend your system. We should be able to understand and extend easily a system to be able to reply to new requirements.
 
-So while for a simple game not having a nice object-oriented decomposition may not be a problem, as soon as you will start to  model a more complex system not having a good decomposition will hurt you. Real life applications often have a lifetime up to 25 years. 
+
+Not having a nice object-oriented decomposition for a simple game may not be a problem, as soon as you will start to  model a more complex system not having a good decomposition will hurt you. Real life applications often have a lifetime up to 25 years. 
+
+In addition, imagine that we are a game designer and we want to experiment with different variations and tiles with new properties such as one super special tile changing other tiles, adding snakes before the current player to slow other participants.
 
 
 !!! About object-oriented design
