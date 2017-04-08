@@ -335,6 +335,20 @@ Why? because it means that from a client perspective, she/he can treat the recei
 
 @@note Offering polymorphic API is a tenet of good object-oriented design. It enforces the ''Don't ask, tell'' principle. Clients do not have to worry about the type of the objects to whom they talk to. 
 
+For example we can write the following expression that adds a die and a dieHandle to a collection and collect the different values (we convert the result into an array so that we can print it in the book).
+
+[[[
+| col |
+col := OrderedCollection new. 
+col add: (Die withFaces: 20).
+col add: (DieHandle new addDie: (Die withFaces: 4); yourself).
+(col collect: [:each | each roll]) asArray
+>>> #(17 3) 
+]]]
+
+
+
+
 !!!! About composition
 Composite objects such document objects (a book is composed of chapters, a chapter is composed of sections, a section is composed of paragraphs) have often a more complex composition relationship than the composition between die and die handle. Often the composition is recursive in the sense that an element can be the whole: for example, a diagram can be composed of lines, circles, and other diagrams. We will see an example of such composition in the Expression Chapter *cha:expressions*.
 
