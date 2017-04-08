@@ -63,6 +63,7 @@ We can redefine the method ==step== of ==Morph== as follows and we will obtain t
 
 [[[
 Tamagoshi >> step
+	"Print some information on the output"
 	self logCr: 'hello'
 ]]]
 
@@ -70,8 +71,7 @@ We should also define the interval between two steps, by defining the method ==s
 
 [[[
 Tamagotchi >> stepTime 
-	"Return the time interval for action"
-	
+	"Return the time interval between two outputs"
 	^ 500
 ]]]
 
@@ -130,7 +130,7 @@ Tamagotchi >> initialize
 
 When we add a new instance variable to a class, all the existing instances get this instance variable but it will not be initialized correctly. So the best is to kill the tamagotchi and recreate one. You can kill a tamagotchi either using the halos or sending the message ==delete== using the inspector. 
 
-+TamaWithName>file://figures/TamaWithName.pdf|width=50|label=TamaWithName+
++TamaWithName>file://figures/TamaWithName.png|width=50|label=TamaWithName+
 
 
 
@@ -151,29 +151,24 @@ UIManager default request:  'Give a name to your tamagoshi'
 
 [[[
 Tamagotchi >> nameMe
-	name := UIManager default request: 'Give a name please'
+	name := UIManager default request: 'Give a name please!'
 ]]]
 
 
 [[[
 Tamagotchi >> step
-
 	self logCr: 'hello, my name is ', name
 ]]]
 
 
-
-
 +inspectorWithFifiPrompt>file://figures/inspectorWithFifiPrompt.pdf|width=50|label=inspectorWithFifiPrompt+
-
-
-
 
 +promptWithNil>file://figures/promptWithNil.pdf|width=50|label=promptWithNil+
 
 
+!!! Making nameMe more robust
 [[[
-promptForName
+Tamagotchi >> nameMe
 
 	| newName |
 	newName := UIManager default request: 'Give a name please'.
@@ -183,7 +178,7 @@ promptForName
 ]]]
 
 [[[
-promptForName
+Tamagotchi >> nameMe
 
 	| newName |
 	newName := UIManager default request: 'Give a name please'.
@@ -191,17 +186,20 @@ promptForName
 		ifTrue: [ name := newName ]
 ]]]
 
+!!! Freeze
 [[[
-getLiving
+Tamagotchi >> freeze
+	"Freeze the behavior of the receiver until it receives the message unfreeze."
+	self stopStepping
+]]]
 
+
+[[[
+Tamagotchi >> unfreeze
+	"Get the receiver acting again."
 	self startStepping
 ]]]
 
-[[[
-stopLiving
-
-	self stopStepping
-]]]
 
 
 
