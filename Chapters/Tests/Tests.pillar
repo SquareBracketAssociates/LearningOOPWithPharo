@@ -41,9 +41,9 @@ MyExampleSetTest >> testAddTwice
 	s := Set new. 
 	self assert: s isEmpty.
 	s add: $A.
-	self assert: s size 1 equals: 1.
+	self assert: s size equals: 1.
 	s add: $A.
-	self assert: s size 1 equals: 1.
+	self assert: s size equals: 1.
 ]]]
 
 Then using the Test runner or pressing on icons of the Pharo browser, you will be able to execute the method ==testAddTwice== and it will tell you if it passes or fails (i.e., if its assertions are true). Now that you know that writing a test is not complex. Let us look a bit at the theory before going into more details. 
@@ -185,8 +185,7 @@ the ==includes:== method of ==Set==. The test says that sending the message
 
 [[[
 MyExampleSetTest >> testIncludes
-	| empty full |
-	empty := Set new.
+	| full |
 	full := Set with: 5 with: 6.
 	self assert: (full includes: 5).
 	self assert: (full includes: 6)
@@ -201,10 +200,10 @@ MyExampleSetTest >> testOccurrences
 	| empty full |
 	empty := Set new.
 	full := Set with: 5 with: 6.
-	self assert: (empty occurrencesOf: 0) = 0.
-	self assert: (full occurrencesOf: 5) = 1.
+	self assert: (empty occurrencesOf: 0) equals: 0.
+	self assert: (full occurrencesOf: 5) equals: 1.
 	full add: 5.
-	self assert: (full occurrencesOf: 5) = 1
+	self assert: (full occurrencesOf: 5) equals: 1
 ]]]
 
 Finally, we test that the set no longer contains the element 5 after we have
@@ -212,8 +211,7 @@ removed it.
 
 [[[
 MyExampleSetTest >> testRemove
-	| empty full |
-	empty := Set new.
+	| full |
 	full := Set with: 5 with: 6.
 	full remove: 5.
 	self assert: (full includes: 6).
