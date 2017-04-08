@@ -12,12 +12,12 @@ Snakes and Ladders originated in India as part of a family of die games. The gam
 Here is a brief description of the rules: 
 - ""Players:"" Snakes and Ladders is played by two to four players, each with her/his own token to move around the board.
 - ""Moving Player"": a player rolls a die, then moves the designated number of tiles, between one and six. Once he lands on a tile, she/he has to perform any action designated by the tile. (Since the rules are fuzy we decided that we can have multiple players in the same tile).
-- ""Ladders:"" If the tile a player lands on is at the bottom of a ladder, she/he should climb the ladder, which brings him to a space higher on the board.
-- ""Snakes:"" If the tile a player lands on is at the top of a snake, she/he must slide down the snake, landing on a tile closer to the beginning.
+- ""Ladders:"" If the tile a player lands on is at the bottom of a ladder, she/he should climb the ladder, which brings him to a tile higher on the board.
+- ""Snakes:"" If the tile a player lands on is  a head snake, she/he must slide down the snake, landing on a tile closer to the beginning.
 - ""Winning:"" the winner is the player who gets to the last tile first, whether by landing on it from a roll, or by reaching it with a ladder. We  decided that when the player does not move if he does not land directly on the last tile, it does not move.
 
 !!! Game possible run
-The code snippet below is a possible way to program this game. We take as a board configuration the one depicted in Figure *fig:snakes*. It defines a board game composed of 12 tiles with two ladders and one snake. We  add two players and then start the game.
+The code snippet below is a possible way to program this game. We take as a board configuration the one depicted in Figure *@fig:snakes*. It defines a board game composed of 12 tiles with two ladders and one snake. We  add two players and then start the game.
 
 [[[
 | jill jack game |
@@ -124,7 +124,10 @@ The game should keep the players list since it should compute who is the next pl
 
 !!!! CRC cards
 Some designers use CRC (for Class Responsibility Collaborators) cards: 
-the idea is to take the list of class we identified above. For each of them, we write on a little card: the class name, its responsibility in one or two sentence and list its collaborators. Once this is done, they take the scenario and see how the objects can play the scenario. Doing so they refine their design by adding more information (collaborators) to a class. 
+the idea is to take the list of class we identified above. For each of them, they write on a little card: the class name, its responsibility in one or two sentences and list its collaborators. Once this is done, they take a scenario and see how the objects can play such a scenario. Doing so they refine their design by adding more information (collaborators) to a class or merging two classes or splitting a class into multiple ones when they fill that a class has too many responsibilities. 
+
+To improve such process, some designers consider implementation concerns 
+or alternatives and may create objects to represent such variations.
 
 !!!! Some heuristics
 To help us taking decision, that are some heuristics: 
@@ -159,7 +162,7 @@ You will follow an iterative process and test first approach. You will take scen
 This game implementation raises an interesting question which is how do we test the game state
 without hardcoding too much implementation details in the tests themselves. Indeed tests that validate scenario only involving public messages and high-level interfaces are more likely to be stable over time and do not require modifications. Indeed if we check the exact class of certain objects you will have to change the implementation as well as the tests when modifying the implementation. In addition, since in Pharo the tests are normal clients of the objects they test, writing some tests may force us to define extra methods to access to private data. 
 
-But enough talking let's getting started.
+But enough talking! 
 Let us start by defining a test class named ==SLGameTest==. We will see in the course of development if we define other test classes. Our feeling is that the tiles and players are objects with limited responsibility and their responsibility is best illustrated (and then tested) when they interact with each other in the context of a given game. Therefore
 the class ==SLGameTest== describes the place in which relevant scenario will occur. 
 
@@ -172,9 +175,9 @@ TestCase subclass: #SLGameTest
 	package: 'SnakesAndLadders'
 ]]]
 
-One of the first scenario that we would like to define it that a game is composed of a certain number of tiles. 
+One of the first scenario is that a game is composed of a certain number of tiles. 
 
-We can write a test has follows but it does not have a lot of value. At the beginning of the development this is normal to have limited tests because we do not have enough objects to interact with. 
+We can write a test as follows but it does not have a lot of value. At the beginning of the development this is normal to have limited tests because we do not have enough objects to interact with. 
 
 [[[
 SLGameTest >> testCheckingSimpleGame
@@ -188,7 +191,7 @@ Now we should make this test pass. Some strong advocates of TDD say that we shou
 the first simplest method that would make the test pass and go to the next one. 
 Let us see what it would be (of course this method will be changed later).
 
-First we should define the class ==SLGame==.
+First you should define the class ==SLGame==.
 
 [[[
 Object subclass: #SLGame
@@ -197,8 +200,7 @@ Object subclass: #SLGame
 	package: 'SnakesAndLadders'
 ]]]
 
-Now you can define the methods ==tileNumber:== and ==tileNumber==. This is not really nice
-because we should get a collection of hold the tiles and now we put a number.
+Now you can define the methods ==tileNumber:== and ==tileNumber==. This is not really nice because we should get a collection of tiles and now we put a number.
 
 [[[
 SLGame >> tileNumber: aNumber
@@ -211,7 +213,7 @@ SLGame >> tileNumber
 	^ tiles
 ]]]
 
-These method definitions are enough to make our test pass. So it means that our test was not that good.
+These method definitions are enough to make our test pass. It means that our test was not really good because tiles should hold a collection containing the tiles and not just a number. We will address this point later.
 
 !!! A first real test
 
@@ -266,6 +268,8 @@ In particular it means that we should add an accessor to set the position and to
 
 
 Now we can define the ==printOn:== method for tiles as follows.
+We add a ==[== into the stream, then we asked the position to print itself in the stream by sending it the message ==printOn:== and we add ==]==
+in the stream. Since the position is a simple integer, the result of the ==position printOn: aStream== expression is just to add a string representing the number in the stream. 
 
 [[[
 SLTile >> printOn: aStream
@@ -275,7 +279,11 @@ SLTile >> printOn: aStream
 	aStream << ']'
 ]]]
 
-Your tile test should pass now. And we are ready to finish the printing of the game itself. 
+Your tile test should pass now. When we read the definition of the method ==printOn:== above we see that it also send the message ==printOn:== here to  the number used for the position. Indeed, we can send messages with the same name to different objects and each object may react differently to these messages. We can also send a message with the same name that the method to the receiver to perform a recursive call, but as we any recursive call we should have a non recursive branch. 
+
+
+
+We are ready to finish the printing of the game itself.
 Now we can define the method ==printOn:== of the game to print all its tiles.
 Note that this will not work since so far we did not create tiles. 
 
@@ -389,6 +397,57 @@ SLGameTest >> testSeveralPlayersAtStart
 This  test should pass and this is the time to save and take a break. 
 
 +Playground in action. Use Do it and go - to get an embedded inspector.>file://figures/playground.png|width=70|label=fig:snakesplay+
+
+
+!!! Avoid leaking implementation information
+
+We are not really happy with the previous tests for example ==testPlayerAtStart==.
+
+[[[
+SLGameTest >> testPlayerAtStart
+
+	| game jill |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
+	self assert: ((game tileAt: 1) players includes: jill).
+]]]
+
+ Indeed a test is a first client of our code and the expression  we see that the expression  ==players includes: jill== we have to know that the players are hold in a collection and that the collection includes such player.
+ It can be a real problem if later we decide to change how we manage players,
+ since we will have to change all the places using the result of the ==players== message. 
+
+ Let us address this issue: define a method ==includesPlayer:== that returns whether a tile has the given player.
+ 
+[[[
+SLTile >> includesPlayer: aPlayer
+	...
+]]]
+ 
+Now we can rewrite the two tests ==testPlayerAtStart== and ==testSeveralPlayersAtStart== to use this new message. 
+[[[
+SLGameTest >> testPlayerAtStart
+
+	| game jill |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill. 
+	self assert: ((game tileAt: 1) includesPlayer: jill).
+]]]
+
+[[[
+SLGameTest >> testSeveralPlayersAtStart
+
+	| game jill jack |
+	game := SLGame new tileNumber: 12.
+	jill := SLPlayer new name: 'Jill'.
+	jack := SLPlayer new name: 'Jack'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+	self assert: ((game tileAt: 1) includesPlayer: jill).
+	self assert: ((game tileAt: 1) includesPlayer: jack).
+]]]
+
 
 !!! About tools
 
@@ -565,7 +624,7 @@ SLGame >> testMovePlayerADistance
 	game movePlayer: jill distance: 4.
 	self assert: jill position equals: 5.
 	self assert: (game tileAt: 1) players isEmpty.
-	self assert: ((game tileAt: 5) players includes: jill).
+	self assert: ((game tileAt: 5) includesPlayer: jill).
 ]]]
 
 We suspect that when we will introduce ladder and snake we will have to revisit this method
@@ -966,7 +1025,7 @@ SLGameTest >> testPlayerStepOnASnake
 	game movePlayer: jill distance: 10.
 	self assert: jill position equals: 5.
 	self assert: (game tileAt: 1) players isEmpty.
-	self assert: ((game tileAt: 5) players includes: jill).
+	self assert: ((game tileAt: 5) includesPlayer: jill).
 ]]]
 
 Now we just have to implement it!
@@ -1036,16 +1095,21 @@ SLGame >> addPlayer: aPlayer
 ]]]
 
 We define also the setter method ==turns:== to help us for the test. This is where you see that 
-it would be good in Pharo to have the possibility to write tests inside the class but the SUnit does not allow such behavior. 
+it would be good in Pharo to have the possibility to write tests inside the class and not to be forced to add an method definition just for a test but  SUnit does not allow such behavior.
 
 [[[
 SLGame >> turn: aNumber
 	turn := aNumber
 ]]]
 
-Now we should define the method ==currentPlayer==. Imagine a moment that we have two players Jack-Jill. The turns are the following ones: Jack 1, Jill 2, Jack 3, Jill 4, Jack 5. 
+!!! How to find the logic of currentPlayer?
+Now we should define the method ==currentPlayer==. We will try to show you how we brainstorm and experiment when we are looking for an algoritm or even 
+the logic of a simple method. 
 
-At turn 5, the rest of the division of 5 by 2, gives us 1 so this is the turn of the first player. At turn 4, the rest of the division of 5 by 2 is zero so we take the latest player: Jill. 
+Imagine a moment that we have two players Jack-Jill. The turns are the following ones: Jack 1, Jill 2, Jack 3, Jill 4, Jack 5.....
+
+Now we know that we have two players. So using this information, 
+at turn 5, the rest of the division of 5 by 2, gives us 1 so this is the turn of the first player. At turn 4, the rest of the division of 5 by 2 is zero so we take the latest player: Jill. 
 
 Here is an expression that shows the result when we have two players and we use the division. 
 [[[
@@ -1059,7 +1123,7 @@ Here is an expression that shows the result when we have two players and we use 
 > {1->1. 2->2. 3->0. 4->1. 5->2. 6->0. 7->1. 8->2. 9->0. 10->1}
 ]]]
 
-What you see is that each time we get 0, it measn that this is the last player (second in the first case and third in the second). 
+What you see is that each time we get 0, it means that this is the last player (second in the first case and third in the second).
 
 This is what we do with the following method. We compute the rest of the division. 
 We obtain a number between 0 and the player number minus one. This number indicates the index of the number in the ==players== ordered collection. When it is zero it means that we should take the latest player. 
@@ -1156,7 +1220,7 @@ SLGameTest >> testPlayOneStep
 	game playOneStepWithRoll: 3.
 	self assert: jill position equals: 4.
 	self assert: (game tileAt: 1) players size equals: 1.
-	self assert: ((game tileAt: 4) players includes: jill)
+	self assert: ((game tileAt: 4) includePlayer: jill)
 ]]]
 	
 [[[	
@@ -1172,11 +1236,11 @@ SLGameTest >> testPlayTwoSteps
 	game playOneStepWithRoll: 2.
 	"nothing changes for jill"
 	self assert: jill position equals: 4.
-	self assert: ((game tileAt: 4) players includes: jill).
+	self assert: ((game tileAt: 4) includePlayer: jill).
 	"now let us verify that jack moved correctly to tile 3"	
 	self assert: (game tileAt: 1) players size equals: 0.
 	self assert: jack position equals: 3.
-	self assert: ((game tileAt: 3) players includes: jack)
+	self assert: ((game tileAt: 3) includePlayer: jack)
 ]]]
 	
 Here is a possible implementation of the method ==playOneStepWithRoll:==. 
@@ -1213,7 +1277,7 @@ SLGameTest >> testPlayOneStepOnALadder
 	game playOneStepWithRoll: 1.
 	self assert: jill position equals: 6.
 	self assert: (game tileAt: 1) players size equals: 1.
-	self assert: ((game tileAt: 6) players includes: jill).
+	self assert: ((game tileAt: 6) includesPlayer: jill).
 ]]]
 
 You can try this method inside an inspector and see the result of the moves displayed in the transcript as shown in Figure *@fig:playingInsideInspector*.
@@ -1269,7 +1333,7 @@ SLGameTest >> testPlayOneStepOnExactFinish
 	"jill lands on the finish tile!"
 	self assert: jill position equals: 12.
 	self assert: (game tileAt: 1) players size equals: 1. 
-	self assert: ((game tileAt: 12) players includes: jill).
+	self assert: ((game tileAt: 12) includePlayer: jill).
 	self assert: game isOver.
 ]]]
 
@@ -1289,13 +1353,13 @@ SLGameTest >> testPlayOneStepOnInexactFinish
     "jill moves"
 	game playOneStepWithRoll: 9.
 	self assert: jill position equals: 10.
-	self assert: ((game tileAt: 10) players includes: jill).
+	self assert: ((game tileAt: 10) includePlayers: jill).
 	"jack moves"
 	game playOneStepWithRoll: 2. 
 	"jill tries to move but in fact stays at her place"
 	game playOneStepWithRoll: 5.
 	self assert: jill position equals: 10.
-	self assert: ((game tileAt: 10) players includes: jill).
+	self assert: ((game tileAt: 10) includePlayer: jill).
 	self deny: game isOver.
 ]]]
 
@@ -1376,9 +1440,18 @@ SLTile >> players
 	^ players
 ]]]
 
+!!!! Displaying players
+
 [[[
 SLPlayer >> printOn: aStream
 	aStream << '<' << name << '>'
+]]]
+
+!!! Avoid leaking implementation information
+
+[[[
+SLTile >> includesPlayer: aPlayer
+	^ players includes: aPlayer
 ]]]
 
 !!!! Preparing to move players
