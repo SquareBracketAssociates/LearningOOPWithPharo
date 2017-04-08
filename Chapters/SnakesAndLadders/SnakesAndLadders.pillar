@@ -937,7 +937,7 @@ Now we should define what should happen when a player lands on an active tiles (
 We implemented such behavior in the method ==movePlayer: aPlayer distance: anInteger== shown below. We paid attention that a player cannot be in two places at the same time: we remove it from its tile, then move it to its destination.
 
 [[[
-Game >> movePlayer: aPlayer distance: anInteger
+SLGame >> movePlayer: aPlayer distance: anInteger
 	| targetTile |
 	targetTile := self tileFor: aPlayer atDistance: anInteger.
 	(self tileOfPlayer: aPlayer) removePlayer: aPlayer.
@@ -1096,7 +1096,7 @@ SLGame >> addPlayer: aPlayer
 
 We define also the setter method ==turn:== to help us for the test. This is where you see that 
 it would be good in Pharo to have the possibility to write tests inside the class and not to be forced to add a method definition just for a test but SUnit does not allow such behavior.
-One approach to resolve this amd ensuring only test code makes use of ==turn:== is to use class extensions. We make ==turn:== belong to the ==*SnakesAndLadders-Test== protocol. 
+One approach to resolve this, and ensuring only test code makes use of ==turn:==, is to use class extensions. We make ==turn:== belong to the ==*SnakesAndLadders-Test== protocol. 
 In this way if we only load the ==SnakesAndLadders== package then it will not include any test specific methods.
 
 [[[
