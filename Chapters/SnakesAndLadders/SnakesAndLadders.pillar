@@ -172,7 +172,7 @@ Define the class ==SLGameTest==.
 TestCase subclass: #SLGameTest
 	instanceVariableNames: ''
 	classVariableNames: ''
-	package: 'SnakesAndLadders-Test'
+	package: 'SnakesAndLadders'
 ]]]
 
 One of the first scenario is that a game is composed of a certain number of tiles. 
