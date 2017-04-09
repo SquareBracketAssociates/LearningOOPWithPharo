@@ -262,9 +262,11 @@ SLTileTest >> testPrinting
 ]]]
 
 Tile position could have been managed by the game itself.  But it means that we would have to ask the game for the position of a given tile and while it would work, it does not feel good.
-This is where you see that the fact that the code is running is not a quality test for good Object-Oriented Design. In Object-Oriented Design, we should distribute responsibilities to objects and their state is the first responsibilities. Since the position is an attribute of a position, better define it there.
+In Object-Oriented Design, we should distribute responsibilities to objects and their state is their first responsibilities. Since the position is an attribute of a tile, better define it there.
 
-In particular it means that we should add an accessor to set the position and to add an instance variable ==position== to the class. Execute the test and follow the request of the IDE and you will have defined this accessor and the instance variable. 
+This is where you see that the fact that the code is running is not a quality test for good Object-Oriented Design.
+
+In particular it means that we should add an accessor to set the position and to add an instance variable ==position== to the class ==SLile==. Execute the test and follow the request of the IDE and you will have defined this accessor and the instance variable. 
 
 
 Now we can define the ==printOn:== method for tiles as follows.
@@ -301,7 +303,7 @@ SLGame >> tileNumber: aNumber
 	...
 ]]]
 
-Now you printing tests should be working both for the tile and the game. 
+Now your printing tests should be working both for the tile and the game. 
 But wait if we run the test ==testCheckingSimpleGame== it fails.
 Indeed we did not change the definition ==tileNumber==.
 Do it and make sure that your tests all pass. And save your code. 
@@ -318,7 +320,7 @@ SLGameTest >> testTileAt
 	self assert: (game tileAt: 6) printString equals: '[6]'
 ]]]
 
-Define the method.
+Define the method ==tileAt:==.
 
 [[[
 SLGame >> tileAt: aNumber
@@ -328,9 +330,9 @@ SLGame >> tileAt: aNumber
 
 !!! Adding players
 
-Now we should add players. The first scenario to test is that when we add a player to game, it should be one the first tile.
+Now we should add players. The first scenario to test is that when we add a player to game, it should be on the first tile.
 
-Let us write test: we create a game and a player. Then we add the player to the game and the player should be part of the players of the first tile. 
+Let us write a test: we create a game and a player. Then we add the player to the game and the player should be part of the players of the first tile. 
 
 [[[
 SLGameTest >> testPlayerAtStart
@@ -350,7 +352,7 @@ Object subclass: #SLPlayer
 	package: 'SnakesAndLadders'
 ]]]
 
-Define the method ==name:== in the class ==SLPlayer==
+Define the method ==name:== in the class ==SLPlayer==.
 Now we should think a bit how we should manage the players. 
 We suspect that the game itself should get a list of players so that in the future it can ask each player to play its turn. Notice the previous sentence: we say each player to play and not the game to play the next turn - again this is Object-Oriented Design in action.
 
