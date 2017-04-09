@@ -396,7 +396,7 @@ SLGameTest >> testSeveralPlayersAtStart
 
 ]]]
 
-This  test should pass and this is the time to save and take a break. 
+All the tests should pass. This is the time to save and take a break.
 
 +Playground in action. Use Do it and go - to get an embedded inspector.>file://figures/playground.png|width=70|label=fig:snakesplay+
 
@@ -415,7 +415,7 @@ SLGameTest >> testPlayerAtStart
 	self assert: ((game tileAt: 1) players includes: jill).
 ]]]
 
- Indeed a test is a first client of our code and the expression  we see that the expression  ==players includes: jill== we have to know that the players are hold in a collection and that the collection includes such player.
+Indeed a test is a first client of our code and the expression  we see that the expression  ==players includes: jill== we have to know that the players are hold in a collection and that the collection includes such player.
  It can be a real problem if later we decide to change how we manage players,
  since we will have to change all the places using the result of the ==players== message. 
 
@@ -455,7 +455,7 @@ SLGameTest >> testSeveralPlayersAtStart
 
 Pharo is a living environment in which we can interact with the objects. Let us see a bit of that in action now.
 
-Type the following game creation in a playground (as shown here *fig:snakesplay*).
+Type the following game creation in a playground (as shown here *@fig:snakesplay*).
 [[[
 | game jill jack |
 game := SLGame new tileNumber: 12.
@@ -466,8 +466,9 @@ game addPlayer: jack.
 game 
 ]]]
 
-Now you can inspect the game either using the inspect command-i or sending the message ==inspect== to the game as in ==game inspect==. You can also use the "doit and go" menu itemof a playground window.  You should get a picture similar to the one *fig:ginspector1*.
-We see that the object is a ==SLGame== instance and its ==tiles== instance variable. You can navigate on the instance variables as shown in Figure *fig:ginspector2*. Figure *fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go the first tile and see the two players. At each moment you can interact with the selected object and sent it messages. 
+Now you can inspect the game either using the inspect command-i or sending the message ==inspect== to the game as in ==game inspect==. You can also use the "doit and go" menu item of a playground window.  You should get a picture similar to the one *@fig:ginspector1*.
+
+We see that the object is a ==SLGame== instance and it has an instance variable named ==tiles==. You can navigate on the instance variables as shown in Figure *@fig:ginspector2*. Figure *@fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go the first tile and see the two players. At each moment you can interact with the selected object and sent it messages. 
 
 +Inspecting the game: a game instance and its instance variable ==tiles==.>file://figures/inspector1.png|width=70|label=fig:ginspector1+
 
@@ -513,9 +514,7 @@ SLTile >> printOn: aStream
 	aStream << ']'
 ]]]
 
-Run your tests, they should pass. 
-
-Now we have two options: 
+Run your tests, they should pass.
 
 !!! Preparing to move players
 
@@ -573,8 +572,7 @@ Now all your test should be pass and this is a good time to save your code.
 
 !!! Finding the tile of a player
 We can start to move a player from a tile to another one. 
-We should get the tile destination using the message ==tileFor:atDistance:== and add the player there. Of course we should not forget that the tile where the player is currently positioned 
-should be updated. So we need to know what is the tile of the player.
+We should get the tile destination using the message ==tileFor:atDistance:== and add the player there. Of course we should not forget that the tile where the player is currently positioned should be updated. So we need to know what is the tile of the player.
 
 Now once a player has position it is then easy to find the tile on top of which it is.
 Let us write a test for it. 
@@ -589,7 +587,7 @@ SLGameTest >> testTileOfPlayer
 	self assert: (game tileOfPlayer: jill) position equals: 1.
 ]]]
 
-Implement ==tileOfPlayer:==.
+Implement the method ==tileOfPlayer:==.
 
 [[[
 SLGame >> tileOfPlayer: aSLPlayer 
@@ -614,7 +612,7 @@ SLGame >> movePlayer: aPlayer distance: anInteger
 !!! Moving to another tile
 
 Now we are ready to work on moving a player from one tile to the other. 
-Let us express a test: we test that after the move,  the new position is the one of the target, that the original tile players is empty and the target tile has effectively a new player.
+Let us express a test: we create only one player. We test that after the move,  the new position is the one of the target tile, that the original tile does not have player and the target tile has effectively the player.
 
 [[[
 SLGame >> testMovePlayerADistance
@@ -667,8 +665,9 @@ At the beginning of the chapter we used ==->== for ladders and ==<-== for snakes
 
 !!! A hierarchy of tiles
 We have now our default tile and two kinds of different ''active'' tiles. Now we will split our current tile class to be able to reuse a bit of its state and behavior with the new tiles. Our current tile class will then be one of the leaves of our hierarchy tree.
-To factor the behavior of the active tiles we will introduce a new class named ==ActiveTile==.
-Once we will be done we should have a hierarchy as the one presented in the Figure *@fig:sldesign1*.
+
+To factor the behavior of the active tiles, we will introduce a new class named ==ActiveTile==.
+Once we will be done, we should have a hierarchy as the one presented in the Figure *@fig:sldesign1*.
 
 +A hierarchy of tiles.>file://figures/SLDesign1.pdf|width=70|label=fig:sldesign1+
 
@@ -839,7 +838,7 @@ SLAbstractTile >> printOn: aStream
 	...
 ]]]
 
-Run your tests and they should run. You may have noticed that this is normal because none of them is covering the abstract tile. We should have been more picky on our tests. 
+Run your tests and they should pas. You may have noticed that this is normal because none of them is covering the abstract tile. We should have been more picky on our tests. 
 
 What you should see is that we will have only one method defining the behavior of representing the surrounding of a tile and this is much better if one day we want to change it.
 
@@ -887,14 +886,14 @@ Do not forget to run your tests. And they should all pass.
 
 If we look at what we did. We created what is called a Hook/Template. 
 - The template method is the ==printOn:== method: and it defines a context of the execution of the hook methods.
-- The ==printInsideOn:== message is the hook that get specialized for each subclass. It happens in the context of a template. 
+- The ==printInsideOn:== message is the hook that get specialized for each subclass. It happens in the context of a template method. 
 
 What you should see is that the ==printOn:== message is also a hook of the ==printString== message. There the ==printString== method is creating a context and send the message ==printOn:== which gets specialized. 
 
 The second point that we want to stress is that we turned expressions into a self-message.
 We transformed the expressions ==position printOn: aStream== into ==self printInsideOn: aStream== and such simple transformation created a point of variation extensible using inheritance. Note that the expression could have been a lot more complex. 
 
-Finally what is important to realize is that even ==position printOn: aStream.== create a variation point. Imagine that we have multiple kind of positions, and that we can change them, this expression will invoke the corresponding method on the object that is currently in position. Such position objects could or not be organized in a hierarchy as soon as they offer a similar interface. So each message is in fact  a variation point in a program. 
+Finally what is important to realize is that even ==position printOn: aStream== creates a variation point. Imagine that we have multiple kind of positions, this expression will invoke the corresponding method on the object that is currently referred to by ==position==. Such position objects could or not be organized in a hierarchy as soon as they offer a similar interface. So each message is in fact a variation point in a program. 
 
 
 
@@ -950,7 +949,7 @@ SLGame >> movePlayer: aPlayer distance: anInteger
 At that moment we said that we did like too much this implementation. And now this is the time 
 to understand why and do improve the situation. 
 
-First it would good that the behavior to manage the entering and leaving of a tile would be closer to the objects performing it. 
+First it would be good that the behavior to manage the entering and leaving of a tile would be closer to the objects performing it. 
 We have two solutions: we could move it to the tile or to the player class. 
 Second we should take another factor into play: different tiles has different behavior; default tiles manages players and active tiles are placing player on their target tile and they do not manage players. Therefore it is more interesting to define a variation point on the tile because
 we will be able to exploit it for normal and active tiles. 
@@ -986,6 +985,9 @@ SLGame >> movePlayer: aPlayer distance: anInteger
 
 All the tests should pass. And this is the power of test driven development, we change the implementation of our game and we can verify that we did not change its behavior.
 
++acceptPlayer: and releasePlayer: new message.>file://figures/SLDesign3.pdf|width=70|label=fig:sldesign3+
+
+
 !!!! Another little improvement
 
 Now we can improve the definition of ==acceptPlayer:==. We can implement its behavior partly on ==SLAbstractTile== and partly on ==SLTile==. This way the definition of the methods are closer to the definition of the instance variables and the state of the objects.
@@ -1004,6 +1006,7 @@ SLTile >> acceptPlayer: aPlayer
 Note that we change the order of execution by invoking the superclass behavior first (using ==super acceptPlayer: aPlayer==) because we prefer to invoke first the superclass method, because we prefer to think that a subclass is extending an existing behavior. 
 
 To be complete, we define that ==releasePlayer:== does nothing on ==SLAbstractTile==. We define it to document the two faces of the protocol.
+Figure *@fig:sldesign3* shows the situation. 
 
 [[[
 SLAbstractTile >> releasePlayer: aPlayer
@@ -1042,7 +1045,7 @@ There is nothing to do for the message ==releasePlayer:==, because the player is
 !!! Alternating players
 We are nearly finished with the game. First we should manage that each turn a different player is playing and that the game finish when the current player lands on the final tile. 
 
-We would like to be able to 
+We would like to be able to: 
 - make the game play in automatic mode
 - make the game one step at the time so that humans can play.
 
