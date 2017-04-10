@@ -11,7 +11,7 @@ In this chapter you will implement SnakesAndLadders and we use it as a pretext t
 Snakes and Ladders originated in India as part of a family of die games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
 Here is a brief description of the rules: 
 - ""Players:"" Snakes and Ladders is played by two to four players, each with her/his own token to move around the board.
-- ""Moving Player"": a player rolls a die, then moves the designated number of tiles, between one and six. Once he lands on a tile, she/he has to perform any action designated by the tile. (Since the rules are fuzy we decided that we can have multiple players in the same tile).
+- ""Moving Player"": a player rolls a die, then moves the designated number of tiles, between one and six. Once he lands on a tile, she/he has to perform any action designated by the tile. (Since the rules are fuzzy we decided that we can have multiple players in the same tile).
 - ""Ladders:"" If the tile a player lands on is at the bottom of a ladder, she/he should climb the ladder, which brings him to a tile higher on the board.
 - ""Snakes:"" If the tile a player lands on is  a head snake, she/he must slide down the snake, landing on a tile closer to the beginning.
 - ""Winning:"" the winner is the player who gets to the last tile first, whether by landing on it from a roll, or by reaching it with a ladder. We  decided that when the player does not move if he does not land directly on the last tile, it does not move.
@@ -266,7 +266,7 @@ In Object-Oriented Design, we should distribute responsibilities to objects and 
 
 This is where you see that the fact that the code is running is not a quality test for good Object-Oriented Design.
 
-In particular it means that we should add an accessor to set the position and to add an instance variable ==position== to the class ==SLile==. Execute the test and follow the request of the IDE and you will have defined this accessor and the instance variable. 
+In particular it means that we should add an accessor to set the position and to add an instance variable ==position== to the class ==SLile==. Execute the test. You should get a debugger and use it to create a method ==position:== as well as the instance variable.
 
 
 Now we can define the ==printOn:== method for tiles as follows.
@@ -498,7 +498,7 @@ SLGameTest >> testPrintingSimpleGameWithPlayers
 		equals: '[1<Jill><Jack>][2][3][4][5][6][7][8][9][10][11][12]'
 ]]]
 
-To make this test pass, you must define a ==printOn:== on ==SLPlayer== and make sure that the ==printOn:== of SLTile also invokes this new method on the player.
+To make this test pass, you must define a ==printOn:== on ==SLPlayer==. Make sure that the ==printOn:== of ==SLTile== also invokes this new method.
 
 [[[
 SLPlayer >> printOn: aStream
@@ -594,18 +594,6 @@ SLGame >> tileOfPlayer: aSLPlayer
 	...
 ]]] 
 
-Now propose an implementation of the method ==movePlayer: aPlayer distance: anInteger==.
-You should remove the player from its current tile, add it to the destination tile and change the position of the player to reflect its new position. 
-
-[[[
-SLGame >> movePlayer: aPlayer distance: anInteger 
-	| targetTile | 
-	targetTile := self tileFor: aPlayer atDistance: anInteger.
-	(self tileOfPlayer: aPlayer) remove: aPlayer.
-	targetTile addPlayer: aPlayer. 
-	aPlayer position: targetTile position. 
-]]]
-
 
 
 
@@ -615,7 +603,7 @@ Now we are ready to work on moving a player from one tile to the other.
 Let us express a test: we create only one player. We test that after the move,  the new position is the one of the target tile, that the original tile does not have player and the target tile has effectively the player.
 
 [[[
-SLGame >> testMovePlayerADistance
+SLGameTest >> testMovePlayerADistance
 	
 	| jill game |
 	game := SLGame new tileNumber: 12.
@@ -627,9 +615,7 @@ SLGame >> testMovePlayerADistance
 	self assert: ((game tileAt: 5) includesPlayer: jill).
 ]]]
 
-We suspect that when we will introduce ladder and snake we will have to revisit this method
-because snakes and ladders do not store players just move them around.
-
+What is hidden in this test is that we should be able to remove a method from a tile.
 
 Since we should remove the player of a tile when it moves, implement the method
 
@@ -638,15 +624,37 @@ SLTile >> removePlayer: aPlayer
 	...
 ]]]
 
+Now propose an implementation of the method ==movePlayer: aPlayer distance: anInteger==.
+You should get the destination tile for the player, remove the player from its current tile, add it to the destination tile and change the position of the player to reflect its new position.
+
 [[[
-SLGame >> movePlayer: aPlayer distance: anInteger 
+SLGame >> movePlayer: aPlayer distance: anInteger
 	...
 ]]]
 
-The solution we propose for this method is not as nice as we would like. Why? Because we do not give a chance to the tiles to extend the behavior and our experience tells us that we will need when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
+We suspect that when we will introduce ladder and snake tiles, we will have to revisit this method because snakes and ladders do not store players just move them around.
+
+!!!! About our implementation
+
+The implementation  that we propose below for the  method==movePlayer: aPlayer distance: anInteger== is not as nice as we would like it to be. Why? Because it does not give a chance to the tiles to extend this behavior and our experience tells us that we will need when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
+
+[[[
+SLGame >> movePlayer: aPlayer distance: anInteger 
+	| targetTile |
+	targetTile := self tileFor: aPlayer atDistance: anInteger.
+	(self tileOfPlayer: aPlayer) removePlayer: aPlayer.
+	targetTile addPlayer: aPlayer.
+	aPlayer position: targetTile position.
+]]]
+
+
+
+
+
+
+
 
 +Current simple design: three classes with a player acting a simple object.>file://figures/SLDesign0.pdf|width=70|label=fig:sldesign0+
-
 
 
 !!! Snakes and ladders
@@ -677,7 +685,7 @@ Let us start create the hierarchy.
 Let us do the following actions:
 - Using the class refactoring "insert superclass" (click on the ==SLTile== and check the class refactoring menu), introduce a new superclass to ==SLTile==. Name it ==SLAbstractTile==. 
 - Run the tests and they should pass.
-- Using the class instance variable refactoing "pull up", push the position instance variable
+- Using the class instance variable refactoring "pull up", push the position instance variable
 - Run the tests and they should pass.
 - Using the method refactoring "push up", push the methods ==position== and ==position:==.
 - Run the tests and they should pass.
@@ -1066,7 +1074,7 @@ We will have to support it so that each player can play in alternance. It will a
 
 The following test verifies that we obtain the correct player for a given turn.
 [[[
-SLGame >> testCurrentPlayer
+SLGameTest >> testCurrentPlayer
 	
 	| jack game jill |
 	game := SLGame new tileNumber: 12.
@@ -1398,9 +1406,9 @@ This chapter shows that identifying the objects and their interactions is not al
 [[[
 SLGame >> tileNumber: aNumber
 
-	tiles := Array new: aNumber. 
-	1 to: tiles size do: [ :i | 
-		tiles at: i put: (SLTile new position: i) ].
+	tiles := Array new: aNumber.
+	1 to: aNumber do: [ :i |
+		tiles at: i put: (SLTile new position: i) ]
 ]]]
 
 [[[
