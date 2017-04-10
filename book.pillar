@@ -8,6 +8,8 @@ ${inputFile:Chapters/GettingStarted/GettingStarted.pillar}$
 
 ${inputFile:Chapters/GettingStarted/ChallengingYourself.pillar}$
 
+!!Playing with Joe the box
+
 
 ${inputFile:Chapters/Counter/Counter.pillar}$ 
 
