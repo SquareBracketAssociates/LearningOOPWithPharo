@@ -7,13 +7,13 @@ We will show how to write test to specify the expected results. Writing tests is
 
 !!! First a test
 
-First we define a test class named ==TemperatureConverterTest== within the package ==Converter==. It inherits from the class ==TestCase==. This class is special, any method starting with =='test'== will be executed automatically, one by one each time on a new instance of the class (to make sure that tests do not interfere with each others). 
+First we define a test class named ==TemperatureConverterTest== within the package ==MyConverter==. It inherits from the class ==TestCase==. This class is special, any method starting with =='test'== will be executed automatically, one by one each time on a new instance of the class (to make sure that tests do not interfere with each others). 
 
 [[[
 TestCase subclass: #TemperatureConverterTest
 	instanceVariableNames: ''
 	classVariableNames: ''
-	package: 'Converter'
+	package: 'MyConverter'
 ]]]
 
 Converting from Fahrenheit to Celsius is done with a simple linear transformation.
@@ -72,13 +72,13 @@ The class ==TemperaturConverter== is defined as shown below. You could have defi
 Object subclass: #TemperatureConverter
 	instanceVariableNames: ''
 	classVariableNames: ''
-	package: 'Converter'
+	package: 'MyConverter'
 ]]]
 
 This definition in essence, says that:
 - We want to define a new class named ==TemperaturConverter==.
 - It has no instance or class variables (==\'\'== means empty string).
-- It is packaged in package ==Converter==.
+- It is packaged in package ==MyConverter==.
 
 Usually when doing Test Driven Development with Pharo, we focus on tests and lets the system propose us some definitions.
 Then we can define the method as follows. 
@@ -320,7 +320,7 @@ The first thing that we do is to add two instance variables to our class: ==loca
 Object subclass: #TemperatureConverter
 	instanceVariableNames: 'location measures'
 	classVariableNames: ''
-	package: 'Converter'
+	package: 'MyConverter'
 ]]]
 
 We initialize such variable with the following values. 
