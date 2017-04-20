@@ -9,6 +9,7 @@ CHAPTERS = \
 	Chapters/Katas/GramKatas \
 	Chapters/Katas/GramVariation \
 	Chapters/Converter/Converter \
+	Chapters/Converter/Converter2 \
 	Chapters/Wallet/Wallet \
 	Chapters/DSL/DSL \
 	Chapters/TinyChat/TinyChat \

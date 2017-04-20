@@ -28,6 +28,7 @@ ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
 
 !! A graphic Turtle
 
+${inputFile:Chapters/Converter/Converter2.pillar}$
 ${inputFile:Chapters/Converter/Converter.pillar}$
 
 ${inputFile:Chapters/Wallet/Wallet.pillar}$
