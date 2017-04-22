@@ -98,7 +98,7 @@ square: size
 	4 timesRepeat: [ self go: size; turn: 90 ]
 ]]]
 
-Note that finding the method corresponding tot he message is done at runtime and depends on the object receiving the message.
+Note that finding the method corresponding to the message is done at runtime and depends on the object receiving the message.
 
 @@note A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
 
@@ -504,7 +504,7 @@ Again let us start with an example.  A file should contain some contents.
 
 [[[
 | el1 dOldComics |
-el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that solved the world'.
+el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that saved the world'.
 dOldComics := MFDirectory new name: 'oldcomics'.
 dOldComics addElement: el1. 
 el1 printString.
@@ -521,7 +521,7 @@ Again a file needs a name, a parent and in addition a contents.
 We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later) as shown in Figure *@FileV0*.
 
 [[[
-Object subclass: #MyFile
+Object subclass: #MFFile
 	instanceVariableNames: 'parent name contents'
 	classVariableNames: ''
 	package: 'MyFS'
@@ -530,7 +530,7 @@ Object subclass: #MyFile
 As for the directories we initialize the contents of a file with a default value. 
 
 [[[
-MyFile >> initialize
+MFFile >> initialize
 	contents := ''
 ]]]
 
@@ -538,22 +538,22 @@ We should define the same methods for ==parent:==, ==parent== and ==name:==. Thi
 We will address it in Chapter *@cha:inheritance*. In addition we will add a method to be able to set the contents of the file ==contents:==.
 
 [[[
-MyFile >> name: aString
+MFFile >> name: aString
 	name := aString
 ]]]
 
 [[[
-MyFile >> parent: aFile
+MFFile >> parent: aFile
 	parent := aFile
 ]]]
 
 [[[
-MyFile >> parent
+MFFile >> parent
 	^ parent
 ]]]
 
 [[[
-MyFile >> contents: aString
+MFFile >> contents: aString
 	contents := aString
 ]]]
 
@@ -585,7 +585,7 @@ Before continuing let us step back and analyse the situation. We send the same m
 
 [[[
 | el1 dOldComics dComics |
-el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that solved the world'.
+el1 := MFFile new name: 'astroboy'; contents: 'The story of a boy turned into a robot that saved the world'.
 dOldComics := MFDirectory new name: 'oldcomics'.
 dComics := MFDirectory new name: 'comics'.
 dComics addElement: dOldComics.
