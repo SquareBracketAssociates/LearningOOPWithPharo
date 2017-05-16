@@ -23,7 +23,7 @@ Objects are entities that communicate via messages and react to messages by exec
 
 
 !!!! Turtles as an example
-Imagine that we have a graphics turtle a la LOGO. We do the following: create a turtle, send it messages to make it move, turn, and trace some drawnings. Let us look at this in detail.
+Imagine that we have a graphics turtle like a LOGO turtle. We do the following: create a turtle, send it messages to make it move, turn, and trace some drawings. Let us look at this in detail.
 
 @@todo Add a figure once I have the turtle implemented.
 
@@ -102,7 +102,7 @@ Note that finding the method corresponding to the message is done at runtime and
 
 @@note A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
 
-An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line color and send messages.
+An object can also send messages to other objects. For example, when a turtle draws a line, it sends messages to an object representing the line color and its length.
 
 +An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name (called selector) is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
 
@@ -148,7 +148,7 @@ In Pharo, a client cannot access the state of an object if the object does not d
 +Two turtles have the same interface, i.e., set of messages  being understood but they have ''different'' private state representing their  direction, position and pen status.>file://figures/privateDataTwoInstances.pdf|width=70|label=fig:twoInstances+
 
 
-@@note An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class shares the same ''interface'' but have their own private state.
+@@note An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class share the same ''interface'' but have their own private state.
 
 
 
@@ -197,7 +197,7 @@ Object subclass: #Counter
 ]]]
 
 The expresion ==Object subclass: #Counter== indicates that the class ==Counter== is a subclass of the class ==Object==.
-It means that counter instances understand the messages defined also by the class ==Object==. In Pharo, classes should be at least be a subclass of the class ==Object==. You will learn more about subclassing and inheritance in Chapter *@cha:inheirtance*.
+It means that counter instances understand the messages defined also by the class ==Object==. In Pharo, classes should at least be a subclass of the class ==Object==. You will learn more about subclassing and inheritance in Chapter *@cha:inheirtance*.
 
 Then the class ==Counter== defines that all the instances will have one instance variable named ==count== using the expression ==instanceVariableNames: 'count'==. And each instance of the class ==Counter== will have a ==count== variable with a ''different'' value as we showed in the examples above.
 
@@ -257,7 +257,7 @@ c2 decrement.
 
 
 !!!! Self is the message receiver
-Imagine that now we would like to send a message to the object that receives the message itself. We need a way to refer to the this object. Pharo defines a special variable for this exact purpose: ==self==. 
+Imagine that now we would like to send a message to the object that receives the message itself. We need a way to refer to this object. Pharo defines a special variable for this exact purpose: ==self==. 
 
 @@note ==self== always refers to the message receiver that is currently executed.
 
