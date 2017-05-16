@@ -72,7 +72,7 @@ The message ==first== returns the first element of the string: It is a character
 
 All the messages we saw so far are called ''unary'' messages because they take no arguments.
 
-@@note Message without arguements are called ''unary'' messages. 
+@@note Message without arguments are called ''unary'' messages. 
 
 
 !!!! A first keyword-based message
