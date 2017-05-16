@@ -141,7 +141,7 @@ The simpler messages take precedence over the more complex ones, so unary messag
 
 @@note The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
 
-Here is an example showing how elegant the syntax when multiple messages are used.
+Here is an example showing how elegant is the syntax when multiple messages are used.
 
 [[[
 'string' asUppercase copyFrom: -1 + 2 to: 6 - 3
@@ -161,7 +161,7 @@ Note how you can send messages to the result of an expression: ==copyFrom:to:== 
 
 Classes are an important entry point to create objects. Of course, this is also done by sending messages such as ==new== to the class object itself.
 In Pharo, class name are capitalized. The convention is that uppercase variables represents non-local variables i.e., shared globally or betwen a group of classes.
-From example we can ask the class ==String== to create an empty string, by just sending it the message ==new==. 
+For example we can ask the class ==String== to create an empty string, by just sending it the message ==new==. 
 
 [[[
 String new
