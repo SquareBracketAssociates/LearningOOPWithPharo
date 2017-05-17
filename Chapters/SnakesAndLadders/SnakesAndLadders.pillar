@@ -140,7 +140,7 @@ To help us taking decision, that are some heuristics:
 !!!! Kind of data passed around
 Even if in Pharo, everything is an object, storing a mere integer object instead of a full tile can lead to different solutions. There is no perfect solution mainly consequences of choices and you should learn how to assess a situation to see which one has better characteristics for your problem. 
 
-Here is a question illustrating the problem: Should a ladder knows the tile it forwards the player to or is the index of a tile enough?
+Here is a question illustrating the problem: Should a ladder know the tile it forwards the player to or is the index of a tile enough?
 
 When designing the ladder tile behavior, we should understand how we can
 access the target tile where the player should be moved to. 
@@ -262,7 +262,7 @@ SLTileTest >> testPrinting
 ]]]
 
 Tile position could have been managed by the game itself.  But it means that we would have to ask the game for the position of a given tile and while it would work, it does not feel good.
-In Object-Oriented Design, we should distribute responsibilities to objects and their state is their first responsibilities. Since the position is an attribute of a tile, better define it there.
+In Object-Oriented Design, we should distribute responsibilities to objects and their state is their first responsibility. Since the position is an attribute of a tile, better define it there.
 
 This is where you see that the fact that the code is running is not a quality test for good Object-Oriented Design.
 
@@ -281,7 +281,7 @@ SLTile >> printOn: aStream
 	aStream << ']'
 ]]]
 
-Your tile test should pass now. When we read the definition of the method ==printOn:== above we see that it also send the message ==printOn:== here to  the number used for the position. Indeed, we can send messages with the same name to different objects and each object may react differently to these messages. We can also send a message with the same name that the method to the receiver to perform a recursive call, but as we any recursive call we should have a non recursive branch. 
+Your tile test should pass now. When we read the definition of the method ==printOn:== above we see that it also sends the message ==printOn:== here to  the number used for the position. Indeed, we can send messages with the same name to different objects and each object may react differently to these messages. We can also send a message with the same name than the method to the receiver to perform a recursive call, but as with any recursive call we should have a non recursive branch.
 
 
 
@@ -378,7 +378,7 @@ SLTile >> addPlayer: aPlayer
 	...
 ]]]
 
-Now all your test should pass.
+Now all your tests should pass.
 
 Let us the opportunity to write better tests. We should check that we can add two players and that both are on the starting tile. 
 
@@ -415,12 +415,13 @@ SLGameTest >> testPlayerAtStart
 	self assert: ((game tileAt: 1) players includes: jill).
 ]]]
 
-Indeed a test is a first client of our code and the expression  we see that the expression  ==players includes: jill== we have to know that the players are hold in a collection and that the collection includes such player.
- It can be a real problem if later we decide to change how we manage players,
- since we will have to change all the places using the result of the ==players== message. 
+Indeed a test is a first client of our code. Here we see in the expression  ==players includes: jill== that we have to know that players are held in a collection and that this collection includes such a player.
 
- Let us address this issue: define a method ==includesPlayer:== that returns whether a tile has the given player.
- 
+It can be a real problem if later we decide to change how we manage players,
+since we will have to change all the places using the result of the ==players== message. 
+
+Let us address this issue: define a method ==includesPlayer:== that returns whether a tile has the given player.
+
 [[[
 SLTile >> includesPlayer: aPlayer
 	...
@@ -468,7 +469,7 @@ game
 
 Now you can inspect the game either using the inspect command-i or sending the message ==inspect== to the game as in ==game inspect==. You can also use the "doit and go" menu item of a playground window.  You should get a picture similar to the one *@fig:ginspector1*.
 
-We see that the object is a ==SLGame== instance and it has an instance variable named ==tiles==. You can navigate on the instance variables as shown in Figure *@fig:ginspector2*. Figure *@fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go the first tile and see the two players. At each moment you can interact with the selected object and sent it messages. 
+We see that the object is a ==SLGame== instance and it has an instance variable named ==tiles==. You can navigate on the instance variables as shown in Figure *@fig:ginspector2*. Figure *@fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go to the first tile and see the two players. At each moment you can interact with the selected object dit messages. 
 
 +Inspecting the game: a game instance and its instance variable ==tiles==.>file://figures/inspector1.png|width=70|label=fig:ginspector1+
 
@@ -531,7 +532,7 @@ SLGameTest >> testTileForAtDistance
 	self assert: (game tileFor: jill atDistance: 4) position equals: 5.
 ]]]
 
-What is implied is that a player should know it location or that the game should start to look from the beginning to find what is the current position of a player. 
+What is implied is that a player should know its location or that the game should start to look from the beginning to find what is the current position of a player. 
 The first option looks more reasonable in terms of efficiency and this is the one we will implement. 
 
 Let us write a simpler test for the introduction of the position in a player. 
@@ -567,7 +568,7 @@ SLGame >> tileFor: aPlayer atDistance: aNumber
 	...
 ]]]
 
-Now all your test should be pass and this is a good time to save your code.
+Now all your test should pass and this is a good time to save your code.
 
 
 !!! Finding the tile of a player
@@ -615,7 +616,7 @@ SLGameTest >> testMovePlayerADistance
 	self assert: ((game tileAt: 5) includesPlayer: jill).
 ]]]
 
-What is hidden in this test is that we should be able to remove a method from a tile.
+What is hidden in this test is that we should be able to remove a player from a tile.
 
 Since we should remove the player of a tile when it moves, implement the method
 
@@ -636,7 +637,7 @@ We suspect that when we will introduce ladder and snake tiles, we will have to r
 
 !!!! About our implementation
 
-The implementation  that we propose below for the  method==movePlayer: aPlayer distance: anInteger== is not as nice as we would like it to be. Why? Because it does not give a chance to the tiles to extend this behavior and our experience tells us that we will need when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
+The implementation  that we propose below for the  method ==movePlayer: aPlayer distance: anInteger== is not as nice as we would like it to be. Why? Because it does not give a chance to the tiles to extend this behavior and our experience tells us that we will need it when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
 
 [[[
 SLGame >> movePlayer: aPlayer distance: anInteger 
@@ -660,7 +661,7 @@ SLGame >> movePlayer: aPlayer distance: anInteger
 !!! Snakes and ladders
 
 Now we can introduce the two special tiles: the snakes and ladders. 
-Let us analyse a bit their behavior: when a player lands on such tile, it is automatically moved to another tile. As such, snake and ladder tiles do not need to keep references to players because players never stay on them. 
+Let us analyse a bit their behavior: when a player lands on such a tile, it is automatically moved to another tile. As such, snake and ladder tiles do not need to keep references to players because players never stay on them. 
 
 Snakes is really similar to ladders: we could just have a special kind of tiles to manage them. 
 Now we will define two separate classes so that we can add extra behavior. Remember creating a class is cheap. One behavior we will implement is a different printed version so that we can identify the kind of tile we have.
@@ -690,7 +691,7 @@ Let us do the following actions:
 - Using the method refactoring "push up", push the methods ==position== and ==position:==.
 - Run the tests and they should pass.
 
-What you see is that we did not execute the actions randomly but we want to control that each step we are under control using the tests. :
+What you see is that we did not execute the actions randomly but we want to control that each step is under control using the tests.
 
 Here are the classes and methods ==printOn:==.
 
@@ -736,7 +737,7 @@ SLActiveTile >> to: aTile
 	targetTile := aTile
 ]]]
 
-Then we add the two new subclass of ==SLActiveTile==
+Then we add the two new subclasses of ==SLActiveTile==
 [[[
 SLActiveTile subclass: #SLSnakeTile
 	instanceVariableNames: ''
@@ -823,7 +824,7 @@ SLLadderTile >> printOn: aStream
 Do you think that we can do better? What would be the solution?
 
 In fact what we would like is to have a method that we can reuse and that 
-handle the output of  =='[ ]'==. And in addtion we would like to have another method for the contents between the parentheses and that we can specialize it.  This way each class can define its own behavior for the inside part and reuse the parenthesis part.  
+handles the output of  =='[ ]'==. And in addition we would like to have another method for the contents between the parentheses and that we can specialize it.  This way each class can define its own behavior for the inside part and reuse the parenthesis part.  
 
 +Introducing ==printInsideOn:== as a new hook.>file://figures/SLDesign2.pdf|width=70|label=fig:sldesign2+
 
@@ -846,7 +847,7 @@ SLAbstractTile >> printOn: aStream
 	...
 ]]]
 
-Run your tests and they should pas. You may have noticed that this is normal because none of them is covering the abstract tile. We should have been more picky on our tests. 
+Run your tests and they should pass. You may have noticed that this is normal because none of them is covering the abstract tile. We should have been more picky on our tests. 
 
 What you should see is that we will have only one method defining the behavior of representing the surrounding of a tile and this is much better if one day we want to change it.
 
@@ -893,7 +894,7 @@ Do not forget to run your tests. And they should all pass.
 !!! About hooks and templates
 
 If we look at what we did. We created what is called a Hook/Template. 
-- The template method is the ==printOn:== method: and it defines a context of the execution of the hook methods.
+- The template method is the ==printOn:== method. It defines a context of the execution of the hook methods.
 - The ==printInsideOn:== message is the hook that get specialized for each subclass. It happens in the context of a template method. 
 
 What you should see is that the ==printOn:== message is also a hook of the ==printString== message. There the ==printString== method is creating a context and send the message ==printOn:== which gets specialized. 
@@ -925,7 +926,7 @@ SLGameTest >> testFullGamePrintString
 		equals: '[1][2->6][3][4][5][6][7->9][8][9][10][5<-11][12]'
 ]]]
 
-Define the method ==setSnakerFrom:to:== that takes two positions, the first one is the position of the tile and the second one is the position of the target. Pay attention that the message ==to:== of the active tiles expect a tile and not a position. 
+Define the method ==setSnakerFrom:to:== that takes two positions, the first one is the position of the tile and the second one is the position of the target. Pay attention that the message ==to:== of the active tiles expects a tile and not a position. 
 
 [[[
 SLGame >> setSnakeFrom: aSourcePosition to: aTargetPosition
@@ -941,7 +942,7 @@ SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition
 Run your tests! And save your code. 
 
 !!! Better tile protocol
-Now we should define what should happen when a player lands on an active tiles (snake or ladder). Indeed for the normal tiles, we implemented that the player change its position, then the origin tiles loses the player and the receiving tile agains the player. 
+Now we should define what should happen when a player lands on an active tiles (snake or ladder). Indeed for the normal tiles, we implemented that the player change its position, then the origin tile loses the player and the receiving tile gains the player. 
 
 We implemented such behavior in the method ==movePlayer: aPlayer distance: anInteger== shown below. We paid attention that a player cannot be in two places at the same time: we remove it from its tile, then move it to its destination.
 
@@ -954,13 +955,12 @@ SLGame >> movePlayer: aPlayer distance: anInteger
 	aPlayer position: targetTile position.
 ]]]
 
-At that moment we said that we did like too much this implementation. And now this is the time 
+At that moment we said that we did not like too much this implementation. And now this is the time 
 to understand why and do improve the situation. 
 
 First it would be good that the behavior to manage the entering and leaving of a tile would be closer to the objects performing it. 
 We have two solutions: we could move it to the tile or to the player class. 
-Second we should take another factor into play: different tiles has different behavior; default tiles manages players and active tiles are placing player on their target tile and they do not manage players. Therefore it is more interesting to define a variation point on the tile because
-we will be able to exploit it for normal and active tiles. 
+Second we should take another factor into play: different tiles have different behavior; normal tiles manage players and active tiles are placing players on their target tile and they do not manage players. Therefore it is more interesting to define a variation point on the tile because we will be able to exploit it for normal and active tiles. 
 
 We propose to define two methods on the tile: one to accept a new player named ==acceptPlayer:== and to release a player named ==releasePlayer:==. 
 Let us rewrite ==movePlayer: aPlayer distance: anInteger== with such methods. 
@@ -971,7 +971,7 @@ SLTile >> acceptPlayer: aPlayer
 	aPlayer position: position.
 ]]]
 
-The use in this definition of self messages or direct instance variable access is an indication that definition belongs to this class. Now we define the method ==releasePlayer:== as follow:
+The use in this definition of self messages or direct instance variable access is an indication that definition belongs to this class. Now we define the method ==releasePlayer:== as follows:
 
 [[[
 SLTile >> releasePlayer: aPlayer
@@ -1051,7 +1051,7 @@ SLActiveTile >> acceptPlayer: aPlayer
 There is nothing to do for the message ==releasePlayer:==, because the player is never added to the active tile. Once you are done run the tests and save.
 
 !!! Alternating players
-We are nearly finished with the game. First we should manage that each turn a different player is playing and that the game finish when the current player lands on the final tile. 
+We are nearly finished with the game. First we should manage that each turn a different player is playing and that the game finishes when the current player lands on the final tile. 
 
 We would like to be able to: 
 - make the game play in automatic mode
@@ -1132,7 +1132,7 @@ Here is an expression that shows the result when we have two players and we use 
 > {1->1. 2->0. 3->1. 4->0. 5->1. 6->0. 7->1. 8->0. 9->1. 10->0}
 ]]]
 
-Here is an expression that shows the result when we have two players and we use the division. 
+Here is an expression that shows the result when we have three players and we use the division. 
 [[[
 (1 to: 10) collect: [ :each | each -> (each \\ 3) ] 
 > {1->1. 2->2. 3->0. 4->1. 5->2. 6->0. 7->1. 8->2. 9->0. 10->1}
@@ -1177,7 +1177,7 @@ SLGameTest >> testIsOver
 	self assert: game isOver.
 ]]]
 
-Now define the method ==isOver==. You can use the ==anySatisfy:== message which returns true if one of the elements of a collection (the receiver) satisfy a condition. The condition is that a player position is the number of tiles (since the last tile position is equal to the number of tiles).
+Now define the method ==isOver==. You can use the ==anySatisfy:== message which returns true if one of the elements of a collection (the receiver) satisfies a condition. The condition is that a player's position is the number of tiles (since the last tile position is equal to the number of tiles).
 
 [[[
 SLGame >> isOver
@@ -1191,7 +1191,7 @@ To implement the second version, we can introduce a new tile ==SLEndTile==.
 Here is the list of what should be done:
 - define a new class.
 - redefine the ==acceptPlayer:== to stop the game. Note that it means that the tile should have a reference to the game. This should be added to this special tile.
-- initialize the last tile of the game to be an instance of such class.
+- initialize the last tile of the game to be an instance of such a class.
 
 
 !!! Playing one move
@@ -1328,7 +1328,7 @@ SLGame >> play
 
 !!!! Some final tests
 
-We would like to make sure that the player is not moved when it does not land on the last tile or that the game is finished when one player land on the last tile. Here are two tests covering such behavior.
+We would like to make sure that the player is not moved when it does not land on the last tile or that the game is finished when one player lands on the last tile. Here are two tests covering such behavior.
 
 [[[
 SLGameTest >> testPlayOneStepOnExactFinish
