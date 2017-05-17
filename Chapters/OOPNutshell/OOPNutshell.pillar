@@ -421,7 +421,8 @@ MFDirectory >> parent
 MFDirectory >> children
 	^ files
 ]]]
-With such method definitions, how little example should run. It should not print the same results because we did not change the printing of the objects yet. 
+
+With such method definitions, our little example should run. It should not print the same results because we did not change the printing of the objects yet. 
 
 !!!! A first little analysis
 When we look at the implementation of the method to add a file to a directory we see that the class ==MFDirectory== used another class ==OrderedCollection== to store the information about the files it contains. An ordered collection is a quite complex object: it can insert, remove elements, grow its size, and many more operations. 
@@ -454,7 +455,7 @@ el1 printString
 [[[
 	...
 el2 printString
->> 'oldcomics'
+>>> 'oldcomics'
 ]]]
 
 
@@ -518,7 +519,8 @@ el1 printString.
 !!!! A new class definition
 Again a file needs a name, a parent and in addition a contents.
 
-We define the class ==MFFile== as follows (This solution is not satisfactory and we will proposed a much better one later) as shown in Figure *@FileV0*.
+We define the class ==MFFile== as follows and illustrated in Figure *@FileV0*.
+Note that this solution is not satisfactory and we will propose a much better one later.
 
 [[[
 Object subclass: #MFFile
@@ -566,7 +568,7 @@ MFFile >> printOn: aStream
 	aStream << name
 ]]]
 
-But this is enough because we will just get =='astroboy'== and not =='oldcomics/astroboy'==.
+But this is not enough because we will just get =='astroboy'== and not =='oldcomics/astroboy'==.
 So let us improve it.
 
 [[[
@@ -620,7 +622,7 @@ We will now implement two functionalities: the size of directories and a search 
 +Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.pdf|width=60|label=FileDirectoryV1+
 
 !!!! File size 
-Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantaisit but this is for the sake of the example. To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
+Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantasit but this is for the sake of the example. To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
 
 First we define the file size as the size of its name plus the size of its contents.
 
@@ -747,7 +749,7 @@ While this example is a bit exagerated, we see several points:
 - A part of the implementation logic is exposed and not in control of the object. It means that if we decide to change the internal structure of our classes, we will have to change this function too.
 - Adding a new kind of such as a root directory is not modular. We will have to modify the method ==sizeOfFiles:== function.
 
-What you should also see when you compare the two version is that in the procedural version we have to check the kind of object we manipulate. 
+What you should also see when you compare the two versions is that in the procedural version we have to check the kind of object we manipulate. 
 In the object-oriented version, we simply tell the object to perform its own computation and return the result to us. 
 
 @@note Don't ask, tell. Object-oriented programming essence is about sending order not checking state.
