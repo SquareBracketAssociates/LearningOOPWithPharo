@@ -8,7 +8,7 @@ We will continue to use and improve the example of file and directories.
 
 !!! Revisiting printOn:
 
-+==MFFile== and ==MFDirectory== contains duplicated logic in ==printOn:==.>file://figures/FileDirectorySuperV0.pdf|width=65|label=fig:FileDirectorySuperV0+
++==MFFile== and ==MFDirectory== contain duplicated logic in ==printOn:==.>file://figures/FileDirectorySuperV0.pdf|width=65|label=fig:FileDirectorySuperV0+
 
 When we look at the following ==printOn:== methods defined in the classes ==MFDirectory== and ==MFFile==
 we see that there is code repetition (as shown in Figure *@fig:FileDirectorySuperV0*).
@@ -62,7 +62,7 @@ MFDirectory >> printOn: aStream
 	aStream << '/'
 ]]]
 
-It means that when we will add a new subclasses, this class will at least have a default definition for the ==printOn:== method. 
+It means that when we will add a new subclass, this class will at least have a default definition for the ==printOn:== method. 
 
 Now the duplication of logic is not addressed. The same code is duplicated between the class ==MFElement== and ==MFDirectory==. What we see is that even if the method ==printOn:== of class ==MFDirectory== is overriding the method of its superclass, we would like to be able to invoke the method of the superclass ==MFElement== and to add the behavior ==aStream << '/'==. 
 
@@ -93,7 +93,7 @@ String streamContents: [:s | p printOn: s ]
 # The method ==printOn:== is looked up starting in the class of ==p==, i.e., ==MFDirectory==.
 # The method is found and applied on ==p==.
 # The message ==self printOn: aStream==  is about to be executed.
-# The receiver is ==self== and represents ==p==. The method ==printOn: aStream== is lookup in the class of the receiver,  i.e., ==MFDirectory==.
+# The receiver is ==self== and represents ==p==. The method ==printOn: aStream== is looked up in the class of the receiver,  i.e., ==MFDirectory==.
 # The same method is found in the class ==MFDirectory== and the process restarts at point 3.
 
 
@@ -135,10 +135,10 @@ String streamContents: [:s | p printOn: s ]
 ]]]
 
 # We get the message ==p printOn: s==.
-# The method ==printOn:== is lookup starting in the class of ==p==, i.e., ==MFDirectory==.
+# The method ==printOn:== is looked up starting in the class of ==p==, i.e., ==MFDirectory==.
 # The method is found and applied on ==p==.
 # The message ==super printOn: aStream==  is about to be executed.
-# The receiver is ==super== and represents ==p==. The method ==printOn: aStream== is lookup in the superclass of the class containing the expression. The class containing the method is ==MFDirectory==, its superclass is then ==MFElement==. The lookup starts from ==MFElement==.
+# The receiver is ==super== and represents ==p==. The method ==printOn: aStream== is looked up in the superclass of the class containing the expression. The class containing the method is ==MFDirectory==, its superclass is then ==MFElement==. The lookup starts from ==MFElement==.
 # The method is found in the class ==MFElement== in the class.
 # The message ==parent isNil== is treated on the receiver ==p==.
 
@@ -195,7 +195,7 @@ MFDirectory >> size
 	^ sum
 ]]]
 
-What you see is that messages sent to ==super== can used anywhere inside in the overriding method and their results can be used as any other messages.
+What you see is that messages sent to ==super== can be used anywhere inside in the overriding method and their results can be used as any other messages.
 
 
 !!! Really understanding super
@@ -223,7 +223,7 @@ Imagine a situation as illustrated by Figure *@fig:LookupWithSuperInSuperclassMe
 [[[
 A new bar
 >>> ...
-c new bar
+C new bar
 >>> ...
 D new bar
 >>> ...

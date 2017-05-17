@@ -17,7 +17,7 @@ This is within such trees that the system looks up the method corresponding to a
 
 Inheritance supports code reuse because instance variable and methods defined in a root concept (class) are applicable to its refinements (subclasses).
 
-+Two classes understanding similar sets of messages and structuring their instances in a similar.>file://figures/FileDirectoryV1.pdf|width=60|label=FileDirectoryV1+
++Two classes understanding similar sets of messages and structuring their instances in a similar way.>file://figures/FileDirectoryV1.pdf|width=60|label=FileDirectoryV1+
 
 We will use and extend the simple and naive example of files and directories (seen in Chapter *@cha:objectclass*) to illustrate the key aspects of inheritance. While simple, it is enough to show the key properties of inheritance that we want to illustrate: 
 
@@ -76,7 +76,7 @@ Let us get started.
 
 !!! Factoring out state
 
-The first step is to make ==MFFile== and ==MFDirectory== subclasses of ==MFFile== as follows:
+The first step is to make ==MFFile== and ==MFDirectory== subclasses of ==MFElement== as follows:
 [[[
 MFElement subclass: #MFFile
 	instanceVariableNames: 'parent name contents'
@@ -97,7 +97,7 @@ Now you can execute the tests and they will all pass. Now we get ready move some
 
 !!!! Moving instance variable name to superclass
 
-Since both ==MFDIrectory== and ==MFFile== define that their instances should have a name, we can remove the instance variable ==name== from them and uniquely define it in the superclass. We obtain the situation depicted in Figure *@FileDirectoryInhStateNameOnly*.
+Since both ==MFDirectory== and ==MFFile== define that their instances should have a name, we can remove the instance variable ==name== from them and uniquely define it in the superclass. We obtain the situation depicted in Figure *@FileDirectoryInhStateNameOnly*.
 Let us do that as follows: We remove it first from the ==MFFile== and ==MFDirectory== classes.
 [[[
 MFElement subclass: #MFFile
@@ -138,7 +138,7 @@ You can do it manually as we did for the instance variable ==name== but you can 
 
 The system will ask you which variable you want to pull up, select ==parent==. It will show you the changes that it is about to perform: removing the instance variable from both subclasses and adding one to the superclass. Proceed and the changes will be executed. Your
 code should be now in the situation depicted in Figure *@FileDirectoryInhFullStateOnly*.
-Run the tests and they should again all pass!.
+Run the tests and they should again all pass!
 
 +State factored between the two classes and their superclass.>file://figures/FileDirectoryInhFullStateOnly.pdf|width=50|label=FileDirectoryInhFullStateOnly+
 
@@ -173,7 +173,7 @@ Now it is time to explain what is happening when an object receives a message. I
 Let us look at our example. 
 - When we send the message ==astroboy parent: oldcomics==, the method named ==parent:== is looked up in the class of the receiver i.e., ==MFFile==. This class defines such a method, so it is returned and executed on the file ==astroboy==.
 
-- The tests pass because when we send the message ==parent:== to an instance of the class ==MFFile==, the corresponding method is lookup in the class ==MFFile==. Since there is no method ==parent:== in the class ==MFFile==, the lookup continues in the superclass and find it in the class ==MFElement== as shown in Figure *@BasicLookup*.
+- The tests pass because when we send the message ==parent:== to an instance of the class ==MFFile==, the corresponding method is looked up in the class ==MFFile==. Since there is no method ==parent:== in the class ==MFFile==, the lookup continues in the superclass and find it in the class ==MFElement== as shown in Figure *@BasicLookup*.
 
 !!!! Inheritance properties
 While rather simple, the previous example shows some key properties of inheritance. 
@@ -194,7 +194,7 @@ If we define a method with the same name that one of its superclass, this new me
 
 We will see later that we can also invoke the method of the superclass while doing a method overrides: it is useful when we want to ''extend'' and not just fully change the superclass behavior. 
 
-But before explaining this, method lookup and execution are systematically applied and we will see in the following sections that it is even more powerful than it may look in first sight.
+But before explaining this, method lookup and execution are systematically applied and we will see in the following sections that it is even more powerful than it may look at first sight.
 
 
 
@@ -340,7 +340,7 @@ The most interesting one is ==B new bar==.  Let us look at the execution of ==aB
 # The look up of ==foo== starts in the ==aB=='s class: ==B==.
 # The method ==foo== is found in class ==B== and executed on the receiver ==aB==.
 
-@@note ==self== represents the receiver. Messages sent to it are looked up from the class of the class of the receiver. 
+@@note ==self== represents the receiver. Messages sent to it are looked up from the class of the receiver. 
 
 !!! Instance variables vs. messages
 
