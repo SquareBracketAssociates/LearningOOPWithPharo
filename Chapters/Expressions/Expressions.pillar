@@ -19,18 +19,18 @@ TestCase subclass: #EConstantTest
 
  We decided to define one test case class per expression class and this even if at the beginning the classes will not contain many tests. It is easier to define new tests and navigate them.
  
-Let us write a first test making sure that when we get a value, sending it the ==evaluate== message returns its value. Note that the message ==assert:equals:== is a special message only define on test case. This message verifies that its first argument is equals to the second argument. 
+Let us write a first test making sure that when we get a value, sending it the ==evaluate== message returns its value. 
 
 [[[
 EConstantTest >> testEvaluate 
 	self assert: (EConstant new value: 5) evaluate equals: 5
 ]]]
 
-When you compile such test method, the system should prompt you to get a class ==EConstant== defined. 
+When you compile such a test method, the system should prompt you to get a class ==EConstant== defined. 
 Let the system drive you. Since we need to store the value of a constant expression, let us add an instance variable ==value==
 to the class definition. 
 
-At the end you should the following definition for the class ==EConstant==.
+At the end you should have the following definition for the class ==EConstant==.
 
 [[[
 Object subclass: #EConstant
@@ -154,7 +154,7 @@ EAdditionTest >> testEvaluateWithNegation
 	
 	
 !!! Multiplication
-We do the same for multiplication: create a test case class named ==EMultiplicationTest==, a test, a new class ==EMultiplication==, a couple of setter methods and finally a new ==evaluate== method. Let us to do it fast and without much comments. 
+We do the same for multiplication: create a test case class named ==EMultiplicationTest==, a test, a new class ==EMultiplication==, a couple of setter methods and finally a new ==evaluate== method. Let us do it fast and without much comments. 
 
 [[[
 TestCase subclass: #EMultiplicationTest
@@ -203,7 +203,7 @@ It is interesting to look at what we built so far. We have a group of classes wh
 !!!! Messages and methods
 The implementation of the ==evaluate== message is worth discussing. What we see is that ''different'' classes understand the same message but execute different methods as shown in Figure *@figExpressionEvaluate*.
 
-@@note A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something to should be executed. 
+@@note A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something should be executed. 
 
 
 What we see is that sending a message ==evaluate== to an expression is making a choice among the different implementations of the message. This point is central to object-oriented programming. 
@@ -238,7 +238,7 @@ readable and more fragile.
 
 
 As we will see as a general message in this book, sending a message is making a choice between different implementations. 
-Now to be able to chose we should have different implementations and this implies having different classes. 
+Now to be able to choose we should have different implementations and this implies having different classes. 
 
 @@note Classes represent choices whose methods can be selected during message passing. Having more little classes is better than few large ones. 
 
@@ -364,7 +364,7 @@ Object subclass: #EExpression
 ]]]
 
 and changing all the previous definitions to inherit from ==EExpression== instead of ==Object==.
-For example the class ==EConstant== is then defined as follow. 
+For example the class ==EConstant== is then defined as follows. 
 
 [[[
 EExpression subclass: #EConstant
@@ -474,7 +474,7 @@ Run your tests! They should all pass.
 
 !!! Introducing examples as class messages
 
-As you when writing the tests, it is quite annoying to repeat all the time the expressions to get a given tree. This is especially the case in the tests related to addition and multiplication as the one below: 
+As you saw when writing the tests, it is quite annoying to repeat all the time the expressions to get a given tree. This is especially the case in the tests related to addition and multiplication as the one below: 
 
 [[[
 EEAdditionTest >> testNegated
@@ -506,7 +506,7 @@ EEAdditionTest >> testNegated
 	self assert: (EAddition new right: ep1; left: ep2) negated evaluate equals: -8
 ]]]
 
-The tools in Pharo supports such practice. If we tag a class method with the special annotation ==<sampleInstance>== the browser will show a little icon on the side and when we click on it, it will open an inspector on the new instance. 
+The tools in Pharo support such a practice. If we tag a class method with the special annotation ==<sampleInstance>== the browser will show a little icon on the side and when we click on it, it will open an inspector on the new instance. 
 
 [[[
 EConstant class >> constant3
@@ -572,7 +572,7 @@ You can find more information on the chapter about Stream in the book: Pharo by 
 
 
 !!!! Printing constant
-Let us start with a test. Here we check that a constant is printed as it value.
+Let us start with a test. Here we check that a constant is printed as its value.
 
 [[[
 EConstantTest >> testPrinting
@@ -587,7 +587,7 @@ EConstant >> printOn: aStream
 ]]]
 
 !!!! Printing negation
-For a negation we should first put a '-' and then recurvisely call the printing process on the negated expression. Remember that sending the message ==printString== to an expression should return its strings representation.  At least until now it will work for constants. 
+For a negation we should first put a '-' and then recurvisely call the printing process on the negated expression. Remember that sending the message ==printString== to an expression should return its string representation.  At least until now it will work for constants. 
 
 [[[
 (EConstant value: 6) printString
@@ -700,7 +700,7 @@ When we send a message to an object, the system looks for the corresponding meth
 By adding a method in the class ==ENegation==, we created the situation shown in Figure *@fig:ExpressionsHierarchyOptimized*. We said that the message ==negated== is overridden in ==ENegation== because for instances of ==ENegation== it hides the method defined in the superclass ==EExpression==. 
 
 It works the following:
-- When we send the message ==negated== to a constant, the message is not found in the class ==EConstant== and then it is look up in the class ==EExpression== and it is found there and applied to the receiver (the instance of ==EConstant==).
+- When we send the message ==negated== to a constant, the message is not found in the class ==EConstant== and then it is looked up in the class ==EExpression== and it is found there and applied to the receiver (the instance of ==EConstant==).
 
 - When we send the message ==negated== to a negation, the message is found in the class ==ENegation== and executed on the negation expression. 
 
@@ -764,11 +764,11 @@ We should get a situation similar to the one of Figure *@figExpressionFactoredSt
 
 +Factoring instance variables.>file://figures/ExpressionsHierarchyStateFactored.png|width=70|label=figExpressionFactoredState+
 
-Now we can move the same way the methods. Select the methods ==left:== and apply the refactoring ''Pull Up Method'' adn do the same for the method ==right:==. 
+Now we can move the same way the methods. Select the method ==left:== and apply the refactoring ''Pull Up Method''.  Do the same for the method ==right:==. 
 
 !!!! Creating a template and hook method
 
-Now we can look at the methods ==printOn:== of additions and multiplications. There are really similar: Just the operator is changing. Now we cannot simply copy one of the definitions because it will not work for the other. But what we can do is to apply the same design point that implemented for ==printString== and ==printOn:==: we can create a template and hooks that will be specialized in the subclasses. 
+Now we can look at the methods ==printOn:== of additions and multiplications. They are really similar: Just the operator is changing. Now we cannot simply copy one of the definitions because it will not work for the other. But what we can do is to apply the same design point that implemented for ==printString== and ==printOn:==: we can create a template and hooks that will be specialized in the subclasses. 
 
 We will use the method ==printOn:== as a template with a hook redefined in each subclass.
 
@@ -783,7 +783,7 @@ EBinaryExpression >> printOn: aStream
 	aStream nextPutAll: ' )'
 ]]]
 
-Then you can do it manually or use the ''Extract Method'' Refactoring: This refactoring creates a new method from a part of an existing method and send a message to the new created method: select the ' + ' inside the method pane and bring the menu and select the Extract Method refactoring, When prompt give the name ==operatorString==. 
+Then you can do it manually or use the ''Extract Method'' Refactoring: This refactoring creates a new method from a part of an existing method and sends a message to the new created method: select the ' + ' inside the method pane and bring the menu and select the Extract Method refactoring, and when prompt give the name ==operatorString==. 
 
 Here is the result you should get:  
 
@@ -814,13 +814,13 @@ EMultiplication >> operatorString
 
 !!! What did we learn
 
-The introduction of the class ==EBinaryExpression== is rich experience in terms of lessons that we can learn. 
+The introduction of the class ==EBinaryExpression== is a rich experience in terms of lessons that we can learn. 
 
-- Refactorings are more than simple code transformation. Usually refactorings  pay attention their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operation in a few action. 
+- Refactorings are more than simple code transformations. Usually refactorings  pay attention their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operation in a few action.
 
-- We saw that the introduction of a new superclass and moving instance variables or method to a superclass does not change the structure or behavior of the subclasses. This is because (1) for the state, the structure of an instance is based on the state of its class and all its superclasses, (2) the lookup starts in the class of the receiver and look in superclasses. 
+- We saw that the introduction of a new superclass and moving instance variables or method to a superclass does not change the structure or behavior of the subclasses. This is because (1) for the state, the structure of an instance is based on the state of its class and all its superclasses, (2) the lookup starts in the class of the receiver and look in superclasses.
 
-- While the method ==printOn:== is by itself a hook for the method ==printString==, it can also play the role of a template method. The method ==operatorString== reuses the context created by the ==printOn:== method which acts as template method. In fact each time we do a self send we create a hook method that subclasses can specialize. 
+- While the method ==printOn:== is by itself a hook for the method ==printString==, it can also play the role of a template method. The method ==operatorString== reuses the context created by the ==printOn:== method which acts as a template method. In fact each time we do a self send we create a hook method that subclasses can specialize.
 
 !!! About hook methods
 
@@ -843,7 +843,7 @@ First creating a hook is also a good idea. Because you rarely know how your syst
 
 
 !!!! Avoid not documenting hooks
-Second we could have just defined one method ==operatorString== in each subclass and no method in the superclass ==EBinaryExpresssion==. It would have worked because ==EBinaryExpression== is not meant to have direct instances. Therefore there is no risk that a ==printOn:== message is sent to one its instance and cause a error because no method ==operatorString== is found. 
+Second we could have just defined one method ==operatorString== in each subclass and no method in the superclass ==EBinaryExpression==. It would have worked because ==EBinaryExpression== is not meant to have direct instances. Therefore there is no risk that a ==printOn:== message is sent to one of its instance and cause a error because no method ==operatorString== is found. 
 
 The code would have looked like the following: 
 [[[
@@ -868,7 +868,7 @@ EBinaryExpression >> operatorString
 Using the message ==subclassResponsibility== declares that a method is abstract and that subclasses should redefine it explicitly. 
 Using such an approach we get the final situation represented in Figure *@figExpressionsHierarchyBinaryAbstract*. 
 
-In the solution presented before (section *@secBinaryExpression*) we decided to go for the simplest solution and it was to use one of the default value (' + ') as a default definition for the hook in the superclass ==EExpression==.  It was not a good solution and we did it on purpose to be able to have this discussion. It was not a good solution since it was using a specific subclass. It is better to define a default value for a hook in the superclass when this default value make sense in the class itself.
+In the solution presented before (section *@secBinaryExpression*) we decided to go for the simplest solution and it was to use one of the default value (' + ') as a default definition for the hook in the superclass ==EExpression==.  It was not a good solution and we did it on purpose to be able to have this discussion. It was not a good solution since it was using a specific subclass. It is better to define a default value for a hook in the superclass when this default value makes sense in the class itself.
 
 Note that we could also define ==evaluate== as an abstract method in ==EExpression== to indicate clearly that each subclass should 
 define an ==evaluate==.
@@ -1034,7 +1034,7 @@ EAddition >> evaluateWith: anObject
 	^ (right evaluateWith: Dictionary new) + (left evaluateWith: Dictionary new)
 ]]]
 
-This method should be transformed as follow: We should pass the binding to the argument of the ==evaluateWith:== recursive calls.
+This method should be transformed as follows: We should pass the binding to the argument of the ==evaluateWith:== recursive calls.
 [[[
 EAddition >> evaluateWith: anObject
 	^ (right evaluateWith: anObject) + (left evaluateWith: anObject)
