@@ -1,10 +1,6 @@
-\stockustrade
-\setbleed{.125in}
-% \setbinding{5mm}
-\setlrmarginsandblock{.85in}{.65in}{*}
-\setulmarginsandblock{.75in}{.75in}{*}
-\checkandfixthelayout
-\typeoutlayout
+\pagelayout{\paperbackpage}
+
+\usepackage{root/support/latex/sbabook/pharo-titlepage}
 
 \usepackage{polyglossia}
 \usepackage[useregional]{datetime2}
@@ -16,17 +12,19 @@
 \let\THEMONTH\@dtm@currentmonth
 \let\THEYEAR\@dtm@currentyear
 \makeatother
-\usepackage[local,dirty=*]{gitinfo2}
+\usepackage[local,missing=!,dirty=*]{gitinfo2}
 \usepackage{xstring}% \IfEq and \StrCut
 % a couple extensions...
 \makeatletter
 \newcommand\gitCommitInfo{%
   \IfEq{\gitRel}{}
-    {commit \texttt{\gitAbbrevHash\gitDirty}}
+    {\IfEq{\gitAbbrevHash}{!}% same as missing package option
+      {}% no versioning info => no noise
+      {\gitBranch\,@\,\texttt{\gitAbbrevHash\gitDirty}}}
     {\IfEq{\gitRoff}{0}
       {release \gitRel}
-      {modified since release \gitRel{} --- commit \texttt{\gitAbbrevHash\gitDirty}}}}
-  \newcommand\gitdate{\DTMusedate{gitdate}}
+      {modified since \gitRel{} --- \gitBranch\,@\,\texttt{\gitAbbrevHash\gitDirty}}}}
+\newcommand\gitdate{\DTMusedate{gitdate}}
 \makeatother
 
 \usepackage[normalem]{ulem} % for strikeout text (\sout{...})
