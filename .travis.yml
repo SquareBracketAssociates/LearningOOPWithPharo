@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker pull dpollet/texlive:pillar
+
+script:
+  - docker run --tty --rm --volume $PWD:/work dpollet/texlive:pillar make pdfbook
