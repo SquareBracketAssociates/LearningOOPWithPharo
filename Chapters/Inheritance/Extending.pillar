@@ -144,7 +144,7 @@ String streamContents: [:s | p printOn: s ]
 
 What we see is that using ==super==, the programmer can extend the superclass behavior and reuse by involving it.
 
-@@note ==super== is the receiver of the message but when we send a message to ==super== the method lookup starts in the superclass of ""the class containing"" the expression ==super==.
+@@important ==super== is the receiver of the message but when we send a message to ==super== the method lookup starts in the superclass of ""the class containing"" the expression ==super==.
 
 
 
@@ -212,7 +212,7 @@ MFFile new funky
 >>> true
 ]]]
 
-@@note ==super== is a special variable: ==super== (just like ==self==) is the receiver of the message! 
+@@important ==super== is a special variable: ==super== (just like ==self==) is the receiver of the message! 
 
 Now we take some time to look abstractly at what we presented so far. 
 Imagine a situation as illustrated by Figure *@fig:LookupWithSuperInSuperclassMethodThreeClasses*.
@@ -258,7 +258,7 @@ Let us examine the evaluation of the message ==aD bar==:
 # Then to finish the execution of method ==bar== in ==C==, the rest of the expression ==\+ self foo== should be executed.
 # Message ==self foo== returns 50 too, so the result returns 100. 
 
-@@note The difference between ==self== and ==super== is that when we send a message to ==super== the method lookup starts in the superclass of the class containing the expression ==super==.
+@@important The difference between ==self== and ==super== is that when we send a message to ==super== the method lookup starts in the superclass of the class containing the expression ==super==.
 
 
 

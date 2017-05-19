@@ -18,9 +18,9 @@ The following expression create a box and its gets displayed on the screen.
 Box new 
 ]]]
 
-@@note To create an object we ask a class to create it using the message ==new==.
+@@important To create an object we ask a class to create it using the message ==new==.
 
-@@note A class is a special kind of objects that act as a factory of objects.
+@@important A class is a special kind of objects that act as a factory of objects.
 
 A box has the following behavior: it knows how to draw itself, move to a given distance, move to a given point, rotate, grow and shrink.  A
 typical scenario is described below. A graphical result is shown by the first figure of the chapter above.
@@ -68,7 +68,7 @@ joe grow: 10
 
  When we send the ==grow: 10== we expect the receiver of the message to change its size and we do not know how it is performed. 
  
-@@note Messages are order sent to objects to tell them what to do (without taking care about how this order is defined and the precise steps required).
+@@important Messages are order sent to objects to tell them what to do (without taking care about how this order is defined and the precise steps required).
 
 !!!! Method: the How to do
 Later in this chapter you will define ""methods"" to define the behavior of Boxes (move, rotate:).
@@ -262,7 +262,7 @@ of the instance variable \ct{size} and \ct{size: anInteger}
 the instance variable \ct{size} to be the one specified as argument. Such a kind of methods are called \emph{accessor} methods because they only get and set information in instance variables. 
 The code \ct{\^size} returns the value of the instance variable size.
 
-@@note To return a value, use the character ==\^== followed by the expression whose value has to be returned.
+@@important To return a value, use the character ==\^== followed by the expression whose value has to be returned.
 
 
 [[[
@@ -302,9 +302,9 @@ Now that you understand better instance variables, you should notice that instan
 
 In summary we have: 
 
-@@note Instance variables are accessible to all the methods of a class.  Instance variables last the same life-time than the object to which they belong to.
+@@important Instance variables are accessible to all the methods of a class.  Instance variables last the same life-time than the object to which they belong to.
 
-@@note Instance variables cannot be accessed from outside of  an object. Instance variables are only accessible from the methods of  the class that define them.
+@@important Instance variables cannot be accessed from outside of  an object. Instance variables are only accessible from the methods of  the class that define them.
 
 !!!Drawing a Box and Other Operations
 Now that we initialize a newly created box using the method ==initialize==, we are in position to define methods without been worried about the initialization of instance variables.  

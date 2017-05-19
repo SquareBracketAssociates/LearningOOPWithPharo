@@ -203,12 +203,12 @@ It is interesting to look at what we built so far. We have a group of classes wh
 !!!! Messages and methods
 The implementation of the ==evaluate== message is worth discussing. What we see is that ''different'' classes understand the same message but execute different methods as shown in Figure *@figExpressionEvaluate*.
 
-@@note A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something should be executed. 
+@@important A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something should be executed. 
 
 
 What we see is that sending a message ==evaluate== to an expression is making a choice among the different implementations of the message. This point is central to object-oriented programming. 
 
-@@note Sending a message is making a choice among all the methods with the same name. 
+@@important Sending a message is making a choice among all the methods with the same name. 
 
 !!!! About common superclass
 
@@ -240,7 +240,7 @@ readable and more fragile.
 As we will see as a general message in this book, sending a message is making a choice between different implementations. 
 Now to be able to choose we should have different implementations and this implies having different classes. 
 
-@@note Classes represent choices whose methods can be selected during message passing. Having more little classes is better than few large ones. 
+@@important Classes represent choices whose methods can be selected during message passing. Having more little classes is better than few large ones. 
 
 
 What we could do is to introduce a common superclass between ==EAddition== and ==EMultiplication== but keep the two subclasses. We will probably do it in the future

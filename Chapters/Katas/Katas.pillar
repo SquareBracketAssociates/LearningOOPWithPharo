@@ -383,4 +383,3 @@ def test_not_opened_nested(self):
 def test_nested_ensemble(self):
         self.assertEqual(check_brackets("{[]([()])}"), True)
 ]]]
-		

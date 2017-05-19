@@ -202,7 +202,7 @@ Why? They are several reasons:
 
 
 
-@@note A good engineering practice is: Make it work, make it right, make it fast and not the inverse
+@@important A good engineering practice is: Make it work, make it right, make it fast and not the inverse
 
 
 !!!! Variations

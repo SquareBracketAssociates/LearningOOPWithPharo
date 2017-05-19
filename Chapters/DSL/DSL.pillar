@@ -93,7 +93,7 @@ DieTest >> testRolling
 	10 timesRepeat: [ self assert: (d roll between: 1 and: 6) ]
 ]]]
 
-@@note Often it is better to define the test even before the code it tests. Why? Because you can think about the API of your objects and a scenario that illustrate their correct behavior. It helps you to program your solution.
+@@important Often it is better to define the test even before the code it tests. Why? Because you can think about the API of your objects and a scenario that illustrate their correct behavior. It helps you to program your solution.
 
 !!! Instance creation interface
 We would like to get a simpler way to create ==Die== instances. For example we want to create a 20-faces die as follows: ==Die withFaces: 20== instead of always have to send the new message to the class as in ==Die new faces: 20==.
@@ -146,7 +146,7 @@ Die >> faces: aNumber
 
 Now your tests should run. So even if the class ==Die== could implement more behavior, we are ready to implement a die handle. 
 
-@@note A class method is a method executed in reaction to messages sent to a ''class''. It is defined on the class side of the class. In ==Die withFaces: 20==, the message ==withFaces:== is sent to the class ==Die==. In ==Die new faces: 20==, the message ==new== is sent to the ''class'' ==Die== and the message ==faces:== is sent to the ''instance'' returned by ==Die new==. 
+@@important A class method is a method executed in reaction to messages sent to a ''class''. It is defined on the class side of the class. In ==Die withFaces: 20==, the message ==withFaces:== is sent to the class ==Die==. In ==Die new faces: 20==, the message ==new== is sent to the ''class'' ==Die== and the message ==faces:== is sent to the ''instance'' returned by ==Die new==. 
 
 !!!! [Optional] Alternate instance creation definition
  In a first reading you can skip this section. The ''class'' method definition ==withFaces:== above is strictly equivalent to the one below.
@@ -333,7 +333,7 @@ Why? because it means that from a client perspective, she/he can treat the recei
 
 +A polymorphic API supports the ''Don't ask, tell'' principle.>file://figures/DiceHandleComposition.pdf|width=60|label=figDieHandleComposition+
 
-@@note Offering polymorphic API is a tenet of good object-oriented design. It enforces the ''Don't ask, tell'' principle. Clients do not have to worry about the type of the objects to whom they talk to. 
+@@important Offering polymorphic API is a tenet of good object-oriented design. It enforces the ''Don't ask, tell'' principle. Clients do not have to worry about the type of the objects to whom they talk to. 
 
 For example we can write the following expression that adds a die and a dieHandle to a collection and collect the different values (we convert the result into an array so that we can print it in the book).
 

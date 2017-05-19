@@ -149,13 +149,13 @@ And we test that our method is correct.
 
 Wait! We do not want to have to check manually all the time!
 
-@@note When you verify two times the same things, better write a test! Remember you write  a test once and execute it million times!
+@@important When you verify two times the same things, better write a test! Remember you write  a test once and execute it million times!
 
 !!! Defining a test
 
 To define tests we could have extended the ==StringTest== class, but we prefer to define a little class for our own experiment. This way we will create also a package and move the methods we define as class extension to the that package. 
 
-@@note To define a method as a class extension of package ==Foo==, just name the protocol of the method ==*Foo==.
+@@important To define a method as a class extension of package ==Foo==, just name the protocol of the method ==*Foo==.
 
 
 We define the class ==GramCheckerTest== as follow. It inherits from ==TestCase== and belong to the package ==LoopStarGram==.
@@ -185,7 +185,7 @@ GramCheckerTest >> testIsogramSetImplementation
 	self deny: 'phaoro' isIsogramSet.
 ]]]
 
-@@note When you write a test, make sure that you test different situations or results. Why? Because imagine that your methods always return true, you would never be sure that not all the string are isograms. So always check for positive and negative results. 
+@@important When you write a test, make sure that you test different situations or results. Why? Because imagine that your methods always return true, you would never be sure that not all the string are isograms. So always check for positive and negative results. 
 
 Messages ==assert:== and ==deny:== are equivalent as follows: assert (something) is equals to deny(something not) and assert (something not) is equivalent to deny (something). Hence the following expressions are strictly equivalent. 
 	
@@ -208,7 +208,7 @@ Then we define a new test method == testAllIsogramSet== that simply iterates ove
 
 In Pharo, there are multiple ways to express loops on collection, the easiest is to send the message ==do:== to the collection. The ==do:== message will execute the block to each element of the collection one by one. 
 
-@@note The ==do:== message execute its argument taking each elements of the receiver collection one by one. Note the way we express it, we ask the collection to iterate on itself. Note also that we do not have to worry about the size of the collection and the index of an element as this is often the case in other langauges. 
+@@important The ==do:== message execute its argument taking each elements of the receiver collection one by one. Note the way we express it, we ask the collection to iterate on itself. Note also that we do not have to worry about the size of the collection and the index of an element as this is often the case in other langauges. 
 
 [[[
 GramCheckerTest >> testAllIsogramSet
@@ -345,9 +345,9 @@ String >> isEnglishPangram
 
 Note that we do not need the variable ==isPangram== anymore. We return true as last expression because we assume that if the execution arrives to the this point, it means that all the characters of the alphabet are in the receiver, else the execution would have been stopped and false would have been returned. 
 
-@@note When you define a method returning a boolean value, always think that you should at least return a true and a false value. This sounds like a stupid advice but developing such basic reflex is important. 
+@@important When you define a method returning a boolean value, always think that you should at least return a true and a false value. This sounds like a stupid advice but developing such basic reflex is important. 
 
-@@note The execution of any expression preceded by a ==^== (a caret) will cause the method to exit at that point, returning the value of that expression. A method that terminates without explicitly returning some expression will implicitly return ==self==.
+@@important The execution of any expression preceded by a ==^== (a caret) will cause the method to exit at that point, returning the value of that expression. A method that terminates without explicitly returning some expression will implicitly return ==self==.
 
 !!! Handling alphabet
 A pangram is only valid within a given alphabet. The web site *http://clagnut.com/blog/2380/* describes pangrams in many different languages. Now we could follow one gag in Gaston Lagaffe with the 'Il y a des poux. Parmi les poux, il y a des poux papas et des poux pas papas. Parmi les poux papas, il y a des poux papas papas et des poux papas non papas....' and all their descendance. 
@@ -444,7 +444,7 @@ String >> detectFirstMissingLetterFor: alphabet
 Returning objects that are not polymorphic such as a single character or a string (which is not a character but a sequence of characters) is really bad design. 
 Why? Because the user of the method will be forced to check if the result is a single character or a collection of characters.
 
-@@note Avoid as much as possible to return objects that are not polymorphic. Return a collection and an empty collection. Not a collection and nil. Write methods returning the same kind of objects, this way their clients will be able to treat them without asking if they are different. This practice reinforces the ""Tell do not ask principle"".
+@@important Avoid as much as possible to return objects that are not polymorphic. Return a collection and an empty collection. Not a collection and nil. Write methods returning the same kind of objects, this way their clients will be able to treat them without asking if they are different. This practice reinforces the ""Tell do not ask principle"".
 
 We have two choices: either always return  a collection as for that we convert the character into a string sending it the message ==asString== as follow, or we can return a special character to represent that nothing happens for example Character space. 
 

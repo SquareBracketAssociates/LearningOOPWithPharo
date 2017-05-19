@@ -285,7 +285,7 @@ This example illustrates the following important points:
 - Each time we send a self-send message we create a place where subclass methods may be executed. We create customisation points.
 - Since ==self== represents the receiver and that the receiver may be an instance from a class that is not loaded at the time the method containing the self-send, we say that ==self== is dynamic. It represents the receiver of the message and the lookup for the method to execute starts in the class of the receiver. 
 
-@@note Messages sent to the receiver (==self== sends) define customization points that subclasses can take advantage of to potentially see their code being executed in place of the superclass' one.
+@@important Messages sent to the receiver (==self== sends) define customization points that subclasses can take advantage of to potentially see their code being executed in place of the superclass' one.
 
 !!! Essence of self and dispatch
 
@@ -340,7 +340,7 @@ The most interesting one is ==B new bar==.  Let us look at the execution of ==aB
 # The look up of ==foo== starts in the ==aB=='s class: ==B==.
 # The method ==foo== is found in class ==B== and executed on the receiver ==aB==.
 
-@@note ==self== represents the receiver. Messages sent to it are looked up from the class of the receiver. 
+@@important ==self== represents the receiver. Messages sent to it are looked up from the class of the receiver. 
 
 !!! Instance variables vs. messages
 

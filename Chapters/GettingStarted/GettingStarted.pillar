@@ -36,7 +36,7 @@ What happened is that the message ==reversed== was sent to the string object =='
  with the characters reversed.
 The literal string ==‘hello’== is called the ''receiver'' while ==reversed== is called the message selector (kind of the name of the message).
 
-@@note The object receiving the message is called the message receiver.
+@@important The object receiving the message is called the message receiver.
 
 !!!! Another message
 
@@ -57,7 +57,7 @@ In this book, we write an expression and show its result after ==>>>==. The prev
 >>> 'HELLO'
 ]]]
 
-@@note The convention shared between Pharo programmers is to use camel case i.e., writing ==asUppercase==, ==ifAbsentPut:== instead of ==asuppercase== and ==ifabsentput:==. 
+@@important The convention shared between Pharo programmers is to use camel case i.e., writing ==asUppercase==, ==ifAbsentPut:== instead of ==asuppercase== and ==ifabsentput:==. 
 
 
 !!!! A final unary example
@@ -72,7 +72,7 @@ The message ==first== returns the first element of the string: It is a character
 
 All the messages we saw so far are called ''unary'' messages because they take no arguments.
 
-@@note Message without arguments are called ''unary'' messages. 
+@@important Message without arguments are called ''unary'' messages. 
 
 
 !!!! A first keyword-based message
@@ -97,7 +97,7 @@ The message ==at: 1== will access the first element of the receiver.
 
 So now you know how we can express with an argument. Simple, put a colon at the end of the selector and pass the argument: ==at: 2==.
 
-@@note Messages whose selector contains a colon ==:== expect an argument.
+@@important Messages whose selector contains a colon ==:== expect an argument.
 
 
 !!!! Keyword-based messages with multiple arguments
@@ -113,7 +113,7 @@ The name of the previous message is ==copyFrom:to:==. The arguments of the messa
 
 Note how natural keyword messages read and how they are self documenting with well-chosen names. We call such message ''keyword-based'' messages because they are composed of words and colons. 
 
-@@note A message with multiple arguments (keyword-based message) is composed of words each terminating with a colon: e.g., ==copyFrom: 1 to: 3==.
+@@important A message with multiple arguments (keyword-based message) is composed of words each terminating with a colon: e.g., ==copyFrom: 1 to: 3==.
 
 
 !!!! Binary messages
@@ -139,7 +139,7 @@ Here the receiver of the message is =='Hello'== and the argument ==' Pharoers'==
 Pharo uses distinguish between three kind of messages to get a readable syntax. There is one rule that defines which messages is executed first: 
 The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
 
-@@note The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
+@@important The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
 
 Here is an example showing how elegant is the syntax when multiple messages are used.
 
@@ -275,7 +275,7 @@ adder value: 200
 >>> 201
 ]]]
 
-@@note Blocks are technical lexical closures. Now in a first understanding, they represent a kind of anonymous methods that can be sorted, passed as arguments and executed on demand using the messages ==value==, ==value:==...
+@@important Blocks are technical lexical closures. Now in a first understanding, they represent a kind of anonymous methods that can be sorted, passed as arguments and executed on demand using the messages ==value==, ==value:==...
 
 !!! Control structures
 

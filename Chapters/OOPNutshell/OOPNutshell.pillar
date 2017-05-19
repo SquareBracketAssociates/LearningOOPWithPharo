@@ -100,20 +100,20 @@ square: size
 
 Note that finding the method corresponding to the message is done at runtime and depends on the object receiving the message.
 
-@@note A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
+@@important A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
 
 An object can also send messages to other objects. For example, when a turtle draws a line, it sends messages to an object representing the line color and its length.
 
 +An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name (called selector) is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
 
-@@note An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
+@@important An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
 
 
 !!! An object is a protective entity
 
 An object is responsible of the way it realizes its reaction to a message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork2*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork2* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
 
-@@note An object presents to the other objects an ''interface'' (i.e., a set of messages) defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful some data are most of the time required. Data are only accessed by the methods.
+@@important An object presents to the other objects an ''interface'' (i.e., a set of messages) defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful some data are most of the time required. Data are only accessed by the methods.
 
 
 From a turtle ''user'' point of view, the only relevant information is that the turtle effectively receiving the message ==square:== executes the method that draws a square. So changing the definition of the ==square:== method  to the one below does not have any consequence on the methods that call it. Figure *@fig:encapsulationAtWork2* illustrates this point.
@@ -131,7 +131,7 @@ square: s
 
 Hiding the internal representation is not limited to object-oriented programming but it is central to object-oriented programming. 
 
-@@note An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
+@@important An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
 
 !!! An object protects its data
 
@@ -148,7 +148,7 @@ In Pharo, a client cannot access the state of an object if the object does not d
 +Two turtles have the same interface, i.e., set of messages  being understood but they have ''different'' private state representing their  direction, position and pen status.>file://figures/privateDataTwoInstances.pdf|width=70|label=fig:twoInstances+
 
 
-@@note An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class share the same ''interface'' but have their own private state.
+@@important An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class share the same ''interface'' but have their own private state.
 
 
 
@@ -182,7 +182,7 @@ A class is a mold or cast of objects. A class specifies two important aspects of
 - Instance ""structure"". All the instances of a class will have the same structure expressed in terms of ''instance variables''. Pay attention that the variables are the same for all the instances of a class but not their values. Each instance has specific values for its instance variables.
 - Instance ""behavior"". All the instances share the same behavior even if this one can be different because applied on different values. 
 
-@@note A class is as a blueprint for its instances. It is a factory of objects. All objects will have the same structure and share a common behavior. 
+@@important A class is as a blueprint for its instances. It is a factory of objects. All objects will have the same structure and share a common behavior. 
 
 Let us illustrate this with the class ==Counter==.
 
@@ -224,7 +224,7 @@ In the expression ==c1 increment==, ==c1== is called the ""receiver"" of the mes
 
 In the method ==increment==,  the variable ==count== refers to the variable of the ""receiver"" of the message. 
 
-@@note A class define methods that specify the behavior of all the instances created by the class.
+@@important A class define methods that specify the behavior of all the instances created by the class.
 
 
 Multiple methods can accessed to the instance variables of the receiver. For example the methods ==increment==, ==count:== ==decrement== and ==printOn:== all access the instance variable ==count== of the receiver to perform different computation. 
@@ -259,7 +259,7 @@ c2 decrement.
 !!!! Self is the message receiver
 Imagine that now we would like to send a message to the object that receives the message itself. We need a way to refer to this object. Pharo defines a special variable for this exact purpose: ==self==. 
 
-@@note ==self== always refers to the message receiver that is currently executed.
+@@important ==self== always refers to the message receiver that is currently executed.
 
 For example we can implement the method ==incrementByTwo== as follows:
 
@@ -281,7 +281,7 @@ For example, sending ==new== to the ==Counter== class returns a newly created co
 
 A class is a factory of objects. A class creates instances. An instance does not create other instances of the class.
 
-@@note A class describes the structure (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+@@important A class describes the structure (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
 
 !!! Conclusion
 
@@ -706,7 +706,7 @@ It also means that we can add a new kind of classes or remove one without having
 
 We send ''one'' message and one method amongst the ''multiple'' methods with the same name will be selected and executed. The method is dynamically looked up during execution as we will see in Chapters *@cha:inheritance* and *@cha:messages*. Sending a message is selecting the corresponding method having the same name than the message.  When a message is sent to an object the corresponding method is looked in the class of the message receiver.
 
-@@note Sending a message is making a choice. The system selects for us the correct method to be executed.
+@@important Sending a message is making a choice. The system selects for us the correct method to be executed.
 
 
 !!!! Polymorphic objects 
@@ -714,7 +714,7 @@ We send ''one'' message and one method amongst the ''multiple'' methods with the
 We created objects (files and directories) that are ''polymorphic'' in the sense that they offer a common set of messages (==search:==, ==printOn:==, ==size==, ==parent:==). This is really powerful because we can compose objects (for example add a new directory or a file) without changing the program. 
 Imagine that we add a new kind of directories we can introduce it and reuse extending programs based on ==size== or ==search:== ''without'' changing them. 
 
-@@note Creating polymorphic objects is a really powerful capability. It lets us extend and change programs without breaking them. 
+@@important Creating polymorphic objects is a really powerful capability. It lets us extend and change programs without breaking them. 
 
 Most of the time it is better to give similar name to methods performing similar behavior, and different names when the methods are doing semantically different actions, so that users of the objects are not confused. 
 
@@ -752,7 +752,7 @@ While this example is a bit exagerated, we see several points:
 What you should also see when you compare the two versions is that in the procedural version we have to check the kind of object we manipulate. 
 In the object-oriented version, we simply tell the object to perform its own computation and return the result to us. 
 
-@@note Don't ask, tell. Object-oriented programming essence is about sending order not checking state.
+@@important Don't ask, tell. Object-oriented programming essence is about sending order not checking state.
 
 
 !!! So far so good? Not fully!

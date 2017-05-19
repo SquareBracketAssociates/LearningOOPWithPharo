@@ -32,13 +32,13 @@ square: size
 
 
 
-@@note A message represents ''what'' the object can do, while a method specifies ''how'' the behavior is realized. 
+@@important A message represents ''what'' the object can do, while a method specifies ''how'' the behavior is realized. 
 
 An object can also send messages to other objects. For example, when a turtle draws a line it send messages to an object representing the line  color and send messages numbers.
 
 +An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
 
-@@note An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
+@@important An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
 
 
 
@@ -76,7 +76,7 @@ caro == marg
 >>> true
 ]]]
 
-@@note An object has an unique identity.
+@@important An object has an unique identity.
 
 
 !!! An object is a protective entity
@@ -84,9 +84,9 @@ caro == marg
 An object is responsible of the way it realizes its reaction to a
 message.  It ''offers services'' but ''hides'' the way they are implemented (see Figure *@fig:encapsulationAtWork*). We do not have to know how the method associated with the message selector is implemented.  Only the object knows the exact definition of the method.  This is when we define the method ==square:== that defines how a turtle draws a square of a given size, that we focus on ''how'' a turtle draws a square. Figure *@fig:encapsulationAtWork* shows the message and the method ==square:==. The method ==square:== defines how to draw step by step a square, however the object only offers the message square: and does not show it implementation.
 
-@@note An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.
+@@important An object presents to the other objects an interface composed of a set of messages defining ''what'' the object can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. To perform something useful data are most of the time required. Data are only accessed by the methods.
 
-@@note An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
+@@important An object is responsible of the way it realizes its reaction to a message. It offers services and hides the way they are implemented.
 
 From a turtle ''user'' point of view, the only relevant information is that the turtle effectively receiving the message ==square:== executes the method that draws a square. So changing the definition of the ==square:== method  to the one below does not have any consequence on the methods that call it. Figure *@fig:encapsulationAtWork2* illustrates this point.
 
@@ -120,7 +120,7 @@ Our turtle (contrarily to the original Logo turtle) does not provide a way to ch
 +Two turtles have the same interface, i.e., set of messages  being understood but they have ''different'' private state representing their  direction, position and pen status.>file://figures/privateDataTwoInstances.pdf|width=70|label=fig:twoInstances+
 
 
-@@note An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class shares the same ''interface'' but have their own private state.
+@@important An object holds some ''private'' data that represents its ''internal'' state. Each object has its own state. Two objects of the same class shares the same ''interface'' but have their own private state.
 
 !!!!! About behavior
 Behaviour should be associated with the objects responsible for the associated state.
@@ -182,7 +182,7 @@ marg jump: 200.
 
 To avoid duplication of object behavior definition in all similar objects, class-based object-oriented languages introduce the notion of ''class''. All the behavior understood by ==caro== and ==marg== is defined in the class ==Turtle== and as such ''shared'' among all the class objects.  All the turtles share the same method ==jump==. Hence, every time we define a new method in the class ==Turtle==, all the turtles can execute it in response to the corresponding message.
 
-@@note All objects of the same class share the same behavior, i.e., the same method definitions.
+@@important All objects of the same class share the same behavior, i.e., the same method definitions.
 
 
 
@@ -194,7 +194,7 @@ In Pharo, any object is an instance of a class, even numbers, strings, booleans,
 
 A class creates and returns an instance in response to the message ==new==. As class defines the behavior of objects, all the instances of a class share the behavior defined by the class. Any object knows its class. 
 
-@@note A class is a factory of objects, called its ''instances''. A class defines the behavior of all its instances.
+@@important A class is a factory of objects, called its ''instances''. A class defines the behavior of all its instances.
 
 [[[
 | caro |
@@ -210,7 +210,7 @@ caro class printString
 
 
 
-@@note Methods define the behavior of all the instances of the class they belong to.
+@@important Methods define the behavior of all the instances of the class they belong to.
 
 
 !!! Describing object state
@@ -238,7 +238,7 @@ In the sentence ''A class describes the internal structure of all its instances'
 - but instances have different and independent states, i.e., the  values of the instance variables that represent them change from instance of instance. ==caro== can be at a different position than ==marg==.
 
 
-@@note A class ''describes'' the internal structure of all its instances by means of instance variable.
+@@important A class ''describes'' the internal structure of all its instances by means of instance variable.
 
 
 
@@ -262,9 +262,9 @@ The method ==turn:== illustrates that instance variables are accessible from all
 In Pharo, instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them. As any other variables instance variables have to be initialized.  This instance variable initialization occurs just after creating a new instance, we will see that in the following chapters.  
 
 
-@@note Instance variables are accessible by all the methods of a class. Instance variables have the same lifetime than the object to which they belong to.
+@@important Instance variables are accessible by all the methods of a class. Instance variables have the same lifetime than the object to which they belong to.
 
-@@note In Pharo, instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
+@@important In Pharo, instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
 
 
 !!!Class and instances are different
@@ -274,7 +274,7 @@ Classes and objects are different objects; they understand different messages. A
 
 For example, sending ==new== to the ==Turtle== class returns a newly created turtle, while sending ==new== to a turtle results in an error. In the opposite way, sending ==jump:== to ==Turtle== leads also to an error because ==Turtle== is a factory of objects not the objects themselves. Classes are molders of objects.
 
-@@note A class describes the state (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+@@important A class describes the state (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -282,7 +282,7 @@ For example, sending ==new== to the ==Turtle== class returns a newly created tur
 
 Different objects can react in different manner to the same messages.  For example, an animated turtle understands the same messages than a basic turtle. However, it reacts differently to the same message (See~\ref{scr:ani}). An animated turtle performs extra actions related to its animation. Having different behaviors associated with the same message, behavior that  depends on the message receiver is called \index{polymorphism} \emph{polymorphism} which literally means multiple form. Polymorphism is a key feature of object-oriented programming languages, it describes that a same message may lead to different method execution depending on the message receiver.
 
-@@note We send one message but there is probably many methods with the same name. The message passing mechanism will select the
+@@important We send one message but there is probably many methods with the same name. The message passing mechanism will select the
 correct method for us. 
 
 
@@ -300,7 +300,7 @@ caro go: 100.
 caro turnLeft: 90
 ]]]
 
-@@note Different objects, instances of different classes, can react differently to the same messages.
+@@important Different objects, instances of different classes, can react differently to the same messages.
 
 In the context of ==Turtle== and ==AnimatedTurtle== objects the method execution results in similar, yet different, actions. The receiver gets at the same location in the same state but does extra action i.e., the animation for the animated turtle.  It may happen that different objects understand the same message while doing completely different actions, but this is rare.  
 
