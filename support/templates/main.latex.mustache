@@ -1,9 +1,10 @@
 % -*- mode: latex; -*- mustache tags: {{=« »=}} «! the '&' below prevents HTML escaping. »
-\documentclass[10pt,twoside,english]{root/support/latex/sbabook/sbabook}
+\documentclass[10pt,twoside,english]{sbabook}
 \let\wholebook=\relax
 
-\usepackage{import}
-\subimport{root/support/latex/}{common.tex}
+\input{common}
+% \usepackage{import}
+% \subimport{root/support/latex/}{common.tex}
 
 \usepackage{hyperxmp,enumitem}
 \usepackage[
@@ -19,7 +20,7 @@
 % Remove the showtrims document option before printing
 \ifshowtrims
   \usepackage{showframe}
-  \usepackage[color=magenta,width=5mm]{root/support/latex/overcolored}
+  \usepackage[color=magenta,width=5mm]{overcolored}
 \fi
 
 
