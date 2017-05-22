@@ -7,5 +7,6 @@ pharo-ui
 pharo-vm/
 pillar
 *.mcz
+*.auctex
 
 ArchiveWorkingForBook\.zip
