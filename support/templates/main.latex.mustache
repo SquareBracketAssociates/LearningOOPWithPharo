@@ -5,6 +5,15 @@
 \usepackage{import}
 \subimport{root/support/latex/}{common.tex}
 
+\usepackage{hyperxmp,enumitem}
+\usepackage[
+  type={CC},
+  modifier={by-nc-nd},
+  version={4.0},
+  imagemodifier={-eu},
+  imagewidth=2.5cm
+]{doclicense}
+
 %=================================================================
 % Debug packages for page layout and overfull lines
 % Remove the showtrims document option before printing
@@ -37,43 +46,38 @@
 
 \cleartoverso
 {\small
+  \ccCopy~2017 by «& attribution».
 
-  Copyright 2017 by «& attribution».
+  \doclicenseThis
 
-  The contents of this book are protected under the Creative Commons
- Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) license.
+  \sectionline
 
-  You are \textbf{free}:
-  \begin{itemize}
-  \item to \textbf{Share}:copy and redistribute the material in any medium or format.
-  \end{itemize}
-
-  Under the following conditions:
-  \begin{description}
-  \item[Attribution.] You must attribute the work in the manner specified by the
-    author or licensor (but not in any way that suggests that they endorse you
-    or your use of the work).
-  \item[ NonCommercial ] You may not use the material for commercial purposes.
-  \item[ NoDerivatives. ] If you remix, transform, or build upon the material, you may not distribute the modified material.
-  \end{description}
-
-  For any reuse or distribution, you must make clear to others the
-  license terms of this work. The best way to do this is with a link to
-  this web page: \\
-  \url{https://creativecommons.org/licenses/by-nc-nd/4.0/}
-
-  Any of the above conditions can be waived if you get permission from
-  the copyright holder. Nothing in this license impairs or restricts the
-  author's moral rights.
-
-  \begin{center}
-    \includegraphics[width=0.2\textwidth]{root/support/latex/by-nc-nd.pdf}
+  \begin{center}\itshape
+    This is a human-readable summary of (and not a substitute for) the license: \\
+    \url{\doclicenseURL}
   \end{center}
 
-  Your fair dealing and other rights are in no way affected by the
-  above. This is a human-readable summary of the Legal Code (the full
-  license): \\
-  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+  \subsubsection*{You are free to:}
+
+  \begin{description}[format=\sffamily\bfseries]
+  \item[\ccShare\ Share] Copy and redistribute the material in any medium or format.
+  \end{description}
+  The licensor cannot revoke these freedoms as long as you follow the license terms.
+
+  \subsubsection*{Under the following terms:}
+
+  \begin{description}[format=\sffamily\bfseries]
+  \item[\ccAttribution\ Attribution] You must give appropriate credit, provide a link to the
+    license, and indicate if changes were made.
+    You may do so in any reasonable manner, but not in any way that suggests the
+    licensor endorses you or your use.
+  \item[\ccNonCommercial\ NonCommercial] You may not use the material for commercial purposes.
+  \item[\ccNoDerivatives\ NoDerivatives] If you remix, transform, or build upon the material,
+    you may not distribute the modified material.
+  \item[No additional restrictions] You may not apply legal terms or
+    technological measures that legally restrict others from doing anything the
+    license permits.
+  \end{description}
 
   \vfill
 
