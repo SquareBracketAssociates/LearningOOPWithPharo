@@ -8,5 +8,6 @@ pharo-vm/
 pillar
 *.mcz
 *.auctex
+*.DS_Store
 
 ArchiveWorkingForBook\.zip
