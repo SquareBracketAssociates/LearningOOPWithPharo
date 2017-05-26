@@ -10,9 +10,9 @@ help: ## Describe the main targets (this list)
 	@echo "Main targets you can build:"
 	@awk -F ':|## *' \
 		'/^[^\t].+:.*##/ {\
-			printf "  \033[36m%s\033[0m\t%s\n", $$1, $$NF \
+			printf "  \033[36m%s\033[0m#%s\n", $$1, $$NF \
 		}' $(MAKEFILE_LIST) \
-	| column -s $$'\t' -t
+	| column -s# -t
 	@[ -n "$(ALTERNATEPRINTFORMATS)" ] \
 		&& echo "Print format alternatives: pdf $(ALTERNATEPRINTFORMATS)"
 	@echo "Combined format+volume targets: pdfbook, htmlchapters…"
