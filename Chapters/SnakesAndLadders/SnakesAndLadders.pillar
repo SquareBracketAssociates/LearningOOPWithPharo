@@ -456,7 +456,7 @@ SLGameTest >> testSeveralPlayersAtStart
 
 Pharo is a living environment in which we can interact with the objects. Let us see a bit of that in action now.
 
-Type the following game creation in a playground (as shown here *@fig:snakesplay*).
+Type the following game creation in a playground (as shown in Figure *@fig:snakesplay*).
 [[[
 | game jill jack |
 game := SLGame new tileNumber: 12.
@@ -467,7 +467,7 @@ game addPlayer: jack.
 game 
 ]]]
 
-Now you can inspect the game either using the inspect command-i or sending the message ==inspect== to the game as in ==game inspect==. You can also use the "do it and go" menu item of a playground window.  You should get a picture similar to the one *@fig:ginspector1*.
+Now you can inspect the game either using the inspect command-i or sending the message ==inspect== to the game as in ==game inspect==. You can also use the ''do it and go'' menu item of a playground window.  You should get a picture similar to the one *@fig:ginspector1*.
 
 We see that the object is a ==SLGame== instance and it has an instance variable named ==tiles==. You can navigate on the instance variables as shown in Figure *@fig:ginspector2*. Figure *@fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go to the first tile and see the two players. At each moment you can interact with the selected object dit messages. 
 
