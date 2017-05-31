@@ -18,18 +18,17 @@ I hope that you will enjoy it as much as I did —even if, for me, writing a boo
 !!! Structure of the book
 
 While writing this book, I faced a challenge to find the correct level of difficulty.
-To solve this problem I structured the book into basic elements and projects (more advanced topics).
-In addition, some chapters are key and conceptual while others are little tutorials, structured more as explained step by step examples. Some of such chapters can be skipped while the conceptual one should not.
-
-I also propose different levels of reading via different paths but often even ''simple'' chapters contain design remarks.
+To solve this problem, I structured the book either into key chapters on basic concepts, or into projects on more advanced topics.
+The projects are little tutorials or more realistic examples, with step by step explanations; you can skip over them and come back to read them whenever you feel like it.
+I also propose various paths through the book with different levels of reading; however, many of the ''simpler'' chapters also contain design remarks.
 
 +Reading maps.>file://figures/Map.pdf|width=70|label=fgmap+
 
 !!!! Fast track
-The following chapers contain more conceptual information:
+The following chapters contain more conceptual information:
 
 In the volume 1
-- Glimpse at the Syntax
+- Glimpse of the Syntax
 - Tests, tests and tests
 - Objects and Classes
 - Revisiting Objects and Classes
@@ -38,28 +37,25 @@ In the volume 1
 - Snakes and Ladders
 
 In the volume 2
-- Sending Message, 
-- Scissors
+- Sending Messages
+- Stone Paper Scissors
 - Visitors
-- Aliens and sheeps
-
-
-
-
+- Aliens and Sheeps
 
 
 !!! What you will learn
+
 I would like to present the concepts that I want to teach you and that hopefully you should acquire. What is key to understand is that I will focus on the ''key'' conceptual elements. It is easy for me because I will not explain OOP/D in general but within the context of Pharo and Pharo is the essence of Object-Oriented programming since it object model is minimal 
 but it covers the key and essential aspect of OOP. For example I will not present method modifiers, types, overloading (which is a bad concept).
 
-I will focus on object-oriented programming concepts and object-oriented design 
+I will focus on object-oriented ''programming'' concepts:
 - Objects / Classes 
 - Messages / Methods
-- self and its semantics
+- ==self== and its semantics
 - Inheritance
-- super and its semantics
+- ==super== and its semantics
 
-And  Object-oriented design
+…and on object-oriented ''design'' concepts:
 - Class responsibility collaboration
 - Delegation
 - Message sends are choice (what would be the equivalent to not)
@@ -78,37 +74,32 @@ Since we need a language to express our programs, we will teach you the syntax o
 
 Now in a nutshell you should know that the Pharo syntax
 - fits in one postcard; 
-- is based on objects, messages and closure;
+- is based on objects, messages and closures;
 Closures are not a late addition to the language but a central cornestone. They enable this messages all over syntax as well as really powerful iterators.
 
 !!! Typographic conventions
 
-Pharo expressions or code snippets are always represented either in the text as =='Hello'== and =='Hello' reversed'== or in specific paragraph as
-follows:
+Pharo expressions or code snippets are represented either in the text as =='Hello'== and =='Hello reversed==, or for more substantial snippets, as follows:
 [[[
-	
 'Hello'
-	 	
 ]]]
 
-In addition when we want to show the result of an expression execution we use the message ==>>>== on a different line to stress the result itself.
+When we want to show the result of evaluating an expression, we show the result after three chevrons ==>>>== on the next line, like so:
 [[[
-	
 'Hello' reversed
 >>> 'olleH'
-
 ]]]
 
-The important mini sections as the one below summarise an important concept or point
-@@important Such notes stress an important conceptual point. They may repeat some sentences.
+Finally, whenever we feel the text makes a point that is important enough to be highlighted, we will do so with a thick bar:
+@@important This is an important point to take away from the nearby text.
 
 !!! Thanks
 I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Amal Noussi for their great feedback.
-Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and and Tinychat. Guillermo Polito for the idea of this cool example of files and directories.
+Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and for Tinychat. Guillermo Polito for the idea of this cool example of files and directories.
 
 
 
-!!! New todo
+!!! Todo
 - read LAN Finish tjj LAN and may be reunit it. 
 - Implement game collector app
 - reread and implement Game of life
