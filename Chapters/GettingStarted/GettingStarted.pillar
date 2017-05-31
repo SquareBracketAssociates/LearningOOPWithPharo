@@ -1,42 +1,35 @@
 !! Pharo syntax in a nutshell
 @cha:started
 
-In Pharo everything is an object and most computation happens by sending  ''messages'' to objects.
-Objects are created by classes by sending them messages too. Classes defined the structure and the behavior of their instances. 
+In Pharo, everything is an ''object'' and computation happens by sending ''messages'' to objects.
+Objects are created by sending messages to particular objects named ''classes'', which define the structure and behavior of the objects they create, also known as their instances.
 
-
-In this chapter we start with a simple path to get you understand the most important part of the Pharo syntax: ''messages'', ''blocks'' and ''methods''. 
-This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction and I thank him for giving me the permission to reuse his ideas.
+In this chapter, we start on a simple path to get you to understand the most important parts of the Pharo syntax: ''messages'', ''blocks'' and ''methods''.
+This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction, and I thank him for giving me the permission to reuse his ideas.
 
 
 !!!  Simplicity and elegance of messages
-Pharo syntax is simple and elegant. There are three kind of messages: unary, binary and keyword-based messages.
+
+Pharo syntax is simple and elegant.
+There are three kind of messages: unary, binary and keyword-based messages.
 
 !!!! A first unary message
-But let’s look at an example of unary messages.
-
+Let’s first look at an example of unary message:
 [[[
-	
 'hello' reversed
-
 ]]]
 
-Selecting this piece of code and looking at the result of its execution  yields another object
-
+Executing this piece of code yields another object:
 [[[
-	
 'olleh'
-
 ]]]
-as a result. Note that executing an expression is something you can do everywhere you can type text when working in Pharo.
 
-
-
-What happened is that the message ==reversed== was sent to the string object =='hello'==, resulting in a new string object
- with the characters reversed.
-The literal string ==‘hello’== is called the ''receiver'' while ==reversed== is called the message selector (kind of the name of the message).
+What happened is that the message ==reversed== was sent to the literal string object =='hello'==, resulting in a new string object with the same characters in reverse order.
+The string =='hello'== is called the ''receiver'' of the message, while ==reversed== is called the message ''selector'' —a technical term for the name of the message.
 
 @@important The object receiving the message is called the message receiver.
+
+Note that executing an expression is something you can do everywhere you can type text when working in Pharo.
 
 !!!! Another message
 
