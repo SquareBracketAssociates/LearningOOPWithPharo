@@ -6,6 +6,6 @@
 [subrepo]
 	remote = git@github.com:cdlm/sbabook.git
 	branch = master
-	commit = 5184785c31cb037f81c57e9f0bbadffb20d3b461
-	parent = fcb06df3e49fedaaff9f59430dbaf8943e4c2535
+	commit = 51eff9cbe8636721e32555a912499bfefc13debe
+	parent = 1e04fc43b2a3fc6b890022b915d5e2a59aeff212
 	cmdver = 0.3.1
