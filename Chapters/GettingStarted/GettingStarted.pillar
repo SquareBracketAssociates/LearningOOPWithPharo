@@ -1,134 +1,127 @@
 !! Pharo syntax in a nutshell
 @cha:started
 
-In Pharo, everything is an ''object'' and computation happens by sending ''messages'' to objects.
-Objects are created by sending messages to particular objects named ''classes'', which define the structure and behavior of the objects they create, also known as their instances.
-
 In this chapter, we start on a simple path to get you to understand the most important parts of the Pharo syntax: ''messages'', ''blocks'' and ''methods''.
 This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction, and I thank him for giving me the permission to reuse his ideas.
+
+In Pharo, everything is an ''object'' and computation happens by sending ''messages'' to objects.
+Objects are created by sending messages to particular objects named ''classes'', which define the structure and behavior of the objects they create, also known as their instances.
 
 
 !!!  Simplicity and elegance of messages
 
-Pharo syntax is simple and elegant.
-There are three kind of messages: unary, binary and keyword-based messages.
+Messages are central to computation in Pharo.
+While their syntax is quite minimalist, it is very expressive and structures most of the language.
 
-!!!! A first unary message
-Let’s first look at an example of unary message:
+There are three kinds of messages: unary, binary, and keyword-based.
+
+!!!! Sending a message & the receiver
+
+Let’s first look at an example of sending a message to an object:
 [[[
 'hello' reversed
 ]]]
 
-Executing this piece of code yields another object:
+What this means is that the message ==reversed== is sent to the literal string =='hello'==.
+In fact, the string =='hello'== is called the ''receiver'' of the message; the receiver is always the leftmost part of a message.
+
+@@important The object to which a message is sent is called the ''receiver'' of that message.
+
+!!!! Evaluating code and convention for showing results
+
+In Pharo, code can be evaluated from anywhere you can type and select text; the system provides various interactive ways to evaluate code and look at the result.
+In this book, we will show the result of an expression directly after it, using three chevrons ==>>>==.
+
+Evaluating the piece of code in the previous example yields a new string with the same characters in reverse order:
 [[[
-'olleh'
+'hello' reversed
+>>> 'olleh'
 ]]]
 
-What happened is that the message ==reversed== was sent to the literal string object =='hello'==, resulting in a new string object with the same characters in reverse order.
-The string =='hello'== is called the ''receiver'' of the message, while ==reversed== is called the message ''selector'' —a technical term for the name of the message.
+!!!! Other messages & return values
 
-@@important The object receiving the message is called the message receiver.
-
-Note that executing an expression is something you can do everywhere you can type text when working in Pharo.
-
-!!!! Another message
-
-Here is another example of message
-
-[[[
-'hello' asUppercase
-]]]
-which returns the following new string object:
-[[[
-'HELLO'
-]]]
-
-!!!! Convention for showing results
-In this book, we write an expression and show its result after ==>>>==. The previous example is written as follows: 
+Our =='hello'== string understands many other messages than ==reversed==:
 [[[
 'hello' asUppercase
 >>> 'HELLO'
 ]]]
 
-@@important The convention shared between Pharo programmers is to use camel case i.e., writing ==asUppercase==, ==ifAbsentPut:== instead of ==asuppercase== and ==ifabsentput:==. 
-
-
-!!!! A final unary example
-Let us take a final example. 
-
+As the name implies, the ==asUppercase== message returns yet another string =='HELLO'==, which has the same contents as the receiver with each character converted to upper case.
+However, messages sent to strings do not always return strings; other kinds of values are possible:
 [[[
 'hello' first
 >>> $h
+
+'hello' size
+>>> 5
 ]]]
 
-The message ==first== returns the first element of the string: It is a character because strings in Pharo are sequence of characters. Literal characters are expressed by the character ==$== followed by a character. All of the strings and characters are objects because let me repeat it in Pharo ''everything'' is an object.
+The message ==first== returns the first element of the string: a character.
+Literal characters in Pharo syntax are expressed by the dollar sign ==$== immediately followed by the character itself.
+The message ==size== returns the number of elements in the string, which is an integer.
 
-All the messages we saw so far are called ''unary'' messages because they take no arguments.
+Strings, characters, integers are objects, because in Pharo ''everything'' is an object.
+Also, messages ''always'' return something, even if the returned value is not used.
+One might say that a message can return any value, as long as it's an object.
 
-@@important Message without arguments are called ''unary'' messages. 
+!!!! The selector & unary messages
 
+All messages we saw so far have the same receiver, the string =='hello'==; however, the computations were different because the messages differ by their name, or to use the technical term, by their ''selector''.
+In the syntax of a message, the selector always comes right after the receiver; the message-sending syntax is just the white space in between!
+
+Those messages are called ''unary'' because they involve only one object: their receiver; they do not take any arguments.
+Syntactically, the selectors of unary messages must be alphabetic words; the convention to make up longer selectors is to use lower camel case, preferring ==asUppercase== to ==as_uppercase== or ==AsUPPERCASE==.
 
 !!!! A first keyword-based message
 
-Messages should often get arguments to let the receiver perfoms its task. 
-Therefore Pharo allows us to pass arguments to a message. Your message  (and its corresponding method name) should finish with a colon for each arguments.
+Messages often need to pass arguments to the receiver so that it can perform its task; this is what keyword-based messages are for.
 
-Let us look at an example, to access the first element of a string we can also send another message the message ==at:==.
-
+As an example, instead of using ==first==, we could use the message ==at:==, with an explicit position as a parameter:
 [[[
 'hello' at: 1
 >>>$h
 ]]]
 
-The message ==at:== requires an argument indicating which element we want to access.
-The message ==at: 1== will access the first element of the receiver. 
-
+The selector ==at:== consists of a single keyword that ends with a colon, signifying that it should be followed by an argument; in this case, an integer indicating which element we want to access.
+Pharo counts indices starting from 1; therefore the message ==at: 2== will access the second element of the receiver.
 [[[
 'hello' at: 2
 >>>$e
 ]]]
 
-So now you know how we can express with an argument. Simple, put a colon at the end of the selector and pass the argument: ==at: 2==.
-
-@@important Messages whose selector contains a colon ==:== expect an argument.
-
-
 !!!! Keyword-based messages with multiple arguments
 
-The general form for messages that take multiple arguments uses interpolated keywords ending in colons, like this.
-
+To pass more than one argument, a single message can have as many colon-terminated keywords as necessary, each followed by an argument, like this:
 [[[
 'hello' copyFrom: 1 to: 3
 >>> 'hel'
 ]]]
 
-The name of the previous message is ==copyFrom:to:==. The arguments of the messages are placed afer each colon e.g., ==copyFrom: 1 to: 3==. 
+This is one single message, whose selector is really ==copyFrom:to:==.
+Note how naturally it reads and how, with well-chosen terms, each keyword of the selector documents the argument that follows it.
 
-Note how natural keyword messages read and how they are self documenting with well-chosen names. We call such message ''keyword-based'' messages because they are composed of words and colons. 
-
-@@important A message with multiple arguments (keyword-based message) is composed of words each terminating with a colon: e.g., ==copyFrom: 1 to: 3==.
-
+In the syntax, you are free to use as much white space as needed between the keywords and the arguments, and like unary messages, the convention is to name each keyword using lower camel case.
 
 !!!! Binary messages
-The third and last kind of messages are ''binary'' messages: Such messages have only one argument, hence involving two objects the receiver and one argument. These are used for arithmetic operations, among others. Here you do not need to add a terminating colon because it would lead to critic code. 
 
+Binary messages visually differ from the other two kinds because their selectors can only be composed of symbols.
+They always expect a single argument, even though they do not end in a colon.
+
+The main use of binary messages is as arithmetic operations, for instance sending the message ==+== to the integer ==1==, with ==2== as argument:
 [[[
 1 + 2
 ]]]
 
-Here, the message ==+== is sent to the integer ==1== with ==2== as argument.
-
-Binary messages are messages whose selectors are not alphanumeric. For example, comma ==,== is the name for string concatenation 
-as shown: 
-
+But there are some other widely-used binary messages outside of arithmetics; for example, comma ==,== is the message for string concatenation:
 [[[
 'Hello' , ' Pharoers'
 >>> 'Hello Pharoers'
 ]]]
 
-Here the receiver of the message is =='Hello'== and the argument ==' Pharoers'==.
+Here, the receiver of the message is =='Hello'== and ==' Pharoers'== is the argument.
 
 !!! Which message is executed first?
+
 Pharo uses distinguish between three kind of messages to get a readable syntax. There is one rule that defines which messages is executed first: 
 The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
 
