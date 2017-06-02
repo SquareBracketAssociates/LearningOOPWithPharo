@@ -70,7 +70,7 @@ All messages we saw so far have the same receiver, the string =='hello'==; howev
 In the syntax of a message, the selector always comes right after the receiver; the message-sending syntax is just the white space in between!
 
 Those messages are called ''unary'' because they involve only one object: their receiver; they do not take any arguments.
-Syntactically, the selectors of unary messages must be alphabetic words; the convention to make up longer selectors is to use lower camel case, preferring ==asUppercase== to ==as_uppercase== or ==AsUPPERCASE==.
+Syntactically, the selectors of unary messages must be alphabetic words; the convention to make up longer selectors is to use lower camel case, preferring ==asUppercase== over ==as_uppercase== or ==AsUPPERCASE==.
 
 !!!! A first keyword-based message
 
@@ -112,36 +112,52 @@ The main use of binary messages is as arithmetic operations, for instance sendin
 1 + 2
 ]]]
 
-But there are some other widely-used binary messages outside of arithmetics; for example, comma ==,== is the message for string concatenation:
+But there are some other widely-used binary messages outside of arithmetics; for example, the message for string concatenation is a single comma:
 [[[
 'Hello' , ' Pharoers'
 >>> 'Hello Pharoers'
 ]]]
 
-Here, the receiver of the message is =='Hello'== and ==' Pharoers'== is the argument.
+Here, the receiver is =='Hello'== and ==' Pharoers'== is the argument.
 
 !!! Which message is executed first?
 
-Pharo uses distinguish between three kind of messages to get a readable syntax. There is one rule that defines which messages is executed first: 
-The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
+Simpler messages take precedence over the more complex ones.
+This very simple rule determines execution order when messages of different kinds appear in the same expression.
+This means that unary messages are evaluated first, then binary messages, and finally keyword-based messages.
 
-@@important The simpler messages take precedence over the more complex ones, so unary messages are evaluated first, then binary message and finally keyword messages.
-
-Here is an example showing how elegant is the syntax when multiple messages are used.
-
+Together, the message syntax and precedence rules keep complex expressions elegant and readable:
 [[[
 'string' asUppercase copyFrom: -1 + 2 to: 6 - 3
->>>STR
+>>> STR
 ]]]
 
-Parentheses are used to control the order of evaluation since they are executed first. In the following expression ==('string' asUppercase first: 9 / 3)== is executed first, then the message ==reserved== is sent to the result of the first expression.
+When message precedence does not match what you mean, you can force the execution order using parentheses.
+In the following example, the expression inside the parentheses is evaluated first; this yields a three-character string =='STR'==, which then receives the message ==reversed==.
 [[[
 ('string' asUppercase first: 9 / 3) reversed
 >>> 'RTS'
 ]]]
 
+Finally, note how ==copyFrom:to:== and ==first:== were sent to the result of ==asUppercase==.
+All messages are expressions whose result can be the receiver of a subsequent message; this is called ''message chaining''.
+Unless the precedence rule applies, chained messages execute in reading order, from left to right.
+This is quite natural for unary messages:
+[[[
+'abcd' allButFirst reversed
+>>> 'dcb'
 
-Note how you can send messages to the result of an expression: ==copyFrom:to:== and ==first:== were sent to the result of ==asUppercase==. This is called ''chaining messages''.
+'abcd' reversed allButFirst
+>>> 'cba'
+]]]
+
+Note however that the chaining rule applies without exception, even to binary messages that look like arithmetic operators:
+[[[
+1 + 2 * 10
+>>> 30
+]]]
+
+Finally, keyword messages cannot be chained together without using parentheses, since the chain would look like a single big keyword message.
 
 !!! Sending messages to classes
 
