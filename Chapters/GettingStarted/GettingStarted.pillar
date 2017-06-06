@@ -25,8 +25,6 @@ Let’s first look at an example of sending a message to an object:
 What this means is that the message ==reversed== is sent to the literal string =='hello'==.
 In fact, the string =='hello'== is called the ''receiver'' of the message; the receiver is always the leftmost part of a message.
 
-@@important The object to which a message is sent is called the ''receiver'' of that message.
-
 !!!! Evaluating code and convention for showing results
 
 In Pharo, code can be evaluated from anywhere you can type and select text; the system provides various interactive ways to evaluate code and look at the result.
@@ -119,6 +117,13 @@ But there are some other widely-used binary messages outside of arithmetics; for
 ]]]
 
 Here, the receiver is =='Hello'== and ==' Pharoers'== is the argument.
+
+@@coffee The ''receiver'' is the object to which a message is sent; it is always first in a message, followed by the ''selector'' and arguments.
+
+@@coffee ''Unary messages'' look like words and have no parameters beside their receiver. ''Binary messages'' have selectors made of symbols and have one parameter. ''Keyword messages'' take a parameter after each colon in their selector.
+
+@@coffee The preferred naming convention for unary and keyword selectors is lower camel case, ==likeThis:orThat:==.
+
 
 !!! Which message is executed first?
 
