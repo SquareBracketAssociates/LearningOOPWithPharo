@@ -164,47 +164,53 @@ Note however that the chaining rule applies without exception, even to binary me
 
 Finally, keyword messages cannot be chained together without using parentheses, since the chain would look like a single big keyword message.
 
+
 !!! Sending messages to classes
 
-Classes are an important entry point to create objects. Of course, this is also done by sending messages such as ==new== to the class object itself.
-In Pharo, class name are capitalized. The convention is that uppercase variables represents non-local variables i.e., shared globally or betwen a group of classes.
-For example we can ask the class ==String== to create an empty string, by just sending it the message ==new==. 
-
+Where do new objects come from?
+Well, in Pharo, object creation is just another form of computation, so it happens by sending a message to the class itself.
+For example, we can ask the class ==String== to create an empty string by sending it the message ==new==.
 [[[
 String new
 >>> ''
 ]]]
 
- Some classes understand different instance creation messages, like the class ==Float== that understands the message ==pi==.
-
+Classes are really objects that are known by name in the system, so they provide a useful entry point, in particular to create objects.
+Some classes understand different instance creation messages, like the class ==Float== that understands the message ==pi==.
 [[[
 Float pi
 >>> 3.141592653589793
 ]]]
 
-
-!!! Sequence of statements
-
-Multiple statements are separated using a dot, just like sentences. Local variables are declared by writing their lowercase name between vertical bars.
+@@coffee The naming convention for class names is upper camel case, ==LikeThis==; this is the convention for all non-local names, i.e. shared or global variables.
 
 
+!!! Local variables and statement sequences
+
+Local variables are declared by writing their name between vertical bars; their value can be set using the assignment statement ==:\===.
+Successive statements are ''separated'' using a period, which makes them look like sentences.
 [[[
 | anArray |
 anArray := Array new: 3.
 anArray at: 1 put: true.
 anArray at: 2 put: false.
 anArray
+>>> #(true false nil)
 ]]]
 
-The result of the code above is a new array. Indexing is one-based, like normal humans count.
-The value of the variable ==anArray== is 
-[[[
-#(true false nil)
-]]]
+In the code above, a new three-element array is created, and a reference to it is stored in ==anArray==.
+Then, its first two elements are set using the ==at:put:== message, leaving the last element uninitialized; indexing is one-based, like normal humans count.
 
-The literal array syntax for array is ==#( ... )==. The first element is the boolean constant true, the second its counterpart false. Uninitialised elements remain ==nil==, the undefined object constant. In Pharo, there are only six reserved keywords: ==self==, ==super== and ==thisContext== and the objects ==true==, ==false== and ==nil==.
+The final statement determines the value of the whole sequence; it is shown using the syntax for literal arrays ==#( … )==.
+The first element is the boolean constant ==true==, the second its counterpart ==false==.
+Uninitialised elements remain ==nil==, the undefined object constant.
 
-As you can see, assignment is done using ==:=== while the last statement defines the result for the whole program.
+@@coffee The first element of a collection is at index ==1==.
+
+@@coffee The naming convention for local variables is lower camel case; variable names often start with an indefinite article, since they refer to otherwise anonymous objects.
+
+@@coffee There are ''only six reserved keywords'', and all are pseudo-variables: the ==true==, ==false==, and ==nil== object constants, and ==self==, ==super== and ==thisContext==, which we talk about later.
+
 
 !!! About literal objects
 In Pharo, everything is an object and most of the time objects are created by sending the message ==new== to a class. In addition the language supports the creation of certain objects in a compact way. For example the expression  ==#(true false nil)== 
