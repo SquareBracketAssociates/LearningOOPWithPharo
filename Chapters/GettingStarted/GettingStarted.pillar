@@ -227,8 +227,8 @@ Character codePoint: 65
 
 !!! Sending multiple messages to the same object
 
-Often you’ll be sending multiple messages to the same object, to the same receiver. To make this easier, there is some syntactic sugar called a message ''cascade'' using a semicolon. Let us give an example, imagine the following: 
-
+We often need to send multiple messages to the same receiver, in close succession.
+For instance, to build a long string without doing too many concatenations, we use a stream:
 [[[
 | aStream |
 aStream := (String new: 100) writeStream.
@@ -238,8 +238,8 @@ aStream contents
 >>> 'Today, 28 January 2017'
 ]]]
 
-We rewrite the previous code snippet as follows: where several messages are all sent to the same receiver ==aStream== without the need to repeat it. 
-
+Repeating ==aStream== is tedious to read.
+To make this flow better, we group the three messages into a ''message cascade'', separating them with semicolons, and stating the receiver only once at the beginning:
 [[[
 | aStream |
 aStream := (String new: 100) writeStream.
@@ -250,25 +250,26 @@ aStream
 >>> 'Today, 28 January 2017'
 ]]]
 
-
-Here is another example with a previous code snippet.
+Like with statement sequences, the cascade as a whole returns the value of its last message.
+Here is another example and its cascaded version:
 [[[
 | anArray |
 anArray := Array new: 2. 
 anArray at: 1 put: true.
 anArray at: 2 put: false.
 anArray
-]]]
+>>> #(true false)
 
-
-[[[
 (Array new: 2)
 	at: 1 put: true;
 	at: 2 put: false;
 	yourself
+>>> #(true false)
 ]]]
 	
-The three indented messages form a cascade, they are all being sent to the same object, the new array. The last message, yourself, is particularly useful in a cascade: it returns the object it is sent to. This is necessary because the result of the before last message send was not the object itself - the ==at:put:== message returns the value assigned.
+The three indented messages form a cascade; they are all sent to the same object, the new array.
+The last message, ==yourself==, is particularly useful to conclude cascades, because it returns the object it is sent to.
+This is necessary in this case because the ==at:put:== message would return the assigned element, not the array.
 
 
 !!! Blocks
