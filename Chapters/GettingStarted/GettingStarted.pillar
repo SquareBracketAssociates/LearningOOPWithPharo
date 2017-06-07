@@ -214,19 +214,16 @@ Uninitialised elements remain ==nil==, the undefined object constant.
 
 !!! About literal objects
 
-In Pharo, everything is an object and most of the time objects are created by sending the message ==new== to a class. In addition the language supports the creation of certain objects in a compact way. For example the expression  ==#(true false nil)== 
-is equivalent to the previous snippet using ==Array new...==. 
+Most objects in Pharo are created programmatically, by sending a message like ==new== to a class.
+In addition, the language syntax supports creating certain objects by directly expressing them in the code.
+For example the expression  ==#(true false nil)== is equivalent to the previous snippet using ==Array new==.
 
-[[[
-#(true false nil)
-]]]
-
-In the same way ==$A== is equivalent to ==Character codePoint: 65==
-
+In the same way, ==$A== is equivalent to ==Character codePoint: 65==:
 [[[
 Character codePoint: 65
 >>> $A
 ]]]
+
 
 !!! Sending multiple messages to the same object
 
