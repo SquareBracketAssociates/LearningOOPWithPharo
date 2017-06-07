@@ -175,8 +175,8 @@ String new
 >>> ''
 ]]]
 
-Classes are really objects that are known by name in the system, so they provide a useful entry point, in particular to create objects.
-Some classes understand different instance creation messages, like the class ==Float== that understands the message ==pi==.
+Classes are really objects that are known by name, so they provide a useful entry point to the system; creating new objects is just a particular use-case.
+Some classes understand messages that return specific instances, like the class ==Float== that understands the message ==pi==.
 [[[
 Float pi
 >>> 3.141592653589793
@@ -213,6 +213,7 @@ Uninitialised elements remain ==nil==, the undefined object constant.
 
 
 !!! About literal objects
+
 In Pharo, everything is an object and most of the time objects are created by sending the message ==new== to a class. In addition the language supports the creation of certain objects in a compact way. For example the expression  ==#(true false nil)== 
 is equivalent to the previous snippet using ==Array new...==. 
 
