@@ -1,4 +1,4 @@
-MAIN = book
+MAIN = learningoop
 CHAPTERS = \
 	Chapters/Introduction/Introduction \
 	Chapters/Tests/Tests \
