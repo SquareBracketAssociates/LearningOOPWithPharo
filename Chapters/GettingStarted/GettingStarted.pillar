@@ -36,6 +36,11 @@ Evaluating the piece of code in the previous example yields a new string with th
 >>> 'olleh'
 ]]]
 
+Figure *@fig:Editing* describes that we edited an expression and executed in with Playground. 
+
++Executing an expression in Playground.>file://figures/Editing.png|width=70|label=fig:Editing+
+
+
 !!!! Other messages & return values
 
 Our =='hello'== string understands many other messages than ==reversed==:
