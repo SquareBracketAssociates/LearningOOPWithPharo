@@ -26,6 +26,7 @@ CHAPTERS = \
 	Chapters/Tamagoshi/Tamagoshi \
 	Chapters/MessageSending/MessageSending \
 	Chapters/Solutions/Solutions \
+	Chapters/GettingStarted/ChallengingYourselfSolution \
 	Chapters/ObjectsAndClasses/ObjectsAndClasses \
 	Chapters/SyntaxNutshell/SyntaxNutshell \
 
