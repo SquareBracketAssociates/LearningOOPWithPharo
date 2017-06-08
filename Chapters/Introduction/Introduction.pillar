@@ -34,10 +34,10 @@ In the volume 1
 - Revisiting Objects and Classes
 - Domain Specific Language
 - Inheritance and Expressions
+- Sending Messages
 - Snakes and Ladders
 
 In the volume 2
-- Sending Messages
 - Stone Paper Scissors
 - Visitors
 - Aliens and Sheeps
@@ -103,12 +103,11 @@ Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant
 
 
 !!! Todo
-- read LAN Finish tjj LAN and may be reunit it. 
+- use LAN of Damien
 - Implement game collector app
 - reread and implement Game of life
 - implement sokoban 
 - Read tinychat
-- Implement Game of Life
 - Sending messages
 
 Volume two 
