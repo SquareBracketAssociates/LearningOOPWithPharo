@@ -22,7 +22,7 @@ To solve this problem, I structured the book either into key chapters on basic c
 The projects are little tutorials or more realistic examples, with step by step explanations; you can skip over them and come back to read them whenever you feel like it.
 I also propose various paths through the book with different levels of reading; however, many of the ''simpler'' chapters also contain design remarks.
 
-+Reading maps.>file://figures/Map.pdf|width=70|label=fgmap+
++Reading maps.>file://figures/Map.pdf|width=100|label=fgmap+
 
 !!!! Fast track
 The following chapters contain more conceptual information:
