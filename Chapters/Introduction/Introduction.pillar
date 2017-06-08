@@ -90,8 +90,11 @@ When we want to show the result of evaluating an expression, we show the result 
 >>> 'olleH'
 ]]]
 
-Finally, whenever we feel the text makes a point that is important enough to be highlighted, we will do so with a thick bar:
-@@important This is an important point to take away from the nearby text.
+Whenever we feel the text makes a point that is important or technical enough to be highlighted, we will do so with a thick bar:
+@@important This is a point that is worth drawing some more attention.
+
+Finally, the coffee cups highlight some points to take away and serve as a concise summary of the sections :
+@@coffee If you skim through a section, take a few seconds to check for coffee cups!
 
 !!! Thanks
 I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Amal Noussi for their great feedback.

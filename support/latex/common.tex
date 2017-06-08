@@ -73,6 +73,11 @@
 }
 
 % highlighted paragraphs
+\usepackage{fontawesome}
+\newenvironment{coffee}{%
+  \hangfrom{\llap{\faicon{coffee}\quad}}\sffamily\ignorespaces
+}{}
+
 \newenvironment{note}{%
   \begin{leftbar}\textsf{\textbf{Note}}\quad
 }{\end{leftbar}}
