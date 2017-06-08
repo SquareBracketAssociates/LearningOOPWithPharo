@@ -45,10 +45,9 @@ In the volume 2
 
 !!! What you will learn
 
-I would like to present the concepts that I want to teach you and that hopefully you should acquire. What is key to understand is that I will focus on the ''key'' conceptual elements. It is easy for me because I will not explain OOP/D in general but within the context of Pharo and Pharo is the essence of Object-Oriented programming since it object model is minimal 
-but it covers the key and essential aspect of OOP. For example I will not present method modifiers, types, overloading (which is a bad concept).
+I would like to present the concepts that I want to teach you and that hopefully you should acquire. What is key to understand is that I will focus on the ''key'' conceptual elements. It is easy for me because I will not explain OOP/D in general but within the context of Pharo and Pharo is the essence of Object-Oriented programming since its object model is minimal but it covers the key and essential aspect of OOP. For example we will not present method modifiers, types, overloading (which is a bad concept).
 
-I will focus on object-oriented ''programming'' concepts:
+We will focus on object-oriented ''programming'' concepts:
 - Objects / Classes 
 - Messages / Methods
 - ==self== and its semantics
@@ -91,48 +90,39 @@ When we want to show the result of evaluating an expression, we show the result 
 ]]]
 
 Whenever we feel the text makes a point that is important or technical enough to be highlighted, we will do so with a thick bar:
+
 @@important This is a point that is worth drawing some more attention.
 
 Finally, the coffee cups highlight some points to take away and serve as a concise summary of the sections :
+
 @@coffee If you skim through a section, take a few seconds to check for coffee cups!
 
 !!! Thanks
 I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Amal Noussi for their great feedback.
 Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and for Tinychat. Guillermo Polito for the idea of this cool example of files and directories.
 
-
-
 !!! Todo
-- use LAN of Damien
+Volume one
+- Use LAN of Damien
 - Implement game collector app
-- reread and implement Game of life
-- implement sokoban 
+- Reread and implement Game of life
 - Read tinychat
-- Sending messages
+- Sending messages (==not==)
 
 Volume two 
 - Visitor
 - Interpreter
+-
 
-!!!!Alain
-Lire 
+
+
+!!!! Volume two
+More exercises
+- Uno why not *https://github.com/cdlm/kata-uno*
+
+Lire
+- Implement sokoban
 - Beacons
 - Ants
-- Parser?
-- Implementaiton turtle
-
-	
-!!!! other random stuffs	
-Developing a simple counter should be read and adpat
--	shorten test
-- 	no class method
--	Move solution of wallet
-	
-Chapter 5 move later and rename	
-	More about the syntax
-	summary 
-	what is missing
-	
-More exercises
-- *https://github.com/cdlm/kata-uno*
-
+- Parser
+- Implementation turtle
