@@ -376,7 +376,7 @@ Chapter *: Basic Classes>../BasicClasses/BasicClasses.pier@cha:basicClasses*,
 for more about booleans.
 
 [[[
-(17 * 13 > 220)
+17 * 13 > 220
 	ifTrue: [ 'bigger' ]
 	ifFalse: [ 'smaller' ] 
 >>>'bigger'
