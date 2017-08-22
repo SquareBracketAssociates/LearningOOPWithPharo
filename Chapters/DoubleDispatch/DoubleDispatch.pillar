@@ -1,57 +1,133 @@
+!! Revisiting the Die DSL
+@ch:doubleDispatch
 
+In this  chapter we extend the Die DSL to support the sum of die with other die or with die handles. While this extension at first may look trivial, we will take it as a way to explore double dispatch. Indeed the solution we  propose, called double dispatch, does not use any explicit conditionals and is the basis of more advanced Design Patterns such as the Visitor. The solution is based on the ''Don't ask, tell'' object-oriented principle. 
 
+!!! A little reminder
 
-
-
-!!! Specify additions 
-
-
-!!!! Adding two dice
+In a previous chapter you implemented a small DSL to add dice and manage dieHandle. With this DSL, you could create dice and add them to a die handle. 
+Later on you could sum two different die handle and obtain a new one following the "Dungeons and Dragons" ruling book. 
+The following tests show these two behavior: 
 
 [[[
-DieTest >> testAddTwoDice
+DieHandleTest >> testCreationAdding
+	| handle |
+	handle := DiceHandle new
+		addDice: (Dice faces: 6);
+		addDice: (Dice faces: 10);
+		yourself.
+	self assert: handle diceNumber = 2
+]]]
 
+[[[
+DieHandleTest >> testSummingWithNiceAPI
+	| handle |
+	handle := 2 D20 + 3 D10.
+	self assert: handle diceNumber = 5
+]]]
+
+
+!!! New requirements 
+
+The first requirement we have is that we want to be able to add two dices together and of course we should obtain a die handle as illustrated by the following test. 
+
+We want to add two dices together:
+
+[[[
+(Die withFaces: 6) + (Die withFaces: 6)
+]]]
+
+The second requirement is that we want to be able to mix and add a die to a die handle or vice versa as illustrated below: 
+
+[[[
+2 D20 + (Die withFaces: 6)
+]]]
+
+[[[
+ (Die withFaces: 6) + 2 D20
+]]]
+
+
+!!! Turning requirements as tests
+
+Since we are test-infested, we turn such expected behavior into automatically testable expected behavior: we write them as tests. 
+
+We want to add two dices together:
+[[[
+DieTest >> testAddTwoDice
 	| hd |
 	hd := (Die withFaces: 6) + (Die withFaces: 6).
 	self assert: hd dice size = 2.
-]]]	
+]]]
 
-!!!! Adding a die and a dieHandle
+The second requirement is that we want to be able to mix and add a die to a die handle or vice versa as illustrated by the two following tests: 
 
 [[[
-DieTest >> testAddingADiceAndHandle
-
+DieTest >> testAddingADieAndHandle
 	| hd |
-	hd := (Die withFaces: 6) + 
-	(DieHandle new addDie: (Die withFaces: 6); yourself).
-	self assert: hd dice size = 2.
+	hd := (Die faces: 6)
+		+
+		(DieHandle new
+			addDie: 6;
+			yourself).
+	self assert: hd dice size equals: 2
 ]]]
+
+[[[
+DieHandleTest >> testAddingAnHandleWithADie
+	| handle res |
+	handle := DieHandle new
+		addDie: (Die faces: 6);
+		addDie: (Die faces: 10);
+		yourself.
+	res := handle + (Die faces: 20).
+	self assert: res diceNumber equals: 3
+]]]
+
+Now we are ready to implement such requirements. 
 
 
 !!! A first implementation
 
-[[[
-DieHandle >> + aDieOrADiceHandful
+A first solution is to explicit type check the argument to decide what to do. 
 
-	^ (aDieOrADiceHandful class = DiceHandful) 
-		ifTrue: [ DiceHandful new dice: (self dice, aDieOrADiceHandful dice) ]
-		ifFalse: [ DiceHandful new dice: self dice; addDie: aDieOrADiceHandful ].
+[[[
+DieHandle >> + aDieOrADieHandle
+
+	^ (aDieOrADieHandle class = DieHandle) 
+		ifTrue: [ | handle |
+					handle := self class new.
+					self dice do: [ :each | handle addDie: each ].
+					aDieOrADieHandle dice do: [ :each | handle addDie: each ].
+					handle ]
+		ifFalse: [ | handle |
+					handle := self class new.
+					self dice do: [ :each | handle addDie: each ].
+					handle addDie: aDie.
+					handle  ]
 ]]]
 
 [[[
-Die >> + aDieOrDiceHandful
+Die >> + aDieOrADieHandle
 	| selfAsDiceHandful |
-	selfAsDiceHandful := DiceHandful new addDie: self.
-	^ (selfAsDiceHandful + aDieOrDiceHandful).
+	selfAsDieHandle := DieHandle new addDie: self.
+	^ selfAsDiceHandle + aDieOrADieHandle
 ]]]
 
+The problem of this solution is that it does not scale. As soon as we will haveother kinds of arguments we will have to check more and more. 
+You may think that this is just a spurious argument. But when you have a model that has around 35 different kinds of nodes as in Pillar 
+the document processing system used to produce this book, this kind of testing logic becomes a nightmare to maintain and extend. 
 
-
-!!! Let us step back 
+We can do better. 
+The logic of the solution we have in mind is quite simple but it may be distabilizing when reading the code. 
+In fact we just to tell the receiver of the message ==\+== that we want to add to it and argument. 
+As a response to this message, the receiver being a die or an handle will just tell us how the receiver should sum it. 
 
 
 
 !!! Adding two dice
+Let us step back and start by supporting the addition of two dice. This is rather simple we create and return a die 
+handle to which we add the receiver and the argument. 
 
 [[[	
 Die >> + aDie
@@ -61,21 +137,71 @@ Die >> + aDie
 		addDie: aDie; yourself
 ]]]
 
+Our first test should pass ==testAddTwoDice==.
+But this solution does not support the fact that the argument can be either a die or a die handle.
 
-!!! Preparing the mix
+
+!!! Adding a die and a die or a handle
+
+Now we want to handle the fact that we can add a die or a die handle to the receiver as illustrated by the test ==testAddingADieAndHandle==.
 
 [[[
-Die >> + aDie	
-	^ aDie sumFromDie: self
+DieTest >> testAddingADieAndHandle
+	| hd |
+	hd := (Die faces: 6)
+		+
+		(DieHandle new
+			addDie: 6;
+			yourself).
+	self assert: hd dice size equals: 2
 ]]]
 
+The previous method ==\+== is definitively what we want to do when we have two dice. So let us rename it as ==sumWithDie:== so that we can invoke it later. 
+
 [[[
-Die >> sumFromDie: aDie
+Die >> sumWithDie: aDie
 
 	^ DieHandle new 
 		addDie: self; 
 		addDie: aDie; yourself
 ]]]
+
+Now what we can do is to implement ==\+== as follows. Notice that we named the argument ==aDicable== because we want to convey that the argument can be either a die or a die handle. 
+
+[[[
+Die >> + aDicable	
+	^ aDicable sumWithDie: self
+]]]
+
+We just tell the argument (which can be a die or a die handle) that we want to add to it an die. And in our two tests ==testAddTwoDice== and ==testAddingADieAndHandle== we know that the receiver is a die because the method is defined in the class of ==Die==. Easy, no.
+At this point the test ==testAddTwoDice== should pass because we are adding two dice. 
+
+
+Now we still have to find a solution for the case where the argument to the message ==\+== is a die handle. It is easy, isn't? 
+We know how to add a die to a die handle: we simply creates a new die handle, add all the die of the previous die handle to the new one 
+and add the argument too. 
+
+So we just have to define the method ==sumWithDie:== to the class ==DieHandle== implementing this logic. 
+
+[[[
+DieHandle >> sumWithDie: aDie
+	| handle |
+	handle := self class new.
+	self dice do: [ :each | handle addDie: each ].
+	handle addDie: aDie.
+	^ handle
+]]]
+
+Now we are able to sum a die and a die handle. The test ==testAddingADieAndHandle== should now pass.
+
+ 
+Now you may ask why this is working. We defined two methods ==sumWithDie:== and when hhe method ==\+== on class ==Die== will send the message ==sumWithDie:== to either a die or a die handle, the message dispatch will select the correct method for us. 
+
+
+
+
+
+
 
 
 [[[
@@ -97,41 +223,8 @@ Up until here we did not change much and all the tests should run.
 
 
 
-!!! Adding an handle and a die 
-
-[[[
-DieHandleTest >> testAddingAnHandleWithADie
-	| handle res |
-	handle := DieHandle new
-		addDie: (Die faces: 6);
-		addDie: (Die faces: 10);
-		yourself.
-	res := handle + (Die withFaces: 20).
-	self assert: res diceNumber = 3
-]]]
-
-[[[
-Die >> sumFromHandle: aDieHandle
-	
-	| hd |
-	hd := DieHandle new.
-	hd addDie: self.
-	aDieHandle dice do: [ :each | hd addDie: each ].
-	^ hd
-]]]
 
 
-!!! Adding a die and a handle
-
-
-[[[
-DieHandle >> sumFromDie: aDie
-	| handle |
-	handle := self class new.
-	self dice do: [ :each | handle addDie: each ].
-	handle addDie: aDie.
-	^ handle
-]]]
 
 
 

@@ -84,6 +84,8 @@ ${inputFile:Chapters/Expressions/Expressions.pillar}$
 
 ${inputFile:Chapters/MessageSending/MessageSending.pillar}$
 
+${inputFile:Chapters/DoubleDispatch/DoubleDispatch.pillar}$
+
 ${inputFile:Chapters/PaperStoneScissor/PaperStoneScissor.pillar}$
 
 !! Playing with Visitors

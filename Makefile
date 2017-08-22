@@ -16,6 +16,7 @@ CHAPTERS = \
 	Chapters/SnakesAndLadders/SnakesAndLadders \
 	Chapters/JoeTheBox/JoeTheBox \
 	Chapters/PaperStoneScissor/PaperStoneScissor \
+	Chapters/DoubleDispatch/DoubleDispatch \
 	Chapters/Inheritance/Inheritance \
 	Chapters/Inheritance/Extending \
 	Chapters/SyntaxGlimpse/SyntaxGlimpse \
