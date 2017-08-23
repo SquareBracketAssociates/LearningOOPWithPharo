@@ -130,14 +130,16 @@ Die >> + aDieOrADieHandle
 	^ selfAsDieHandle + aDieOrADieHandle
 ]]]
 
-The problem of this solution is that it does not scale. As soon as we will have other kinds of arguments we will have to check more and more. 
-You may think that this is just a spurious argument. But when you have a model that has around 35 different kinds of nodes as in Pillar 
-the document processing system used to produce this book, this kind of testing logic becomes a nightmare to maintain and extend. 
+The problem of this solution is that it does not scale. As soon as we will have other kinds of arguments we will have to check more and more. You may think that this is just a spurious argument. But when you have a model that has around 35 different kinds of nodes as in Pillar the document processing system used to produce this book, this kind of testing logic becomes a nightmare to maintain and extend. 
 
-We can do better. 
-The logic of the solution we have in mind is quite simple but it may be destabilizing when reading the code. 
-In fact we just to tell the receiver of the message ==\+== that we want to add to it and argument. 
-As a response to this message, the receiver being a die or an handle will just tell us how the receiver should sum it. 
+We can do better.  The logic of the solution we have in mind is quite simple but it may be destabilizing at first.
+Let us sketch it.
+
+- In fact when we execute a method we know its receiver and the kind of receiver we have: it can be a die or a die handle. The method dispatch will select the correct method at runtime. Imagine that we have two ==\+== methods for each class ==Die== and ==DieHandle==. When a given method ==\+== will be executed, we will know the exact kind of  the receiver. For example, when the method ==\+== defined on the class ==Die== will be executed, we will know that the receiver is a die (instance of this class). Similarly when the method ==\+== defined on the class ==DieHandle== will be executed, we will know that the message receiver is a die handle. This is the power of method dispatch. 
+
+- The idea is then to tell the argument that we want to sum it with that given receiver. It means that each ==\+== method on the different class has just to send a different message based on the fact that the receiver was a die or a die handle to its argument and let the method dispatch to act once again. After this second dispatch, the correct method will be selected. 
+
+But let us makes this really concrete.
 
 
 
