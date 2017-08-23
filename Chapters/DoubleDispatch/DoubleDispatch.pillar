@@ -205,14 +205,18 @@ Now you may ask why this is working. We defined two methods ==sumWithDie:== and 
 
 
 
-+Adding a die and a dicable.>file://figures/DieDoubleDispatchPartial.pdf|width=70|label=figDieDoubleDispatchPartial+
++Adding a die and a dicable>file://figures/DieDoubleDispatchPartial.pdf|width=70|label=figDieDoubleDispatchPartial+
 
 
 !!! Now a DieHandle as receiver
 
+Our solution does not handle the case where the receiver is a die handle and this is what we will address now. 
+Now we are ready to apply the same idea when the receiver is a die handle. We will just say to the argument that we want to add a die handle this time. 
 
 
-
+We know what is to add two die handles, it is the code we already defined in the past chapter. We rename the ==\+== method
+as ==sumWithHandle:==. Basically we create a new handle, then we add the dice of the receiver and the argument to it and we return
+the new handle.
 
 [[[
 DieHandle >> sumWithHandle: aDieHandle
@@ -223,117 +227,43 @@ DieHandle >> sumWithHandle: aDieHandle
 	^ handle
 ]]]
 
+Now we can define a more powerful version of ==\+== by simply sending the message ==sumWithHandle:== to the ""argument"".
+Remember that sending back a new message to the argument is the key aspect. Why? Because we kick in a new message lookup and dispatch. 
 
 [[[
 DieHandle >> + aDicable
 	^ aDicable sumWithHandle: self
 ]]]
 
-Up until here we did not change much and all the tests should run. 
+Up until here we did not change much and all the tests adding two dice handle should continue to run. 
+
+To get the final behavior just have to define a new method ==withWithHandle:== on the ==Die== class. 
+The logic is similar to the one adding one die to one die handle. 
 
 
-
-
-
-
-
-
-
-
-
-!!! Summing and converting money
-
-We will now work on one example proposed by A. Bergel in the Pharo mailing-list and we would like to thank him for it. 
 [[[
-1 EUR = 662 CLP (Chilean pesos) 
+Die >> sumWithHandle: aDieHandle
+	| handle |
+	handle := DieHandle new.
+	aDieHandle dice do: [ :each | handle addDie: each ].
+	handle addDie: self
+	^ handle
+]]]
+
+Now the following test should pass and we are done
+
+[[[
+DieHandleTest >> testAddingAnHandleWithADie
+	| handle res |
+	handle := DieHandle new
+		addDie: (Die faces: 6);
+		addDie: (Die faces: 10);
+		yourself.
+	res := handle + (Die faces: 20).
+	self assert: res diceNumber equals: 3
 ]]]
 
 
-
-You have a class Money to which you can sum other money. 
-
-[[[
-Object subclass: #Money 
-	instVarNames: ‘value’ 
-]]]
-
-[[[
-Money >> + anotherMoney 
-   self subclassResponsibility 
-]]]
-
-[[[
-Money >> sumWithEUR: money 
-   self subclassResponsibility 
-]]]
-
-[[[
-Money >> sumWithCLP: money 
-   self subclassResponsibility 
-]]]
-
-[[[
-Money >> = anotherMoney 
-  ^ self class == anotherMoney class and: [ self value = anotherMoney value ]
-]]]
-
-[[[
-Money >> printOn: str
-   super printOn: str.
-   str nextPut: $<.
-   str nextPutAll: self value asString.
-   str nextPut: $>.
-]]]
-
-You have two subclasses: 
-Money subclass: #EUR 
-Money subclass: #CLP 
-
-[[[
-EUR >> + anotherMoney 
-   ^ anotherMoney sumWithEUR: self
-]]]
-[[[
-EUR >> sumWithEUR: money 
-   ^ EUR new value: self value + money value
-]]]
-[[[
-EUR >> sumWithCLP: money 
-   ^ CLP new value: (self value * 662) + money value
-]]]
-[[[
-CLP >> + anotherMoney
-   ^ anotherMoney sumWithCLP: self
-]]]
-[[[
-CLP >> sumWithEUR: money
-   ^ EUR new value: (self value / 662) + money value
-]]]
-[[[
-CLP >> sumWithCLP: money
-  ^ CLP new value: self value + money value
-]]]
-
-
-Here is a test: 
-	TestCase subclass: #MoneyTest 
-
-[[[
-MoneyTest >> testSum 
-   | clp1 eur1 clp2 eur2 |
-   clp1 := CLP new value: 3500.
-   eur1 := EUR new value: 10.
-   clp2 := CLP new value: 5000.
-   eur2 := EUR new value: 20.
-
-   self assert: clp1 + clp2 equals: (CLP new value: 8500). 
-   self assert: clp1 + eur1 equals: (CLP new value: 3500 + 6620).
-        
-   self assert: eur1 + eur2 equals: (EUR new value: 30).
-   self assert: eur1 + clp2 equals: (EUR new value: 5000 / 662 + 10).
-]]]
-
-
-
+!! Conclusion
 
 
