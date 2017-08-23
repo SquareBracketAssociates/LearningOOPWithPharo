@@ -176,7 +176,7 @@ Die >> + aDicable
 We just tell the argument (which can be a die or a die handle) that we want to add to it an die. And in our two tests ==testAddTwoDice== and ==testAddingADieAndHandle== we know that the receiver is a die because the method is defined in the class of ==Die==. Easy, no.
 At this point the test ==testAddTwoDice== should pass because we are adding two dice as shown in Figure *@figDieDoubleDispatchPartialArgDie*.
 
-+Adding two dice and be prepared for more.>file://figures/DieDoubleDispatchPartialArgDie.pdf|width=70|label=figDieDoubleDispatchPartialArgDie+
++Summing two dice and be prepared for more.>file://figures/DieDoubleDispatchPartialArgDie.pdf|width=70|label=figDieDoubleDispatchPartialArgDie+
 
 
 Now we still have to find a solution for the case where the argument to the message ==\+== is a die handle. It is easy, isn't? 
@@ -198,14 +198,14 @@ DieHandle >> sumWithDie: aDie
 
 Now we are able to sum a die and a die handle as shown in Figure *@figDieDoubleDispatchPartialArgDieHandle*. The test ==testAddingADieAndHandle== should now pass.
 
-+Adding a die and a dicable.>file://figures/DieDoubleDispatchPartialArgDieHandle.pdf|width=70|label=figDieDoubleDispatchPartialArgDieHandle+
++Summing a die and a dicable.>file://figures/DieDoubleDispatchPartialArgDieHandle.pdf|width=70|label=figDieDoubleDispatchPartialArgDieHandle+
  
 Now you may ask why this is working. We defined two methods ==sumWithDie:== and when hhe method ==\+== on class ==Die== will send the message ==sumWithDie:== to either a die or a die handle, the message dispatch will select the correct method for us as shown in Figure *@figDieDoubleDispatchPartial*.
 
 
 
 
-+Adding a die and a dicable>file://figures/DieDoubleDispatchPartial.pdf|width=70|label=figDieDoubleDispatchPartial+
++Summing a die and a dicable>file://figures/DieDoubleDispatchPartial.pdf|width=70|label=figDieDoubleDispatchPartial+
 
 
 !!! Now a DieHandle as receiver
@@ -235,11 +235,12 @@ DieHandle >> + aDicable
 	^ aDicable sumWithHandle: self
 ]]]
 
++Handling all the cases: summing a die/die handle with a die/die handle .>file://figures/DieDoubleDispatchFull.pdf|width=70|label=figDieDoubleDispatchFull+
+
 Up until here we did not change much and all the tests adding two dice handle should continue to run. 
 
 To get the final behavior just have to define a new method ==withWithHandle:== on the ==Die== class. 
 The logic is similar to the one adding one die to one die handle. 
-
 
 [[[
 Die >> sumWithHandle: aDieHandle
@@ -250,7 +251,10 @@ Die >> sumWithHandle: aDieHandle
 	^ handle
 ]]]
 
-Now the following test should pass and we are done
+
+
+Figure *@figDieDoubleDispatchFull* shows the full set up. We suggest to follow the execution of messages for the different cases to understand that just sending a new message to the argument and relying on method dispatch produces modular conditional execution.
+Now the following test should pass and we are done.
 
 [[[
 DieHandleTest >> testAddingAnHandleWithADie
@@ -264,6 +268,17 @@ DieHandleTest >> testAddingAnHandleWithADie
 ]]]
 
 
-!! Conclusion
+!!! Conclusion
+
+In this chapter we presented double dispatch. The idea is to use method dispatch several times. 
+While the resulting design is simple, it is not trivial to understand deeply and it requires time to digest it. 
+At its core it relies on the fact that sending a message to an object selects the correct method. 
+So sending another message to the message argument will select a method based on the argument too. 
+
+When we step badk we see that we applied twice the ''Don't ask, tell'' principle:
+First the message ==\+== plus selects the corresponding methods in either ==Die== or ==DieHandle== classes. Then a more specific message is sent to the argument and the dispatch kicks in again selecting the correct method either ==sumWithDie:== or ==sumWithHandle:==. 
+Therefore we have effectively selected a method according to the receiver and the argument of a messages.
+
+Double dispatch is the basis for the Visitor Design pattern that is effective when dealing with complex data structure such as documents, compilers. In such context it is not rare to have more than 30 or 40 different nodes that should be manipulated together to produce specific behavior. 
 
 
