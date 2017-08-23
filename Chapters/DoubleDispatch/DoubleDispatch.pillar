@@ -1,4 +1,4 @@
-!! Revisiting the Die DSL
+!! Revisiting the Die DSL: a Case for Double Dispatch
 @ch:doubleDispatch
 
 In this  chapter we extend the Die DSL to support the sum of die with other die or with die handles. While this extension at first may look trivial, we will take it as a way to explore double dispatch. Indeed the solution we  propose, called double dispatch, does not use any explicit conditionals and is the basis of more advanced Design Patterns such as the Visitor. The solution is based on the ''Don't ask, tell'' object-oriented principle. 
@@ -174,7 +174,9 @@ Die >> + aDicable
 ]]]
 
 We just tell the argument (which can be a die or a die handle) that we want to add to it an die. And in our two tests ==testAddTwoDice== and ==testAddingADieAndHandle== we know that the receiver is a die because the method is defined in the class of ==Die==. Easy, no.
-At this point the test ==testAddTwoDice== should pass because we are adding two dice. 
+At this point the test ==testAddTwoDice== should pass because we are adding two dice as shown in Figure *@figDieDoubleDispatchPartialArgDie*.
+
++Adding two dice and be prepared for more.>file://figures/DieDoubleDispatchPartialArgDie.pdf|width=70|label=figDieDoubleDispatchPartialArgDie+
 
 
 Now we still have to find a solution for the case where the argument to the message ==\+== is a die handle. It is easy, isn't? 
@@ -192,20 +194,28 @@ DieHandle >> sumWithDie: aDie
 	^ handle
 ]]]
 
-Now we are able to sum a die and a die handle. The test ==testAddingADieAndHandle== should now pass.
 
+
+Now we are able to sum a die and a die handle as shown in Figure *@figDieDoubleDispatchPartialArgDieHandle*. The test ==testAddingADieAndHandle== should now pass.
+
++Adding a die and a dicable.>file://figures/DieDoubleDispatchPartialArgDieHandle.pdf|width=70|label=figDieDoubleDispatchPartialArgDieHandle+
  
-Now you may ask why this is working. We defined two methods ==sumWithDie:== and when hhe method ==\+== on class ==Die== will send the message ==sumWithDie:== to either a die or a die handle, the message dispatch will select the correct method for us. 
+Now you may ask why this is working. We defined two methods ==sumWithDie:== and when hhe method ==\+== on class ==Die== will send the message ==sumWithDie:== to either a die or a die handle, the message dispatch will select the correct method for us as shown in Figure *@figDieDoubleDispatchPartial*.
 
 
 
+
++Adding a die and a dicable.>file://figures/DieDoubleDispatchPartial.pdf|width=70|label=figDieDoubleDispatchPartial+
+
+
+!!! Now a DieHandle as receiver
 
 
 
 
 
 [[[
-DieHandle >> sumFromHandle: aDieHandle
+DieHandle >> sumWithHandle: aDieHandle
 	| handle |
 	handle := self class new.
 	self dice do: [ :each | handle addDie: each ].
@@ -215,8 +225,8 @@ DieHandle >> sumFromHandle: aDieHandle
 
 
 [[[
-DieHandle >> + aDieHandle
-	^ aDieHandle sumFromHandle: self
+DieHandle >> + aDicable
+	^ aDicable sumWithHandle: self
 ]]]
 
 Up until here we did not change much and all the tests should run. 
@@ -228,18 +238,6 @@ Up until here we did not change much and all the tests should run.
 
 
 
-!!! For a better documentation
-
-[[[
-Die >> + aDicable	
-	^ aDicable sumFromDie: self
-]]]
-
-
-[[[
-DieHandle >> + aDieHandle
-	^ aDieHandle sumFromHandle: self
-]]]
 
 
 
