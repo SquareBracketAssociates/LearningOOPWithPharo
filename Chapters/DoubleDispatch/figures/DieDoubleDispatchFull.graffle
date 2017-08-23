@@ -75,9 +75,11 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -151,9 +153,11 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -222,9 +226,11 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -294,9 +300,11 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -330,9 +338,11 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -447,9 +457,11 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -802,7 +814,7 @@ sumWithDieHandle: aDieHandle}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-08-23 10:38:41 +0000</string>
+	<string>2017-08-23 20:36:03 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>

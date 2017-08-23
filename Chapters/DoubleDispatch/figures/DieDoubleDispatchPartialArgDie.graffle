@@ -73,11 +73,13 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
 					<key>LineType</key>
 					<integer>1</integer>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -243,11 +245,13 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
 					<key>LineType</key>
 					<integer>1</integer>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -496,11 +500,13 @@
 				<key>stroke</key>
 				<dict>
 					<key>HeadArrow</key>
-					<string>FilledArrow</string>
+					<string>0</string>
 					<key>Legacy</key>
 					<true/>
 					<key>LineType</key>
 					<integer>1</integer>
+					<key>Pattern</key>
+					<integer>11</integer>
 					<key>TailArrow</key>
 					<string>0</string>
 				</dict>
@@ -885,7 +891,7 @@ sumWithDie: aDie}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-08-23 07:38:41 +0000</string>
+	<string>2017-08-23 20:36:23 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -966,7 +972,7 @@ sumWithDie: aDie}</string>
 			</dict>
 		</array>
 		<key>Frame</key>
-		<string>{{1089, 163}, {881, 778}}</string>
+		<string>{{1195, 451}, {881, 778}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>

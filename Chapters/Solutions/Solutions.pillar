@@ -141,14 +141,14 @@ Die >> roll
 !!!! Define class DieHandle
 
 [[[
-Object subclass: #DiceHandle
+Object subclass: #DieHandle
 	instanceVariableNames: 'dice'
 	classVariableNames: ''
 	package: 'Dice'
 ]]]
 
 [[[
-DiceHandle >> initialize
+DieHandle >> initialize
 	super initialize.
 	dice := OrderedCollection new.
 ]]]
@@ -156,14 +156,14 @@ DiceHandle >> initialize
 !!!! Die addition
 
 [[[
-DiceHandle >> addDie: aDie 
+DieHandle >> addDie: aDie 
 	dice add: aDie
 ]]]
 
 !!! Rolling a dice handle
 
 [[[
-DiceHandle >> roll
+DieHandle >> roll
 	
 	| res |
 	res := 0.
@@ -176,7 +176,7 @@ DiceHandle >> roll
 [[[
 Integer >> D20
 	| handle |
-	handle := DiceHandle new.
+	handle := DieHandle new.
 	self timesRepeat: [ handle addDie: (Die withFaces: 20)].
 	^ handle
 ]]]
@@ -185,31 +185,31 @@ Integer >> D20
 Integer >> D: anInteger
 	
 	| handle |
-	handle := DiceHandle new.
+	handle := DieHandle new.
 	self timesRepeat: [ handle addDie: (Die withFaces: anInteger)].
 	^ handle
 ]]]
 
-!!! Adding DiceHandles
+!!! Adding DieHandles
 
 [[[
-DiceHandle >> + aDiceHandle
+DieHandle >> + aDieHandle
 	"Returns a new handle that represents the addition of the receiver and the argument."
 	| handle |
 	handle := self class new.
 	self dice do: [ :each | handle addDie: each ].
-	aDiceHandle dice do: [ :each | handle addDie: each ].
+	aDieHandle dice do: [ :each | handle addDie: each ].
 	^ handle
 ]]]
 
 This definition only works if the method ==dice== defined below has been defined
 
 [[[
-DiceHandle >> dice
+DieHandle >> dice
 	^ dice 
 ]]]
 
-Indeed the first expression ==self dice do: == could be rewritten as ==dice do: == because dice is an instance variable of the class ==DiceHandle==. Now the expression ==aDiceHandle dice do: == cannot. Why? Because in Pharo you cannot access the state of another object directly. Here ==2 D20==  is one handle and ==3 D10== another one. The first one cannot access the dice of the second one directly (while it can accessed its own). Therefore there is a need to define a message that provide access to the dice. 
+Indeed the first expression ==self dice do: == could be rewritten as ==dice do: == because dice is an instance variable of the class ==DieHandle==. Now the expression ==aDieHandle dice do: == cannot. Why? Because in Pharo you cannot access the state of another object directly. Here ==2 D20==  is one handle and ==3 D10== another one. The first one cannot access the dice of the second one directly (while it can accessed its own). Therefore there is a need to define a message that provide access to the dice. 
 
 
 !!! Expression chapter

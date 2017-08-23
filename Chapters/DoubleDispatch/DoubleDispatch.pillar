@@ -1,7 +1,11 @@
 !! Revisiting the Die DSL: a Case for Double Dispatch
 @ch:doubleDispatch
 
-In this  chapter we extend the Die DSL to support the sum of die with other die or with die handles. While this extension at first may look trivial, we will take it as a way to explore double dispatch. Indeed the solution we  propose, called double dispatch, does not use any explicit conditionals and is the basis of more advanced Design Patterns such as the Visitor. The solution is based on the ''Don't ask, tell'' object-oriented principle. 
+In this  chapter we extend the Die DSL defined in Chapter *@cha:dsl* to support the sum of a die with another die or with die handles and vice versa. One of the challenges is that the method ==\+== should be able to manage different types of receivers and arguments. We will have either a die or a die handle as receiver and arguments, so we should manage the following possibilities: die \+ die handle, die \+ die, die handle \+ die handle, and die handle \+ die. While this extension at first may look trivial, we will take it as a way to explore double dispatch. 
+
+Double dispatch is a technic that avoids hardcoding type checks and still being able to define incrementally the behavior handling all the possible cases of addition. Indeed the solution we  propose, called double dispatch, does not use any explicit conditionals and is the basis of more advanced Design Patterns such as the Visitor. 
+Double dispatch is based on the ''Don't ask, tell'' object-oriented principle: in each first case of dispatch (the ==\+== method), this method sends a new message to the argument telling it the way the receiver should be managed. 
+This description is abstract so we will go over a full example to explain it. 
 
 !!! A little reminder
 
@@ -12,7 +16,7 @@ The following tests show these two behavior:
 [[[
 DieHandleTest >> testCreationAdding
 	| handle |
-	handle := DiceHandle new
+	handle := DieHandle new
 		addDice: (Dice faces: 6);
 		addDice: (Dice faces: 10);
 		yourself.
@@ -24,6 +28,18 @@ DieHandleTest >> testSummingWithNiceAPI
 	| handle |
 	handle := 2 D20 + 3 D10.
 	self assert: handle diceNumber = 5
+]]]
+
+The implementation of ==\+== was simple since we could only sum die handles together. This method creates a new handle, add the dice of the receiver and of the argument to the newly created handle and returns it. 
+
+[[[
+DieHandle >> + aDieHandle
+	"Returns a new handle that represents the addition of the receiver and the argument."
+	| handle |
+	handle := self class new.
+	self dice do: [ :each | handle addDie: each ].
+	aDieHandle dice do: [ :each | handle addDie: each ].
+	^ handle
 ]]]
 
 
@@ -89,7 +105,7 @@ Now we are ready to implement such requirements.
 
 !!! A first implementation
 
-A first solution is to explicit type check the argument to decide what to do. 
+A first solution is to explicitly type check the argument to decide what to do. 
 
 [[[
 DieHandle >> + aDieOrADieHandle
@@ -109,17 +125,17 @@ DieHandle >> + aDieOrADieHandle
 
 [[[
 Die >> + aDieOrADieHandle
-	| selfAsDiceHandful |
+	| selfAsDieHandle |
 	selfAsDieHandle := DieHandle new addDie: self.
-	^ selfAsDiceHandle + aDieOrADieHandle
+	^ selfAsDieHandle + aDieOrADieHandle
 ]]]
 
-The problem of this solution is that it does not scale. As soon as we will haveother kinds of arguments we will have to check more and more. 
+The problem of this solution is that it does not scale. As soon as we will have other kinds of arguments we will have to check more and more. 
 You may think that this is just a spurious argument. But when you have a model that has around 35 different kinds of nodes as in Pillar 
 the document processing system used to produce this book, this kind of testing logic becomes a nightmare to maintain and extend. 
 
 We can do better. 
-The logic of the solution we have in mind is quite simple but it may be distabilizing when reading the code. 
+The logic of the solution we have in mind is quite simple but it may be destabilizing when reading the code. 
 In fact we just to tell the receiver of the message ==\+== that we want to add to it and argument. 
 As a response to this message, the receiver being a die or an handle will just tell us how the receiver should sum it. 
 
