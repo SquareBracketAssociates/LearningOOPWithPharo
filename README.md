@@ -8,7 +8,7 @@ It is a follow up of *Botincs: Learning programming with Squeak*. But its conten
 The book is automatically built and available at:
 [https://ci.inria.fr/pharo-contribution/view/Books/job/LearningObjectOrientedProgramming/ws/build/book.pdf][https://ci.inria.fr/pharo-contribution/view/Books/job/LearningObjectOrientedProgramming/ws/build/book.pdf].
 
-The result from the latest successful Travis build can be found [on Bintray (PDF)](https://bintray.com/squarebracketassociates/wip/download_file?file_path= learningoop-wip.pdf).
+The result from the latest successful Travis build can be found [on Bintray (PDF)](https://bintray.com/squarebracketassociates/wip/download_file?file_path=learningoop-wip.pdf).
 
 Since I'm not a native english speaker, I appreciate pull requests that help me to get the material in better form.
 
