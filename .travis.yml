@@ -14,7 +14,7 @@ deploy:
   on:
     repo: SquareBracketAssociates/LearningOOPWithPharo
   skip_cleanup: true
-  user: cdlm
+  user: ducasse
   key:
     secure: DLT5e+3+U3jaooTLVN6JPcavMS+5XzFwNIfsK7QLYefzOZfBR8lt2vHtX2OxcdyKNfuzh0EaIDUR9a6+/Eg/wAcxjFDEO94ftb7rD7YHJ1Tc7r4AaeKwrdwyL6VgbN0ZNZqtXsTWGg+4XgHvSq0KVAR9K1IKSwJYPWwjJwDexakY2/ZpRg6R0OgaZwhtTEbbUn/pnoVQl3VfNlCjiI+ZLDqPKf/UfovVv7tzqdHeLK73MJN36Ri8IGTP5QaSYHBBko8mTv4EoVH7HuuSLAa60NBOScksYY5LjsS7OdzIwipmk4xwxcp2QXtVjf2uNKCKIISVRMzesdmUnsuL/qReJh7pfn21a38ZEEjJPPWSnwA8iI+GHUiCcLuHdw1+ilmIqxF3w8gSunM3aUv4a/qQm641DpGPawnYBbnFGPyEkxpCB1HXIsRRJeBs2UEkFmhOHyGWGl0+jx3iihwe72HMKRYeXcDHKOn1gU+pJQ50PBXFsTotOr7wkZ6OGsKO0XecNsZGodsQ4lPVxfJolnKhkxIouzCagd3wO0iseG1vOyi5JrRT+NPsZp7TKBrHIDAUb0LG+F8qC/IXHhTYo7ZywF5ZjIV9UZo/kZP0EQ8pstUlD4V4DWRYV1KQSpORM01wpdcZFDb5ExLvEck6Sv1cuW9QYBst+lDVpoSpbXSnSDc=
 - provider: releases
