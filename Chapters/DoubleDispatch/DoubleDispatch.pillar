@@ -1,17 +1,19 @@
 !! Revisiting the Die DSL: a Case for Double Dispatch
 @ch:doubleDispatch
 
-In Chapter *@cha:dsl*, the Die DSL could only sum die handles together. In this chapter we extend the Die DSL implementation to support the sum of a die with another one or with a die handle (and vice versa). One of the challenges is that the method ==\+== should be able to manage different types of receivers and arguments. We will have either a die or a die handle as receiver and arguments, so we should manage the following possibilities: die \+ die handle, die \+ die, die handle \+ die handle, and die handle \+ die. While this extension at first may look trivial, we will take it as a way to explore double dispatch. 
+In Chapter *@cha:dsl*, using the Die DSL we could only sum die handles together as in ==2 D20 + 1 D4==. In this new chapter we extend the Die DSL implementation to support the sum of a die with another one or with a die handle (and vice versa). 
 
-Double dispatch is a technic that avoids hardcoding type checks and still being able to define incrementally the behavior handling all the possible cases of addition. Indeed the solution we  propose, called double dispatch, does not use any explicit conditionals and is the basis of more advanced Design Patterns such as the Visitor. 
-Double dispatch is based on the ''Don't ask, tell'' object-oriented principle: in each first case of dispatch (the ==\+== method), this method sends a new message to the argument telling it the way the receiver should be managed. 
-This description is abstract so we will go over a full example to explain it. 
+One of the challenges is that the message ==\+== should be able to manage different types of receivers and arguments. The message will have either a die or a die handle as receiver and arguments, so we should manage the following possibilities: die \+ die handle, die \+ die, die handle \+ die handle, and die handle \+ die. While this extension at first may look trivial, we will take it as a way to explore double dispatch. 
+
+Double dispatch is a technic that avoids hardcoding type checks and also is able to define incrementally the behavior handling all the possible cases. Indeed double dispatch does not use any explicit conditionals and is the basis of more advanced Design Patterns such as the Visitor. 
+
+Double dispatch is based on the ''Don't ask, tell'' object-oriented principle: in each first case of dispatch (the ==\+== method), this method sends a new message to the ''argument'' telling this argument the way the receiver should be summed. This description is abstract so we will go over a full example to explain it. 
 
 !!! A little reminder
 
-In a previous chapter you implemented a small DSL to add dice and manage dieHandle. With this DSL, you could create dice and add them to a die handle. 
-Later on you could sum two different die handle and obtain a new one following the "Dungeons and Dragons" ruling book. 
-The following tests show these two behavior: 
+In a previous chapter you implemented a small DSL to add dice and manage die handles. With this DSL, you could create dice and add them to a die handle. Later on you could sum two different die handles and obtain a new one following the "Dungeons and Dragons" ruling book. 
+
+The following tests show these two behavior: First the dice handle creation and second the sum of die handles.
 
 [[[
 DieHandleTest >> testCreationAdding
@@ -30,7 +32,7 @@ DieHandleTest >> testSummingWithNiceAPI
 	self assert: handle diceNumber = 5
 ]]]
 
-The implementation of ==\+== was simple since we could only sum die handles together. This method creates a new handle, add the dice of the receiver and of the argument to the newly created handle and returns it. 
+The implementation of ==\+== was simple since we could only sum die handles together. The method ==\+== creates a new handle, adds the dice of the receiver and of the argument to the newly created handle and returns it. 
 
 [[[
 DieHandle >> + aDieHandle
