@@ -1,22 +1,4 @@
 
-s/a die or an handle/a die or a handle/
-
-Figure 2.1
-
-I find the diagram strange on the first look. The solid arrow pointing to the notes is the cause. I am used to see notes connected with dashed line without a tip, an in UML.
-
-2.6
-
-Addition is commutative, so it should not bother form implementation PoV, but it seems strange to see:
-
-The previous method 􀑏 is definitively what we want to do when we have two
-dice. So let us rename it as 􀃣􀃯􀃈􀁲􀂰􀃪􀂭􀀕􀂰􀂝􀏓 so that we can invoke it later.
-􀀕􀂰􀂝 􀐼􀐼 􀃣􀃯􀃈􀁲􀂰􀃪􀂭􀀕􀂰􀂝􀏓 􀂆􀀕􀂰􀂝
-􀕫 􀀕􀂰􀂝􀀩􀂆􀃉􀂙􀃂􀂝 􀃉􀂝􀃻
-􀂆􀂙􀂙􀀕􀂰􀂝􀏓 􀃣􀂝􀃂􀂧􀏞
-􀂆􀂙􀂙􀀕􀂰􀂝􀏓 􀂆􀀕􀂰􀂝􀏞 􀄁􀃐􀃯􀃟􀃣􀂝􀃂􀂧
-
-(eh? why pillar makes non copy-paste friendly pdfs?!)
 
 back to the point, to see renaming + to sumWithDie: and keep the order, and later do the magic and say "We just tell the argument (which can be a die or a die handle) that we want to add to it an die.". Mind is twisted when trying to grasp it as things are flipped.
 
