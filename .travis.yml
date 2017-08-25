@@ -5,8 +5,10 @@ services:
 before_install:
 - docker pull dpollet/texlive:pillar
 
-script:
-- docker run --tty --rm --volume $PWD:/work dpollet/texlive:pillar make spiralbook
+script: |
+  docker run --tty --rm --volume $PWD:/work dpollet/texlive:pillar bash -c "\
+    wget --quiet --output-document=- 'https://raw.githubusercontent.com/pillar-markup/pillar/master/download.sh' | bash \
+    && make spiralbook"
 
 deploy:
 - provider: bintray
