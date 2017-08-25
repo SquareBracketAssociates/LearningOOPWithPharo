@@ -6,13 +6,21 @@ before_install:
 - docker pull dpollet/texlive:pillar
 
 script:
-- docker run --tty --rm --volume $PWD:/work dpollet/texlive:pillar make pdfbook
+- docker run --tty --rm --volume $PWD:/work dpollet/texlive:pillar make spiralbook
 
 deploy:
-  provider: releases
-  api_key:
-    secure: MsUCv+AKBTnT4Phf3st2M24E07zFh2W+7uwiL25DxXXHvf7WxNVpsrisLLfv4SetisBEODGYb1Bm90TVGjhgut1w4CQqEuv0LpK30dMKXuYvWH58zc6KUth5vH/6rsxXyhU8HIECG+kCni3AbF0ZQRrQCh/qGRzOIKLe+a2YMP+QLqkupbVGxjbE4cq+YTXXA8v7Y3mLplxJPUP51HxrHa1cNg4YivdyYHz8Bh2ou0zIoO3ELahF8pTuktOezuUpDg7St/X+K6wQHVxbBPXoyWOp8vX9pa1DMBA4FNVrUN25WWYRrAeLgiMorOh1Q0hWUiRajonQPDrQho92hf9iUFJBHnWuIHU6JxCZdViyJ1VexGd9yzsGIimT80awB6RZAwKFbfWYlbWvRRObHuYebHFxOlRRzP4sCIFMGRGxy5c0rhBmDwXJuKtJBP8tsBPLnmd9BeQPrQYx0ZhSHyO9n4FQ2l7sJDO/o8iU5fYQzl5XasKUdHNgmCHv7PXJgy3clbvebiI1VZfdHm3jxQ7wOlzTAdLaeQCs34yeOZexLV9A66MZqrKSPIo1msu5MFCJf7CMCZoL/yYVh6ibIPCcrce6JkQhRcs9uq033JFP6kQ8R9/oQ8fOKxaFvPdT9A45GLmVom95Wge6qDcoQLsC9+up3AD7s8azyEJq5DP0Gk4=
-  file: build/learningoop.pdf
-  draft: true
+- provider: bintray
+  file: .bintray.json
   on:
     repo: SquareBracketAssociates/LearningOOPWithPharo
+  skip_cleanup: true
+  user: cdlm
+  key:
+    secure: DLT5e+3+U3jaooTLVN6JPcavMS+5XzFwNIfsK7QLYefzOZfBR8lt2vHtX2OxcdyKNfuzh0EaIDUR9a6+/Eg/wAcxjFDEO94ftb7rD7YHJ1Tc7r4AaeKwrdwyL6VgbN0ZNZqtXsTWGg+4XgHvSq0KVAR9K1IKSwJYPWwjJwDexakY2/ZpRg6R0OgaZwhtTEbbUn/pnoVQl3VfNlCjiI+ZLDqPKf/UfovVv7tzqdHeLK73MJN36Ri8IGTP5QaSYHBBko8mTv4EoVH7HuuSLAa60NBOScksYY5LjsS7OdzIwipmk4xwxcp2QXtVjf2uNKCKIISVRMzesdmUnsuL/qReJh7pfn21a38ZEEjJPPWSnwA8iI+GHUiCcLuHdw1+ilmIqxF3w8gSunM3aUv4a/qQm641DpGPawnYBbnFGPyEkxpCB1HXIsRRJeBs2UEkFmhOHyGWGl0+jx3iihwe72HMKRYeXcDHKOn1gU+pJQ50PBXFsTotOr7wkZ6OGsKO0XecNsZGodsQ4lPVxfJolnKhkxIouzCagd3wO0iseG1vOyi5JrRT+NPsZp7TKBrHIDAUb0LG+F8qC/IXHhTYo7ZywF5ZjIV9UZo/kZP0EQ8pstUlD4V4DWRYV1KQSpORM01wpdcZFDb5ExLvEck6Sv1cuW9QYBst+lDVpoSpbXSnSDc=
+- provider: releases
+  file: build/learningoop.pdf
+  on:
+    tags: true
+  skip_cleanup: true
+  api_key:
+    secure: pRfu3fr35BzqQDi1ul0SubPSwO8zcyIidqLRZPz3XIrH4qoy1Zgnq785dmB7ziNQqH+VJyh7askSFY3JLxL0d4P0eUgj2ZDIOhJsUQQ/ihevOBWbxlMOoEPjQfzA11l8WrNCQ566KrcYiISRi7bCg698kPTWSRwOmmvqXOJe5zGkuUbVmMNUV2oxaNV4JC8kVyVWHYy0nNMLEX/hzRZRh1+8K34/ds+fZ7irLrbDWMbKGHCyuLCSqv+zJJdu99nWLTclrCxFzK4DEHaMlFiO7wkUpyQLwZ38EDnb3E7iv045jSqCx3XB+DMRG1Da2/9BIXl0mho5ELdEvfGVAbjI2no5FWd0H1cs4/banAePCFnM7ZscJBaPWgVajB7EzrcADJUoxpmU6+6n1aIC3CnjscfAHqSAKGv8CO/Jh+Uirc8ATRpSqa73f2Nnj9tRCqwCOnFOCEzu0w5l3Ppz2Qpif04P+QbebZehSVaBJ4W01R2i8Rac3IuZDhZVaek1X24HFxUOd/rvHpbhz8eeANdnsWCTkAm+0sD+iKsWKICRMxFZfCK/SPldAcjXZsOsEMTqfx7ZWyCc7GeesQWcmW+z3shziyQd9tdeArJWLwacly3hH3WeyuUD5JyPF9klvDBtHgTVajdU4yp+3oXsrtTmetnBz+RESxQGdLgZRlQBQog=
