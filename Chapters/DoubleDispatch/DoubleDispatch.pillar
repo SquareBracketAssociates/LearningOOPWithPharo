@@ -134,6 +134,7 @@ Die >> + aDieOrADieHandle
 
 The problem of this solution is that it does not scale. As soon as we will have other kinds of arguments we will have to check more and more cases. You may think that this is just a spurious argument. But when you have a model that has around 35 different kinds of nodes as in Pillar the document processing system used to produce this book, this kind of testing logic becomes a nightmare to maintain and extend.
 
+!!! Sketching double dispatch
 We can do better.  The logic of the solution we have in mind is quite simple but it may be destabilizing at first.
 Let us sketch it.
 
@@ -202,7 +203,7 @@ In our two tests ==testAddTwoDice== and ==testAddingADieAndHandle== we know that
 !!! When the argument is a die handle
 
 Now we still have to find a solution for the case where the argument to the message ==\+== is a die handle.
-In fact, the argument will receive the message ==sumrWithDie:==. Therefore if we define a method with that name in the class ==DieHandle== it will be executed when the argument of message ==\+== is a die handle.
+In fact, the argument will receive the message ==sumWithDie:==. Therefore if we define a method with that name in the class ==DieHandle== it will be executed when the argument of message ==\+== is a die handle.
 
 We know how to sum a die with a die handle: we simply create a new die handle, add all the die of the previous die handle to the new one and add the argument too. 
 
@@ -218,30 +219,28 @@ DieHandle >> sumWithDie: aDie
 ]]]
 
 
-
 Now we are able to sum a die with a die handle as shown in Figure *@figDieDoubleDispatchPartialArgDieHandle*. The test ==testAddingADieAndHandle== should now pass.
 
-+Summing a die and a dicable.>file://figures/DieDoubleDispatchPartialArgDieHandle.pdf|width=70|label=figDieDoubleDispatchPartialArgDieHandle+
++Summing a die and a dicable.>file://figures/DieDoubleDispatchPartialArgDieHandle.pdf|width=90|label=figDieDoubleDispatchPartialArgDieHandle+
 
 !!! Stepping back
 
-Now you may ask why this is working. We defined two methods ==sumWithDie:== and when the method ==\+== on class ==Die== will send the message ==sumWithDie:== to either a die or a die handle, the message dispatch will select the correct method for us as shown in Figure *@figDieDoubleDispatchPartial*.
+You may ask why this is working. We defined two methods ==sumWithDie:== one on class ==Die== and one on the class ==DieHandle==
+and when the method ==\+== on class ==Die== will send the message ==sumWithDie:== to either a die or a die handle, the message dispatch will select the correct method ==sumWithDie:== for us as shown in Figure *@figDieDoubleDispatchPartial*.
 
 
 
 
-+Summing a die and a dicable>file://figures/DieDoubleDispatchPartial.pdf|width=70|label=figDieDoubleDispatchPartial+
++Summing a die and a dicable>file://figures/DieDoubleDispatchPartial.pdf|width=90|label=figDieDoubleDispatchPartial+
 
 
 !!! Now a DieHandle as receiver
 
-Our solution does not handle the case where the receiver is a die handle and this is what we will address now. 
-Now we are ready to apply the same idea when the receiver is a die handle. We will just say to the argument that we want to add a die handle this time. 
+Our solution does not handle the case where the receiver is a die handle. This is what we will address now. 
+Now we are ready to apply the same pattern than before but for the case where the receiver is a die handle. We will just say to the argument of the message ==\+== that we want to sum it with a ''die handle'' this time.
 
-
-We know what is to add two die handles, it is the code we already defined in the past chapter. We rename the ==\+== method
-as ==sumWithHandle:==. Basically we create a new handle, then we add the dice of the receiver and the argument to it and we return
-the new handle.
+We know how to sum two die handles, it is the code we already defined in the previous chapter. We rename the ==\+== method
+as ==sumWithHandle:== to be able to invoke it while redefining the method ==\+==. Basically this method creates a new handle, then adds the dice of the receiver and the argument to it and returns the new handle.
 
 [[[
 DieHandle >> sumWithHandle: aDieHandle
@@ -252,20 +251,22 @@ DieHandle >> sumWithHandle: aDieHandle
 	^ handle
 ]]]
 
-Now we can define a more powerful version of ==\+== by simply sending the message ==sumWithHandle:== to the ""argument"".
-Remember that sending back a new message to the argument is the key aspect. Why? Because we kick in a new message lookup and dispatch. 
+Now we can define a more powerful version of ==\+== by simply sending the message ==sumWithHandle:== to the ""argument"" (aDicable) of the message ==\+==. Again we send a message to the argument (==aDicable==) to kick in a new message lookup and dispatch  for the message ==sumWithHandle:==.
 
 [[[
 DieHandle >> + aDicable
 	^ aDicable sumWithHandle: self
 ]]]
 
-+Handling all the cases: summing a die/die handle with a die/die handle .>file://figures/DieDoubleDispatchFull.pdf|width=70|label=figDieDoubleDispatchFull+
+We said that this is version of ==\+== is more powerful than the one of ==sumWithHandle:== because once we will implement the missing method ==sumWithHandle:== on the class ==Die==, the ==\+== method will be able to sum die handle with die or die handle. 
 
-Up until here we did not change much and all the tests adding two dice handle should continue to run. 
++Handling all the cases: summing a die/die handle with a die/die handle .>file://figures/DieDoubleDispatchFull.pdf|width=90|label=figDieDoubleDispatchFull+
 
-To get the final behavior just have to define a new method ==withWithHandle:== on the ==Die== class. 
-The logic is similar to the one adding one die to one die handle. 
+Up until here we did not change much and all the tests adding two die handle should continue to run. 
+
+!!! sumWithHandle: on Die class
+To get the possibility to sum a die handle with a single die, we just have to define a new method ==withWithHandle:== on the ==Die== class. 
+The logic is similar to the one adding one die to one die handle
 
 [[[
 Die >> sumWithHandle: aDieHandle
@@ -276,6 +277,7 @@ Die >> sumWithHandle: aDieHandle
 	^ handle
 ]]]
 
+Note that we could have  sent the message ==aDieHandle sumWithDie: self== as body of ==sumWithHandle:== definition.
 
 
 Figure *@figDieDoubleDispatchFull* shows the full set up. We suggest to follow the execution of messages for the different cases to understand that just sending a new message to the argument and relying on method dispatch produces modular conditional execution.
@@ -295,14 +297,16 @@ DieHandleTest >> testAddingAnHandleWithADie
 
 !!! Conclusion
 
-In this chapter we presented double dispatch. The idea is to use method dispatch several times. 
-While the resulting design is simple, it is not trivial to understand deeply and it requires time to digest it. 
-At its core it relies on the fact that sending a message to an object selects the correct method. 
-So sending another message to the message argument will select a method based on the argument too. 
+When we step back, we see that we applied twice the ''Don't ask, tell'' principle:
+First the message ==\+== selects the corresponding methods in either ==Die== or ==DieHandle== classes. Then a more specific message is sent to the argument and the dispatch kicks in again selecting the correct method for the messages ==sumWithDie:== or ==sumWithHandle:==.
 
-When we step badk we see that we applied twice the ''Don't ask, tell'' principle:
-First the message ==\+== plus selects the corresponding methods in either ==Die== or ==DieHandle== classes. Then a more specific message is sent to the argument and the dispatch kicks in again selecting the correct method either ==sumWithDie:== or ==sumWithHandle:==. 
-Therefore we have effectively selected a method according to the receiver and the argument of a messages.
+In this chapter we presented double dispatch. The idea is to use method dispatch two times.
+While the resulting design is simple, it is not trivial to deeply understand and it requires time to digest double dispatch. 
+At its core, double dispatch relies on the fact that sending a message to an object selects the correct method -- and 
+sending another message to the message argument will select a new method. Therefore we have effectively selected a method according to the receiver and the argument of a message.
+
+
+
 
 Double dispatch is the basis for the Visitor Design pattern that is effective when dealing with complex data structure such as documents, compilers. In such context it is not rare to have more than 30 or 40 different nodes that should be manipulated together to produce specific behavior. 
 
