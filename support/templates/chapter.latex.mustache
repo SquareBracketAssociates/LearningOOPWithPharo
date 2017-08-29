@@ -1,14 +1,14 @@
 % -*- mode: latex; -*- mustache tags: {{=« »=}} «! the '&' below prevents HTML escaping. »
 \ifx\wholebook\relax\else
 
-  \documentclass[10pt,twoside,english]{sbabook}
-  \input{common}
+	\documentclass[10pt,twoside,english]{root/support/latex/sbabook/sbabook}
+  \usepackage{import}
+  \subimport{root/support/latex/}{common.tex}
 
-  \hypersetup{
-    pdftitle = {«& title»},
-    pdfauthor = {«& attribution»},
-    pdfkeywords = {«& keywords»}
-  }
+  \hypersetup{pdfinfo = {
+    Title = {«& title»},
+    Author = {«& attribution»},
+    Keywords = {pharo, smalltalk}}}
   \begin{document}
 \fi
 

@@ -1,11 +1,7 @@
 -include $(wildcard *.d)
 
-%.pdf: root/support/latex/%.pdf
-	ln $<
-
 %.pdf: %.tex
-	TEXINPUTS=root/support/latex//: \
-	latexmk -lualatex -use-make -recorder \
+	latexmk -lualatex -use-make \
 		-latexoption="--file-line-error --halt-on-error" \
 		-deps-out="$*.d" \
 		$<
