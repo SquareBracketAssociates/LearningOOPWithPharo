@@ -1,6 +1,6 @@
 \pagelayout{\paperbackpage}
 
-\usepackage{root/support/latex/sbabook/pharo-titlepage}
+\usepackage{pharo-titlepage}
 
 \usepackage{polyglossia}
 \usepackage[useregional]{datetime2}
@@ -73,8 +73,17 @@
 }
 
 % highlighted paragraphs
+\usepackage{fontawesome}
+\newenvironment{coffee}{%
+  \hangfrom{\llap{\faicon{coffee}\quad}}\sffamily\ignorespaces
+}{}
+
 \newenvironment{note}{%
   \begin{leftbar}\textsf{\textbf{Note}}\quad
+}{\end{leftbar}}
+
+\newenvironment{important}{%
+  \begin{leftbar}\textsf{\textbf{Important}}\quad
 }{\end{leftbar}}
 
 \newenvironment{todo}{%
