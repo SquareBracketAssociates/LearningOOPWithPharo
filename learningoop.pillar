@@ -1,5 +1,6 @@
 ${inputFile:Chapters/Introduction/Introduction.pillar}$
-
+ 
+ 
 ! Getting in touch with Pharo
 
 %${inputFile:Chapters/PlayingWithTurtles/PlayingWithTurtles.pillar}$
