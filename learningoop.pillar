@@ -52,7 +52,7 @@ ${inputFile:Chapters/Expressions/Expressions.pillar}$
 
 ! Little Projects
 
-${inputFile:Chapters/SimpleLAN/SimpleLANDefinition.pillar}$
+${inputFile:Chapters/SimpleLAN/SimpleLAN.pillar}$
 ${inputFile:Chapters/SnakesAndLadders/SnakesAndLadders.pillar}$
 ${inputFile:Chapters/TinyChat/TinyChat.pillar}$
 
