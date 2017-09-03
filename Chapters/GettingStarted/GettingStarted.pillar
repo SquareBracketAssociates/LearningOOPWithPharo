@@ -75,6 +75,8 @@ In the syntax of a message, the selector always comes right after the receiver; 
 Those messages are called ''unary'' because they involve only one object: their receiver; they do not take any arguments.
 Syntactically, the selectors of unary messages must be alphabetic words; the convention to make up longer selectors is to use lower camel case, preferring ==asUppercase== over ==as_uppercase== or ==AsUPPERCASE==.
 
+
+
 !!!! A first keyword-based message
 
 Messages often need to pass arguments to the receiver so that it can perform its task; this is what keyword-based messages are for.
@@ -115,7 +117,7 @@ The main use of binary messages is as arithmetic operations, for instance sendin
 1 + 2
 ]]]
 
-But there are some other widely-used binary messages outside of arithmetics; for example, the message for string concatenation is a single comma:
+But there are some other widely-used binary messages outside of arithmetics; for example, the message (selector) for string concatenation is a single comma:
 [[[
 'Hello' , ' Pharoers'
 >>> 'Hello Pharoers'
@@ -126,6 +128,8 @@ Here, the receiver is =='Hello'== and ==' Pharoers'== is the argument.
 @@coffee The ''receiver'' is the object to which a message is sent; it is always first in a message, followed by the ''selector'' and arguments.
 
 @@coffee ''Unary messages'' look like words and have no parameters beside their receiver. ''Binary messages'' have selectors made of symbols and have one parameter. ''Keyword messages'' take a parameter after each colon in their selector.
+
+@@coffee A message is composed of a receiver, a message name, called its selector and optional arguments. By language abuse, we sometimes use message when in fact we mean the selector of the message. ==,== is a message selector and =='a' ,'b'== is a message. 
 
 @@coffee The preferred naming convention for unary and keyword selectors is lower camel case, ==likeThis:orThat:==.
 
@@ -336,7 +340,7 @@ count
 
 !!! Methods
 
-Imagine that we want to following behavior: checking that all the objects of a collection holds the given property. 
+Imagine that we want the following behavior: checking that all the objects of a collection holds the given property. 
 
 Here we check that all the numbers in the array are even numbers. 
 [[[
@@ -374,6 +378,6 @@ In a method, the receiver (==self==) is the default return value of the whole me
 !!! Conclusion 
 
 You have three kinds of messages and the simpler are executed prior to more complex one. Hence unary messages are executed before binary and binary before keyword-based messages. 
-Blocks are anymous methods that can be pass around and used to define control structures and loops.
+Blocks are anonymous methods that can be pass around and used to define control structures and loops.
 
 You now know enough to read 95\% of Pharo code. Remember, it is all just messages being sent to objects.
