@@ -91,8 +91,81 @@ Figure *@figTrueFalseSolutionLookup* shows that sending a message of one of the 
 
 @@note When we define a method in a given class we know that the receiver is from this class. Obvious but important. The implementation can then use this information.
 
+Now we will see if you get it... Let us try with a slightly more complex example. 
 
 !!! Implementing or
+
+Disjunction is also a core functionality of any programming language. In Pharo disjunction is expressed via the message ==|==. 
+ Here are the traditional tables describing disjunction but expressed in Pharo: first starting with ==true== as receiver.
+
+
+| or | true | false |
+| true | true | true | 
+| false | true | false | 
+
+Here are a couple of examples expressed in Pharo. 
+[[[
+true | true
+>>> true
+]]]
+[[[
+true | false 
+>>> true
+]]]
+[[[
+false | false 
+>>> false
+]]]
+
+For the record, in fact ==|== is an eager disjunction since it asks the value of its argument even when not needed and Pharo also offers lazy disjunction via the message ==or:== which only request the argument value if needed .
+
+!!!!When receiver is true.
+Propose an implementation of the disjunction. What you should have learned from the implementation of ==not== is that you have have two different methods taking advantage of the fact that they know what is the receiver during their execution. 
+
+[[[
+true | true 
+>>> true
+true | false 
+>>> true
+true | anything 
+>>> true
+]]]
+
+When you look at the table we see that when the receiver is ==true== the result is the same as the receiver (i.e. ==true==). In Pharo the method ==|== on class ==True== express this as follows: 
+
+[[[
+True >> | aBoolean
+   "Evaluating Or -- answer true since the receiver is true."
+   ^ true
+]]]
+
+!!!!When receiver is false.
+Similarly let us study the Boolean table relative to false as receiver. 
+
+[[[
+false | true 
+>>> true
+false | false 
+>>> false
+false | anything 
+>>> anything
+]]]
+
+We see that when the receiver is ==false==, the result of the disjunction is the other argument. In Pharo the method ==|== on class ==False== is then as follows: 
+
+[[[
+False >> | aBoolean
+   "Evaluating Or -- answer with the argument, aBoolean."
+   ^ aBoolean
+]]]
+
+
++Disjunction implementation: two methods.>file://figures/BooleanNoHiearchyAndInstancesWithOrMethods.pdf|width=80+
+
+
+
+
+
 
 
 
