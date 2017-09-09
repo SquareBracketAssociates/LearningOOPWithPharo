@@ -1,16 +1,98 @@
 !! Sending a message is making a choice
 @cha:sending
 
-Sending a message is making a choice!
+In this chapter we explore an ''essential'' point of object-oriented programming: Sending a message is making a choice! This aspect is often not really well put in perspective in teaching materials. Lectures often focus on inheritance but understanding the power of message passing it crucial to build good design.
+This point is so central for me that this is the first point that I explain when I start lectures on advanced design to people already understanding object-oriented programming. 
 
+I will start taking a simple example available in the core of Pharo: the Booleans. Pharo defines Booleans as two objects: ==true== and ==false==. They are so fundamental that you cannot change their value. 
+ I will explain how the Boolean negation and the disjunction (or) are implemented. Then I will step back and analyse the forces in presence and their importance. 
+
+
+!!! not
+
+Boolean negation has nothing special in Pharo: negating a boolean returned the negated value! For example the snippets below show this conventional behavior and vice versa.
+
+Sending the message ==not== to the Boolean ==true== returns the Boolean ==false==. 
+
+[[[
+true not
+>>> false
+]]]
+
+[[[
+false not
+>>> true
+]]]
+
+Nothing fancy. Of course the message ==not== can be sent to Boolean expressions (i.e. expressions whose execution return Booleans).
+
+[[[
+(2 * 4 > 3) not
+>>> false
+]]]
+
+[[[
+()#(1 2 3) includes: 5) not
+>>> true
+]]]
+
+Now while Boolean logic traditional, what is less is the implementation of the way the computation is done to answer the correct value. 
 
 !!! Implementing not
 
+Take a couple of minute and a pieice of paper and think about the way you would implement them. Try really to write the code for real.
+
+!!!! A first hint. 
+A first hint that I can give you is that the solution (used in Pharo and that we want to study) does not use explicit conditional such as ==ifTrue:== or ==ifTrue:ifFalse:==.
+
+Take a bit more time to think how you can implement not. 
+What we can tell you is the solution is not based on bit fiddling and logical operation on little numbers. It is simple and elegant.
+
+!!!! A second hint.
+The second hint is that ==true== and ==false== are instances of different classes. ==true== is (the unique) instance of the class ==True== while ==false== is (the unique) instance of the class ==False==. Note the uppercase on class names. This situation is depicted in Figure *@figTrueFalseOnly*.
+
+
+What you should see is that the fact that the solution has two different classes opens the door to have two different not implementations as shown by Figure *@figTrueFalseOnlySelectors*. Indeed, as we mention in early chapters, we can have one message and multiple methods that we will be executed depending on the receiver of the message. 
+
+Now you should be ready to get the solution.
+
++The two classes ==True== and ==False== and their respective unique instances ==true== and ==false==.>file://figures/BooleanTrueAndFalseSolelyWithInstances.pdf|width=45|label=figTrueFalseOnly+
+
++Two methods for one message.>file://figures/BooleanTrueAndFalseWithNotMethodSelectors.pdf|width=45|label=figTrueFalseOnlySelectors+
+
+
+
+
+
+
+
+!!!! Studying the implementation
+
++Two methods for one message each one returning the other instance.>file://figures/BooleanTrueAndFalseWithNotMethods.pdf|width=65|label=figTrueFalseSolution+
+
+The implementation of negation (message ==not==) is defined as illustrated in Figure *@figTrueFalseSolution* and we shown below.
+
+[[[
+True >> not
+   "Negation--answer false since the receiver is true."
+   ^ false
+]]]
+
+[[[
+False >> not
+   "Negation--answer true since the receiver is false."
+   ^ true
+]]]
+
+
+Figure *@figTrueFalseSolutionLookup* shows that sending a message of one of the two Booleans will select the method in the corresponding class. What is important to see is that when a method is executed the receiver is from the class (or subclass we will see that later) that defines the method. We can also say that when we define a method in a given class we know that the receiver is from this class. Obvious is not it! But important. The implementation can then use this information as an execution context. This is exactly what the ==not== implementation does. The method ==not== defined on the class ==True== knows that receiver is true so it just has to return ==false==. 
+
++Sending a message selects the method in the class of the receiver .>file://figures/BooleanTrueAndFalseWithNotMethodsLookup.pdf|width=65|label=figTrueFalseSolutionLookup+
+
+@@note When we define a method in a given class we know that the receiver is from this class. Obvious but important. The implementation can then use this information.
 
 
 !!! Implementing or
-
-
 
 
 
@@ -49,19 +131,6 @@ instance of ==True== simply executes the ''true'' alternative, while an
 instance of ==False== executes the ''false'' alternative. All the abstract
 ==Boolean== methods are implemented in this way for ==True== and ==False==. 
 
-For example the implementation of negation (message ==not==) is defined the same way:
-
-[[[
-True >> not
-   "Negation--answer false since the receiver is true."
-   ^ false
-]]]
-
-[[[
-False >> not
-   "Negation--answer true since the receiver is false."
-   ^ true
-]]]
 
 
 !!! What is the point?

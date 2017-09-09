@@ -1,9 +1,9 @@
-!! Temperature Logger
+!! Temperature Logger (under writing)
 @cha_converter
 
 
 In this chapter you will implement a little temperature logger. It is really simple that it will help us to get started with Pharo and also with test driven development.
-We will compute temperature average and display the temperature une graph.
+We will collect temperate measurements and compute temperature average and display the temperatures in a graph.
 Near the end of the chapter, we will add the possibility to convert between celcius and fahrenheit. For this you will create a simple class and its tests.
 
 We will show how to write test to specify the expected results. Writing tests is really important. It is one important tenet of Agile Programming and Test Driven Development (TDD). We will explain later why this is really good to have tests. For now we just implement them. We will also discuss a bit the fundamental aspects of float comparison and we will also present some loops.
@@ -171,7 +171,9 @@ TemperatureLogger >> latestRecords: aNumber
     ^ records
 ]]]
 
-It is bit complex.
+It is not really nice since reversed copy the collection of measures. 
+We can proposer another solution that goes from the end of the collection and 
+access the correct number of elements.
 
 
 recordTemperature: aNumber
