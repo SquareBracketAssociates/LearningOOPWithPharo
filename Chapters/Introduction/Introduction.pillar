@@ -11,7 +11,7 @@ At that time, I met Harald Wertz, who gave me nice ideas and pointers such as L-
 And he was right. This remark was like a bee in my bonnet for more than ten years.
 In fact, it was my original objective but I was exhausted after my first attempt.
 
-Now, nearly fifteen years later, I'm ready to write a book to start with object-oriented programming. In fact I rewrote everything I got from that time. I hope that you will enjoy it as much as I did —even if, for me, writing a book is a really long and daunting task because I want to make it great.
+Now, nearly fifteen years later, I'm ready to write a book to start with object-oriented programming. In fact I rewrote everything I got from that time. I hope that you will enjoy it as much as I did — even if, for me, writing a book is a really long and daunting task because I want to make it great.
 
 
 !!! Structure of the book
@@ -21,12 +21,12 @@ To solve this problem, I structured the book either into key chapters on basic c
 The projects are little tutorials or more realistic examples, with step by step explanations; you can skip over them and come back to read them whenever you feel like it.
 I also propose various paths through the book with different levels of reading; however, many of the ''simpler'' chapters also contain design remarks.
 
-+Reading maps.>file://figures/Map.pdf|width=100|label=fgmap+
++Reading maps.>file://figures/MapVolume1.pdf|width=100|label=fgmap+
 
 !!!! Fast track
 The following chapters contain more conceptual information:
 
-In the volume 1
+In the volume 1:
 - Glimpse of the Syntax
 - Tests, tests and tests
 - Objects and Classes
@@ -36,11 +36,7 @@ In the volume 1
 - Sending Messages
 - Snakes and Ladders
 
-In the volume 2
-- Stone Paper Scissors
-- Visitors
-- Aliens and Sheeps
-
+The other chapters are more exercise and pratical. For example, with TinyChat you will have fun with a web server written in the single page of code. 
 
 !!! What you will learn
 
@@ -56,16 +52,16 @@ We will focus on object-oriented ''programming'' concepts:
 …and on object-oriented ''design'' concepts:
 - Class responsibility collaboration
 - Delegation
-- Message sends are choice (what would be the equivalent to not)
+- Message sends are choice
 - Message sends are plans for reuse
-- Double Dispatch
+- Double Dispatch (Vol2)
 - The "Don't ask, tell" Principle
 - Tests are your life ensurance
 - Polymorphism
-- Composite Pattern
-- Visitor Pattern
-- Hook template Design Pattern
-- Strategy Design Pattern
+- Composite Pattern (Vol2)
+- Visitor Pattern (Vol2)
+- Hook template Design Pattern (Vol2)
+- Strategy Design Pattern (Vol2)
 
 !!!! Syntax, Blocks and Iterators
 Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple chapters to get you started. 
@@ -103,31 +99,5 @@ Finally, the coffee cups highlight some points to take away and serve as a conci
 In this book we will use some of the videos produced for the Pharo mooc. All the videos are available at *http://mooc.pharo.org*.
 
 !!! Thanks
-I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Herby Vojcik, Denis Kudriashov, Dimitris Chloupis, Amal Noussi, Ren\'e Paul Mages for their great feedback.
-Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and for Tinychat. Guillermo Polito for the idea of this cool example of files and directories.
-
-!!! Todo
-Volume one
-- Use LAN of Damien
-- Implement game collector app
-- Reread and implement Game of life
-- Read tinychat
-- Sending messages (==not==)
-
-Volume two 
-- Visitor
-- Interpreter
--
-
-
-
-!!!! Volume two
-More exercises
-- Uno why not *https://github.com/cdlm/kata-uno*
-
-Lire
-- Implement sokoban
-- Beacons
-- Ants
-- Parser
-- Implementation turtle
+I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Herby Vojcik, Denis Kudriashov, Dimitris Chloupis, Amal Noussi, René Paul Mages for their great feedback.
+Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and for Tinychat. Guillermo Polito for the idea of file and directory example. Damien Pollet for this great template and the new LAN implementation.

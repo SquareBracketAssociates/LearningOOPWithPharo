@@ -1,0 +1,171 @@
+
+
+!! Ants?
+
+!! About Design
+
+!!! Move behavior close to the data
+
+!!! Interface
+Program to an interface, not an implementation
+
+Depend on interfaces, not concrete classes
+
+!!! The Open-Closed Principle
+Design classes and packages so their functionality can be extended without modifying the source code.
+This can be achieved by using inheritance to override and extend inherited behaviour.
+Bertrand Meyer. Object Oriented Software Construction, 1988.
+See also the “Template Method” pattern in the Design Patterns book
+
+!!! About delegation
+“Don’t do anything you can push off to someone else.”
+ Joseph Pelrine
+
+Do not take over the responsibilities of other objects. If an object is in charge of certain information, you should delegate related tasks to that object, rather than trying to handle them yourself.
+For a player to move forward, it must find out what square it ultimately lands on, but it is the responsibility of the squares on the board to interpret the logic of the game.
+For a square to let a player move forward one position, it needs to find out what is the next square on the board, but it is the responsibility of the game to keep track of this.
+(Note that we are free to distribute responsibilities as we choose, but we should also make sure that no object is overloaded with responsibilities
+
+Once and only once
+“In a program written with good style, everything is said once and only once.”
+
+Lots of little pieces
+“Good code invariably has small methods and small objects. Only by factoring the system into many small pieces of state and function can you hope to satisfy the ‘once and only once’ rule.”
+
+If you see similar logic repeated in many methods, this is a sign that the design has not been carefully thought through.
+Long methods tend to be a sign of procedural thinking. Small methods are a hallmark of OO thinking.
+See the introduction to:
+Kent Beck, Smalltalk Best Practice Patterns, Prentice-Hall, 1997
+
+!!! Composed method
+Divide  your program into methods that perform one identifiable task.
+- Keep all of the operations in a method at the same level of abstraction.
+- This will naturally result in programs with many small methods, each a few lines long.
+
+If a method is too long, take groups of statements doing related things and encapsulate them in a (protected) helper methods.
+Name those methods after what the statements are doing.
+
+!!! Name well
+
+es should be chosen to reveal the intent of the code.
+In the sample code, the point is not that we want to get the square numbered 1, but that we want the first square of the game. Similarly we want to express that this player is entering the square, not how this is achieved at a low level.
+Whenever you find yourself writing procedural code, extract that code into declaratively named methods that express what that code is doing.
+
+!!! Don't ask, tell
+
+
+
+! Volume 3
+
+!! Uno?
+
+!! Ants
+
+!! Project:  Managing Game Collection (TBD)
+
+!! Project: Sokoban (TB DONE)
+
+!! Project: LSystem (TBMigrated)
+
+Lindermayer systems, also called ''L-Systems'', have been developed
+by biology theorists to understand and simulate the growth of plants
+cite|Pruz90a. In the following chapters we propose you to implement
+different L-Systems from a minimalist to elaborate
+ones. Chapter ch:lsystem presents the simplest possible
+L-Systems, i.e., L-System composed by one single rule.
+Chapter ch:lsystem2 presents an object-oriented model of
+L-System that alleviate the limits of the previous implementation.
+Chapter ch:plant defines a new class of turtle that allows one
+to model plants with the L-Systems defined previously. Finally,
+Chapter ch:parametric introduces Parametric L-Systems that
+allows one to express more powerful L-Systems. This chapter shows in
+particular how inheritance can be used to reuse class already defined.
+
+!!! Lindermayer Systems
+	MyBooks/botsinc/BookTwo/Debugger/
+
+!!!	LSystem
+	getting started
+!!!	AdvancedL-Systems	
+	rules
+!!!	PlantModeling
+	stack turtle
+	
+!! Project:  Game Of Life (TBEvaluated)
+with conditionals and polymorphism
+
+%!! Project: Path-finder (it is graphical so out or should get a textual version)
+
+!! Classes are objects too
+
+May be at the end of the book: class are objects too. 
+	Model2 in MyBooks/botsinc/BookTwo/SyntaxAndModel2
+
+
+! Extra teaching material
+!! to see what we do with that
+
+!!! Responsibility-driven design (bof)
+
+Objects are responsible to maintain information and provide services
+A good design exhibits:
+- high cohesion of operations and data within classes 
+- low coupling between classes and subsystems
+Every method should perform one, well-defined task:
+-High level of abstraction 
+ write to an interface, not an implementation
+
+
+ !!! About object-oriented 
+ Object-oriented programming
+ promotes a distribution of responsibilities:  such distribution of computation over objects is achieved via message passing
+ which dynamically looks and applies a potentially different method corresponding to a message.
+
+
+
+
+
+ Object-oriented design lets you simulate a virtual world, so model the domain objects as you want them to be. Note that we do not have to model the world as it is, but as we want to think about it! In our virtual world, objects can be active and take responsibility for their actions, unlike passive objects in the real world.
+
+Every domain concept that plays a role in the application and assumes a responsibility is a potential object in the software design
+
+Don’t distinguish between first and second class objects: everything that has a responsibility and plays a role should be an object.
+ 
+Well-designed objects have clear responsibilities
+ 
+ Data-driven approaches are bad for encapsulation because they focus too quickly on implementation (representation) of objects rather than their interface. Instead, focus on the responsibilities of an object: what data and tasks is it responsible for?
+
+Responsibility : what you know and maintain
+
+This will lead you to focus on the interface of an object rather than its representation.
+Identifying responsibilities will help you to discover missing objects, and it will also tell you whether an object is needed in your design or not.
+
+
+ !!! Design corner: About collaborators and limited responsibility
+ As with any paradigm, we can define well designed programs or poor ones. Poor programs are often more buggy, more difficult to understand and reuse.
+
+ Usually an object does not exist in isolation, it often collaborate to implement its behavior. 
+ For example, a graphic turtle interacts with numbers, colors, and a graphical canvas to draw on it. A book will interact with a publisher, authors and optionally a collection or library and renter.
+
+ Such collaborators are other objects that do not necessary define the state of the object itself (a canvas is not part of a turtle properties still a turtle interact with it.).
+
+ To help you design good classes you should carefully think about the collaborators of an object.
+ Usually an object should not have too many collaborators. 
+
+ Another design guideline is that an object should have a limited set of responsibilities. For example a graphic turtle knows how to display itself and draw on a canvas. A counter knows how to store and manipulate a value.
+ 
+ !!! Several forms of inheritance
+
+ Inheritance is, simply seen, just a mechanism to share behaviour and state (i.e., methods and instance variables) between a class and its subclasses.
+ As we shall see, inheritance can be used in object-oriented design for three different, but related purposes:
+ # Conceptual hierarchy (a Rectangle is a Shape)
+ # Polymorphism (I can use a rectangle anywhere I expect a
+ shape)
+ # Reuse (the Rectangle class reuses everything it inherits from Shape)
+
+ In a good object-oriented design, all three of these come together.
+ 
+
+
+%! Appendix
+%${inputFile:Chapters/SyntaxNutshell/SyntaxNutshell.pillar}$
