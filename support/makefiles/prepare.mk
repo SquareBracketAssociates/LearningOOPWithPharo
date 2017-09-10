@@ -2,6 +2,11 @@ $(call check_defined, OUTPUTDIRECTORY, Directory for build products)
 $(call check_defined, MAIN, Base name of the main document)
 $(call check_defined, CHAPTERS, Base names of the chapters)
 
+# Check for spaces in the current directory
+ifneq "1" "$(words $(CURDIR))"
+  $(error Project path contains whitespace ($(CURDIR)))
+endif
+
 .phony: prepare clean wipeout
 
 FIGURES := $(shell find . \
