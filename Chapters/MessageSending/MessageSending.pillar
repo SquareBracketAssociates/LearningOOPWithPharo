@@ -8,7 +8,7 @@ I will start taking a simple example available in the core of Pharo: the Boolean
  I will explain how the Boolean negation and the disjunction (or) are implemented. Then I will step back and analyse the forces in presence and their importance. 
 
 
-!!! not
+!!! Negation: the not message
 
 Boolean negation has nothing special in Pharo: negating a boolean returned the negated value! For example the snippets below show this conventional behavior and vice versa.
 
@@ -24,7 +24,7 @@ false not
 >>> true
 ]]]
 
-Nothing fancy. Of course the message ==not== can be sent to Boolean expressions (i.e. expressions whose execution return Booleans).
+Nothing fancy. Of course the message ==not== can be sent to Boolean expressions (i.e. expressions whose execution return Booleans) as shown below:
 
 [[[
 (2 * 4 > 3) not
@@ -36,29 +36,29 @@ Nothing fancy. Of course the message ==not== can be sent to Boolean expressions 
 >>> true
 ]]]
 
-Now while Boolean logic traditional, what is less is the implementation of the way the computation is done to answer the correct value. 
+Now while Pharo follows traditional Boolean logic, what is less traditional is the implementation of the way the computation is done to answer the correct value.
 
 !!! Implementing not
 
-Take a couple of minute and a pieice of paper and think about the way you would implement them. Try really to write the code for real.
+Take a couple of minutes and a piece of paper and think about the way you would implement this message. Try really to write the code for real.
 
 !!!! A first hint. 
 A first hint that I can give you is that the solution (used in Pharo and that we want to study) does not use explicit conditional such as ==ifTrue:== or ==ifTrue:ifFalse:==.
 
 Take a bit more time to think how you can implement not. 
-What we can tell you is the solution is not based on bit fiddling and logical operation on little numbers. It is simple and elegant.
+What we can tell you is the solution is not based on bit fiddling and logical operation on small integers. The solution we are looking for is simple and elegant.
 
 !!!! A second hint.
 The second hint is that ==true== and ==false== are instances of different classes. ==true== is (the unique) instance of the class ==True== while ==false== is (the unique) instance of the class ==False==. Note the uppercase on class names. This situation is depicted in Figure *@figTrueFalseOnly*.
 
 
-What you should see is that the fact that the solution has two different classes opens the door to have two different not implementations as shown by Figure *@figTrueFalseOnlySelectors*. Indeed, as we mention in early chapters, we can have one message and multiple methods that we will be executed depending on the receiver of the message. 
+What you should see is that the fact that the solution has two different classes opens the door to have two different not implementations as shown by Figure *@figTrueFalseOnlySelectors*. Indeed, as we mention in early chapters, we can have one message and multiple methods that we will be selected and executed depending on the receiver of the message. 
 
-Now you should be ready to get the solution.
+Now you should be ready to get the solution. We should have a definition for the ==true== defined in the class ==True== and one for ==false== in the class ==False==.
 
-+The two classes ==True== and ==False== and their respective unique instances ==true== and ==false==.>file://figures/BooleanTrueAndFalseSolelyWithInstances.pdf|width=45|label=figTrueFalseOnly+
++The two classes ==True== and ==False== and their respective unique instances ==true== and ==false==.>file://figures/BooleanTrueAndFalseSolelyWithInstances.pdf|width=55|label=figTrueFalseOnly+
 
-+Two methods for one message.>file://figures/BooleanTrueAndFalseWithNotMethodSelectors.pdf|width=45|label=figTrueFalseOnlySelectors+
++Two methods for one message.>file://figures/BooleanTrueAndFalseWithNotMethodSelectors.pdf|width=55|label=figTrueFalseOnlySelectors+
 
 
 
@@ -68,9 +68,9 @@ Now you should be ready to get the solution.
 
 !!!! Studying the implementation
 
-+Two methods for one message each one returning the other instance.>file://figures/BooleanTrueAndFalseWithNotMethods.pdf|width=65|label=figTrueFalseSolution+
++Two methods for one message each one returning the other instance.>file://figures/BooleanTrueAndFalseWithNotMethods.pdf|width=75|label=figTrueFalseSolution+
 
-The implementation of negation (message ==not==) is defined as illustrated in Figure *@figTrueFalseSolution* and we shown below.
+The implementation of negation (message ==not==) is defined as illustrated in Figure *@figTrueFalseSolution* and we shown below. The method ==not== of the class ==True== simply returns the Boolean ==false==. 
 
 [[[
 True >> not
@@ -85,15 +85,15 @@ False >> not
 ]]]
 
 
-Figure *@figTrueFalseSolutionLookup* shows that sending a message of one of the two Booleans will select the method in the corresponding class. What is important to see is that when a method is executed the receiver is from the class (or subclass we will see that later) that defines the method. We can also say that when we define a method in a given class we know that the receiver is from this class. Obvious is not it! But important. The implementation can then use this information as an execution context. This is exactly what the ==not== implementation does. The method ==not== defined on the class ==True== knows that receiver is true so it just has to return ==false==. 
+Figure *@figTrueFalseSolutionLookup* shows that sending a message of one of the two Booleans selects the method in the corresponding class. What is important to see is that when a method is executed the receiver is from the class (or subclass we will see that later) that defines the method. We can also say that when we define a method in a given class we know that the receiver is from this class. Obvious, isn't it! But important. The implementation can then use this information as an execution context. This is exactly what the ==not== implementation does. The method ==not== defined on the class ==True== knows that the receiver is true so it just has to return ==false==. 
 
-+Sending a message selects the method in the class of the receiver .>file://figures/BooleanTrueAndFalseWithNotMethodsLookup.pdf|width=65|label=figTrueFalseSolutionLookup+
++Sending a message selects the method in the class of the receiver .>file://figures/BooleanTrueAndFalseWithNotMethodsLookup.pdf|width=75|label=figTrueFalseSolutionLookup+
 
 @@note When we define a method in a given class we know that the receiver is from this class. Obvious but important. The implementation can then use this information.
 
-Now we will see if you get it... Let us try with a slightly more complex example. 
+Now we will see if you get it... Let us try with a slightly more complex example.
 
-!!! Implementing or
+!!! Implementing disjunction
 
 Disjunction is also a core functionality of any programming language. In Pharo disjunction is expressed via the message ==|==. 
  Here are the traditional tables describing disjunction but expressed in Pharo: first starting with ==true== as receiver.
@@ -117,7 +117,7 @@ false | false
 >>> false
 ]]]
 
-For the record, in fact ==|== is an eager disjunction since it asks the value of its argument even when not needed and Pharo also offers lazy disjunction via the message ==or:== which only request the argument value if needed .
+For the record, in fact the message ==|== implements an eager disjunction since it asks the value of its argument even when not needed and Pharo also offers lazy disjunction implemented in the message ==or:== which only requests the argument value if needed.
 
 !!!!When receiver is true.
 Propose an implementation of the disjunction. What you should have learned from the implementation of ==not== is that you have have two different methods taking advantage of the fact that they know what is the receiver during their execution. 
