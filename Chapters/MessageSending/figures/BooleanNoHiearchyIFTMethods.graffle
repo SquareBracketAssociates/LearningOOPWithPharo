@@ -14,7 +14,7 @@
 	<key>BackgroundGraphic</key>
 	<dict>
 		<key>Bounds</key>
-		<string>{{0, 0}, {559, 783}}</string>
+		<string>{{0, 0}, {1118, 783}}</string>
 		<key>Class</key>
 		<string>SolidGraphic</string>
 		<key>ID</key>
@@ -54,13 +54,49 @@
 	<key>GraphicsList</key>
 	<array>
 		<dict>
+			<key>Bounds</key>
+			<string>{{438, 220}, {206, 88}}</string>
+			<key>Class</key>
+			<string>ShapedGraphic</string>
+			<key>ID</key>
+			<integer>78</integer>
+			<key>Shape</key>
+			<string>NoteShape</string>
+			<key>Style</key>
+			<dict>
+				<key>shadow</key>
+				<dict>
+					<key>Draws</key>
+					<string>NO</string>
+				</dict>
+			</dict>
+			<key>Text</key>
+			<dict>
+				<key>Align</key>
+				<integer>0</integer>
+				<key>Text</key>
+				<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720
+
+\f0\fs24 \cf0 ifTrue: trueBlock ifFalse: falseBlock\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
+\cf0    ^ falseAlternativeBlock value}</string>
+				<key>VerticalPad</key>
+				<integer>0</integer>
+			</dict>
+		</dict>
+		<dict>
 			<key>Class</key>
 			<string>LineGraphic</string>
 			<key>ID</key>
 			<integer>77</integer>
 			<key>Points</key>
 			<array>
-				<string>{434.51473649609648, 239.08811277230464}</string>
+				<string>{437.51347526023318, 239.47541513014971}</string>
 				<string>{405.96942520141602, 232}</string>
 			</array>
 			<key>Style</key>
@@ -82,7 +118,7 @@
 			<key>Tail</key>
 			<dict>
 				<key>ID</key>
-				<integer>15</integer>
+				<integer>78</integer>
 			</dict>
 		</dict>
 		<dict>
@@ -97,8 +133,8 @@
 			<integer>76</integer>
 			<key>Points</key>
 			<array>
-				<string>{178, 227.33332777023315}</string>
-				<string>{144.12561780142741, 241.5342469550734}</string>
+				<string>{178, 222.66666889190674}</string>
+				<string>{149.44197725224177, 232.50332064211966}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -120,13 +156,11 @@
 			<dict>
 				<key>ID</key>
 				<integer>50</integer>
-				<key>Info</key>
-				<integer>17</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{47, 230}, {99, 63}}</string>
+			<string>{{-45, 220}, {206, 88}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -143,52 +177,26 @@
 			</dict>
 			<key>Text</key>
 			<dict>
+				<key>Align</key>
+				<integer>0</integer>
 				<key>Text</key>
 				<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
 \cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 {\*\expandedcolortbl;;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720
 
-\f0\fs24 \cf0 ^ self}</string>
+\f0\fs24 \cf0 ifTrue: trueBlock ifFalse: falseBlock\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
+\cf0    ^ trueAlternativeBlock value}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{435, 220}, {99, 63}}</string>
-			<key>Class</key>
-			<string>ShapedGraphic</string>
-			<key>ID</key>
-			<integer>15</integer>
-			<key>Shape</key>
-			<string>NoteShape</string>
-			<key>Style</key>
-			<dict>
-				<key>shadow</key>
-				<dict>
-					<key>Draws</key>
-					<string>NO</string>
-				</dict>
-			</dict>
-			<key>Text</key>
-			<dict>
-				<key>Text</key>
-				<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
-
-\f0\fs24 \cf0 ^ arg}</string>
-				<key>VerticalPad</key>
-				<integer>0</integer>
-			</dict>
-		</dict>
-		<dict>
-			<key>Bounds</key>
-			<string>{{340, 294.00011274218559}, {40, 17}}</string>
+			<string>{{340, 293.63479748368263}, {40, 17}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -296,7 +304,7 @@
 			<key>Points</key>
 			<array>
 				<string>{221, 302}</string>
-				<string>{222.44156282008319, 246.49983142679801}</string>
+				<string>{222.52747518095069, 232.49987926674379}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -325,7 +333,7 @@
 			<array>
 				<string>{360, 304}</string>
 				<string>{360, 286}</string>
-				<string>{360, 246.5}</string>
+				<string>{359.28666607426385, 232.49995556978953}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -347,7 +355,7 @@
 			<array>
 				<dict>
 					<key>Bounds</key>
-					<string>{{315, 190}, {90, 14}}</string>
+					<string>{{314, 176}, {90, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -389,7 +397,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{315, 204}, {90, 42}}</string>
+					<string>{{314, 190}, {90, 42}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -426,7 +434,7 @@
 
 \f0\fs24 \cf0 not\
 | arg\
-}</string>
+ifTrue:ifFalse:}</string>
 						<key>VerticalPad</key>
 						<integer>0</integer>
 					</dict>
@@ -475,7 +483,7 @@
 			<array>
 				<dict>
 					<key>Bounds</key>
-					<string>{{178, 190}, {90, 14}}</string>
+					<string>{{178, 176}, {90, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -517,7 +525,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{178, 204}, {90, 42}}</string>
+					<string>{{178, 190}, {90, 42}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -554,7 +562,7 @@
 
 \f0\fs24 \cf0 not\
 | arg\
-}</string>
+ifTrue:ifFalse:}</string>
 						<key>VerticalPad</key>
 						<integer>0</integer>
 					</dict>
@@ -604,7 +612,7 @@
 	<key>GuidesVisible</key>
 	<string>YES</string>
 	<key>HPages</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>ImageCounter</key>
 	<integer>1</integer>
 	<key>KeepToScale</key>
@@ -644,7 +652,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-09-10 17:32:02 +0000</string>
+	<string>2017-09-10 18:07:00 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>
@@ -739,7 +747,7 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-86, 0}, {732, 635}}</string>
+		<string>{{-45, 0}, {732, 620}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>

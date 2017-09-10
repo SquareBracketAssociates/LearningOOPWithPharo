@@ -32,7 +32,7 @@ Nothing fancy. Of course the message ==not== can be sent to Boolean expressions 
 ]]]
 
 [[[
-()#(1 2 3) includes: 5) not
+(#(1 2 3) includes: 5) not
 >>> true
 ]]]
 
@@ -120,7 +120,12 @@ false | false
 For the record, in fact the message ==|== implements an eager disjunction since it asks the value of its argument even when not needed and Pharo also offers lazy disjunction implemented in the message ==or:== which only requests the argument value if needed.
 
 !!!!When receiver is true.
-Propose an implementation of the disjunction. What you should have learned from the implementation of ==not== is that you have have two different methods taking advantage of the fact that they know what is the receiver during their execution. 
+Propose an implementation of the disjunction for the first case: i.e. when the receiver is the object ==true==.
+
+| or | true | false |
+| true | true | true | 
+
+ What you should have learned from the implementation of ==not== is that you have have two different methods taking advantage of the fact that they know what is the receiver during their execution. 
 
 [[[
 true | true 
@@ -142,6 +147,10 @@ True >> | aBoolean
 !!!!When receiver is false.
 Similarly let us study the Boolean table relative to false as receiver. 
 
+| or | true | false |
+| false | true | false | 
+
+Here are some snippets
 [[[
 false | true 
 >>> true
@@ -163,20 +172,10 @@ False >> | aBoolean
 +Disjunction implementation: two methods.>file://figures/BooleanNoHiearchyAndInstancesWithOrMethods.pdf|width=80+
 
 
+!!! About ifTrue:ifFalse: implementation
+Now you should start to get the principle. Let us see how it works to also express conditional messages such as ==ifTrue:ifFalse:==. Yes fundamental messages such as conditionals can be expressed using the same mechanism: late binding.
 
-
-
-
-
-
-!!! Booleans
- ==Boolean== is the abstract superclass of the ''singleton'' classes ==True== and ==False==.
-
-+The Boolean Hierarchy.>file://figures/BooleanHierarchy.png|label=fig:booleans|width=40+
-
-Most of the behaviour of ==Boolean==s can be understood by considering the
-method ==ifTrue:ifFalse:==, which takes two ==Blocks== as arguments.
-
+What you see with the following snippet is that message ==ifTrue:ifFalse:== is expecting two different blocks as argument. 
 [[[
 4 factorial > 20
 	ifTrue: [ 'bigger' ]
@@ -184,46 +183,97 @@ method ==ifTrue:ifFalse:==, which takes two ==Blocks== as arguments.
 >>> 'bigger'
 ]]]
 
-The method ==ifTrue:ifFalse:== is abstract in class ==Boolean==. The implementations in its concrete
-subclasses are both trivial:
+Now you should know that execute a block you should use the message ==value== as illustrated:
 
-[[[caption=Implementations of ==ifTrue:ifFalse:==
+[[[
+[1 + 3] value
+>>> 4
+]]]
+
+Block can contain any expressions. The execution of the following block will open the Pharo logo.
+[[[
+[ (ZnEasy getPng: 'http://pharo.org/web/files/pharo.png')
+       asMorph openInWindow ] value
+]]]
+
+Based on the receiver we should execute the corresponding block. When the expression (==4 factorial > 20== in the example above) is true we should execute the ==ifTrue:== argument, when it is false we should execute the ==ifFalse:== argument. 
+
+!!!! Implementation. 
+The implementations is then simple and elegant.  In the ==True== class, we want to execute the corresponding block, 
+the one passed as ==ifTrue:== argument as shown in Figure *@figFT*. 
+[[[
 True >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
    ^ trueAlternativeBlock value
 ]]]
 
+Similarly in the ==False== class, we want to execute the corresponding block, 
+the one passed as ==ifFalse:== argument. 
 [[[
 False >> ifTrue: trueAlternativeBlock ifFalse: falseAlternativeBlock
    ^ falseAlternativeBlock value
 ]]]
 
-Each of them execute the correct block depending on the receiver of the message.
-In fact, this is the essence of OOP: when a message is sent to an object, the
-object itself determines which method will be used to respond. In this case an
-instance of ==True== simply executes the ''true'' alternative, while an
-instance of ==False== executes the ''false'' alternative. All the abstract
-==Boolean== methods are implemented in this way for ==True== and ==False==. 
++Conditional implementation: again two methods and no explicit tests.>file://figures/BooleanNoHiearchyIFTMethods.pdf|width=100|label=figFT+
 
+
+!!!! Optimisation. 
+What we show above works! But if you modify it, the modification will not be taken into account. 
+This is because in Pharo ==ifTrue:ifFalse:== is used so often and its semantics should not change that the compiler in fact does not send a message but convert it in low-level logic for the virtual machine. 
+Now you can invent your own conditional message ==siVrai:siFaux:== for a french version for example and you will see that this implementation works.
 
 
 !!! What is the point?
 
+Some readers may be intrigued and think that this is spurious because they will never have to reimplement Booleans in their life. This is true even if there are different versions of Boolean logic such as the ternary logic that contains also unknown value. 
 
-!!! Vocabulary: Sending a message vs. calling a method
+Now we picked this example to illustrate an important point: sending a message is making a choice. The runtime system will dynamically select the method depending on the receiver. This is what is called late binding or dynamic dispatch. Only at execution the correct method is selected. Now the Boolean example is the simplest one I could find to illustrate this point. 
+It is also ground breaking in the sense that it touches something as fundemantal as Boolean main operations. 
 
-The word “method” was introduced in Smalltalk as a metaphor - You tell objects to do something by sending them a message; the object then chooses the method it will use to handle that message.
+Now the choices can be made over multiple tenth of classes. For example in Pillar the document processing system in which this book is written there are around 35 different classes expressing different parts of a document: section, title, bold, paragraph... and the same principle applies there. The system selects the correct methods to render text, LaTeX or HTML using exactly the same principle. 
 
-If you talk about “calling a method” you are breaking the metaphor - it makes no sense in English to “call someone’s method”!
-The point is that objects should encapsulate their behavior; you speak to their interface by sending a message. The method is internal – you should not know it.
+Now most of the time you can express the same using conditions (except for the Boolean example and this is why I took this example). 
+
+[[[
+emitHTML: stream
+	self == Title
+		ifTrue: [ ... ]
+		self == Section 
+			ifTrue: [ ... ]
+			...
+]]]
+
+The problems with such explicit conditions is the following: 
+
+- First, there are cumbersome to write. Even using case statements as in other language the logic can become complex. Imagine for 35 cases of Pillar. 
+- Second, such definitions are not modular. It means that adding a new case requires to edit the method and recompile it. While with the dynamic dispatch, we can just add a new class as shown in Figure *@figFat*. Furthermore this class can just take advantage of an existing one and extend it (as we will in the Chapter *@cha:inheritance*).
+
++One single class vs. a nice hierarchy.>file://figures/Design-FatVsDispatch.pdf|width=80|label=figFat+
+
+You could think that this is a not a problem but imagine that now for a business you want to ship different products or solutions to your clients. With dynamic dispatch you can simply package alternate code in separate packages and load them independently as shown in Figure *@inhNoFatPackage*.
+
++One single class vs. a nice hierarchy.>file://figures/Design-FatVsDispatchWithPackages.pdf|width=80label=inhNoFatPackage+
 
 
-!!! 
+!!!! Classes represent choices
+Sending a message is making a choice. Now the following question is what elements represent choices. Because you can have the possibility to chose something but if there is only one choice you will not go that far and take advantage of the power of late binding. 
 
-Sending a message is doing a choice: it is selecting the method that is defined for the receiver.
+In fact classes represent choices. In the Boolean case you have two choices one for true and one for false.
+There is a really difference for example between the FatClass design (left in Figure*@figFat*) and the modular design (right in Figure*@figFat*) because we see all the choices that can be made at runtime in the latter case. 
 
-When we execute a method, one key information we get is that the method is that receiver is from this class or one of its subclasses
+When I do code review, I looked at how domain variations are represented and if there are enough classes. 
+What is important to realise is that classes are cheap. It is better to write 5 little classes than a huge one. 
+Some (even smart) people got confused by measuring complexity of a system using number of classes. Having many classes 
+representing good abstractions with a single responsibility is much much better than having a single class exhibiting multiple responsibilities.
 
-Classes represent choices. 
+!!! Conclusion
+
+Sending a message is really powerful since it selects the adequate method to be executed on the receiver.
+In future chapters we will show that sending a message is creating in fact a hook so that other methods can be executed in place. 
+
+Now you should start to understand why in Pharo we are picky about the vocabulary: we use sending a message and not calling a method as in other language. Because sending a message conveys much better the idea that the correct method will be selected and that we do not know a priori which one will be executed. 
+
+Remember that when we execute a method (and also write it), one key information we get is that the receiver from this class or one of its subclasses as we will later. 
+
 
 
 
