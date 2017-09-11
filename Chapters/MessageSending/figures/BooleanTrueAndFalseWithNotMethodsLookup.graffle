@@ -289,8 +289,8 @@
 			<integer>78</integer>
 			<key>Points</key>
 			<array>
-				<string>{395.49863325896661, 220.3710237755113}</string>
-				<string>{423.50158027339631, 222.44578060683705}</string>
+				<string>{395.49858428790668, 220.43114739550018}</string>
+				<string>{423.50149709867634, 222.54290807686777}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -344,7 +344,7 @@
 
 \f0\fs24 \cf0 not\
 \
-    ^ false}</string>
+    ^ true}</string>
 				<key>VerticalPad</key>
 				<integer>0</integer>
 			</dict>
@@ -363,8 +363,8 @@
 			<integer>76</integer>
 			<key>Points</key>
 			<array>
-				<string>{167.50106728324567, 219.97761625796258}</string>
-				<string>{121.49885565928412, 222.98816892491129}</string>
+				<string>{167.50108628496167, 220.00410493094455}</string>
+				<string>{121.49889472628752, 223.04143921459786}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -877,7 +877,7 @@ not\
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2017-09-09 19:09:05 +0000</string>
+	<string>2017-09-11 17:29:46 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>NotesVisible</key>

@@ -262,7 +262,7 @@ There is a really difference for example between the FatClass design (left in Fi
 
 When I do code review, I looked at how domain variations are represented and if there are enough classes. 
 What is important to realise is that classes are cheap. It is better to write 5 little classes than a huge one. 
-Some (even smart) people got confused by measuring complexity of a system using number of classes. Having many classes 
+Some (even smart) people get confused by measuring complexity of a system using number of classes. Having many classes 
 representing good abstractions with a single responsibility is much much better than having a single class exhibiting multiple responsibilities.
 
 !!! Conclusion

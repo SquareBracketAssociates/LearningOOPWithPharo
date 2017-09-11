@@ -1,0 +1,81 @@
+Replace:
+
+    Now the choices can be made over multiple tenth of classes.
+
+    'multiple tenth' is an uncommon expression
+
+Suggestion:
+     Now the choices can be made over dozens of classes.
+
+
+
+
+
+
+However
+    'Sending a message is making a choice!'
+takes the view point of the mechanism which does the late binding.
+
+If I write
+
+     aNode emitHTML: aStream
+
+I do not make the choice. There are different types of nodes and they
+all do the same in the sense that they produce HTML code.
+
+In any case to drive the point home more examples are needed.
+
+The Boolean example is the minimal example and as such is interesting.
+But it is a borderline case which just illustrates that Smalltalk goes
+a long way to implement the object and message pattern consistently.
+
+The Pillar example is fine but too terse.
+For people who already understand the issue just a reference is fine.
+But for people new to the concept of replacing a case statement with a
+class hierarchy it is too short.
+
+Elaborate!
+
+
+E.g. have a diagram for a subset of the hierarchy
+
+        PRObject #(''properties'')
+                PRDocumentItem #(''counter'')
+                        PRDocumentGroup #(''children'')
+                                PRDocument #()
+                                PRHeader #(''level'')
+                                PRList #()
+                                        PROrderedList #()
+                                        PRUnorderedList #()
+                                PRParagraph #()
+                                PRReference #(''reference'' ''parameters'')
+                                        PRFigure #()
+                                PRSlide #(''title'' ''label'')
+                        PRText #(''text'')'
+
+And show all the emitHTML: messages.
+
+
+And go for a third example, e.g. from Morphic or Bloc
+
+
+    position:
+    extent:
+    color:
+    owner:
+    submorphs:
+    drawOn: aCanvas
+
+
+Meaning of last sentence is not clear.
+
+<citation>
+Remember that when we execute a method (and also write it), one key
+information we get is that the receiver from this class or one of its
+subclasses as we will later.
+<citation>
+
+
+Regards
+
+Hannes
