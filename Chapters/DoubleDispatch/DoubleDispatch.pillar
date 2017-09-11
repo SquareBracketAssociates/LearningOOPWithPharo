@@ -7,7 +7,7 @@ One of the challenges is that the message ==\+== should be able to manage differ
 
 Double dispatch is a technic that avoids hardcoding type checks and also is able to define incrementally the behavior handling all the possible cases. Indeed double dispatch does not use any explicit conditionals and is the basis of more advanced Design Patterns such as the Visitor. 
 
-Double dispatch is based on the ''Don't ask, tell'' object-oriented principle: in each first case of dispatch (the ==\+== method), this method sends a new message to the ''argument'' telling this argument the way the receiver should be summed. This description is abstract so we will go over a full example to explain it. 
+Double dispatch is based on the ''Don't ask, tell'' object-oriented principle applied twice. In the case of the ==\+== message, there is a first dispatch to select the adequate method. Then a second dispatch happens when in this method a new message is sent the ''argument'' of the ==\+== message telling this argument the way the current receiver should be summed. This description is clearly too abstract so we will go over a full example to explain it. 
 
 !!! A little reminder
 
@@ -265,7 +265,7 @@ We said that this is version of ==\+== is more powerful than the one of ==sumWit
 Up until here we did not change much and all the tests adding two die handle should continue to run. 
 
 !!! sumWithHandle: on Die class
-To get the possibility to sum a die handle with a single die, we just have to define a new method ==withWithHandle:== on the ==Die== class. 
+To get the possibility to sum a die handle with a single die, we just have to define a new method ==sumWithHandle:== on the ==Die== class. 
 The logic is similar to the one adding one die to one die handle
 
 [[[
