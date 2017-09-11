@@ -229,22 +229,44 @@ Some readers may be intrigued and think that this is spurious because they will 
 Now we picked this example to illustrate an important point: sending a message is making a choice. The runtime system will dynamically select the method depending on the receiver. This is what is called late binding or dynamic dispatch. Only at execution the correct method is selected. Now the Boolean example is the simplest one I could find to illustrate this point. 
 It is also ground breaking in the sense that it touches something as fundemantal as Boolean main operations. 
 
-Now the choices can be made over multiple tenth of classes. For example in Pillar the document processing system in which this book is written there are around 35 different classes expressing different parts of a document: section, title, bold, paragraph... and the same principle applies there. The system selects the correct methods to render text, LaTeX or HTML using exactly the same principle. 
+Now the choices can be made over several dozens of classes. For example in Pillar the document processing system in which this book is written there are around 59 different classes expressing different parts of a document: section, title, bold, paragraph... and the same principle applies there. The system selects the correct methods to render text, LaTeX or HTML using exactly the same principle. 
 
-Now most of the time you can express the same using conditions (except for the Boolean example and this is why I took this example). 
+
+
+
+Now most of the time you can express the same using conditions (except for the Boolean example and this is why I took this example) as follows:
 
 [[[
 emitHTML: stream
-	self == Title
+	self == PRList
 		ifTrue: [ ... ]
-		self == Section 
+		self == PRParagraph 
 			ifTrue: [ ... ]
 			...
 ]]]
 
+
 The problems with such explicit conditions is the following: 
 
-- First, there are cumbersome to write. Even using case statements as in other language the logic can become complex. Imagine for 35 cases of Pillar. 
+- First, there are cumbersome to write. Even using case statements as in other language the logic can become complex. Imagine for 59 cases of Pillar. Here is a small part of the document hierarchy. 
+
+[[[
+PRObject #(''properties'')
+        PRDocumentItem #(''counter'')
+                PRDocumentGroup #(''children'')
+                        PRDocument #()
+                        PRHeader #(''level'')
+                        PRList #()
+                                PROrderedList #()
+                                PRUnorderedList #()
+                        PRParagraph #()
+                        PRReference #(''reference'' ''parameters'')
+                                PRFigure #()
+                        PRSlide #(''title'' ''label'')
+                PRText #(''text'')'
+]]]
+
+
 - Second, such definitions are not modular. It means that adding a new case requires to edit the method and recompile it. While with the dynamic dispatch, we can just add a new class as shown in Figure *@figFat*. Furthermore this class can just take advantage of an existing one and extend it (as we will in the Chapter *@cha:inheritance*).
 
 +One single class vs. a nice hierarchy.>file://figures/Design-FatVsDispatch.pdf|width=80|label=figFat+
@@ -272,7 +294,7 @@ In future chapters we will show that sending a message is creating in fact a hoo
 
 Now you should start to understand why in Pharo we are picky about the vocabulary: we use sending a message and not calling a method as in other language. Because sending a message conveys much better the idea that the correct method will be selected and that we do not know a priori which one will be executed. 
 
-Remember that when we execute a method (and also write it), one key information we get is that the receiver from this class or one of its subclasses as we will later. 
+Remember that when we execute a method, one key information we have at hand is that the receiver is an instance from this class (or one of its subclasses as we will later) and we can take advantage of this information to eliminate tests.
 
 
 

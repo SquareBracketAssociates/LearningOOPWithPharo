@@ -1,11 +1,3 @@
-Replace:
-
-    Now the choices can be made over multiple tenth of classes.
-
-    'multiple tenth' is an uncommon expression
-
-Suggestion:
-     Now the choices can be made over dozens of classes.
 
 
 
