@@ -4,8 +4,8 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = git@github.com:cdlm/sbabook.git
+	remote = https://github.com/cdlm/sbabook.git
 	branch = master
-	commit = 5184785c31cb037f81c57e9f0bbadffb20d3b461
-	parent = fcb06df3e49fedaaff9f59430dbaf8943e4c2535
+	commit = 7f3d9df01f92246b44c2ecf7a732fc72bb2644aa
+	parent = 0685ae63936cf5cdbb2b598b0264456791b4997e
 	cmdver = 0.3.1

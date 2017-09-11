@@ -19,6 +19,9 @@ help: ## Describe the main targets (this list)
 	@echo "To make a single specific file/format, ask for it explicitly:"
 	@echo "  make $(OUTPUTDIRECTORY)/$(firstword $(CHAPTERS)).pdf"
 
+# Allows debugging the value of Make variables (e.g. make print-FIGURES)
+debug-% : ; @echo $($*)
+
 # Check that given variables are set and all have non-empty values,
 # die with an error otherwise.
 #

@@ -22,7 +22,7 @@ CHAPTERS = \
 	Chapters/Inheritance/Extending \
 	Chapters/SyntaxGlimpse/SyntaxGlimpse \
 	Chapters/Expressions/Expressions \
-	Chapters/SimpleLAN/SimpleLANDefinition \
+	Chapters/SimpleLAN/SimpleLAN \
 	Chapters/OOPNutshell/OOPNutshell \
 	Chapters/BeaconAndSatellite/BeaconAndSatellite \
 	Chapters/Tamagoshi/Tamagoshi \
