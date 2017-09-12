@@ -457,3 +457,5 @@ the class ==Set==.
 - Each test method should start with the word ''test''.
 - Use the ==TestCase== methods ==assert:==, ==deny:== and others to make assertions.
 - Run tests!
+
+As exercise, turn the examples given in the first chapter into tests.

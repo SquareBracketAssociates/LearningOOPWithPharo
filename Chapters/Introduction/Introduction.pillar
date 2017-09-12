@@ -27,14 +27,14 @@ I also propose various paths through the book with different levels of reading; 
 The following chapters contain more conceptual information:
 
 In the volume 1:
-- Glimpse of the Syntax
+- Glimpse of the syntax
 - Tests, tests and tests
-- Objects and Classes
-- Revisiting Objects and Classes
-- Domain Specific Language
-- Inheritance and Expressions
-- Sending Messages
-- Snakes and Ladders
+- Objects and classes
+- Revisiting objects and classes
+- Domain specific language
+- Inheritance and expressions
+- Sending messages
+- Snakes and ladders
 
 The other chapters are more exercise and pratical. For example, with TinyChat you will have fun with a web server written in the single page of code. 
 
@@ -54,14 +54,10 @@ We will focus on object-oriented ''programming'' concepts:
 - Delegation
 - Message sends are choice
 - Message sends are plans for reuse
-- Double Dispatch (Vol2)
 - The "Don't ask, tell" Principle
 - Tests are your life ensurance
 - Polymorphism
-- Composite Pattern (Vol2)
-- Visitor Pattern (Vol2)
-- Hook template Design Pattern (Vol2)
-- Strategy Design Pattern (Vol2)
+
 
 !!!! Syntax, Blocks and Iterators
 Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple chapters to get you started. 
@@ -100,4 +96,4 @@ In this book we will use some of the videos produced for the Pharo mooc. All the
 
 !!! Thanks
 I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Herby Vojcik, Denis Kudriashov, Holger Freyther, Dimitris Chloupis, Amal Noussi, René Paul Mages, Hannes Hirsel for their great feedback.
-Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and for Tinychat. Guillermo Polito for the idea of file and directory example. Damien Pollet for this great template and the new LAN implementation.
+Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and for TinyChat. Guillermo Polito for the idea of file and directory example. Damien Pollet for this great template and the new LAN implementation and the numerous makefile implementation and Pillar help.

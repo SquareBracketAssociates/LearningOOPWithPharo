@@ -25,7 +25,7 @@ Objects are entities that communicate via messages and react to messages by exec
 !!!! Turtles as an example
 Imagine that we have a graphics turtle like a LOGO turtle. We do the following: create a turtle, send it messages to make it move, turn, and trace some drawings. Let us look at this in detail.
 
-@@todo Add a figure once I have the turtle implemented.
+% @@todo Add a figure once I have the turtle implemented.
 
 !!!! Creating an object
 First we create a new turtle by sending the message ==new== to the class ==Turtle==. 
@@ -197,7 +197,7 @@ Object subclass: #Counter
 ]]]
 
 The expresion ==Object subclass: #Counter== indicates that the class ==Counter== is a subclass of the class ==Object==.
-It means that counter instances understand the messages defined also by the class ==Object==. In Pharo, classes should at least be a subclass of the class ==Object==. You will learn more about subclassing and inheritance in Chapter *@cha:inheirtance*.
+It means that counter instances understand the messages defined also by the class ==Object==. In Pharo, classes should at least be a subclass of the class ==Object==. You will learn more about subclassing and inheritance in Chapter *@cha:inheritance*.
 
 Then the class ==Counter== defines that all the instances will have one instance variable named ==count== using the expression ==instanceVariableNames: 'count'==. And each instance of the class ==Counter== will have a ==count== variable with a ''different'' value as we showed in the examples above.
 

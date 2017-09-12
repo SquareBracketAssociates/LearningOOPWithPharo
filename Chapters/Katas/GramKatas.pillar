@@ -1,6 +1,7 @@
 !! Some collection katas with words
+@cha:katas
 
-This chapter propose some little challenges around words and sentences as a way to explore Pharo collections.
+This chapter proposes some little challenges around words and sentences as a way to explore Pharo collections.
 
 !!! Isogram
 
@@ -206,9 +207,9 @@ GramCheckerTest >> isograms
 
 Then we define a new test method == testAllIsogramSet== that simply iterates over the string array and for each verifies using ==assert:== that the element is indeed an isogram. 
 
-In Pharo, there are multiple ways to express loops on collection, the easiest is to send the message ==do:== to the collection. The ==do:== message will execute the block to each element of the collection one by one. 
+In Pharo, there are multiple ways to express loops on collection, the easiest is to send the message ==do:== to the collection. The ==do:== message executes the block to each element of the collection one by one. 
 
-@@important The ==do:== message execute its argument taking each elements of the receiver collection one by one. Note the way we express it, we ask the collection to iterate on itself. Note also that we do not have to worry about the size of the collection and the index of an element as this is often the case in other langauges. 
+@@important The ==do:== message executes its argument taking each elements of the receiver collection one by one. Note the way we express it, we ask the collection to iterate on itself. Note also that we do not have to worry about the size of the collection and the index of an element as this is often the case in other languages. 
 
 [[[
 GramCheckerTest >> testAllIsogramSet
@@ -255,12 +256,13 @@ lines := (ZnDefaultCharacterEncoder
       get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
 ]]]
 
-The expression above will give you an array of 336531 words (it is a bit slow because it is lot of data).
+The expression above will give you an array of 336531 words (it is a bit slow depending on your internet connection because it is lot of data).
 
-Once you get the inspector opens, you can start to play with the data.
-In the text pane you can execute the following expressions
+%@@add screenshot
 
-@@todo Add a screen captures
+Once you get the inspector opened, you can start to play with the data.
+Make sure that you select ==self== and 
+in the text pane you can execute the following expressions:
 
 The first one will select all the words that are isogram and you will see them in the second list that will appear on the right. 
 [[[
@@ -292,7 +294,7 @@ GramCheckerTest >> testIsEnglishPangram
 	self deny: 'The quick brown fox jumps over the  dog' isEnglishPangram
 ]]]
 
-!!!! Imagine a solution. 
+!!!! Imagine a solution
 Imagine that we have a collection or string representing the alphabet.
 A solution is to check that the potential pangram string contains each of the characters of the alphabet, as soon as we see that one character is missing we stop and know that the sentence is not a pangram. 
 

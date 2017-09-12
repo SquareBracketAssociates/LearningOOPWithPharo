@@ -1,4 +1,5 @@
 !! Inheritance: Incremental definition and behavior reuse
+@cha:inheritance
 
 In Chapter *@cha:objectclass*, we presented objects and classes. Objects are entities that communicate exclusively by sending and receiving messages. Objects are described by classes that are factories of objects. Classes define behavior and structure of all their instances: All the instances of a class share the same behavior but have their own private state. 
 
