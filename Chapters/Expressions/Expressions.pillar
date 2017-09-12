@@ -1,9 +1,9 @@
 !! A little expression interpreter
-@ch:exp
+@cha:expressions
 
 In this chapter you will build a small mathematical expression interpreter. For example you will be able to build an expression such as  (3 + 4) * 5 and then ask the interpreter to compute its value. You will revisit tests, classes, messages, methods and inheritance. 
 You will also see an example of expression trees similar to the ones that are used to manipulate programs. For example, compilers and code refactorings as offered in Pharo and many modern IDEs are doing such manipulation with trees representing code. 
-In addition, in an advanced Chapter, we will extend this example to present the Visitor Design Pattern. The solutions are given in Section *@sec_expressionsolutions*.
+In addition, in the volume two of this book, we will extend this example to present the Visitor Design Pattern. 
 
 
 !!! Starting with constant expression and a test

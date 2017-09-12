@@ -358,7 +358,7 @@ Composite objects such document objects (a book is composed of chapters, a chapt
 
 !!! Role playing syntax
 
-Now we are ready to offer a syntax following practice of role playing game, i.e., using ==2 D20== to create a handle of two 20 faces dice.  For this purpose we will define class extensions: we will define methods in the class ==Integer== but these methods will be only available when the package Dice will be loaded. 
+Now we are ready to offer a syntax following practice of role playing game, i.e., using ==2 D20== to create a handle of two dice with 20 faces each.  For this purpose we will define class extensions: we will define methods in the class ==Integer== but these methods will be only available when the package Dice will be loaded. 
 
 But first let us specify  what we would like to obtain by writing a new  test in the class ==DieHandleTest==. Remember
 to always take  any opportunity to write tests.  When we execute ==2 D20== we  should get a new handle  composed of two
