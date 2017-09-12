@@ -1,5 +1,5 @@
 !! Sending a message is making a choice
-@cha:sending
+@cha:messages
 
 In this chapter we explore an ''essential'' point of object-oriented programming: Sending a message is making a choice! It is often mentioned in the books as ''late binding'': the fact that the method to execute will only be found at runtime. In fact sending a message will use late binding to select the correct method. I like to use the term ''sending a message'' because it stresses that simple
 actions, such as sending a message, are also a powerful feature when used well. 

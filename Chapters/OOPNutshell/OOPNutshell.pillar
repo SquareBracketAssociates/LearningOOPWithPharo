@@ -619,7 +619,7 @@ Now that we saw some examples of objects, it is time to step back. Objects are d
 !!! Examples of distribution of responsibilities 
 We will now implement two functionalities: the size of directories and a search based on the contents of the files. This will set the context to explain the key concept of distribution of responsibilities.
 
-+Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.pdf|width=60|label=FileDirectoryV1+
++Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.pdf|width=60|label=NutFileDirectoryV1+
 
 !!!! File size 
 Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantasit but this is for the sake of the example. To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
@@ -644,7 +644,7 @@ p2 size = 'oldcomics' size + 'babar' size + 2
 >>> true
 ]]]
 
-We define two methods ==size== one for each class (see Figure *@FileDirectoryV1*).
+We define two methods ==size== one for each class (see Figure *@NutFileDirectoryV1*).
 [[[
 MFFile >> size
 	^ contents size + name size
@@ -683,7 +683,7 @@ p addElement: el2.
 >>> true
 ]]]
 
-To implement this behavior is quite simple: we define two methods one in each class (as shown in Figure *@FileDirectoryV1*).
+To implement this behavior is quite simple: we define two methods one in each class (as shown in Figure *@NutFileDirectoryV1*).
 [[[
 MFFile >> search: aString
 	^ '*', aString, '*' match: contents
@@ -757,7 +757,7 @@ In the object-oriented version, we simply tell the object to perform its own com
 
 !!! So far so good? Not fully!
 
-We have a system with two classes and it offers some behavior composed out of well defined local behavior (see Figure *@FileDirectoryV1*). We can have objects composed out of other objects and messages flow within the graph. Object-oriented programming could stop here. Now it is annoying to have to duplicate structure and some methods between files and directories and this is what we will see when we will look at inheritance in Chapter *@cha:inheritance*.
+We have a system with two classes and it offers some behavior composed out of well defined local behavior (see Figure *@NutFileDirectoryV1*). We can have objects composed out of other objects and messages flow within the graph. Object-oriented programming could stop here. Now it is annoying to have to duplicate structure and some methods between files and directories and this is what we will see when we will look at inheritance in Chapter *@cha:inheritance*.
 Inheritance is a mechanism to specialize incrementally classes from other classes. 
 
 

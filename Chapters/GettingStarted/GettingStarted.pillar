@@ -1,5 +1,5 @@
 !! Pharo syntax in a nutshell
-@cha:started
+@cha:syntax
 
 In this chapter, we start on a simple path to get you to understand the most important parts of the Pharo syntax: ''messages'', ''blocks'' and ''methods''.
 This chapter is freely inspired from Sven van Caeckenberghe's gentle syntax introduction, and I thank him for giving me the permission to reuse his ideas.
@@ -300,7 +300,7 @@ adder value: 200
 
 !!! Control structures
 
-Blocks are used to express all control structures, from standard conditionals and loops to the exotic application specific ones, using the normal messaging syntax. For example loops and conditions are all expressed using the message presented previously. Chapter *@cha:syntax* will present more loops and conditional but they are all using the same principle: a block is passed as argument and the loop definition defines when the block should be executed. 
+Blocks are used to express all control structures, from standard conditionals and loops to the exotic application specific ones, using the normal messaging syntax. For example loops and conditions are all expressed using the message presented previously. There are many loops and and conditional in Pharo but they are all using the same principle: a block is passed as argument and the loop definition defines when the block should be executed. 
 
 The message ==timesRepeat==: executes multiple time its argument (a block).
 Here we multiply by two a number 10 times. 
