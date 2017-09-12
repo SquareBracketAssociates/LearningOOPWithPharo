@@ -1,16 +1,23 @@
 !! Sending a message is making a choice
 @cha:sending
 
-In this chapter we explore an ''essential'' point of object-oriented programming: Sending a message is making a choice! This aspect is often not really well put in perspective in teaching materials. Lectures often focus on inheritance but understanding the power of message passing it crucial to build good design.
-This point is so central for me that this is the first point that I explain when I start lectures on advanced design to people already understanding object-oriented programming. 
+In this chapter we explore an ''essential'' point of object-oriented programming: Sending a message is making a choice! It is often mentioned in the books as ''late binding'': the fact that the method to execute will only be found at runtime. In fact sending a message will use late binding to select the correct method. I like to use the term ''sending a message'' because it stresses that simple
+actions, such as sending a message, are also a powerful feature when used well. 
 
-I will start taking a simple example available in the core of Pharo: the Booleans. Pharo defines Booleans as two objects: ==true== and ==false==. They are so fundamental that you cannot change their value. 
+This aspect is often not really well put in perspective in teaching materials. Lectures often focus on inheritance but understanding the power of message passing it crucial to build good design.
+This point is so central for me that this is the first point that I explain when I start lectures on advanced design to people already understanding object-oriented programming. In addition, most of
+the Design Patterns are based on the fact that sending a message is actually selecting the correct method
+based on the message receiver.
+
+To illustrate how message passing performs a dynamic choice, I will start taking a simple example available in the core of Pharo: the Booleans. Pharo defines Booleans as two objects: ==true== and ==false==. They are so fundamental that you cannot change their value. 
+Still their implementation also use late binding in a really elegant way. 
  I will explain how the Boolean negation and the disjunction (or) are implemented. Then I will step back and analyse the forces in presence and their importance. 
 
 
 !!! Negation: the not message
 
-Boolean negation has nothing special in Pharo: negating a boolean returned the negated value! For example the snippets below show this conventional behavior and vice versa.
+Boolean negation has nothing special in Pharo: negating a boolean returned the negated value! 
+For example the snippets below show this conventional behavior and vice versa.
 
 Sending the message ==not== to the Boolean ==true== returns the Boolean ==false==. 
 
@@ -58,7 +65,7 @@ Now you should be ready to get the solution. We should have a definition for the
 
 +The two classes ==True== and ==False== and their respective unique instances ==true== and ==false==.>file://figures/BooleanTrueAndFalseSolelyWithInstances.pdf|width=55|label=figTrueFalseOnly+
 
-+Two methods for one message.>file://figures/BooleanTrueAndFalseWithNotMethodSelectors.pdf|width=55|label=figTrueFalseOnlySelectors+
++Two methods for one message.>file://figures/BooleanTrueAndFalseWithNotMethodSelectors.pdf|width=65|label=figTrueFalseOnlySelectors+
 
 
 
@@ -85,9 +92,9 @@ False >> not
 ]]]
 
 
-Figure *@figTrueFalseSolutionLookup* shows that sending a message of one of the two Booleans selects the method in the corresponding class. What is important to see is that when a method is executed the receiver is from the class (or subclass we will see that later) that defines the method. We can also say that when we define a method in a given class we know that the receiver is from this class. Obvious, isn't it! But important. The implementation can then use this information as an execution context. This is exactly what the ==not== implementation does. The method ==not== defined on the class ==True== knows that the receiver is true so it just has to return ==false==. 
+Figure *@figTrueFalseSolutionLookup* shows that sending a message to one of the two Booleans selects the method in the corresponding class. What is important to see is that when a method is executed the receiver is from the class (or subclass we will see that later) that defines the method. We can also say that when we define a method in a given class we know that the receiver is from this class. Obvious, isn't it! But important. The implementation can then use this information as an execution context. This is exactly what the ==not== implementation does. The method ==not== defined on the class ==True== knows that the receiver is true so it just has to return ==false==. 
 
-+Sending a message selects the method in the class of the receiver .>file://figures/BooleanTrueAndFalseWithNotMethodsLookup.pdf|width=75|label=figTrueFalseSolutionLookup+
++Sending a message selects the method in the class of the receiver.>file://figures/BooleanTrueAndFalseWithNotMethodsLookup.pdf|width=75|label=figTrueFalseSolutionLookup+
 
 @@note When we define a method in a given class we know that the receiver is from this class. Obvious but important. The implementation can then use this information.
 
@@ -99,7 +106,7 @@ Disjunction is also a core functionality of any programming language. In Pharo d
  Here are the traditional tables describing disjunction but expressed in Pharo: first starting with ==true== as receiver.
 
 
-| or | true | false |
+| ""or"" | true | false |
 | true | true | true | 
 | false | true | false | 
 
@@ -122,7 +129,7 @@ For the record, in fact the message ==|== implements an eager disjunction since 
 !!!!When receiver is true.
 Propose an implementation of the disjunction for the first case: i.e. when the receiver is the object ==true==.
 
-| or | true | false |
+| ""or"" | true | false |
 | true | true | true | 
 
  What you should have learned from the implementation of ==not== is that you have have two different methods taking advantage of the fact that they know what is the receiver during their execution. 
@@ -130,8 +137,12 @@ Propose an implementation of the disjunction for the first case: i.e. when the r
 [[[
 true | true 
 >>> true
+]]]
+[[[
 true | false 
 >>> true
+]]]
+[[[
 true | anything 
 >>> true
 ]]]
@@ -147,15 +158,19 @@ True >> | aBoolean
 !!!!When receiver is false.
 Similarly let us study the Boolean table relative to false as receiver. 
 
-| or | true | false |
+| ""or"" | true | false |
 | false | true | false | 
 
 Here are some snippets
 [[[
 false | true 
 >>> true
+]]]
+[[[
 false | false 
 >>> false
+]]]
+[[[
 false | anything 
 >>> anything
 ]]]
@@ -196,7 +211,8 @@ Block can contain any expressions. The execution of the following block will ope
        asMorph openInWindow ] value
 ]]]
 
-Based on the receiver we should execute the corresponding block. When the expression (==4 factorial > 20== in the example above) is true we should execute the ==ifTrue:== argument, when it is false we should execute the ==ifFalse:== argument. 
+Let us come back to the case of condition and in particular to the message ==ifTrue:ifFalse:==.
+Based on the receiver we should execute the corresponding block from the ==ifTrue:ifFalse:== method. When the expression (==4 factorial > 20== in the example above) is true we should execute the ==ifTrue:== argument, when it is false we should execute the ==ifFalse:== argument. 
 
 !!!! Implementation. 
 The implementations is then simple and elegant.  In the ==True== class, we want to execute the corresponding block, 
@@ -226,7 +242,7 @@ Now you can invent your own conditional message ==siVrai:siFaux:== for a french 
 
 Some readers may be intrigued and think that this is spurious because they will never have to reimplement Booleans in their life. This is true even if there are different versions of Boolean logic such as the ternary logic that contains also unknown value. 
 
-Now we picked this example to illustrate an important point: sending a message is making a choice. The runtime system will dynamically select the method depending on the receiver. This is what is called late binding or dynamic dispatch. Only at execution the correct method is selected. Now the Boolean example is the simplest one I could find to illustrate this point. 
+We picked the Boolean examples to illustrate an important point: sending a message is making a choice. The runtime system will dynamically select the method depending on the receiver. This is what is called late binding or dynamic dispatch. Only at execution the correct method is selected. Now the Boolean example is the simplest one I could find to illustrate this point. 
 It is also ground breaking in the sense that it touches something as fundemantal as Boolean main operations. 
 
 Now the choices can be made over several dozens of classes. For example in Pillar the document processing system in which this book is written there are around 59 different classes expressing different parts of a document: section, title, bold, paragraph... and the same principle applies there. The system selects the correct methods to render text, LaTeX or HTML using exactly the same principle. 
@@ -234,7 +250,7 @@ Now the choices can be made over several dozens of classes. For example in Pilla
 
 
 
-Now most of the time you can express the same using conditions (except for the Boolean example and this is why I took this example) as follows:
+Now most of the time you can express the same using conditions (except for the Boolean example and this is why I asked you to implement Boolean logic since you do not want to have Boolean logic to be based on condition because this is inefficient) as follows:
 
 [[[
 emitHTML: stream
@@ -248,7 +264,7 @@ emitHTML: stream
 
 The problems with such explicit conditions is the following: 
 
-- First, there are cumbersome to write. Even using case statements as in other language the logic can become complex. Imagine for 59 cases of Pillar. Here is a small part of the document hierarchy. 
+- First, they are cumbersome to write. Even using case statements as in other language the logic can become complex. Imagine for 59 cases of Pillar. Here is a small part of the document hierarchy. 
 
 [[[
 PRObject #(''properties'')
@@ -267,7 +283,7 @@ PRObject #(''properties'')
 ]]]
 
 
-- Second, such definitions are not modular. It means that adding a new case requires to edit the method and recompile it. While with the dynamic dispatch, we can just add a new class as shown in Figure *@figFat*. Furthermore this class can just take advantage of an existing one and extend it (as we will in the Chapter *@cha:inheritance*).
+- Second, such definitions are not modular. It means that adding a new case requires to edit the method and recompile it. While with the dynamic dispatch, we can just add a new class as shown in Figure *@figFat*. Furthermore this class can just take advantage of an existing one and extend it (as we will explained in Chapter *@cha:inheritance*).
 
 +One single class vs. a nice hierarchy.>file://figures/Design-FatVsDispatch.pdf|width=80|label=figFat+
 
@@ -277,10 +293,10 @@ You could think that this is a not a problem but imagine that now for a business
 
 
 !!!! Classes represent choices
-Sending a message is making a choice. Now the following question is what elements represent choices. Because you can have the possibility to chose something but if there is only one choice you will not go that far and take advantage of the power of late binding. 
+Sending a message is making a choice. Now the following question is which elements represent choices. Because you can have the possibility to chose something but if there is only one choice you will not go that far and take advantage of the power of late binding. 
 
 In fact classes represent choices. In the Boolean case you have two choices one for true and one for false.
-There is a really difference for example between the FatClass design (left in Figure*@figFat*) and the modular design (right in Figure*@figFat*) because we see all the choices that can be made at runtime in the latter case. 
+There is a really difference for example between the FatClass design (left in Figure*@figFat*) and the modular design (right in Figure*@figFat*) because we see all the choices which can be made at runtime in the latter case. 
 
 When I do code review, I looked at how domain variations are represented and if there are enough classes. 
 What is important to realise is that classes are cheap. It is better to write 5 little classes than a huge one. 
@@ -289,13 +305,11 @@ representing good abstractions with a single responsibility is much much better 
 
 !!! Conclusion
 
-Sending a message is really powerful since it selects the adequate method to be executed on the receiver.
-In future chapters we will show that sending a message is creating in fact a hook so that other methods can be executed in place. 
+Sending a message is really powerful since it selects the adequate method to be executed on the receiver. Now this is even more powerful than that: Remember that when we execute a method, one key information we have at hand is that the receiver is an instance from this class (or one of its subclasses as we will see later) and we can take advantage of this information to eliminate tests. Indeed an object executes a method that have been designed to be executed on it. So no need to test more.
 
 Now you should start to understand why in Pharo we are picky about the vocabulary: we use sending a message and not calling a method as in other language. Because sending a message conveys much better the idea that the correct method will be selected and that we do not know a priori which one will be executed. 
 
-Remember that when we execute a method, one key information we have at hand is that the receiver is an instance from this class (or one of its subclasses as we will later) and we can take advantage of this information to eliminate tests.
-
+In future chapters we will show that sending a message is creating in fact a hook so that other methods can be executed in place. 
 
 
 
