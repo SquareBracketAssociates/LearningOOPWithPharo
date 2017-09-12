@@ -342,7 +342,7 @@ You can also inspect the receiver as follows and if you click on the instance va
 dOldComics inspect
 ]]]
 
-+Inspecting ==dOldComics== and clicking on the ==parent== variable >file://figures/inspectingComics.png|width=70|label=inspectingComics+
++Inspecting ==dOldComics== and clicking on the ==parent== variable. >file://figures/inspectingComics.png|width=70|label=inspectingComics+
 
 We continue with some queries.
 [[[
