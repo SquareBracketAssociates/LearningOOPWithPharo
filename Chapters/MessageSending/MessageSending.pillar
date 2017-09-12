@@ -289,7 +289,7 @@ PRObject #(''properties'')
 
 You could think that this is a not a problem but imagine that now for a business you want to ship different products or solutions to your clients. With dynamic dispatch you can simply package alternate code in separate packages and load them independently as shown in Figure *@inhNoFatPackage*.
 
-+One single class vs. a nice hierarchy.>file://figures/Design-FatVsDispatchWithPackages.pdf|width=80llabel=inhNoFatPackage+
++One single class vs. a nice hierarchy.>file://figures/Design-FatVsDispatchWithPackages.pdf|width=80|label=inhNoFatPackage+
 
 
 !!!! Classes represent choices
