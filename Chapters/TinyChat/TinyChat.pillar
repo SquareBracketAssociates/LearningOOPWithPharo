@@ -320,7 +320,7 @@ First let us begin by starting it:
 	TCServer startOn: 8181
 ]]]
 
-Now we can verify that it is running either with a web browser (figure *@running*), or with a Zinc expression as follows: 
+Now we can verify that it is running either with a web browser (Figure *@running*), or with a Zinc expression as follows: 
 
 [[[
 ZnClient new url: 'http://localhost:8181/messages/count' ; get

@@ -296,7 +296,7 @@ You could think that this is a not a problem but imagine that now for a business
 Sending a message is making a choice. Now the following question is which elements represent choices. Because you can have the possibility to chose something but if there is only one choice you will not go that far and take advantage of the power of late binding. 
 
 In fact classes represent choices. In the Boolean case you have two choices one for true and one for false.
-There is a really difference for example between the FatClass design (left in Figure*@figFat*) and the modular design (right in Figure*@figFat*) because we see all the choices which can be made at runtime in the latter case. 
+There is a really difference for example between the FatClass design (left in Figure *@figFat*) and the modular design (right in Figure *@figFat*) because we see all the choices which can be made at runtime in the latter case. 
 
 When I do code review, I looked at how domain variations are represented and if there are enough classes. 
 What is important to realise is that classes are cheap. It is better to write 5 little classes than a huge one. 
