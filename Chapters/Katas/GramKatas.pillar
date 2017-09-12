@@ -57,11 +57,11 @@ We can also find the index of a string inside another one using the message ==fi
 
 We simply present some of the possible messages that can be sent to a string. We select some that you can use in the following or in the next chapter. Now let us solve our problem to identify if a string is an isogram. 
 
-!!! A Set-Based solution
+!!! A solution using sets
 
-We can do a simple (and not really efficient) implementation using Sets. Sets are collections that only contain one occurence of each element added to them. Adding twice the same element only adds one. 
+We can do a simple (and not really efficient) implementation using sets. Sets are collections that only contain one occurence of each element added to them. Adding twice the same element only adds one. 
 
-Note that Sets in Pharo can contain any objects, even Sets themselves. This is not the case in all languages. In Pharo, there are no restriction about Set elements.  
+Note that sets in Pharo can contain any objects, even sets themselves. This is not the case in all languages. In Pharo, there are no restriction about set elements.  
 
 You can convert a string into a set of characters sending the string the message ==asSet==. 
 
