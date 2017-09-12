@@ -1,4 +1,4 @@
-!! Crafting a Simple Embedded DSL with Pharo
+!! Crafting a simple embedded DSL with Pharo
 @cha:dsl
 
 In this chapter you will develop a simple domain specific language (DSL) for rolling dice. Players of games such as Dungeons \& Dragons are familiar with such DSL. An example of such DSL is the following expression: ==2 D20 + 1 D6== which means that we should roll two 20-faces dices and one 6 faces die. 

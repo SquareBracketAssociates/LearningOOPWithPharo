@@ -1,4 +1,4 @@
-!! Objects and Classes
+!! Objects and classes
 @cha:objectclass
 
 
@@ -297,7 +297,10 @@ In this chapter you saw that:
 - In Pharo , instance variables cannot be accessed from outside of an object. Instance variables are only accessible from the methods of the class that define them.
 -  Methods define the behavior of all the instances  of the class they belong to.
 
-!! Revisiting Objects and Classes
+
+
+
+!! Revisiting objects and classes
 
 In the previous chapter we presented objects and classes via simple examples. In this chapter we introduce a little bit more elaborated example: a little file system where we revisit everything and extend it to explain ''late binding'', ''distribution of responsibilities'' and ''delegation''. The file example will be extended to present ''inheritance'' in Chapter *@cha:inheritance*.
 

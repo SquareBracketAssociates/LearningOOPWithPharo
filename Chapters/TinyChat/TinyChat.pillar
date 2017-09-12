@@ -1,4 +1,4 @@
-!! TinyChat: a Fun and Small Chat Client/Server
+!! TinyChat: a fun and small chat client/server
 
 Pharo allows the definition of a REST server in a couple of lines of code thanks to the Teapot package by zeroflag, which extends the superb HTTP client/server Zinc developed by BetaNine and was given to the community. 
 The goal of this chapter is to make you develop, in five small classes, a client/server chat application with a graphical client.
@@ -7,10 +7,10 @@ Developed in a couple of hours, TinyChat has been designed as a pedagogical appl
 
 TinyChat has been developed by O. Auverlot and S. Ducasse with a lot of fun. 
 
-!!! Objectives and Architecture
+!!! Objectives and architecture
 We are going to build a chat server and one graphical client as shown in Figure *@tinychatclient*. 
 
-+Chatting with TinyChat>file://figures/tinychatclient.png|width=80|label=tinychatclient+
++Chatting with TinyChat.>file://figures/tinychatclient.png|width=80|label=tinychatclient+
 
 The communication between the client and the server will be based on HTTP and REST.
 In addition to the classes ==TCServer== and ==TinyChat== (the client), we will define three other classes: 
@@ -31,7 +31,7 @@ Gofer it
 
 Now we are ready to start.
 
-!!! Message Representation
+!!! Message representation
 A message is a really simple object with a text and sender identifier. 
 
 !!!! Class TCMessage
@@ -49,7 +49,7 @@ The instance variables are as follows:
 - ==text==: the message text, and 
 - ==separator==: a character to separate the sender and the text.
 
-!!!! Accessor Creation
+!!!! Accessor creation
 We create the following accessors:
 
 [[[
@@ -66,7 +66,7 @@ TCMessage >> text: anObject
 	text := anObject
 ]]]
 
-!!! Instance Initialisation
+!!! Instance initialisation
 Each time an instance is created, its ==initialize== method is invoked. 
 We redefine this method to set the separator value to the string ==>==.
 [[[
@@ -93,7 +93,7 @@ TCMessage class >> from: aSender text: aText
 ]]]
 
 
-!!! Converting a Message Object into a String
+!!! Converting a message object into a string
 We add the method ==printOn:== to transform a message object into a character string.
 The model we use is sender-separator-text-crlf. Example: 'john>hello !!!'.
 The method ==printOn:== is automatically invoked by the method ==printString==. This method is invoked by tools such
@@ -107,7 +107,7 @@ TCMessage >> printOn: aStream
 		<< self text; << String crlf
 ]]]
 
-!!! Building a Message from a String 
+!!! Building a message from a string 
 We also define two methods to create a message object from a plain string of the form: =='olivier>tinychat is cool'==.
 
 First we create the method ==fromString:== filling up the instance variables of an instance. It will be invoked like this: ==TCMessage new fromString: 'olivier>tinychat is cool'==, then the class method ==fromString:== which will first create the instance.
@@ -133,12 +133,12 @@ TCMessage class >> fromString: aString
 When you execute the following expression ==TCMessage fromString: 'olivier>tinychat is cool'== you should get a message.
 We are now ready to work on the server.
 
-!!!Starting with the Server
+!!!Starting with the server
 
 For the server, we are going to define a class to manage a message queue. This is not really mandatory but it allows
 us to separate responsibilities. 
 
-!!!!Storing Messages
+!!!!Storing messages
 Create the class ==TCMessageQueue== in the package ''TinyChat-Server''. 
 
 [[[
@@ -158,7 +158,7 @@ TCMessageQueue >> initialize
 	messages := OrderedCollection new.
 ]]]
 
-!!!! Basic Operations on Message List 
+!!!! Basic operations on message list 
 We should be able to add, clear the list, and count the number of messages, so we define three methods: ==add:==, ==reset==, and ==size==.
 
 [[[
@@ -172,7 +172,7 @@ TCMessageQueue >> size
 	^ messages size
 ]]]
 
-!!!! List of Messages from a Position 
+!!!! List of messages from a position 
 When a client asks the server about the list of the last exchanged messages, it mentions the index of the last
 message it knows. The server then answers the list of messages received since this index.
 
@@ -183,7 +183,7 @@ TCMessageQueue >> listFrom: aIndex
 		ifFalse: [ #() ]
 ]]]
 
-!!!! Message Formatting
+!!!! Message formatting
 The server should be able to transfer a list of messages to its client given an index.
 We add the possibility to format a list of messages (given an index).
 We define the method ==formattedMessagesFrom:== using the formatting of a single message as follows:
@@ -200,12 +200,12 @@ TCMessageQueue >> formattedMessagesFrom: aMessageNumber
 Note how the ==streamContents:== lets us manipulate a stream of characters. 
 
 
-!!! The Chat Server
+!!! The Chat server
 The core of the server is based on the Teapot REST framework. It supports the sending and receiving of messages.
 In addition this server keeps a list of messages that it communicates to clients. 
 
 
-!!!! TCServer Class Creation
+!!!! TCServer class creation
 
 We create the class ==TCServer== in the ''TinyChat-Server'' package. 
 
@@ -289,7 +289,7 @@ TCServer class >> stopAll
 	self allInstancesDo: #stop
 ]]]
 
-!!! Server Logic
+!!! Server logic
 Now we should define the logic of the server.
 We define a method ==addMessage== that extracts the message from the request. It adds a newly created message (instance of class ==TCMessage==) to the list of messages.
 
@@ -344,7 +344,7 @@ ZnClient new
 ]]]
 
 
-!!! The Client 
+!!! The client 
 Now we can concentrate on the client part of TinyChat. We decomposed the client into two classes:
 
 - ==TinyChat== is the class that defines the connection logic (connection, send, and message reception),
@@ -354,7 +354,7 @@ The logic of the client is:
 - During client startup, it asks the server the index of the last received message, 
 - Every two seconds, it requests from the server the messages exchanged since its last connection. To do so, it passes to the server the index of the last message it got. 
 
-!!!!  TinyChat Class
+!!!!  TinyChat class
 We now define the class ==TinyChat== in the package ==TinyChat-client==. 
 
 [[[
@@ -383,7 +383,7 @@ TinyChat >> initialize
 	messages := OrderedCollection new.
 ]]]
 
-!!!! HTTP Commands
+!!!! HTTP commands
 
 Now, we define methods to communicate with the server. They are based on the HTTP protocol.
 Two methods will format the request. One, which does not take an argument, builds the requests
@@ -413,7 +413,7 @@ TinyChat >> cmdMessagesFromLastIndexToEnd
 
 Now we can create commands but we need to emit them. This is what we look at now.
 
-!!! Client Operations
+!!! Client operations
 
 We need to send the commands to the server and to get back information from the server.
 We define two methods. The method ==readLastMessageID== returns the index of the last message received from the server.
@@ -496,7 +496,7 @@ TinyChat >> disconnect
 	exit := true
 ]]]
 
-!!! Client Connection Parameters
+!!! Client connection parameters
 Since the client should contact the server on specific ports, we define a method to 
 initialize the connection parameters. We define the class method ==TinyChat class>>connect:port:login:== so that we
 can connect the following way to the server: ==TinyChat connect: 'localhost' port: 8080 login: 'username'==
@@ -531,7 +531,7 @@ TinyChat >> start
 	self refreshMessages.
 ]]]
 
-!!! User Interface
+!!! User interface
 
 The user interface is composed of a window with a list and an input field as shown in Figure *@tinychatclient*. 
 

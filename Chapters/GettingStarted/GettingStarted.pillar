@@ -336,7 +336,7 @@ count
 >>> 5
 ]]]
 
-+Reading or editing a method using a code browser. Topleft pane: list of packages then list of classes then protocols then method lists - middle pane: method definition. Last pane: quality assistant>file://figures/allSatisfy.png|width=95|label=fig:allSatisfy+
++Reading or editing a method using a code browser. Topleft pane: list of packages then list of classes then protocols then method lists - middle pane: method definition. Last pane: Quality Assistant.>file://figures/allSatisfy.png|width=95|label=fig:allSatisfy+
 
 !!! Methods
 

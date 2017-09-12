@@ -19,11 +19,13 @@ ${inputFile:Chapters/Katas/GramKatas.pillar}$
 
 %${inputFile:Chapters/Katas/GramVariation.pillar}$
 
-! About Objects and Classes
+! About objects and classes
 In this section of the book we suggest carefully reading the first chapter before continuing with the rest.
 The other chapters contain extremely simple exercises which may be tedious to read in one sitting.
 
 ${inputFile:Chapters/OOPNutshell/OOPNutshell.pillar}$
+%% Split in two files and use the existing files ObjectsAndClass.pillar 
+
 
 % !! A graphic Turtle and jox the box
 % !! Do we do Joe the Box?
@@ -43,14 +45,14 @@ ${inputFile:Chapters/DSL/DSL.pillar}$
 
 ${inputFile:Chapters/MessageSending/MessageSending.pillar}$
 
-! Looking at Inheritance
+! Looking at inheritance
 
 ${inputFile:Chapters/Inheritance/Inheritance.pillar}$
 ${inputFile:Chapters/Inheritance/Extending.pillar}$
 
 ${inputFile:Chapters/Expressions/Expressions.pillar}$
 
-! Little Projects
+! Little projects
 
 ${inputFile:Chapters/SimpleLAN/SimpleLAN.pillar}$
 ${inputFile:Chapters/SnakesAndLadders/SnakesAndLadders.pillar}$

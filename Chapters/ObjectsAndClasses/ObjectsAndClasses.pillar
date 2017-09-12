@@ -1,4 +1,4 @@
-!! Objects and Classes
+!! Objects and classes
 @cha_objects
 
 Pharo is a pure object-oriented programming language, i.e., everything in the system is an object i.e., an entity created by a class and reacting to messages. In this chapter you will learn the concepts of object-oriented programming: ''objects'' and ''classes''. 
@@ -336,5 +336,3 @@ The point is that objects should encapsulate their behavior; you speak to their 
 -  Methods define the behavior of all the instances  of the class they belong to.
 - Different objects, instances of different classes, can react differently to the same messages.
 
-
-@@todo check oscar lecture hide vs abstraction vs encapsulation

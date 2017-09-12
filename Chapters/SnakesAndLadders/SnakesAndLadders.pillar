@@ -1,4 +1,4 @@
-!! Snakes and Ladders
+!! Snakes and ladders
 @cha:snakes
 
 Snakes and Ladders is a simple game suitable for teaching children how to apply rules (*http://en.wikipedia.org/wiki/Snakes_and_ladders*). It is dull for adults because there is absolutely no strategy involved, but this makes it easy to implement! 
@@ -7,7 +7,7 @@ In this chapter you will implement SnakesAndLadders and we use it as a pretext t
 +Snakes and Ladders: one possible board game with two ladders and one snake.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
 
 
-!!! Game Rules
+!!! Game rules
 Snakes and Ladders originated in India as part of a family of die games. The game was introduced in England as "Snakes and Ladders" (see Figure *@fig:snakes*), then the basic concept was introduced in the United States as ''Chutes and Ladders''.
 Here is a brief description of the rules: 
 - ""Players:"" Snakes and Ladders is played by two to four players, each with her/his own token to move around the board.
