@@ -4,6 +4,7 @@ MAIN := $(shell ./pillar introspect mainDocument)
 # an absolute path before outputting it
 OUTPUTDIRECTORY := $(patsubst $(CURDIR)/%,%,$(shell ./pillar introspect outputDirectory))
 
+CHAPTERS := $(shell ./pillar introspect chapters)
 LATEXTEMPLATE := $(shell ./pillar introspect latexTemplate)
 LATEXCHAPTERTEMPLATE := $(shell ./pillar introspect latexChapterTemplate)
 HTMLTEMPLATE := $(shell ./pillar introspect htmlTemplate)
