@@ -51,7 +51,7 @@ You should define the method ==evaluate==: it should return the value of the con
 
 [[[
 EConstant >> evaluate
-	Your code
+	... Your code ...
 ]]]
 
 Your test should pass. 
@@ -94,7 +94,7 @@ To negate a number the Pharo library proposes the message ==negated==.
 
 [[[
 ENegation >> evaluate
-	Your code
+	... Your code ...
 ]]]
 
 +A flat collection of classes (with a suspect duplication).>file://figures/Expressions.png|width=70|label=figExpression+
@@ -138,7 +138,7 @@ Now you can define the ==evaluate== method for addition.
 
 [[[
 EAddition >> evaluate
-	Your code
+	... Your code ...
 ]]]	
 	
 To make sure that our implementation is correct we can also test that we can add negated expressions. 
@@ -190,7 +190,7 @@ EMultiplication >> left: anExpression
 
 [[[
 EMultiplication >> evaluate
-	Your code
+	... Your code ...
 ]]]
 
 
@@ -328,7 +328,7 @@ EMultiplicationTest >> testEvaluateNegated
 
 [[[
 EMultiplication >> negated
-	Your code
+	... Your code ...
 ]]]
 
 Now all your tests should pass. And it is a good moment to save your package. 
@@ -425,7 +425,7 @@ We do the same for the class ==ENegation==.
 
 [[[
 ENegation class >> expression: anExpression
-	Your code
+	... Your code ...
 ]]]
 
 We write of course a new test as follows: 
@@ -458,7 +458,7 @@ EEAdditionTest >> testEvaluateWithClassCreationMessage
 We let you do the same for the multiplication. 
 [[[
 EMultiplication class >> left: anExp right: anExp2
-	Your code
+	... Your code ...
 ]]]
 
 And another test to check that everything is ok. 
@@ -630,7 +630,6 @@ At the end of the process, the single ==printString== message converts it into a
 
 Now let us write yet another test for addition printing. 
 
-
 [[[
 EAdditionTest >> testPrinting
 	self assert: (EAddition fivePlusThree) printString equals:  '( 5 + 3 )'.
@@ -641,7 +640,7 @@ Printing an addition is: put an open parenthesis, print the left expression, put
 
 [[[
 EAddition >> printOn: aStream
-	Your code
+	... Your code ...
 ]]]
 
 !!!! Printing multiplication
@@ -654,7 +653,7 @@ EMultiplicationTest >> testPrinting
 
 [[[
 EMultiplication >> printOn: aStream
-	Your code
+	... Your code ...
 ]]]
 
 !!! Revisiting negated message for Negation
@@ -691,7 +690,7 @@ Now you should be able to implement the ==negated== message on ==ENegation==.
 
 [[[
 ENegation >> negated
-	Your code
+	... Your code ...
 ]]]
 
 !!!! Understanding method override
@@ -1047,80 +1046,6 @@ ENegation >> evaluateWith: anObject
 	^ (expression evaluateWith: anObject) negated
 ]]]
 
-%!!! Solutions
-%
-%!!!! Evaluate message
-%[[[
-%EConstant >> evaluate
-%	^ value
-%]]]
-
-%[[[
-%ENegation >> evaluate
-%	^ expression evaluate negated
-%]]]
-
-%[[[
-%EAddition >> evaluate
-%	^ left evaluate + right evaluate
-%]]]
-
-%[[[
-%EMultiplication  >> evaluate
-%	^ left evaluate + right evaluate
-%]]]
-
-
-%!!!! Negated message
-%
-%[[[
-%EAddition >>> negated 
-%	^ ENegation new expression: self
-%]]]
-
-%[[[
-%EMultiplication >>> negated 
-%	^ ENegation new expression: self
-%]]]
-
-
-%!!!! Better class instance creation interface
-%[[[
-%EConstant class >> expression: anExpression
-%	^ self new expression: anExpression
-%]]]
-
-%[[[
-%EMultiplication class >>	left: anInteger right: anInteger2
-%	^ self new left: anInteger ; right: anInteger2
-%]]]
-
-%!!!! Printing addition and multiplication
-%[[[
-%EAddition >> printOn: aStream
-%	aStream nextPutAll: '( '.
-%	left printOn: aStream. 
-%	aStream nextPutAll: ' + '.
-%	right printOn: aStream.
-%	aStream nextPutAll: ' )'
-%]]]
-
-%[[[
-%Emultiplication >> printOn: aStream
-%	aStream nextPutAll: '( '.
-%	left printOn: aStream. 
-%	aStream nextPutAll: ' * '.
-%	right printOn: aStream.
-%	aStream nextPutAll: ' )'
-%]]]
-
-
-%!!!! Negated negation
-
-%[[[
-%ENegation >> negated
-%	^ expression
-%]]]
 
 !!! Conclusion
 This little exercise was full of learning potential. Here is a little summary of what we explained and we hope you understood. 

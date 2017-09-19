@@ -36,11 +36,10 @@ If you execute the test, the system will prompt you to create a class ==Die==. D
 
 The class ==Die== inherits from ==Object== and it has an instance variable, ==faces== to represent the number of faces one instance will have. Figure *@figOneClassDiceDesign* gives an overview of the messages. 
 
-+A single class with a couple of messages.>file://figures/OneClassDiceDesign.pdf|width=25|label=figOneClassDiceDesign+
++A single class with a couple of messages. Note that the method ==withFaces:== is  a class method.>file://figures/OneClassDiceDesign.pdf|width=25|label=figOneClassDiceDesign+
 
 [[[
 Object subclass:
-
 	... Your solution ...
 ]]]
 
@@ -48,7 +47,6 @@ In the ==initialization== protocol, define the method ==initialize== so that it 
 
 [[[
 Die >> initialize
-
 	... Your solution ...
 ]]]
 
@@ -70,7 +68,6 @@ Therefore we define the method ==roll==:
 
 [[[
 Die >> roll
-
 	... Your solution ...
 ]]]
 
@@ -228,7 +225,6 @@ The class ==DieHandle== inherits from ==Object== and it defines one instance var
 
 [[[
 Object subclass: ...
-
 	... Your solution ...
 ]]]
 
@@ -236,15 +232,14 @@ We simply initialize it so that its instance variable ==dice== contains an insta
 
 [[[
 DieHandle >> initialize
-	Your code here
+	... Your solution ...
 ]]]
 
 Then define a simple method ==addDie:== to add a die to the list of dice of the handle. You can use the message ==add:== sent to a collection.
 
 [[[
 DieHandle >> addDie: aDie 
-	...
-	Your code here
+	... Your solution ...
 ]]]
 
 Now you can execute the code snippet and inspect it. You should get an inspector as shown in Figure *@DieHandleNoDetail* 
@@ -289,9 +284,9 @@ Die >> printOn: aStream
 
 Now in your inspector you can see effectively the number of faces a die handle has as shown by Figure *@diceDetail* and it is now easier to check the dice contained inside a handle (See Figure *@DieHandleDetail*).
 
-+Die details.>file://figures/DiceDetail.png|width=60|label=diceDetail+ 
++Die details.>file://figures/DiceDetail.png|width=70|label=diceDetail+ 
 
-+die handle with more information.>file://figures/DiceHandleDetail.png|width=100|label=DieHandleDetail+ 
++A die handle with more information.>file://figures/DiceHandleDetail.png|width=90|label=DieHandleDetail+ 
 
 !!! Rolling a die handle
 
@@ -302,7 +297,6 @@ You may want to have a look at the method ==sum== in the class ==Collection== or
 
 [[[
 DieHandle >> roll
-
 	... Your solution ...
 ]]]
 
@@ -320,7 +314,6 @@ Define a test to cover such behavior. Rolling an handle of n dice should be betw
 
 [[[
 DieHandleTest >> testRoll
-
 	... Your solution ...
 ]]]
 
@@ -376,7 +369,6 @@ The method ==D20== simply creates a new die handle, adds the correct number of d
 
 [[[
 Integer >> D20
-
 	... Your solution ...
 ]]]
 
@@ -395,7 +387,6 @@ Make sure that all the new methods are placed in the protocol =='*Dice'==. To ve
 
 [[[
 Integer >> D: anInteger
-
 	... Your solution ...
 ]]]
 
@@ -439,7 +430,6 @@ The method ==\+== creates a new handle then add to it the dice of the receiver a
 
 [[[
 DieHandle >> + aDieHandle
-
 	... Your solution ... 
 ]]]
 

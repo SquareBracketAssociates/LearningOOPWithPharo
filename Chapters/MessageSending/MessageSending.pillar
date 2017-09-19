@@ -1,7 +1,9 @@
 !! Sending a message is making a choice
 @cha:messages
 
-In this chapter we explore an ''essential'' point of object-oriented programming: Sending a message is making a choice! It is often mentioned in the books as ''late binding'': the fact that the method to execute will only be found at runtime. In fact sending a message will use late binding to select the correct method. I like to use the term ''sending a message'' because it stresses that simple
+In this chapter we explore an ''essential'' point of object-oriented programming: Sending a message is making a choice! 
+
+Object-oriented programming books often present ''late binding'': the fact that the method to execute will only be determined at runtime based on the receiver. In fact sending a message uses late binding to select the correct method. I like to use the term ''sending a message'' because it stresses that simple
 actions, such as sending a message, are also a powerful feature when used well. 
 
 This aspect is often not really well put in perspective in teaching materials. Lectures often focus on inheritance but understanding the power of message passing it crucial to build good design.
@@ -9,7 +11,7 @@ This point is so central for me that this is the first point that I explain when
 the Design Patterns are based on the fact that sending a message is actually selecting the correct method
 based on the message receiver.
 
-To illustrate how message passing performs a dynamic choice, I will start taking a simple example available in the core of Pharo: the Booleans. Pharo defines Booleans as two objects: ==true== and ==false==. They are so fundamental that you cannot change their value. 
+To illustrate how sending a message performs a dynamic choice, I will start taking a simple example available in the core of Pharo: the Booleans. Pharo defines Booleans as two objects: ==true== and ==false==. They are so fundamental that you cannot change their value. 
 Still their implementation also use late binding in a really elegant way. 
  I will explain how the Boolean negation and the disjunction (or) are implemented. Then I will step back and analyse the forces in presence and their importance. 
 
