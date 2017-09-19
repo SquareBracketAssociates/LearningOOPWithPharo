@@ -179,7 +179,8 @@ Now define the method ==add: anInteger coinsOfValue: aNumber==. Browse the class
 [[[	
 Wallet >> add: anInteger coinsOfValue: aNumber
 	"Add to the receiver, anInteger times a coin of value aNumber"
-	...
+	
+	... Your solution ...
 ]]]
 
 
@@ -187,7 +188,8 @@ We can define the method ==coinsOfValue:== that returns the number of coins of a
 
 [[[
 Wallet >> coinsOfValue: aNumber
-	^ ...
+
+	^ ... Your solution ...
 ]]]
 
 
@@ -248,7 +250,8 @@ Now we should implement the method ==money==.
 
 [[[
 Wallet >> money
-	^ ...
+
+	^ ... Your solution ...
 ]]]
 
 
@@ -272,7 +275,8 @@ Define the message ==canPay:==.
 [[[
 Wallet >> canPay: amounOfMoney
 	"returns true when we can pay the amount of money"
-	^ ...
+	
+	^ ... Your solution ...
 ]]]
 
 
@@ -297,7 +301,7 @@ Now we should define the method ==biggest==.
 Wallet >> biggest
 	"Returns the biggest coin with a value below anAmount. For example, {(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggest -> 0.5"
 
-	^ ...
+	^ ... Your solution ...
 ]]]
 
 !!! Biggest below a value
@@ -324,7 +328,7 @@ WalletTest >> testBiggestCoinsBelow
 Wallet >> biggestBelow: anAmount
 	"Returns the biggest coin with a value below anAmount. For example, {(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggestBelow: 0.40 -> 0.2"
 	
-	^ ...
+	^ ... Your solution ...
 ]]]	
 
 
@@ -360,7 +364,8 @@ Define the method ==addCoin:==.
 [[[
 Wallet >> addCoin: aNumber
 	"Add to the receiver a coin of value aNumber"
-	...
+	
+	... Your solution ...
 ]]]
 
 !!!! Removing coins
@@ -384,7 +389,8 @@ Define the method ==removeCoin:==.
 [[[
 Wallet >> removeCoin: aCoinNumber
 	"Remove from the receiver a coin of value aNumber"
-	...
+	
+	... Your solution ...
 ]]]
 
 We can generalize this behavior with a method ==remove:coinsOfValue:==.
@@ -394,7 +400,8 @@ Write a test.
 WalletTest >> testRemoveCoins
 	| w |
 	w := Wallet new.
-	...
+	
+	... Your solution ...
 ]]]
 
 [[[
@@ -453,7 +460,8 @@ Using the previously defined methods, define a first version of the method ==coi
 
 [[[
 Wallet >> coinsFor: aValue into: accuWallet	
-	...
+
+	... Your solution ...
 ]]]
 
 Here is a possible simple solution: we remove from the wallet the largest coin and we add it to the resulting wallet.

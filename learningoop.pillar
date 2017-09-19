@@ -63,10 +63,10 @@ ${inputFile:Chapters/TinyChat/TinyChat.pillar}$
 % Little collection manager
 
 ! Solutions
- ${inputFile:Chapters/GettingStarted/ChallengingYourselfSolution.pillar}$
- ${inputFile:Chapters/Katas/GramKatasSolution.pillar}$ 
-  ${inputFile:Chapters/Wallet/WalletSolution.pillar}$
- ${inputFile:Chapters/Solutions/Solutions.pillar}$
+${inputFile:Chapters/GettingStarted/ChallengingYourselfSolution.pillar}$
+${inputFile:Chapters/GramKatas/GramKatasSolution.pillar}$ 
+${inputFile:Chapters/Wallet/WalletSolution.pillar}$
+${inputFile:Chapters/Solutions/Solutions.pillar}$
 
 
 
