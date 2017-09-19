@@ -4,7 +4,7 @@
 In this chapter you will develop a simple domain specific language (DSL) for rolling dice. Players of games such as Dungeons \& Dragons are familiar with such DSL. An example of such DSL is the following expression: ==2 D20 + 1 D6== which means that we should roll two 20-faces dices and one 6 faces die. 
 It is called an embedded DSL because the DSL uses the syntax of the language used to implement it. Here we use the Pharo syntax to implement the Dungeons \& Dragons rolling die language. 
 
-This little exercise shows how we can (1) simply reuse traditional operator such as ==\+==, (2) develop an embedded domain specific language and (3) use class extensions (the fact that we can define a method in another package than the one of the class of the method). In addition we do not give you all the solutions. If you are really stuck you can find them in the Chapter *@cha:solutions*.
+This little exercise shows how we can (1) simply reuse traditional operator such as ==\+==, (2) develop an embedded domain specific language and (3) use class extensions (the fact that we can define a method in another package than the one of the class of the method).
 
 !!! Getting started
 

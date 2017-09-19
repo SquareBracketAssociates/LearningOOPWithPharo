@@ -1,7 +1,7 @@
 !! An electronic wallet
 @cha:wallet
 
-In this chapter you will develop a wallet. You will start by designing tests to define the behavior of our program, then we will define the methods according. Pay attention we will not give you all the solutions and the code. If you get really stuck have a look at Chapter *@cha:solutions*.
+In this chapter you will develop a wallet. You will start by designing tests to define the behavior of our program, then we will define the methods according. Pay attention we will not give you all the solutions and the code.
 
 
 !!! A first test
