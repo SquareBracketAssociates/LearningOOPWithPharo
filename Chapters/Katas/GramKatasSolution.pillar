@@ -64,43 +64,6 @@ String >> detectFirstMissingLetterFor: alphabet
 	^ ''
 ]]]
 
-!!!! About the return values of detectFirstMissingLetterFor:
-
-Returning objects that are not polymorphic such as a single character or a string (which is not a character but a sequence of characters) is really bad design. 
-Why? Because the user of the method will be forced to check if the result is a single character or a collection of characters.
-
-@@important Avoid as much as possible to return objects that are not polymorphic. Return a collection and an empty collection. Not a collection and nil. Write methods returning the same kind of objects, this way their clients will be able to treat them without asking if they are different. This practice reinforces the ""Tell do not ask principle"".
-
-We have two choices: either always return  a collection as for that we convert the character into a string sending it the message ==asString== as follow, or we can return a special character to represent that nothing happens for example Character space. 
-
-[[[
-String >> detectFirstMissingLetterFor: alphabet
-	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
-	Return '' otherwise"
-	
-	alphabet do: [ :aChar |
-		(self includes: aChar)
-			ifFalse: [ ^ aChar asString ]
-		].
-	^ ''
-]]]
-
-Here we prefer to return a string since the method is returning the first character. 
-In the following one we return a special character. 
-
-[[[
-String >> detectFirstMissingLetterFor: alphabet
-	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
-	Return '' otherwise"
-	
-	alphabet do: [ :aChar |
-		(self includes: aChar)
-			ifFalse: [ ^ aChar ]
-		].
-	^ Character space
-]]]
-
-Now it is better to return all the missing letters. 
 
 !!!! Detecting all the missing letters
 
