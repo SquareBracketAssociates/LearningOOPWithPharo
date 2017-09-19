@@ -23,6 +23,8 @@ I also propose various paths through the book with different levels of reading; 
 
 +Reading maps.>file://figures/MapVolume1.pdf|width=100|label=fgmap+
 
+
+
 !!!! Fast track
 The following chapters contain more conceptual information:
 
@@ -58,8 +60,19 @@ We will focus on object-oriented ''programming'' concepts:
 - Tests are your life ensurance
 - Polymorphism
 
+In addition we will also present 
+- Tests
+- Software refactorings
 
-!!!! Syntax, Blocks and Iterators
+
+!!!! Growing software
+
+Often books present a problem and its solution. Now for non trivial problems, the solution does not fall from the sky or get developed in one stroke but it is the constant evolution of a first solution that evolves over time. Such an evolution is often difficult and tedious because the developer jumps from one stable state to a situation where his code may not work anymore. This is where Test Driven Design and refactorings really help.
+Test Driven Design helsp to focus on new features and captures them as executable entities: tests. Refactorings helps by transforming code without breaking its invariants.
+Note that tests do not forbid to break code, they help identifying when previous invariants or constraints got violated. Sometimes violated tests identify a bug but they may be broken just because the requirements changed and that the tests should be updated. 
+In this book, I wanted to see how software grows in little steps. This is is what I do frequently during my coding sessions and I think that this is important to cover the hidden paths in software creation.
+
+!!!! Syntax, blocks and iterators
 Since we need a language to express our programs, we will teach you the syntax of Pharo. In particular we will use some simple chapters to get you started. 
 
 Now in a nutshell, you should know that the Pharo syntax
@@ -68,6 +81,8 @@ Now in a nutshell, you should know that the Pharo syntax
 
 Note that closures are not a recent addition to the language but a central cornestone. Closures are the foundation for conditional and loops.
 They enable this 'messages all over the place' syntax as well as really powerful iterators.
+
+
 
 !!! Typographic conventions
 
@@ -92,7 +107,8 @@ Finally, the coffee cups highlight some points to take away and serve as a conci
 
 !!! Videos 
 
-In this book we will use some of the videos produced for the Pharo mooc. All the videos are available at *http://mooc.pharo.org*.
+While reading this book you can also use some of the videos produced for the Pharo mooc. All the videos are available at *http://mooc.pharo.org*.
+I strongly suggest to watch the videos explaining how to use and interact with the environment. 
 
 !!! Thanks
 I would like to thanks Morgane Pigny, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Herby Vojcik, Denis Kudriashov, Holger Freyther, Dimitris Chloupis, Amal Noussi, René Paul Mages, Hannes Hirsel for their great feedback.
