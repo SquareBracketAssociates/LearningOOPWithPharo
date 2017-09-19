@@ -68,6 +68,6 @@ ${inputFile:Chapters/Katas/GramKatasSolution.pillar}$
 ${inputFile:Chapters/Wallet/WalletSolution.pillar}$
 ${inputFile:Chapters/DSL/DSLSolution.pillar}$
 ${inputFile:Chapters/Expressions/ExpressionsSolution.pillar}$
-
+${inputFile:Chapters/SnakesAndLadders/SnakesAndLaddersSolution.pillar}$
 
 
