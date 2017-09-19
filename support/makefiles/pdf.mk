@@ -47,7 +47,7 @@ $(1)-clean:
 
 # LaTeX wrapper files for alternate formats
 %.$(1).tex: %.tex support/latex/$(1).preamble.tex
-	@echo '\input{root/support/latex/$(1).preamble}\input{$$(*F)}' > $$@
+	@echo '\input{$(1).preamble}\input{$$(*F)}' > $$@
 endef
 $(foreach fmt,$(ALTERNATEPRINTFORMATS),\
 	$(eval $(call FORMAT_rule,$(fmt))))
