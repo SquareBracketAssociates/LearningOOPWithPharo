@@ -67,7 +67,7 @@ ${inputFile:Chapters/GettingStarted/ChallengingYourselfSolution.pillar}$
 ${inputFile:Chapters/Katas/GramKatasSolution.pillar}$ 
 ${inputFile:Chapters/Wallet/WalletSolution.pillar}$
 ${inputFile:Chapters/DSL/DSLSolution.pillar}$
-${inputFile:Chapters/Expressions/ExpressionsSolutions.pillar}$
+${inputFile:Chapters/Expressions/ExpressionsSolution.pillar}$
 
 
 
