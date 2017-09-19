@@ -44,15 +44,15 @@ testCelsiusToFahrenheit
 	self assert: (converter convertCelsius: 30) equals: 86.0
 ]]]
 
-The message ==assert:equals:== expects an expression and a result. Here ==(converter convertCelsius: 30)== and ==86.0==. You can use the message you prefer and we suggest to use ==assert:equals:== since it will help you to understand your mistake by saying: 'You expect 86.0 and I got 30' instead of simply telling you that the result is false. 
+The message ==assert:equals:== expects an expression and a result. Here ==(converter convertCelsius: 30)== and ==86.0==. You can use the message you prefer and we suggest to use ==assert:equals:== since it will help you to understand your mistake by saying: =='You expect 86.0 and I got 30'== instead of simply telling you that the result is ==false==. 
 
 
-!!! Define the test method (and more)
+!!! Define a test method (and more)
 While defining the method ==testCelsiusToFahrenheit== using the class browser, the system will tell you that the class ==TemperatureConverter== does not exist (This is true because we did not define it so far). The system will propose to create it. Just let the system do it. 
 
 Once you are done. You should have two classes: ==TemperatureConverterTest== and ==TemperatureConverter==. As well as one method: ==testCelsiusToFahrenheit==. The test does not pass since we did not implement the conversion method (as shown by the red color in the body of ==testCelsiusToFahrenheit==).
 
-@@todo add screenshot
+%%@@todo add screenshot
 
 Note that you entered the method above and the system compiled it. Now in this book we want to make sure that you know about which method we are talking about hence we will prefix the method definitions with their class. For example the method ==testCelsiusToFahrenheit== in the class ==TemperaturConverterTest== is defined as follows: 
 
@@ -80,8 +80,7 @@ This definition in essence, says that:
 - It has no instance or class variables (==\'\'== means empty string).
 - It is packaged in package ==MyConverter==.
 
-Usually when doing Test Driven Development with Pharo, we focus on tests and lets the system propose us some definitions.
-Then we can define the method as follows. 
+Usually when doing Test Driven Development with Pharo, we focus on tests and lets the system propose us some definitions. Then we can define the method as follows.
 
 [[[
 TemperatureConverter >> convertCelsius: anInteger 
@@ -93,7 +92,7 @@ TemperatureConverter >> convertCelsius: anInteger
 The system may tell you that the method is an utility method since it does not use object state. 
 It is a bit true because the converter is a ''really'' simple object. For now do not care. 
 
-Your test should pass. Click on the icon close to the test method to execute it.  
+Your test should pass. Click on the icon close to the test method to execute it.
 
 !!! Converting from Farhenheit to Celsius 
 
@@ -114,7 +113,7 @@ Define the method ==convertFarhenheit: anInteger==
 TemperatureConverter >> convertFarhenheit: anInteger 
 	"Convert anInteger from fahrenheit to celsius"
 	
-	^ ((anInteger - 32) / 1.8) 
+	... Your solution ...
 ]]]
 
 Run the tests they should all pass. 
@@ -225,9 +224,9 @@ A pair is created using the message ==->== and we can access the pair elements u
 | p1 |
 p1 := 50 -> 10.0.
 p1 key 
-> 50
+>>> 50
 p1 value
-> 10.0
+>>> 10.0
 ]]]
 
 
@@ -341,7 +340,7 @@ To support tests we also define a method returning the number of current measure
 
 [[[
 TemperatureConverter >> measureCount
-	^ measures size
+	... Your code ...
 ]]]
 
 We now define three methods returning the sequence of temperatures, the dates and the times. 
@@ -352,15 +351,26 @@ TemperatureConverter >> temperatures
 	^ measures collect: [ :each | each value ]
 ]]]
 
-[[[		
-TemperatureConverter >> dates
-	^ measures collect: [ :each | each key asDate ]
+
+
+
+To produce time without micro second we suggest to print the time using ==print24==.
+
+[[[
+DateAndTime now asTime print24
+>>> '22:46:33'
 ]]]
 
 [[[		
 TemperatureConverter >> times
-	^ measures collect: [ :each | each key asDate ]
+	^ measures collect: [ :each | each key asTime ]
 ]]]
+
+[[[		
+TemperatureConverter >> dates
+	... Your code ...
+]]]
+
 
 Now we can get two converters each with its own location and measurement records. 
 The following tests verifies that this is the case. 
@@ -402,7 +412,7 @@ What we do is that since celsius is the scientific unity for temperature we conv
 
 [[[
 TemperatureConverter >> measureFahrenheit: aTemp
-	measures add: DateAndTime now -> (self convertFahrenheit: aTemp)	
+	... Your code ...
 ]]]
 
 

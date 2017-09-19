@@ -66,6 +66,7 @@ ${inputFile:Chapters/TinyChat/TinyChat.pillar}$
 ${inputFile:Chapters/GettingStarted/ChallengingYourselfSolution.pillar}$
 ${inputFile:Chapters/Katas/GramKatasSolution.pillar}$ 
 ${inputFile:Chapters/Wallet/WalletSolution.pillar}$
+${inputFile:Chapters/Converter/ConverterSolution.pillar}$
 ${inputFile:Chapters/DSL/DSLSolution.pillar}$
 ${inputFile:Chapters/Expressions/ExpressionsSolution.pillar}$
 ${inputFile:Chapters/SnakesAndLadders/SnakesAndLaddersSolution.pillar}$
