@@ -123,7 +123,7 @@ s size = s asSet size
 
 !!!! Adding a method to the class String
 
-Now we can define a new method to the class ==String==. Since we will propose multiple implementations we postfix the message with the implementation strategy we use. Here we define ==isIsogramSet==
+Now we can define a new method to the class ==String==. Since you may propose multiple implementations, we postfix the message with the implementation strategy we use. Here we define ==isIsogramSet==
 
 [[[
 String >> isIsogramSet
@@ -133,7 +133,7 @@ String >> isIsogramSet
 	"'phaoro' isIsogramSet
 	>>> false"
 	
-	^ self size = self asSet size 
+	... Your solution here ... 
 ]]]
 
 And we test that our method is correct. 
@@ -364,7 +364,8 @@ GramCheckerTest >> testIsPangramIn
 	self assert: ('les poux papas et les poux pas papas' isPangramIn: 'apouxetl').
 ]]]
 
-We do it as simple as the following. 
+You can do it really simply: 
+
 [[[
 String >> isPangramIn: alphabet
 	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
@@ -373,11 +374,7 @@ String >> isPangramIn: alphabet
 	"'tata' isPangramIn: 'at'
 	>>> true"
 
-	alphabet do: [ :aChar |
-		(self includes: aChar)
-			ifFalse: [ ^ false ]
-		].
-	^ true
+	... Your solution ...
 ]]]
 
 [[[
@@ -388,7 +385,7 @@ String >> isEnglishPangram
 	"'The quick brown fox jumps over the dog' isEnglishPangram
 	>>> false"
 
-	^ self isPangramIn: 'abcdefghijklmnopqrstuvwxyz'.
+	... Your solution ...
 ]]]
 
 Execute all the tests to verify that we did not change anything.
@@ -422,24 +419,16 @@ GramCheckerTest >> testDetectFirstMissingLetter
 
 [[[
 String >> detectFirstMissingLetterFor: alphabet
-	...
+	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
+	Return '' otherwise"
+	
+	... Your solution ...
+	
 ]]]
 
 In fact this method is close to the method ==isPangramIn: alphabet==.  It should iterate over the alphabet and check that the char is included in the string. When this is not the case, it should return the character and we can return an empty string when there is no missing letter. 
 
-Here is a possible implementation. Verify that the test is passing. 
 
-[[[
-String >> detectFirstMissingLetterFor: alphabet
-	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
-	Return '' otherwise"
-	
-	alphabet do: [ :aChar |
-		(self includes: aChar)
-			ifFalse: [ ^ aChar ]
-		].
-	^ ''
-]]]
 
 !!!! About the return values of detectFirstMissingLetterFor:
 
@@ -498,25 +487,10 @@ GramCheckerTest >> testDetectAllMissingLetters
 [[[
 String >> detectAllMissingLettersFor: alphabet
 	
-	...
+	... Your solution ...
 ]]]
 
-One of the problem that you can encounter is that the order of the missing letters can make the tests failed. 
-
-We create a Set instead of an Array because Arrays in Pharo have a fixed size that should be known at creation time. We could have created an array of size 26. In addition we do not care about the order of the missing letters.
-A Set is a collection whose size can change, and in which we can add the element one by one, therefore it fits our requirements. 
-
-[[[
-String >> detectAllMissingLettersFor: alphabet
-	
-	| missing |
-	missing := Set new. 
-	alphabet do: [ :aChar |
-		(self includes: aChar)
-			ifFalse: [ missing add: aChar ] ].
-	^ missing
-]]]
-
+One of the problem that you can encounter is that the order of the missing letters can make the tests failed. You can create a Set instead of an Array. 
 
 Now our test does not work because it  verifies that we get an array of characters while we get an ordered collection. So we change it to take into account the returned collection. 
 
@@ -529,7 +503,7 @@ GramCheckerTest >> testDetectAllMissingLetters
 		detectAllMissingLettersFor: 'abcdefghijklmnopqrstuvwxyz') equals: #($q $o) asSet.
 ]]]
 
-Instead of explicitely creating a Set, we could also use the message ==asSet== that convert the receiver into a Set as shown in the second check. 
+Instead of explicitely creating a Set, we could also use the message ==asSet== that converts the receiver into a Set as shown in the second check. 
 
 
 !!! Palindrome as exercise
@@ -569,23 +543,6 @@ You can also add the fact that space do not count.
 [[[
 	self assert: 'Elu par cette crapule' isPalindrome.
 ]]]
-
-
-%isPalindrome2
-%	"Returns true whether the receiver is an palindrome.
-%	'anna' isPalindrome2
-%		true
-%	'andna' isPalindrome2 
-%		true
-%	'avdna' isPalindrome2 
-%		false
-%	"
-%	1 
-%		to: self size//2 
-%		do: [ :i | (self at: i) = (self at: self size + 1 - i)
-%						ifFalse: [ ^false ]
-%				].
-%	^true
 
 
 !!! Conclusion
