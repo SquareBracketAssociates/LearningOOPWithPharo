@@ -1,7 +1,7 @@
 !! Converter
 @cha_converter
 
-In this chapter you will implement a little temperature converter between celsius and farhenheit degrees. It is so simple that it will help us to get started with Pharo and also with test driven development. Near the end of the chapter we will add logging facilities to the converter so that we can log the temperatures of certain locations.  For this you will create a simple class and its tests. 
+In this chapter you will implement a little temperature converter between celsius and fahrenheit degrees. It is so simple that it will help us to get started with Pharo and also with test driven development. Near the end of the chapter we will add logging facilities to the converter so that we can log the temperatures of certain locations.  For this you will create a simple class and its tests. 
 
 We will show how to write test to specify the expected results. Writing tests is really important. It is one important tenet of Agile Programming and Test Driven Development (TDD). We will explain later why this is really good to have tests. For now we just implement them. We will also discuss a bit a fundamental aspects of float comparison and we will also present some loops.
 
@@ -200,7 +200,7 @@ Pharo libraries include the message ==printShowingDecimalPlaces: aNumberOfDigit=
 !!! Building a map of degrees
 
 Often when you are travelling you would like to have kind of a map of different degrees as follows: 
-Here we want to get the converted values between 50 to 70 farhenheit degrees.
+Here we want to get the converted values between 50 to 70 fahrenheit degrees.
 
 [[[
 (TemperatureConverter new convertFarhenheitFrom: 50 to: 70 by: 2).  
@@ -231,7 +231,7 @@ p1 value
 ]]]
 
 
-Let us write a test first. We want to generate map containing as key the farhenheit and as value the converted celsius. Therefore we will get a collection with the map named ==results== and a collection of the expected values
+Let us write a test first. We want to generate map containing as key the fahrenheit and as value the converted celsius. Therefore we will get a collection with the map named ==results== and a collection of the expected values
 that the value of the elements should have. 
 
 On the two last lines of the test method, using the message ==with:do:== we iterate on both collections in parallel
@@ -252,11 +252,11 @@ TemperatureConverterTest >> testFToCScale
 Now we are ready to implement the method ==convertFarhenheitFrom: low to: high by: step==.
 Using the message ==to:by:==, we create an interval to generate the collection of numbers starting at low and ending up at high using the increment step. Then we use the message ==collect:== which applies a block to a collection 
 and returns a collection containing all the values returned by the block application.
-Here we just create a pair whose key is the farhenheit and whose value is its converted celsius value.
+Here we just create a pair whose key is the fahrenheit and whose value is its converted celsius value.
 
 [[[
 TemperatureConverter >> convertFarhenheitFrom: low to: high by: step 
-	"Returns a collection of pairs (f, c) for all the farhenheit temperatures from a low to an high temperature"
+	"Returns a collection of pairs (f, c) for all the fahrenheit temperatures from a low to an high temperature"
 	
 	^ (low to: high by: step)
 		collect: [ :f | f -> (self convertFarhenheit: f) ]
@@ -266,14 +266,12 @@ TemperatureConverter >> convertFarhenheitFrom: low to: high by: step
 
 !!! Spelling Fahrenheit correctly!
 
-You may not noticed but we badly spelled fahrenheit since the beginning of this chapter. 
-Fahrenheit is not spelt farhenheit but Fahrenheit. Now you may start to think that I'm crazy, because you should rename all the methods you wrote and in addition all the users of such methods and after we should check that we did not break anything. And you can think that this 
-is a huge task.
+You may not noticed but we badly spelled fahrenheit since the beginning of this chapter!
+Fahrenheit is not spelt farhenheit but Fahrenheit. Now you may start to think that I'm crazy, because you should rename all the methods you wrote and in addition all the users of such methods and after we should check that we did not break anything. And you can think that this is a huge task.
 
- Well first you should rename the methods because nobody wants to keep badly named code. Second, I'm not crazy at all. 
-Programmers rename their code regularly because they often do not get it right the first time, or even the second time... Often you rewrite your code after thinking more about the interface you finally understand that you should propose. In fact good designer think a lot about names because names convey the intent of a computation. Now we have two super powerful tools to help us: Refactorings and Tests. 
+Well first you should rename the methods because nobody wants to keep badly named code. Second, I'm not crazy at all. Programmers rename their code regularly because they often do not get it right the first time, or even the second time... Often you rewrite your code after thinking more about the interface you finally understand that you should propose. In fact good designer think a lot about names because names convey the intent of a computation. Now we have two super powerful tools to help us: Refactorings and Tests. 
 
-We will use the ""Rename method"" refactoring proposed by Pharo. A refactoring garantees that not only the method but all the places where it is called will also be renamed to send the new message. In addition a refactoring garantees that the behavior of the program is not modified. 
+We will use the ""Rename method"" refactoring proposed by Pharo. A refactoring is a code transformation that preserves code properties. The Rename method refactoring garantees that not only the method but all the places where it is called will also be renamed to send the new message. In addition a refactoring garantees that the behavior of the program is not modified. 
 So this is really powerful. 
 
 Select the method ==convertFarhenheit:== in the method list and bring the menu, use the ""Rename method (all)"" item, give a new name ==convertFahrenheit:==. The system will prompt you to show you all the corresponding operations. Check them to see what you should have done manually. Imagine the amount of mistakes you could have made and proceed. Do the same for ==convertFahrenheitFrom:to:by:==.
