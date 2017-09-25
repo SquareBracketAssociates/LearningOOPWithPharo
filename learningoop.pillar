@@ -49,16 +49,13 @@ ${inputFile:Chapters/MessageSending/MessageSending.pillar}$
 
 ${inputFile:Chapters/Inheritance/Inheritance.pillar}$
 ${inputFile:Chapters/Inheritance/Extending.pillar}$
-
 ${inputFile:Chapters/Expressions/Expressions.pillar}$
 
 ! Little projects
 
-${inputFile:Chapters/SimpleLAN/SimpleLAN.pillar}$
+% ${inputFile:Chapters/SimpleLAN/SimpleLAN.pillar}$
 ${inputFile:Chapters/SnakesAndLadders/SnakesAndLadders.pillar}$
 ${inputFile:Chapters/TinyChat/TinyChat.pillar}$
-
-
 
 % Little collection manager
 
@@ -69,6 +66,7 @@ ${inputFile:Chapters/Wallet/WalletSolution.pillar}$
 ${inputFile:Chapters/Converter/ConverterSolution.pillar}$
 ${inputFile:Chapters/DSL/DSLSolution.pillar}$
 ${inputFile:Chapters/Expressions/ExpressionsSolution.pillar}$
+${inputFile:Chapters/SimpleLAN/SimpleLANSolution.pillar}$
 ${inputFile:Chapters/SnakesAndLadders/SnakesAndLaddersSolution.pillar}$
 
 

@@ -1,8 +1,8 @@
 !! A simple network simulator 
 @ch:lan
 
-This document will show how we develop a simulator for a computer network, from scratch, and step by step.
-The program we are going to develop is a simple representation of a computer network: it consists of objects that represent different parts of a local network such as packets, nodes, workstations, routers and hubs.
+In this chapter, we develop a simulator for a computer network, step by step from scratch.
+The program starts with a simplistic model of a computer network, made of objects that represent different parts of a local network such as packets, nodes, workstations, routers and hubs.
 
 At first, we will just simulate the different steps of packet delivery and have fun with the system.
 In a second step we will extend the basic functionalities by adding extensions such as a hub and different packet routing strategies.
