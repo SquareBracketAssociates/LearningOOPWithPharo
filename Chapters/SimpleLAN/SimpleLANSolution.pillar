@@ -1,1 +1,39 @@
 !! Network simulator solutions
+
+!!! Packets
+
+[[[language=smalltalk
+KANetworkPacket class >> from: sourceAddress to: destinationAddress payload: anObject
+    ^ self new
+        initializeSource: sourceAddress
+        destination: destinationAddress
+        payload: anObject
+]]]
+
+[[[language=smalltalk
+KANetworkPacket >> initializeSource: source destination: destination payload: anObject
+    sourceAddress := source.
+    destinationAddress := destination.
+    payload := anObject
+]]]
+
+[[[language=smalltalk
+KANetworkPacket >> sourceAddress
+    ^ sourceAddress
+]]]
+
+[[[language=smalltalk
+KANetworkPacket >> destinationAddress
+    ^ destinationAddress
+]]]
+
+[[[language=smalltalk
+KANetworkPacket >> payload
+    ^ payload
+]]]
+
+!!! Nodes
+
+!!! Links
+
+!!! The Network

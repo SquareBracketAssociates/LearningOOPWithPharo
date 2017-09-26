@@ -10,7 +10,7 @@ Doing so, we will revisit many object-oriented concepts such as polymorphism, en
 Finally this system could be refined to become an experiment platform to explore and understand distributed algorithms.
 
 
-!!! Basic definitions and a starting point
+!!!! Basic definitions and a starting point
 
 We need to establish the basic model; what does the description above tell us?
 A network is a number of interconnected nodes, which exchange data packets.
@@ -20,8 +20,12 @@ We will therefore probably need to model the nodes, the connection links, and th
 - Links connect two nodes together, and transmit packets between them;
 - Packets transport a payload and have the address of the node to which it should be delivered; if we want nodes to be able to answer, packets should also have the address of the node which originally sent it.
 
-Let's start exploring by sketching some simple tests; this requires defining a test class:
+!!! Packets are simple value objects
 
+Packets seem to be the simplest objects in our model: we need to create them, and ask them about the data they contain, but that's about it.
+Once created, a packet object is merely a passive data structure: it will not change its data, knows nothing of the surrounding network, and has no behavior that we can really talk about.
+
+Let's start by defining a test class:
 [[[language=smalltalk
 TestCase subclass: #KANetworkEntitiesTest
     instanceVariableNames: ''
@@ -29,15 +33,7 @@ TestCase subclass: #KANetworkEntitiesTest
     category: 'NetworkSimulator-Tests'
 ]]]
 
-Since we will create several classes, we used the following notation to refer to the classes in which a method should be defined.
-==KANetworkEntitiesTest >> testPacketCreation== means that the method ==testPacketCreation== is defined in the class ==KANetworkEntitiesTest==.
-
-
-!!!! Packets are simple value objects
-
-Packets are the simplest objects in our model: we need to create them, and ask them about the data they contain, but that's about it.
-Once created, a packet will not change its data, and the packet itself has no knowledge of the network, and no behavior that we can really talk about.
-
+Now we can start sketching what creating and looking at packets would look like:
 [[[language=smalltalk
 KANetworkEntitiesTest >> testPacketCreation
     | src dest payload packet |
@@ -52,7 +48,7 @@ KANetworkEntitiesTest >> testPacketCreation
     self assert: packet payload equals: payload
 ]]]
 
-In this unit test, we wrote how we think packets should be created, using a ==from:to:payload:== constructor message, and how it should be accessed, using three messages ==sourceAddress==, ==destinationAddress==, and ==payload==.
+By writing this unit test, we described how we think packets should be created, using a ==from:to:payload:== constructor message, and how it should be accessed, using three messages ==sourceAddress==, ==destinationAddress==, and ==payload==.
 Since we have not yet decided what addresses and payloads should look like, we just pass arbitrary objects as parameters; all that matters is that when we ask the packet, it returns the correct object back.
 
 Of course, if we now compile and run this test method, it will fail, because the class ==KANetworkPacket== has not been created yet, nor any of the four above messages.
@@ -65,41 +61,27 @@ Object subclass: #KANetworkPacket
     category: 'NetworkSimulator-Core'
 ]]]
 
-The class-side constructor method creates an instance then sends it an initialization message:
+The class-side constructor method creates an instance, which it returns after sending it an initialization message; nothing original as far as constructors go:
 
 [[[language=smalltalk
 KANetworkPacket class >> from: sourceAddress to: destinationAddress payload: anObject
-    ^ self new
-        initializeSource: sourceAddress
-        destination: destinationAddress
-        payload: anObject
+    ... Your code ...
 ]]]
 
-The initialization method is only supposed to be called when creating packets.
+It's probably better if there is a single initialization method that takes all needed parameters at once, and if it has an obvious name, since it is only supposed to be called when creating packets and should not be confused with a setter:
 
 [[[language=smalltalk
 KANetworkPacket >> initializeSource: source destination: destination payload: anObject
-    sourceAddress := source.
-    destinationAddress := destination.
-    payload := anObject
+    ... Your code ...
 ]]]
 
 Once a packet is created, all we need to do with it is to obtain its payload, or the addresses of its source or destination nodes.
-We thus define an accessor method for each instance variable.
+Define the following getters:
 
 [[[language=smalltalk
 KANetworkPacket >> sourceAddress
-    ^ sourceAddress
-]]]
-
-[[[language=smalltalk
 KANetworkPacket >> destinationAddress
-    ^ destinationAddress
-]]]
-
-[[[language=smalltalk
 KANetworkPacket >> payload
-    ^ payload
 ]]]
 
 Now our test should be running and passing.
@@ -712,7 +694,7 @@ Wrong.
 The packet would be sent back to other nodes than the recipient; what would those nodes do when they receive a packet not addressed to them? Forward it. Where? To all their neighbours, which would forward it again... so when would the forwarding stop?
 
 
-!!!! Differenciating hubs from normal nodes
+!!!! Differentiating hubs from normal nodes
 
 To fix this, we need hubs to behave differently from nodes.
 When receiving a packet addressed to another node, a hub should forward it, but a normal node should just ignore it.
