@@ -240,11 +240,9 @@ GramCheckerTest >> testAllIsogramSetImplementation
 !!! Some fun: Obtaining french isograms
 
 Now we would like to find some isograms in french.
-*https://raw.githubusercontent.com/SquareBracketAssociates/LearningOOPWithPharo/master/resources/listeDeMotsAFrancaisUTF8.txt* contains some french words starting with letter A one by line. So we would like to get all the lines.
-
-We will use ==ZnClient==, the HTTPClient that comes with Pharo.
- Since this is a lot of data, execute the expression using the ""Inspect It"" menu or shocut to get an inspector instead of a simple ""DoIt"".
- You can try the other files which contains more than 330 000 french words.
+*https://raw.githubusercontent.com/SquareBracketAssociates/LearningOOPWithPharo/master/resources/listeDeMotsAFrancaisUTF8.txt* contains some french words starting with letter A one by line. So we would like to get all the lines. We will use ==ZnClient==, the HTTPClient that comes with Pharo.
+ Since this is a lot of data, execute the expression using the ""Inspect It"" menu or shortcut to get an inspector instead of a simple ""DoIt"".
+ You can try the other file which contains more than 330 000 french words.
 
 
 [[[
