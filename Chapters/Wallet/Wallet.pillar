@@ -88,10 +88,10 @@ values are added or removed to a wallet. If we use an array or an ordered collec
 
 !!! Looking at Bag
 
-A good structure to represent a wallet is a bag, instance of the class ==Bag==: a bag keeps elements and their respective occurrences. Let us have a look at a bag example before continuing. 
+A good structure to represent a wallet is a bag, instance of the class ==Bag==: a bag keeps elements and their respective occurrences. Let us have a look at a bag example before continuing.
  You can add and remove elements of a bag and iterate on them.  Let us play with it.
 
- First we create a bag and we expect it to be empty.
+ First we create a bag and we expect it to be empty:
 [[[
 | aFruitBag |
 aFruitBag := Bag new.
@@ -99,7 +99,7 @@ aFruitBag size.
 >>> 0
 ]]]
 
-Then we add 3 bananas and verify that our bag really contains the three bananas we just added.
+Then we add 3 bananas and verify that our bag really contains the three bananas we just added:
 
 [[[
 aFruitBag add: #Banana withOccurrences: 3.
@@ -107,7 +107,7 @@ aFruitBag size.
 >>> 3
 ]]]
 
-Now let us add different fruits
+Now let us add different fruits:
 
 [[[
 aFruitBag add: #Apple withOccurrences: 10. 
@@ -130,7 +130,7 @@ aFruitBag occurrencesOf: #Banana.
 ]]]
 
 We can then iterate over all the contents of the bag using the message ==do:==.
-The code snippet with print on the Transcript (open>Tools>Transcript) all the elements one by one. 
+The code snippet will print on the Transcript (open>Tools>Transcript) all the elements one by one. 
 [[[
 7 timesRepeat: [aFruitBag remove: #Apple].
 aFruitBag do: [ :each |  each logCr ].
@@ -151,11 +151,13 @@ Since for an element we know its occurrence we can iterate differently as follow
 aFruitBag doWithOccurrences: [ :each :occurrence | ('There is ' ,  occurrence printString , ' ', each ) logCr ]
 ]]]
 
-We get the following trace in the transcript. 
+We get the following trace in the Transcript. 
 [[[
 'There is 4 Banana'
 'There is 10 Apple'
 ]]]
+
+We could change a bit the code to print correctly 'There is' and 'There are' depending on the occurrence. We left this as an exercise for you.
 
 
 !!! Using a bag for a wallet

@@ -32,7 +32,7 @@ game
 game play
 ]]]
 
-Since we want to focus on the game logic, you will develop a textual version of the game and avoid any lengthy UI descriptions.
+Since we want to focus on the game logic, you will develop a textual version of the game and avoid any lengthy user interface descriptions.
 
 The following is an example game execution: Two players are on the first tile. The board contains two ladders, [2->6] and [7->9], and one snake [5<-11].
 

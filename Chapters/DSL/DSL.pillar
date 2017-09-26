@@ -11,7 +11,7 @@ This little exercise shows how we can (1) simply reuse traditional operator such
 Using the code browser, define a package named ==Dice== or any name you like.
 
 !!!! Create a test 
-It is always empowering to verify that the code we write is always working as we defining it. For this purpose you shouldl create a unit test. Remember unit testing was promoted by K. Beck first in the ancestor of Pharo. Nowadays this is a common practice but this is always useful to remember our roots!
+It is always empowering to verify that the code we write is always working as we defining it. For this purpose you should create a unit test. Remember unit testing was promoted by K. Beck first in the ancestor of Pharo. Nowadays this is a common practice but this is always useful to remember our roots!
 
 Define the class ==DieTest== as a subclass of ==TestCase== as follows: 
 

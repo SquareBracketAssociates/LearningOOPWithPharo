@@ -7,7 +7,7 @@ We then present a series of small examples showing how to use SUnit.
 !!! What is a test?
 
 A test is a context, a stimulus and an assertion (verification that we get the correct state).
-Here is an example on sets. Remember that sets are mathematical element having only one occurrence of their elements.
+Here is an example on sets. Remember that sets are mathematical entity having only one occurrence of their elements.
 
 First we test that adding an element changes the size of the set.
 - ""Context:"" we take an empty set.
@@ -73,7 +73,7 @@ run do not help you to find bugs! Moreover, an example method does not inform
 the reader of the expected result: you can run the example and see the (perhaps
 surprising) result, but you will not know if the observed behaviour is correct.
 
-Using a testing frameworks such as SUnit  is valuable because it allows us to write tests that are self-checking:
+Using a testing framework such as SUnit  is valuable because it allows us to write tests that are self-checking:
 the test itself defines what the correct result should be. It also helps us (1) to
 organize tests into groups, (2) to describe the context in which the tests must run,
 and (3) to run a group of tests automatically. As you saw, in less than two minutes you can

@@ -157,7 +157,7 @@ Now that you got the main point of objects, we can see that it applies to everyt
 
 We create two counters that we store in variables ==c1== and ==c2== instances of the class ==Counter==. Each counter has its own state but exhibits the same behavior as all the counters defined by the class ==Counter==: 
 - when responding to the message ==count==, it returns its value,
-- when responding the the message ==increment==, it increment one to its current value. 
+- when responding to the message ==increment==, it increment one to its current value. 
 
 [[[
 | c1 c2 |
@@ -462,7 +462,7 @@ el2 printString
 ]]]
 
 
-What would be nice it to get the full path so that we can immediately understand the configuration.
+What would be nice is to get the full path so that we can immediately understand the configuration.
 For example we would like to  finish with a '/' to indicate that this is a directory as with the ls command on unix. 
 
 [[[
@@ -625,7 +625,7 @@ We will now implement two functionalities: the size of directories and a search 
 +Two classes understanding similar sets of message.>file://figures/FileDirectoryV1.pdf|width=60|label=NutFileDirectoryV1+
 
 !!!! File size 
-Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantasit but this is for the sake of the example. To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
+Let us imagine that we want to compute the size of a directory. Note that the size computation we propose is fantasist but this is for the sake of the example. To perform such a computation we should also define what is the size of a file. Again let us start with examples (that you will turn into tests in the future.).
 
 First we define the file size as the size of its name plus the size of its contents.
 

@@ -815,7 +815,7 @@ EMultiplication >> operatorString
 
 The introduction of the class ==EBinaryExpression== is a rich experience in terms of lessons that we can learn. 
 
-- Refactorings are more than simple code transformations. Usually refactorings  pay attention their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operation in a few action.
+- Refactorings are more than simple code transformations. Usually refactorings pay attention that their application does not change the behavior of programs. As we saw refactorings are powerful operations that really help doing complex operations in a few action.
 
 - We saw that the introduction of a new superclass and moving instance variables or method to a superclass does not change the structure or behavior of the subclasses. This is because (1) for the state, the structure of an instance is based on the state of its class and all its superclasses, (2) the lookup starts in the class of the receiver and look in superclasses.
 

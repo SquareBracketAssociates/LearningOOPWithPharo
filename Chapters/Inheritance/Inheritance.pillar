@@ -34,7 +34,7 @@ We will use and extend the simple and naive example of files and directories (se
 !!! Improving files/directories example design
 
 Let us go back to the example of files and directories introduced in previous chapter. 
-When we look at the situation depicted by Figure *@FileDirectoryV1* we see that a file is not the same as a directory, even though they share some common state: both have a name and a parent. In addtion, they understand some common messages such as ==size==, ==search:==, ==parent:== and ==name:==. Remember that ==size== and ==search:== were not implemented the same way but the messages have indeed the same name. 
+When we look at the situation depicted by Figure *@FileDirectoryV1* we see that a file is not the same as a directory, even though they share some common state: both have a name and a parent. In addition, they understand some common messages such as ==size==, ==search:==, ==parent:== and ==name:==. Remember that ==size== and ==search:== were not implemented the same way but the messages have indeed the same name. 
 
 
 Load the code so that you can get the tests that we asked you to define at the end of chapter *@cha:objectclass*.
