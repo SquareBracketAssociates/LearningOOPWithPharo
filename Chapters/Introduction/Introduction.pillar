@@ -79,7 +79,7 @@ Now in a nutshell, you should know that the Pharo syntax
 - fits in one postcard and
 - is based on objects, messages and closures.
 
-Note that closures are not a recent addition to the language but a central cornestone. Closures are the foundation for conditional and loops.
+Note that closures are not a recent addition to the language but a central cornerstone. Closures are the foundation for conditional and loops.
 They enable this 'messages all over the place' syntax as well as really powerful iterators.
 
 

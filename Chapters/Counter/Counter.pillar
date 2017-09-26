@@ -84,7 +84,7 @@ Although protocols can have any name, Pharo programmers follow certain conventio
 
 !!!! Create a method
 
-Now let us create the accessor methods for the instance variable ==count==. Start by selecting the class ==Counter== in a browser, and make sure the you are editing the instance side of the class (i.e., we define methods that will be sent to instances) by deselecting the Class side radio button.
+Now let us create the accessor methods for the instance variable ==count==. Start by selecting the class ==Counter== in a browser, and make sure that you are editing the instance side of the class (i.e., we define methods that will be sent to instances) by deselecting the Class side radio button.
 
 Create a new protocol by bringing the menu of methods protocol list: click on the third list from the left. Select the newly created protocol. Then in the bottom pane, the edit field displays a method template laying out the default structure of a method. As a general hint, double click at the end of or beginning of the text and start typing your method.
 Replace the template with the following method definition:
@@ -159,13 +159,13 @@ Since you have a first green test. This is a good moment to save your work.
 
 Several ways to save your work exist. 
 
-- ''Using plain files''. You can save the class or a method by clicking on it and selecting the fileout menu item. You will get a file containing the source code on your hard-disc - This is not the favorite way to save your code. 
+- ''Using plain files''. You can save the class or a method by clicking on it and selecting the fileout menu item. You will get a file containing the source code on your hard-disk - This is not the favorite way to save your code. 
 - ''Using a version control system''. It is better to use a version control system. In Pharo you can use Monticello and Git (even if it is more for advanced users).
 
 
 In this chapter, we explain the simplest way to get you done. Note that the complete set of Pharo packages is managed via Monticello (which is a distributed versioning control system - there are chapters in ""Pharo by Example"" and ""Deep into Pharo"" books *http://books.pharo.org*).
 
-Use the ""Monticello Browser"" (available in Tools) to save your work. You can save a package locally on your harddisc or on a remote server on the web such as *http://www.smalltalkhub.com*
+Use the ""Monticello Browser"" (available in Tools) to save your work. You can save a package locally on your hard-disk or on a remote server on the web such as *http://www.smalltalkhub.com*
 
 !!!! Saving using Monticello
 
@@ -259,9 +259,9 @@ Counter >> printOn: aStream
    aStream nextPutAll: ' with value: ', self count printString.
 ]]]
 
-Note that the method ==printOn:== is used when you print an object using print it (See Figure *@figBetterDescription*) or click on ==self== in an inspector.
+Note that the method ==printOn:== is used when you print an object using print it (See Figure *@figBetterDescription*). In addition this method is invoked when you click on ==self== in an inspector. An inspector is an object to interact and modify objects. It is really powerful during development.
 
-+Better description.>file://figures/CounterBetterDescription.png|label=figBetterDescription+
++Better description doing a Print It (cmd \+ P).>file://figures/CounterBetterDescription.png|label=figBetterDescription+
 
 
 !!! Instance initialization method
