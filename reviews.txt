@@ -1,0 +1,251 @@
+
+
+===============================================================
+Learning OOP by Stéphane Ducasse with Damien Pollet
+        version 25 sept 2017 / master@3bec5c0
+ Part I , Part II , Part III , Part IV , Part V , Part VI
+===============================================================
+
+RenePaulMages rereading (26th september 2017)  pharo@rmages.com
+
+$$$ is the tag used to highlight our changes proposals $$$
+
+IMHO = In My Humble Opinion
+
+
+=== CHAPTER 1 About this book ===
+
+1.3  (page 3)
+Note that closures are not a recent addition to the language but a
+central $$$ s/ cornestone / cornerstone / $$$.
+
+
+===== Part I Getting in touch with Pharo =====
+
+
+=== CHAPTER 2 Pharo syntax in a nutshell ===
+
+nothing to declare
+
+
+=== CHAPTER 3 Challenge yourself ===
+
+nothing to declare
+
+
+=== CHAPTER 4 Developing a simple counter ===
+
+4.3 (page 24)
+Now let us create the accessor methods for the instance variable count .
+Start by selecting the class Counter in a browser, and make sure $$$ s /
+the / that / $$$ you are editing the instance side of the class (i.e.,
+we define methods that will be sent to instances) by deselecting the
+Class side radio button.
+
+4.5 (page 25)
+
+• Using plain files. You can save the class or a method by clicking on
+it and selecting the fileout menu item. You will get a file containing
+the source code on your $$$ s / hard-disc / hard-disk / This is not the
+favorite way to save your code.
+• Using a version control system. It is better to use a version control
+system. In Pharo you can use Monticello and Git (even if it is more for
+advanced users).
+In this chapter, we explain the simplest way to get you done. Note that
+the complete set of Pharo packages is managed via Monticello (which is a
+distributed versioning control system - there are chapters in Pharo by
+Example and Deep into Pharo books http://books.pharo.org ).
+Use the Monticello Browser (available in Tools) to save your work. You
+can save a package locally on your $$$ s / harddisc / hard-disk / $$$ or
+on a remote server on the web such as http://www.smalltalkhub.com
+
+4.7 (page 28)
+IMHO it is not a good idea (at the pedagogic level) to use the term
+inspector in the following sentence :
+"Note that the method printOn: is used when you print an object using
+print it (See Figure 5-6) or click on self in an inspector."
+IMHO it is necessary to add one or two sentences explaining the term
+inspector.
+
+
+=== CHAPTER 5 Test, tests and tests ===
+
+5.1 (page 31)
+A RenePaulMages proposal : replace $$$ mathematical element $$$ by $$$
+mathematical objets $$$ :
+A test is a context, a stimulus and an assertion (verification that we
+get the correct state). Here is an example on sets. Remember that sets
+are $$$ mathematical element $$$ having only one occurrence of their
+elements.
+
+5.2 (page 32)
+Using a testing $$$ s / frameworks / framework / $$$ such as SUnit is
+valuable because it allows us to write tests that are self-checking: the
+test itself defines what the correct result should be.
+
+=== CHAPTER 6 Some collection katas with words ===
+
+6.5 (page 45)
+Here is how to override the default in ZnClient . Since this is a lot of
+data, execute the expression using the Inspect It menu or shocut to get
+an inspector instead of a simple $$$ s / DoIt / Do it /$$$.
+
+
+===== Part II About objects and classes =====
+
+=== CHAPTER 7 Objects and classes ===
+
+7.5 (page 59)
+• when responding $$$ s / the the / to the / message increment , it
+increment one to its current value.
+
+=== CHAPTER 8 Revisiting objects and classes ===
+
+8.4 (page 66)
+What would be nice $$$ s / it / is / $$$ to get the full path so that we
+can immediately understand the configuration. For example we would like
+to finish with a ’/’ to indicate that this is a directory as with the ls
+command on unix.
+
+8.8 (page 70)
+Let us imagine that we want to compute the size of a directory. Note
+that the size computation we propose is $$$ s / fantasit / fantasist /
+$$$ but this is for the sake of the example. To perform such a
+computation we should also define what is the size of a file. Again let
+us start with examples (that you will turn into tests in the future.).
+
+
+=== CHAPTER 9 Converter ===
+
+Nothing to declare
+
+=== CHAPTER 10 An electronic wallet ===
+
+10.3 (page 85)
+Since for an element we know $$$ s / its occurrence / its occurrences /
+$$$ we can iterate differently as follows:
+
+10.3 (page 85)
+A RenePaulMages question:
+Why not use there are instead of there is ?
+aFruitBag doWithOccurrences: [ :each :occurrence | ('There is ' ,
+printString , ' ', each ) logCr ]
+occurrence
+We get the following trace in the transcript.
+'There is 4 Banana'
+'There is 10 Apple'
+
+=== CHAPTER 11 Crafting a single embedded DSL with Pharo ===
+
+11.1 (page 93)
+It is always empowering to verify that the code we write is always
+working as we defining it. For this purpose you $$$ s / shouldl / should
+/ $$$ create a unit test. Remember unit testing was promoted by K. Beck
+first in the ancestor of Pharo. Nowadays this is a common practice but
+this is always useful to remember our roots!
+
+
+===== Part III Sending messages =====
+
+
+=== CHAPTER 12 Sending a message is making a choice ===
+
+12.5 (page 112)
+We picked the Boolean examples to illustrate an important point: sending
+a message is making a choice. The runtime system will dynamically select
+the method depending on the receiver. This is what is called late
+binding or dynamic dispatch. Only at execution the correct method is
+selected.
+Now the Boolean example is the simplest one I could find to illustrate
+this point. It is also ground breaking in the sense that it touches
+something as $$$ s /fundemantal/fundamental/ $$$ as Boolean main operations.
+
+
+
+===== Part IV Looking at inheritance =====
+
+=== CHAPTER 13 Inheritance and incremental definition and
+                                          behavior reuse ===
+
+13.2 (page 118)
+Let us go back to the example of files and directories introduced in
+previous chapter. When we look at the situation depicted by Figure 13-1
+we see that a file is not the same as a directory, even though they
+share some common state: both have a name and a parent. In $$$ s /
+addtion / addition / $$$, they understand some common messages such as
+size , search: , parent: and name: .
+
+=== CHAPTER 14 Extending superclass behaviour ===
+
+14.5 (page 134)
+A RenePaulMages question:
+Why Figure 14-5 is located in 14.4 section (instead of 14.5) ?
+
+=== CHAPTER 15 A little expression interpreter ===
+
+15.14 (page 152)
+• Refactorings are more than simple code transformations. Usually
+refactorings pay attention their application does not change the
+behavior of program. As we saw refactorings are powerful operations that
+really help doing complex operation $$$ s / in a few action / in a few
+actions / $$$.
+
+
+===== Part V Little projects =====
+
+
+=== CHAPTER 16 Snakes and ladders ===
+
+16.2 (page 162)
+A RenePaulMages question :
+What is the meaning of UI in the following sentence (UI = User Interface ?):
+Since we want to focus on the game logic, you will develop a textual
+version of the game and avoid any lengthy UI descriptions.
+
+=== CHAPTER 17 TinyChat : a fun and small chat  client/server ===
+
+nothing to declare
+
+
+===== Part VI Solutions =====
+
+
+=== CHAPTER 18 Solution of challenge yourself ===
+
+nothing to declare
+
+=== CHAPTER 19 Some collection katas solutions ===
+
+nothing to declare
+
+=== CHAPTER 20 Electronic wallet solution ===
+
+in the title (page 225)
+Electronic wallet $$$ S / solutiuon / solution / $$$
+
+=== CHAPTER 21 Converter solution ===
+
+in the first sentence (page 227)
+This $$$ s / chpater / chapter / $$$ contains the solution of Chapter 9.
+
+=== CHAPTER 22 Die DSL ===
+
+in the first sentence (page 229)
+Here are the $$$  s / possiblle / possible / $$$ solutions of the
+implementation we asked for the DSL Chapter 11.
+
+=== CHAPTER 23 Expressions solutions ===
+
+in the first sentence (page 231)
+Here are the $$$ s / possiblle / possible / $$$ solutions of the
+implementation we asked for the Expression Chapter 15.
+
+
+=== CHAPTER 24 Network simulator solutions ===
+
+empty chapter ???
+
+
+=== CHAPTER 25 Snake and ladder solutions ===
+
+nothing to declare
