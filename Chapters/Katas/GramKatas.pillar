@@ -240,20 +240,21 @@ GramCheckerTest >> testAllIsogramSetImplementation
 !!! Some fun: Obtaining french isograms
 
 Now we would like to find some isograms in french.
-*http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt* contains 330 000 french words one by line. So we would like to get all the lines.
+*https://raw.githubusercontent.com/SquareBracketAssociates/LearningOOPWithPharo/master/resources/listeDeMotsAFrancaisUTF8.txt* contains some french words starting with letter A one by line. So we would like to get all the lines.
 
 We will use ==ZnClient==, the HTTPClient that comes with Pharo.
-This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. ==ZnClient== then assumes the encoding is utf8 (the most reasonable default today). So we have to tell the client which encoding to use using mime types. Mime-types can specify the encoding as follows: =='text/plain;charset=utf8'== or =='text/plain;charset=latin1'==.
+ Since this is a lot of data, execute the expression using the ""Inspect It"" menu or shocut to get an inspector instead of a simple ""DoIt"".
+ You can try the other files which contains more than 330 000 french words.
 
-Here is how to override the default in ==ZnClient==. Since this is a lot of data, execute the expression using the ""Inspect It"" menu or shocut to get an inspector instead of a simple ""DoIt"".
 
 [[[
-| lines |
-lines := (ZnDefaultCharacterEncoder 
-  value: ZnCharacterEncoder latin1 
-  during: [
-    ZnClient new 
-      get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
+(ZnClient new 
+    get: 'https://raw.githubusercontent.com/SquareBracketAssociates/LearningOOPWithPharo/
+	master/resources/listeDeMotsAFrancaisUTF8.txt') lines
+
+(ZnClient new 
+    get: 'https://raw.githubusercontent.com/SquareBracketAssociates/LearningOOPWithPharo/
+	master/resources/listeDeMotsFrancaisFrGutUTF8.txt') lines
 ]]]
 
 The expression above will give you an array of 336531 words (it is a bit slow depending on your internet connection because it is lot of data).
