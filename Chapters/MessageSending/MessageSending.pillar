@@ -61,7 +61,7 @@ What we can tell you is the solution is not based on bit fiddling and logical op
 The second hint is that ==true== and ==false== are instances of different classes. ==true== is (the unique) instance of the class ==True== while ==false== is (the unique) instance of the class ==False==. Note the uppercase on class names. This situation is depicted in Figure *@figTrueFalseOnly*.
 
 
-What you should see is that the fact that the solution has two different classes opens the door to have two different not implementations as shown by Figure *@figTrueFalseOnlySelectors*. Indeed, as we mention in early chapters, we can have one message and multiple methods that we will be selected and executed depending on the receiver of the message. 
+What you should see is that the fact that the solution has two different classes opens the door to have two different ==not== implementations as shown by Figure *@figTrueFalseOnlySelectors*. Indeed, as we mention in early chapters, we can have one message and multiple methods that we will be selected and executed depending on the receiver of the message. 
 
 Now you should be ready to get the solution. We should have a definition for the ==true== defined in the class ==True== and one for ==false== in the class ==False==.
 
@@ -79,7 +79,7 @@ Now you should be ready to get the solution. We should have a definition for the
 
 +Two methods for one message each one returning the other instance.>file://figures/BooleanTrueAndFalseWithNotMethods.pdf|width=75|label=figTrueFalseSolution+
 
-The implementation of negation (message ==not==) is defined as illustrated in Figure *@figTrueFalseSolution* and we shown below. The method ==not== of the class ==True== simply returns the Boolean ==false==. 
+The implementation of negation (message ==not==) is defined as illustrated in Figure *@figTrueFalseSolution* and is shown below. The method ==not== of the class ==True== simply returns the Boolean ==false==. 
 
 [[[
 True >> not
@@ -134,7 +134,7 @@ Propose an implementation of the disjunction for the first case: i.e. when the r
 | ""or"" | true | false |
 | true | true | true | 
 
- What you should have learned from the implementation of ==not== is that you have have two different methods taking advantage of the fact that they know what is the receiver during their execution. 
+ What you should have learned from the implementation of ==not== is that you have two different methods taking advantage of the fact that they know what is the receiver during their execution. 
 
 [[[
 true | true 
@@ -200,7 +200,7 @@ What you see with the following snippet is that message ==ifTrue:ifFalse:== is e
 >>> 'bigger'
 ]]]
 
-Now you should know that execute a block you should use the message ==value== as illustrated:
+Now you should know that to execute a block you should use the message ==value== as illustrated:
 
 [[[
 [1 + 3] value
@@ -303,7 +303,7 @@ There is a really difference for example between the FatClass design (left in Fi
 When I do code review, I looked at how domain variations are represented and if there are enough classes. 
 What is important to realise is that classes are cheap. It is better to write 5 little classes than a huge one. 
 Some (even smart) people get confused by measuring complexity of a system using number of classes. Having many classes 
-representing good abstractions with a single responsibility is much much better than having a single class exhibiting multiple responsibilities.
+representing good abstractions with a single responsibility is much better than having a single class exhibiting multiple responsibilities.
 
 !!! Conclusion
 
