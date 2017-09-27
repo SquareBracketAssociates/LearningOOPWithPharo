@@ -34,6 +34,76 @@ KANetworkPacket >> payload
 
 !!! Nodes
 
+[[[language=smalltalk
+KANetworkNode >> initializeAddress: aNetworkAddress
+    address := aNetworkAddress
+]]]
+
+[[[language=smalltalk
+KANetworkNode >> address
+    ^ address
+]]]
+
 !!! Links
+
+[[[language=smalltalk
+KANetworkLink >> initializeFrom: sourceNode to: destinationNode
+    source := sourceNode.
+    destination := destinationNode.
+]]]
+
+[[[language=smalltalk
+KANetworkLink >> source
+    ^ source
+]]]
+
+[[[language=smalltalk
+KANetworkLink >> destination
+    ^ destination
+]]]
+
+[[[language=smalltalk
+Object subclass: #KANetworkNode
+    instanceVariableNames: 'address outgoingLinks'
+    classVariableNames: ''
+    category: 'NetworkSimulator-Core'
+]]]
+
+[[[language=smalltalk
+KANetworkNode >> hasLinkTo: anotherNode
+    ^ outgoingLinks
+        anySatisfy: [ :any | any destination == anotherNode ]
+]]]
+
+!!! Sending a packet
+
+[[[language=smalltalk
+KANetworkLink >> isTransmitting: aPacket
+    ^ packetsToTransmit includes: aPacket
+]]]
+
+!!! Transmitting a packet
+
+[[[language=smalltalk
+KANetworkLink >> transmit: aPacket
+    "Transmit aPacket to the destination node of the receiver link."
+    (self isTransmitting: aPacket)
+        ifTrue: [
+            packetsToTransmit remove: aPacket.
+            destination receive: aPacket from: self ]
+]]]
+
+[[[language=smalltalk
+Object subclass: #KANetworkNode
+    instanceVariableNames: 'address outgoingLinks arrivedPackets'
+    classVariableNames: ''
+    category: 'NetworkSimulator-Core'
+]]]
+
+[[[language=smalltalk
+KANetworkNode >> initialize
+    outgoingLinks := Set new.
+    arrivedPackets := OrderedCollection new
+]]]
 
 !!! The Network

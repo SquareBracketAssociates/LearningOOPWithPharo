@@ -68,7 +68,8 @@ KANetworkPacket class >> from: sourceAddress to: destinationAddress payload: anO
     ... Your code ...
 ]]]
 
-It's probably better if there is a single initialization method that takes all needed parameters at once, and if it has an obvious name, since it is only supposed to be called when creating packets and should not be confused with a setter:
+That constructor will need to pass the initialization parameters to the new instance.
+It's preferable to define a single initialization method that takes all needed parameters at once, since it is only supposed to be called when creating packets and should not be confused with a setter:
 
 [[[language=smalltalk
 KANetworkPacket >> initializeSource: source destination: destination payload: anObject
@@ -119,18 +120,11 @@ KANetworkNode class >> withAddress: aNetworkAddress
         yourself
 ]]]
 
-The constructor relies on an instance-side initialization method:
+The constructor relies on an instance-side initialization method, and the test asserts that the ==address== accessor works; define them:
 
 [[[language=smalltalk
 KANetworkNode >> initializeAddress: aNetworkAddress
-    address := aNetworkAddress
-]]]
-
-And then we should be able to get the address of any existing node:
-
-[[[language=smalltalk
 KANetworkNode >> address
-    ^ address
 ]]]
 
 Again, our simplistic tests should now pass.
@@ -160,7 +154,7 @@ This test creates two nodes and a link; after telling the link to ''attach'' its
 Note that the constructor could have registered the link with ==node1==, but we opted for a separate message ==attach== instead, because it's bad form to have a constructor change other objets; this way we can build links between arbitrary nodes and still have control of when the connection really becomes part of the network model.
 For symmetry, we could have specified that ==node2== has an incoming link from ==node1==, but that ends up not being necessary, so we leave that out for now.
 
-Again, we need to define class of links:
+Again, we need to define the class of links:
 
 [[[language=smalltalk
 Object subclass: #KANetworkLink
@@ -177,24 +171,12 @@ KANetworkLink class >> from: sourceNode to: destinationNode
         initializeFrom: sourceNode to: destinationNode
 ]]]
 
-The initialization method itself:
+As well as the initialization method and accessors:
 
 [[[language=smalltalk
 KANetworkLink >> initializeFrom: sourceNode to: destinationNode
-    source := sourceNode.
-    destination := destinationNode.
-]]]
-
-Accessors:
-
-[[[language=smalltalk
 KANetworkLink >> source
-    ^ source
-]]]
-
-[[[language=smalltalk
 KANetworkLink >> destination
-    ^ destination
 ]]]
 
 The ==attach== method of a link should not (and cannot) directly modify the source node, so it must delegate to it instead.
@@ -205,41 +187,32 @@ KANetworkLink >> attach
 ]]]
 
 This is an example of separation of concerns: the link knows which node has to do what, but only the node itself knows precisely how to do that.
-Here, if a node knows about all its outgoing links, it means it has a collection of those; we therefore need to extend ==KANetworkNode==, first with an additional instance variable ==outgoingLinks==:
-
-[[[language=smalltalk
-Object subclass: #KANetworkNode
-    instanceVariableNames: 'address outgoingLinks'
-    classVariableNames: ''
-    category: 'NetworkSimulator-Core'
-]]]
-
-This variable needs to be initialized properly:
-
-[[[language=smalltalk
-KANetworkNode >> initialize
-    outgoingLinks := Set new.
-]]]
-
-We can then implement the ==attach:== method:
+Here, if a node knows about all its outgoing links, it means it has a collection of those, and attaching a link adds it to that collection:
 
 [[[language=smalltalk
 KANetworkNode >> attach: anOutgoingLink
     outgoingLinks add: anOutgoingLink
 ]]]
 
-And finally the testing method on instances of ==KANetworkNode==:
+For this method to compile correctly, we will need to extend ==KANetworkNode== with the new instance variable ==outgoingLinks==, and with the corresponding initialization code:
 
 [[[language=smalltalk
-KANetworkNode >> hasLinkTo: aNetworkNode
-    ^ outgoingLinks
-        anySatisfy: [ :any | any destination == aNetworkNode ]
+KANetworkNode >> initialize
+    outgoingLinks := Set new.
+]]]
+
+
+And finally the unit test relied on a predicate method to define in ==KANetworkNode==:
+
+[[[language=smalltalk
+KANetworkNode >> hasLinkTo: anotherNode
+    ... Your code ...
 ]]]
 
 Again, all the tests should now pass.
 
 
-!!! Nodes can emit packets
+!!! Simulating the steps of packet delivery
 
 The next big feature is that nodes should be able to send and receive packets, and links to transmit them.
 
@@ -267,7 +240,7 @@ This will allow us to model packet delivery precisely, to simulate latency, out-
 - First, we tell the node to send the packet using ==send:via:==. At that point the packet should be passed to the link for transmission, but not completely delivered yet.
 - Then, we tell the link to actually pass the packet along using ==transmit:==, and thus the packet should be received by the destination node.
 
-!!!!! Sending
+!!! Sending a packet
 
 To send a packet, the node emits it on the link:
 
@@ -276,7 +249,7 @@ KANetworkNode >> send: aPacket via: aLink
     aLink emit: aPacket
 ]]]
 
-Since the packet will not be delivered right away, emitting a packet really just stores it in the link, until the user elects this packet to proceed using the ==transmit:== message.
+For the simulation to be realistic, we do not want the packet to be delivered right away; instead, emitting a packet really just stores it in the link, until the user elects this packet to proceed using the ==transmit:== message.
 Storing packets requires adding an instance variable to ==KANetworkLink==, as well as specifying how this instance variable should be initialized.
 
 [[[language=smalltalk
@@ -302,24 +275,21 @@ We also add a testing method to check whether a given packet is currently being 
 
 [[[language=smalltalk
 KANetworkLink >> isTransmitting: aPacket
-    ^ packetsToTransmit includes: aPacket
+    ... Your code ...
 ]]]
 
-!!!!! Transmitting
+!!! Transmitting a packet across a link
 
-Transmitting a packet means passing it to the destination node, which will receive it.
+Transmitting a packet means passing it to the destination node, which will ''receive'' it.
 A link can not transmit packets that have not been sent via it, and once transmitted, the packet leaves the link:
 
 [[[language=smalltalk
 KANetworkLink >> transmit: aPacket
     "Transmit aPacket to the destination node of the receiver link."
-    (self isTransmitting: aPacket)
-        ifTrue: [
-            packetsToTransmit remove: aPacket.
-            destination receive: aPacket from: self ]
+    ... Your code ...
 ]]]
 
-Nodes only consume packets addressed to them; this is what will happen in our test, so we can worry about the alternative case later (==notYetImplemented== is a special message that we can use in place of code that we will have to write eventually, but prefer to ignore for the time being).
+Nodes only consume packets addressed to them; fortunately this is what will happen in our test, so we can worry about the alternative case later (==notYetImplemented== is a special message that we can use in place of code that we will have to write eventually, but prefer to ignore for the time being).
 
 [[[language=smalltalk
 KANetworkNode >> receive: aPacket from: aLink
@@ -338,20 +308,7 @@ KANetworkNode >> consume: aPacket
 ]]]
 
 Additionally to consuming the packet, we remember it did arrive; for now this is mostly for our tests and for debug, but we could see that becoming useful in the future, if we want to simulate packet losses and re-emissions.
-We thus add the ==arrivedPackets== instance variable, with proper initialization and accessing:
-
-[[[language=smalltalk
-Object subclass: #KANetworkNode
-    instanceVariableNames: 'address outgoingLinks arrivedPackets'
-    classVariableNames: ''
-    category: 'NetworkSimulator-Core'
-]]]
-
-[[[language=smalltalk
-KANetworkNode >> initialize
-    outgoingLinks := Set new.
-    arrivedPackets := OrderedCollection new
-]]]
+Don't forget to declare the ==arrivedPackets== instance variable, with proper initialization and accessing:
 
 [[[language=smalltalk
 KANetworkNode >> hasReceived: aPacket
@@ -359,10 +316,10 @@ KANetworkNode >> hasReceived: aPacket
 ]]]
 
 At that point all our tests should pass.
-Note that the message ==notYetImplemented== is not called, since our tests do not require routing (yet).
+Note that the message ==notYetImplemented== is not called, since our tests do not yet require routing.
 
 
-!!!! A standalone node can transmit a packet to itself
+!!! A standalone node can transmit a packet to itself
 
 If a node wants to send a packet to itself, it does not need any connection to do so.
 In real-world networking stacks, loopback routing shortcuts the lower networking layers; however, this is finer detail than we are modeling here.
