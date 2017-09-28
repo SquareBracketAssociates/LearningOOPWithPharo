@@ -53,7 +53,6 @@ Since we have not yet decided what addresses and payloads should look like, we j
 
 Of course, if we now compile and run this test method, it will fail, because the class ==KANetworkPacket== has not been created yet, nor any of the four above messages.
 You can either execute and let the system prompt you when needed or we can define the class:
-
 [[[language=smalltalk
 Object subclass: #KANetworkPacket
     instanceVariableNames: 'sourceAddress destinationAddress payload'
@@ -62,7 +61,6 @@ Object subclass: #KANetworkPacket
 ]]]
 
 The class-side constructor method creates an instance, which it returns after sending it an initialization message; nothing original as far as constructors go:
-
 [[[language=smalltalk
 KANetworkPacket class >> from: sourceAddress to: destinationAddress payload: anObject
     ... Your code ...
@@ -70,7 +68,6 @@ KANetworkPacket class >> from: sourceAddress to: destinationAddress payload: anO
 
 That constructor will need to pass the initialization parameters to the new instance.
 It's preferable to define a single initialization method that takes all needed parameters at once, since it is only supposed to be called when creating packets and should not be confused with a setter:
-
 [[[language=smalltalk
 KANetworkPacket >> initializeSource: source destination: destination payload: anObject
     ... Your code ...
@@ -78,7 +75,6 @@ KANetworkPacket >> initializeSource: source destination: destination payload: an
 
 Once a packet is created, all we need to do with it is to obtain its payload, or the addresses of its source or destination nodes.
 Define the following getters:
-
 [[[language=smalltalk
 KANetworkPacket >> sourceAddress
 KANetworkPacket >> destinationAddress
@@ -278,10 +274,10 @@ KANetworkLink >> isTransmitting: aPacket
     ... Your code ...
 ]]]
 
-!!! Transmitting a packet across a link
+!!! Transmitting across a link
 
-Transmitting a packet means passing it to the destination node, which will ''receive'' it.
-A link can not transmit packets that have not been sent via it, and once transmitted, the packet leaves the link:
+Transmitting a packet means telling the link's destination node to receive it.
+A link can not transmit packets that have not been sent via it, and once transmitted, the packet should not be on the link anymore:
 
 [[[language=smalltalk
 KANetworkLink >> transmit: aPacket
@@ -319,7 +315,7 @@ At that point all our tests should pass.
 Note that the message ==notYetImplemented== is not called, since our tests do not yet require routing.
 
 
-!!! A standalone node can transmit a packet to itself
+!!! The loopback link
 
 If a node wants to send a packet to itself, it does not need any connection to do so.
 In real-world networking stacks, loopback routing shortcuts the lower networking layers; however, this is finer detail than we are modeling here.
@@ -355,9 +351,7 @@ As with all instance variables, we have to remember to make sure it is correctly
 
 [[[language=smalltalk
 KANetworkNode >> initialize
-    loopback := KANetworkLink from: self to: self.
-    outgoingLinks := Set new.
-    arrivedPackets := OrderedCollection new
+    ... Your code ...
 ]]]
 
 The accessor has nothing special:
@@ -386,9 +380,7 @@ We can however make a special case for loopback, when the destination address is
 KANetworkNode >> linksTowards: anAddress do: aBlock
     "Simple flood algorithm: route via all outgoing links.
     However, just loopback if the receiver node is the routing destination."
-    anAddress = address
-        ifTrue: [ aBlock value: self loopback ]
-        ifFalse: [ outgoingLinks do: aBlock ]
+    ... Your code ...
 ]]]
 
 Now we have the basic model working, and we can try more realistic examples.
