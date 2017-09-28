@@ -304,6 +304,9 @@
       language = {#1}
     },
     breakable,
+    lines before break = 4,
+    before={\par\nobreak\@afterheading},
+    after={\par\pagebreak[1]},
     frame code = {\draw
       ([xshift=-2pt]interior.south west)
       --([xshift=-4pt]interior.south west)
