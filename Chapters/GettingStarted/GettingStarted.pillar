@@ -373,7 +373,13 @@ allSatisfy: aBlock
 
 In a method, the receiver (==self==) is the default return value of the whole method. Using a caret (==\^==) a method returns something else or even return earlier. Here is the code of the method ==allSatify:== on the class ==Collection==.
 	
+!!! Resources
 
+This chapter showed you the key syntatic elements. If you want to get a deeper understanding about the syntax please refer to the following mooc videos. 
+
+- *http: *
+- *http: *
+- *http: *
 
 !!! Conclusion 
 
@@ -381,3 +387,48 @@ You have three kinds of messages and the simpler are executed prior to more comp
 Blocks are anonymous methods that can be pass around and used to define control structures and loops.
 
 You now know enough to read 95\% of Pharo code. Remember, it is all just messages being sent to objects.
+
+
+!!! Summary
+
+!!!! Six reserved words only
+
+| ==nil== | the undefined object
+| ==true==, ==false==| boolean objects
+| ==self==| the receiver of the current message
+|==super==| the receiver, in the superclass context
+|==thisContext==| the current invocation on the call stack
+		
+!!!! Reserved syntactic constructs
+
+| =="comment"== | comment
+| =='string'== | string
+| ==#symbol==| unique string
+| ==$a==, Character space | the character a and a space
+|12 2r1100 16rC| twelve (decimal, binary, hexadecimal)
+|3.14 1.2e3| floating-point numbers
+|  ==#(abc 123)== | literal array with the symbol ==#abc== and the number 123
+| =={foo . 3 + 2}== | dynamic array built from 2 expressions
+| ==#[123 21 255]== | byte array 
+| ''exp1''. ''exp2'' | expression separator (period)
+| ==;== | message cascade (semicolon)
+|var := ''expr''| assignment 
+| ==^== ''expr'' | return a result from a method (caret)
+| ==[ :e \| expr ]== | code block with a parameter 
+| ==\| var1 var2 \|== | declaration of two temporary variables 
+
+
+		
+		
+		
+		
+		
+!!!! Message Sending
+When we send a message to an object, the message
+''receiver'', the method is selected and executed; the message returns an object. Messages syntax mimics natural languages, with a subject, a verb, and complements. 
+
+		
+
+
+
+
