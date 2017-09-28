@@ -106,4 +106,22 @@ KANetworkNode >> initialize
     arrivedPackets := OrderedCollection new
 ]]]
 
-!!! The Network
+!!! The loopback link
+
+[[[language=smalltalk
+KANetworkNode >> initialize
+    loopback := KANetworkLink from: self to: self.
+    outgoingLinks := Set new.
+    arrivedPackets := OrderedCollection new
+]]]
+
+[[[language=smalltalk
+KANetworkNode >> linksTowards: anAddress do: aBlock
+    "Simple flood algorithm: route via all outgoing links.
+    However, just loopback if the receiver node is the routing destination."
+    anAddress = address
+        ifTrue: [ aBlock value: self loopback ]
+        ifFalse: [ outgoingLinks do: aBlock ]
+]]]
+
+!!! Modeling the network itself
