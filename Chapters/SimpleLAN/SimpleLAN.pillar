@@ -25,7 +25,7 @@ We will therefore probably need to model the nodes, the connection links, and th
 Packets seem to be the simplest objects in our model: we need to create them, and ask them about the data they contain, but that's about it.
 Once created, a packet object is merely a passive data structure: it will not change its data, knows nothing of the surrounding network, and has no behavior that we can really talk about.
 
-Let's start by defining a test class:
+Let's start by defining a test class and a first test sketching what creating and looking at packets would look like:
 
 [[[language=smalltalk
 TestCase subclass: #KANetworkEntitiesTest
@@ -33,8 +33,6 @@ TestCase subclass: #KANetworkEntitiesTest
     classVariableNames: ''
     category: 'NetworkSimulator-Tests'
 ]]]
-
-Now we can start sketching what creating and looking at packets would look like:
 
 [[[language=smalltalk
 KANetworkEntitiesTest >> testPacketCreation
@@ -291,7 +289,7 @@ KANetworkLink >> transmit: aPacket
     ... Your code ...
 ]]]
 
-Nodes only consume packets addressed to them; fortunately this is what will happen in our test, so we can worry about the alternative case later (==notYetImplemented== is a special message that we can use in place of code that we will have to write eventually, but prefer to ignore for the time being).
+Nodes only consume packets addressed to them; fortunately this is what will happen in our test, so we can worry about the alternative case later (==notYetImplemented== is a special message that we can use in place of code that we will have to write eventually, but prefer to ignore for now).
 
 [[[language=smalltalk
 KANetworkNode >> receive: aPacket from: aLink
@@ -309,8 +307,8 @@ KANetworkNode >> consume: aPacket
     "Default handling is to do nothing."
 ]]]
 
-Additionally to consuming the packet, we remember it did arrive; for now this is mostly for our tests and for debug, but we could see that becoming useful in the future, if we want to simulate packet losses and re-emissions.
-Don't forget to declare the ==arrivedPackets== instance variable, with proper initialization and accessing:
+After consuming the packet, we remember it did arrive; this is mostly for testing and debugging, but someday we might want to simulate packet losses and re-emissions.
+Don't forget to declare and initialize the ==arrivedPackets== instance variable, along with its accessor:
 
 [[[language=smalltalk
 KANetworkNode >> hasReceived: aPacket
