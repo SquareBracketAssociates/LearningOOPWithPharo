@@ -245,7 +245,7 @@ Now you can invent your own conditional message ==siVrai:siFaux:== for a french 
 Some readers may be intrigued and think that this is spurious because they will never have to reimplement Booleans in their life. This is true even if there are different versions of Boolean logic such as the ternary logic that contains also unknown value. 
 
 We picked the Boolean examples to illustrate an important point: sending a message is making a choice. The runtime system will dynamically select the method depending on the receiver. This is what is called late binding or dynamic dispatch. Only at execution the correct method is selected. Now the Boolean example is the simplest one I could find to illustrate this point. 
-It is also ground breaking in the sense that it touches something as fundamantal as Boolean main operations. 
+It is also ground breaking in the sense that it touches something as fundamental as Boolean main operations. 
 
 Now the choices can be made over several dozens of classes. For example in Pillar the document processing system in which this book is written there are around 59 different classes expressing different parts of a document: section, title, bold, paragraph... and the same principle applies there. The system selects the correct methods to render text, LaTeX or HTML using exactly the same principle. 
 

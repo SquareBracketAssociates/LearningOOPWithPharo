@@ -7,7 +7,7 @@ We then present a series of small examples showing how to use SUnit.
 !!! What is a test?
 
 A test is a context, a stimulus and an assertion (verification that we get the correct state).
-Here is an example on sets. Remember that sets are mathematical entity having only one occurrence of their elements.
+Here is an example on sets. Remember that sets are mathematical entities having only one occurrence of their elements.
 
 First we test that adding an element changes the size of the set.
 - ""Context:"" we take an empty set.
