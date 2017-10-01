@@ -68,7 +68,7 @@ In addition we will also present
 !!!! Growing software
 
 Often books present a problem and its solution. Now for non trivial problems, the solution does not fall from the sky or get developed in one stroke but it is the constant evolution of a first solution that evolves over time. Such an evolution is often difficult and tedious because the developer jumps from one stable state to a situation where his code may not work anymore. This is where Test Driven Design and refactorings really help.
-Test Driven Design helsp to focus on new features and captures them as executable entities: tests. Refactorings helps by transforming code without breaking its invariants.
+Test Driven Design helps focusing on new features and captures them as executable entities: tests. Refactorings helps by transforming code without breaking its invariants.
 Note that tests do not forbid to break code, they help identifying when previous invariants or constraints got violated. Sometimes violated tests identify a bug but they may be broken just because the requirements changed and that the tests should be updated. 
 In this book, I wanted to see how software grows in little steps. This is is what I do frequently during my coding sessions and I think that this is important to cover the hidden paths in software creation.
 

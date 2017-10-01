@@ -360,7 +360,7 @@ Methods are edited one by one in a code browser, like the one shown in Figure *@
 
 The following code is the definition of the method ==allSatisfy:==. The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes. Inside a method, ==self== refers to the object itself, the receiver.
 
-Let us explain the implementation of such method. Using the message ==do:== we iterate over all elements of the collection. For each element we execute block (a predicate) that returns a boolean value and act accordingly. As soon as we get a false value, we stop and return an overall false value. If every evaluation gave us true, we passed the whole test and can return ==true== as overal result.
+Let us explain the implementation of such method. Using the message ==do:== we iterate over all elements of the collection. For each element we execute block (a predicate) that returns a boolean value and act accordingly. As soon as we get a false value, we stop and return an overall false value. If every evaluation gave us true, we passed the whole test and can return ==true== as overall result.
 
 [[[
 allSatisfy: aBlock
