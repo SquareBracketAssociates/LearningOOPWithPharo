@@ -1,8 +1,8 @@
-# Learning Object-Oriented Programming with Pharo
+# Learning Object-Oriented Programming, Design and TDD with Pharo
 
 [![Build status][badge]][travis]
 
-This repository contains the sources of the book *Learning Object-Oriented Programming and Design with Pharo* by S. Ducasse.
+This repository contains the sources of the book *Learning Object-Oriented Programming, Design and TDD with Pharo* by S. Ducasse with Damien Pollet.
 It is a follow up of *Botincs: Learning programming with Squeak*. But its contents are far more advanced and fun :).
 
 The book is automatically built and available at:
