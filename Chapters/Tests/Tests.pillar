@@ -46,7 +46,7 @@ MyExampleSetTest >> testAddTwice
 	self assert: s size equals: 1.
 ]]]
 
-Then using the Test runner or pressing on icons of the Pharo browser, you will be able to execute the method ==testAddTwice== and it will tell you if it passes or fails (i.e., if its assertions are true). Now that you know that writing a test is not complex. Let us look a bit at the theory before going into more details. 
+Then using the Test runner or pressing on icons of the Pharo browser (as shown in Figure *@fig:browsertests*), you will be able to execute the method ==testAddTwice== and it will tell you if it passes or fails (i.e., if its assertions are true). Now that you know that writing a test is not complex. Let us look a bit at the theory before going into more details. 
 
 !!!Test Driven Design
 
@@ -84,6 +84,7 @@ and automatically executable tests.
 !!!Why testing is important
 @sec:whytest
 
+Now that you see that writing tests is simple. Let's step back and analyze the situation.
 Unfortunately, many developers believe that tests are a waste of their time.
 After all, ''they'' do not write bugs, only ''other'' programmers do that. Most
 of us have said, at some time or other: ''I would write tests if I had more
@@ -141,10 +142,9 @@ message than having 10 tests fail. However, it is not always possible to achieve
 this ideal: in particular, if a change breaks the initialization of an object,
 or the set-up of a test, it is likely to cause all of the tests to fail.
 
-!!! right-Bicep
+!!!! right-Bicep.
 Writing tests is not difficult in itself. Choosing ''what'' to test is much more
-difficult. The pragmatic programmers offer the "right-BICEP" principle. It
-stands for:
+difficult. Some programmers use the "right-BICEP" principle. It stands for:
 
 - Right: Are the results right?
 - B: Are all the boundary conditions correct?
@@ -155,11 +155,11 @@ stands for:
 
 Now let's go back and write a couple of tests using SUnit.
 
+
 !!!SUnit by example
 We show a step by step example. We continue with the example that tests the class ==Set==. Try editing and compiling the code as we go along. 
 
-Pay attention: test classes are special classes. As subclasses of ==TestCase== they have a different behavior that normal classes: their methods which start with ==test== are automatically executed on newly created instances of the class.
-
+Pay attention: test classes are special classes. As subclasses of ==TestCase== they have a different behavior that normal classes: their methods which start with ==test== are automatically executed on newly created instances of the class. This is what happens when you press the icon close to the method in a class browser (as shown in Figure *@fig:browsertests*).
 
 !!!!Step 1: Create the test class
 We use the class ==MyExampleSetTest== to group all the tests related to the class ==Set==. First you should create a new subclass of ==TestCase== called ==MyExampleSetTest==. 
@@ -172,15 +172,15 @@ TestCase subclass: #MyExampleSetTest
 ]]]
 
 
-!!!!Step 2: Write some test methods
+!!!!Step 2: Write a test method
 
 Let's create some tests by defining some methods in the class
 ==MyExampleSetTest==. Each method represents one test. The names of the methods
 should start with the string =='test'== so that SUnit collects them into
 test suites. Test methods take no arguments.
 
-Define the following test methods. The first test, named ==testIncludes==, tests
-the ==includes:== method of ==Set==. The test says that sending the message
+Define the following test method named ==testIncludes==. It tests
+the ==includes:== method of class ==Set==. The test says that sending the message
 ==includes: 5== to a set containing 5 should return ==true==. 
 
 [[[
@@ -190,6 +190,23 @@ MyExampleSetTest >> testIncludes
 	self assert: (full includes: 5).
 	self assert: (full includes: 6)
 ]]]
+
+As you see this is quite simple. Let's continue.
+
+!!!!Step 3: Run the test
+
+The easiest way to run the tests is directly from the browser. Simply click on
+the icon of the class name, or on an individual test method, or use the  ''Run
+tests (t)'' . The test methods will be flagged green or red,
+depending on whether they pass or not (as shown in Figure *@fig:browsertests*).
+
++Running SUnit tests from the System Browser: Just click on the round little button close to the class or method.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
+
+
+!!!! Step 4: Write more tests
+
+Let's create more tests by defining some methods in the class
+==MyExampleSetTest==.
 
 The second test, named ==testOccurrences==, verifies that the
 number of occurrences of 5 in ==full== set is equal to one, even if we
@@ -222,14 +239,7 @@ Note the use of the method ==TestCase >> deny:== to assert something that should
 not be true. ==aTest deny: anExpression== is equivalent to
 ==aTest assert: anExpression not==, but is much more readable.
 
-!!!!Step 4: Run the tests
-
-The easiest way to run the tests is directly from the browser. Simply click on
-the icon of the class name, or on an individual test method, or use the  ''Run
-tests (t)'' . The test methods will be flagged green or red,
-depending on whether they pass or not (as shown in *@fig:browsertests*).
-
-+Running SUnit tests from the System Browser.>file://figures/updatedbrowsertests.png|width=80|label=fig:browsertests+
+!!!! Step 5: Run all the tests
 
 You can also select sets of test suites to run, and obtain a more detailed log
 of the results using the SUnit Test Runner, which you can open by selecting the menu
@@ -251,6 +261,11 @@ coverage.
 Open a Test Runner, select the package ''MySetTest'', and click the ==Run Selected==
 button.
 
+
+
+
+!!!! Step 6: Alternative ways to execute tests
+
 You can also run a single test (and print the usual pass/fail result summary) by executing a
 ''Print it'' on the following code: ==MyExampleSetTest run: #testRemove==.
 
@@ -267,6 +282,8 @@ MyExampleSetTest >> testRemove
 	self assert: (full includes: 6).
 	self deny: (full includes: 5)
 ]]]
+
+!!!! Step 7: Looking at a bug
 
 Introduce a bug in ==MyExampleSetTest >> testRemove== and run the tests again. For
 example, change ==6== to ==7==, as in:
@@ -291,7 +308,7 @@ the name. Alternatively, you can execute one of the following expressions:
 MyExampleSetTest debug: #testRemove
 ]]]
 
-!!!!Step 5: Interpret the results
+!!!!Step 8: Interpret the results
 
 The method ==assert:== is defined in the class ==TestAsserter==. This is a superclass
 of ==TestCase== and therefore all other ==TestCase== subclasses and is responsible for
@@ -310,6 +327,10 @@ the right, whereas tests with errors cause the bar to turn red, and are listed i
 the bottom pane on the right.
 
 As an exercise, modify your tests to provoke both errors and failures.
+
+
+
+
 
 !!! The SUnit cookbook
 
