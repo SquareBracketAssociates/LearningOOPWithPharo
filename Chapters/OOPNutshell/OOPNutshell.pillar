@@ -44,7 +44,7 @@ for them.
 The only way to interact with objects is to send them ''messages''. 
 In the following snippets we send messages
 - to create an object , message ==new==,
-- to tell the turtle to turn, messsage ==turn:==, and
+- to tell the turtle to turn, message ==turn:==, and
 - to tell the turtle to move, message ==go:==.
 [[[
 | t |
@@ -432,7 +432,10 @@ When we look at the implementation of the method to add a file to a directory we
 
 We say that the class ==MFDirectory== delegates a part of its duties (to keep the information of the files it contains) to the class ==OrderedCollection==. In addition, when an object is executed, the object to which it may delegate part of its computation may change dynamically. 
 
-Such behavior is not specific to object, in procedural languages we can call another function defined on a data structure. With objects, it is really simple, we can send  a message to another object. 
+Such behavior is not specific to object-oriented programming, in procedural languages we can call another function defined on a data structure. 
+Now with object-oriented programming, there is a really important point: an object will send messages to other objects (even from the same class) and such message send will use the message offered by the receiver. There is normally no way for an object to access the internal structure of another object.
+
+
 
 
 !!! Printing a directory
