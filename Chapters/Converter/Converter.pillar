@@ -35,7 +35,7 @@ The test is structured the following way:
 
 The message ==assert:== expects a boolean. Here the expression ==((converter convertCelsius: 30) = 86.0)== returns a boolean. ==true== if the converter returns the value 86.0, ==false== otherwise. 
 
-The testing frameworks also offers some other similar methods. One is particularly interesting: ==assert:equals:== makes the error reporting more user friendly. The previous method is strictly equivalent to the following one using ==assert:equals:==. 
+The testing framework also offers some other similar methods. One is particularly interesting: ==assert:equals:== makes the error reporting more user friendly. The previous method is strictly equivalent to the following one using ==assert:equals:==. 
 [[[
 testCelsiusToFahrenheit
 
@@ -188,7 +188,7 @@ The following expression shows that we may get converted temperature with a too 
 
 Here just getting 11.1 is enough. There is no need to get the full version. In fact, we can manipulate floats in full precision but there are case like User Interfaces where we would like to get a shorter sort of information. 
 Typically as user of the temperature converter, our body does not see the difference between 12.1 or 12.2 degrees. 
-Pharo libraries include the message ==printShowingDecimalPlaces: aNumberOfDigit== used to rounds the ''textual'' representation of a float.
+Pharo libraries include the message ==printShowingDecimalPlaces: aNumberOfDigit== used to round the ''textual'' representation of a float.
 
 [[[
 (TemperatureConverter new convertFarhenheit: 52) printShowingDecimalPlaces: 1
@@ -373,7 +373,7 @@ TemperatureConverter >> dates
 
 
 Now we can get two converters each with its own location and measurement records. 
-The following tests verifies that this is the case. 
+The following tests verify that this is the case. 
 [[[
 TemperatureConverterTest >> testTwoLocations
 

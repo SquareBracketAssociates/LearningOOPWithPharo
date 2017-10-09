@@ -164,8 +164,8 @@ We could change a bit the code to print correctly 'There is' and 'There are' dep
 Since we can know how many coins of a given value are in a bag, a bag is definitively a good structure for our wallet. 
 
 We will define add an instance variable ==bagCoins== to the class and the methods
-- ==add: anInteger coinsOfValue: aCoinNumber== 
-- ==initialize== and  
+- ==add: anInteger coinsOfValue: aCoinNumber==, 
+- ==initialize==, and  
 - ==coinsOfValue:==.
 
 Let us start with the method ==initialize==. We define the method ==initialize== as follows. It is invoked automatically when an instance is created. 
@@ -186,7 +186,7 @@ Wallet >> add: anInteger coinsOfValue: aNumber
 ]]]
 
 
-We can define the method ==coinsOfValue:== that returns the number of coins of a given value (looks like the same as asking how many banana are in the fruit bag).
+We can define the method ==coinsOfValue:== that returns the number of coins of a given value (looks like the same as asking how many bananas are in the fruit bag).
 
 [[[
 Wallet >> coinsOfValue: aNumber
@@ -308,7 +308,7 @@ Wallet >> biggest
 
 !!! Biggest below a value
 
-We can also define the method ==biggestBelow:== that returns the first coin whose value is stricly smaller than the argument. =={(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggestBelow: 0.40== returns 0.2.
+We can also define the method ==biggestBelow:== that returns the first coin whose value is strictly smaller than the argument. =={(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggestBelow: 0.40== returns 0.2.
 	
 
 [[[
