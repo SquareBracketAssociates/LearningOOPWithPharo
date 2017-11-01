@@ -378,7 +378,7 @@ KANetworkNode >> send: aPacket
 ]]]
 
 One of the simplest routing algorithm is flooding: just send the packet via every link; this is obviously a waste of bandwidth, but it works.
-We can however make a special case for loopback, when the destination address is the one of the current node. When the address of a packet is the address
+We can however make a special case for loopback, when the destination address is the one of the current node. When the address of a packet is the address @@Damien@@
 
 [[[language=smalltalk
 KANetworkNode >> linksTowards: anAddress do: aBlock
@@ -412,7 +412,7 @@ KANetworkTest >> setUp
     self buildNetwork
 ]]]
 
-Before anything else, let's write a tests that will pass once we've made progress; we want to access network nodes given only their addresses. Here we check that we get a hub node based on its address: 
+Before anything else, let's write a test that will pass once we've made progress; we want to access network nodes given only their addresses. Here we check that we get a hub node based on its address: 
 
 [[[language=smalltalk
 KANetworkTest >> testNetworkFindsNodesByAddress
