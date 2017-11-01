@@ -603,7 +603,7 @@ TCConsole >> print: aCollectionOfMessages
 Note that this method is invoked by the method ==refreshMessages== and that changing all the list elements when we add just one element is rather ugly but ok for now.
 
 Finally we need to define the class method ==TCConsole class>>attach:== that gets the client model as argument.
-This method opens the graphical elements and puts in place a mechanism that will close the connection as soon as the client closew the window.
+This method opens the graphical elements and puts in place a mechanism that will close the connection as soon as the client closes the window.
  
 [[[
 TCConsole class >> attach: aTinyChat
