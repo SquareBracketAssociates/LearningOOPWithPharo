@@ -113,8 +113,8 @@ What the test clearly shows is that we are sending a message to the ""class"" ==
 
 !!!! Defining a class method
 
-Define the ''class'' method ==withFaces:== as follows. 
-- Click on the class button in the browser to make sure that you are editing a class method as shown in Figure XX.
+Define the ''class'' method ==withFaces:== as follows:
+- Click on the class button in the browser to make sure that you are editing a ""class"" method.
 - Define the method as follows: 
 
 [[[
@@ -260,7 +260,7 @@ DieHandle >> diceNumber
 	^ dice size
 ]]]
 
-Now your tests should run and this is good moment to save and publish your code. 
+Now your tests should run and this is a good moment to save and publish your code. 
 
 !!! Improving programmer experience
 
@@ -322,7 +322,7 @@ DieHandleTest >> testRoll
 It is worth to spend some times looking at the relationship between ==DieHandle== and ==Dice==. 
 A die handle is composed of dices. What is an important design decision is that the API of the main behavior (==roll==) is the same for a die or a die handle. You can send the message ==roll== to a dice or a die handle. This is an important property.
 
-Why? because it means that from a client perspective, she/he can treat the receiver without having to take care about the kind of object it is manipulating. A client just sends the message ==roll== to an object and get back a number (as shown in Figure *@figDieHandleComposition*). The client is not concerned by the fact that the receiver is composed out a simple object or a complex one. Such design decision supports the ''Don't ask, tell'' principle.
+Why? Because it means that from a client perspective, she/he can treat the receiver without having to take care about the kind of object it is manipulating. A client just sends the message ==roll== to an object and get back a number (as shown in Figure *@figDieHandleComposition*). The client is not concerned by the fact that the receiver is composed out a simple object or a complex one. Such design decision supports the ''Don't ask, tell'' principle.
 
 +A polymorphic API supports the ''Don't ask, tell'' principle.>file://figures/DiceHandleComposition.pdf|width=60|label=figDieHandleComposition+
 
