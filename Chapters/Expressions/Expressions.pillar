@@ -203,7 +203,7 @@ It is interesting to look at what we built so far. We have a group of classes wh
 !!!! Messages and methods
 The implementation of the ==evaluate== message is worth discussing. What we see is that ''different'' classes understand the same message but execute different methods as shown in Figure *@figExpressionEvaluate*.
 
-@@important A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something should be executed. 
+@@important A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something should be executed.
 
 
 What we see is that sending a message ==evaluate== to an expression is making a choice among the different implementations of the message. This point is central to object-oriented programming. 
@@ -240,7 +240,7 @@ readable and more fragile.
 As we will see as a general message in this book, sending a message is making a choice between different implementations. 
 Now to be able to choose we should have different implementations and this implies having different classes. 
 
-@@important Classes represent choices whose methods can be selected during message passing. Having more little classes is better than few large ones. 
+@@important Classes represent choices whose methods can be selected in reaction to a message. Having many little classes is better than few large ones.
 
 
 What we could do is to introduce a common superclass between ==EAddition== and ==EMultiplication== but keep the two subclasses. We will probably do it in the future
@@ -347,7 +347,7 @@ in fact one time should be enough.
 What are the solutions?
 - We could define another class ==Negator== that would do the job and each current classes would delegate to it. But it does not really solve our problem since we will have to duplicate all the message sends to call ==Negator== instances. 
 - If we  define the method ==negated== in the superclass (==Object==) we only need one definition and it will work. Indeed, when we send the message ==negated== to an instance of ==EConstant== or ==EAddition== the system will not find it locally but in the superclass ==Object==. So no need to define it four times but only one in class ==Object==. This solution is nice because it reduces the number of  similar definitions of the method ==negated== but it is not good because even if in Pharo we can add methods to the class ==Object== this is not a good practice. ==Object== is a class shared by the entire system so we should take care not to add behavior only making sense for a single application. 
-- The solution is to introduce a new superclass between our classes and the class ==Object==. It will have the same property than the solution with ==Object== but without poluting it (see Figure *@figExpressionHierar*). This is what we do in the next section. 
+- The solution is to introduce a new superclass between our classes and the class ==Object==. It will have the same property than the solution with ==Object== but without polluting it (see Figure *@figExpressionHierar*). This is what we do in the next section. 
 
 !!! Introducing Expression class
 
@@ -442,7 +442,7 @@ EAddition class >> left: anInteger right: anInteger2
 	^ self new left: anInteger ; right: anInteger2 
 ]]]
 
-Of course, since we are test infested we add a new test. 
+Of course, since we are addicted to tests, we add a new test. 
 [[[
 EEAdditionTest >> testEvaluateWithClassCreationMessage
 	| ep1 ep2 |
@@ -484,7 +484,7 @@ EEAdditionTest >> testNegated
 	self assert: (EAddition new right: ep1; left: ep2) negated evaluate equals: -8
 ]]]
 
-One simple solution is to define some class method returning typical instances of their classes. To define a class method remember that you should click the class side button. 
+One simple solution is to define some class methods returning typical instances of their classes. To define a class method remember that you should click the class side button. 
 
 [[[
 EConstant class >> constant5
@@ -636,7 +636,7 @@ EAdditionTest >> testPrinting
 	self assert: (EAddition fivePlusThree) negated printString equals:  '- ( 5 + 3 )'
 ]]]
 
-Printing an addition is: put an open parenthesis, print the left expression, put ' + ', print the right expression and put a closing parenthese in the stream. 
+Printing an addition is: put an open parenthesis, print the left expression, put ' + ', print the right expression and put a closing parenthesis in the stream. 
 
 [[[
 EAddition >> printOn: aStream
@@ -842,7 +842,7 @@ First creating a hook is also a good idea. Because you rarely know how your syst
 
 
 !!!! Avoid not documenting hooks
-Second we could have just defined one method ==operatorString== in each subclass and no method in the superclass ==EBinaryExpression==. It would have worked because ==EBinaryExpression== is not meant to have direct instances. Therefore there is no risk that a ==printOn:== message is sent to one of its instance and cause a error because no method ==operatorString== is found. 
+Second we could have just defined one method ==operatorString== in each subclass and no method in the superclass ==EBinaryExpression==. It would have worked because ==EBinaryExpression== is not meant to have direct instances. Therefore there is no risk that a ==printOn:== message is sent to one of its instance and cause an error because no method ==operatorString== is found. 
 
 The code would have looked like the following: 
 [[[
@@ -857,15 +857,14 @@ EMultiplication >> operatorString
 +Better design: Declaring an abstract method as a way to document a hook method.>file://figures/ExpressionsHierarchyBinaryAbstract.pdf|width=70|label=figExpressionsHierarchyBinaryAbstract+
 
 
-Now such design is not really good because as a potential extender of the code, developers will have to guess reading the subclass definitions that they should also define a method ==operatorString==. A much better solution in that case is to define what we can an abstract method in the superclass as follows: 
+Now such a design is not really good because as potential extenders, developers will have to guess reading the subclass definitions that they should also define a method ==operatorString==. A better solution in that case is to define an ''abstract'' method in the superclass as follows: 
 
 [[[
 EBinaryExpression >> operatorString
 	^ self subclassResponsibility
 ]]]
 
-Using the message ==subclassResponsibility== declares that a method is abstract and that subclasses should redefine it explicitly. 
-Using such an approach we get the final situation represented in Figure *@figExpressionsHierarchyBinaryAbstract*. 
+Using the message ==subclassResponsibility== declares that a method is abstract and does nothing except forcing its redefinition: subclasses should redefine it explicitly. Using such an approach we get the final situation represented in Figure *@figExpressionsHierarchyBinaryAbstract*. 
 
 In the solution presented before (section *@secBinaryExpression*) we decided to go for the simplest solution and it was to use one of the default value (' + ') as a default definition for the hook in the superclass ==EExpression==.  It was not a good solution and we did it on purpose to be able to have this discussion. It was not a good solution since it was using a specific subclass. It is better to define a default value for a hook in the superclass when this default value makes sense in the class itself.
 
@@ -908,7 +907,7 @@ The previous dictionary can be easily expressed more compactly using =={#x -> 33
 ]]]
 
 !!!!! Dynamic Arrays
-The expression =={ }== creates a dynamic array. Dynamic arrays executes their expressions and store the resulting values. 
+The expression =={ }== creates a dynamic array. Dynamic arrays execute their expressions and store the resulting values. 
 
 [[[
 {2 + 3 . 6 - 2 . 7-2 }
@@ -1053,7 +1052,7 @@ This little exercise was full of learning potential. Here is a little summary of
 - A message specifies an intent while a method is a named list of execution. We often have one message and a list of methods with the same name. 
 - Sending a message is finding the method corresponding to the message selector: this selection is based on the class of the object receiving the message. When we look for a method we start in the class of the receiver and go up the inheritance link. 
 - Tests are a really nice way to specify what we want to achieve and then to verify after each change that we did not break something. Tests do not prevent bugs but they help us building confidence in the changes we do by identifying fast errors. 
-- Refactorings are more than simple code transformations. Usually refactorings  pay attention their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operation in a few action. 
+- Refactorings are more than simple code transformations. Usually refactorings pay attention that their application does not change the behavior of program. As we saw refactorings are powerful operations that really help doing complex operations in a few actions. 
 - We saw that the introduction of a new superclass and moving instance variables or method to a superclass does not change the structure or behavior of the subclasses. This is because (1) for the state, the structure of an instance is based on the state of its class and all its superclasses, (2) the lookup starts in the class of the receiver and look in superclasses. 
 - Each time we send a message, we create a potential place (a hook) for subclasses to get their code definition used in place of the superclass's one.
 
