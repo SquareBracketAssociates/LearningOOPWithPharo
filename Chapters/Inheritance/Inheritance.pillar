@@ -65,7 +65,7 @@ Object subclass: #MFElement
 	package: 'MyFS2'
 ]]]
 
-As you may noticed it, this is class is empty. Now we have two possible strategies: 
+As you may noticed it, this class is empty. Now we have two possible strategies: 
 - either we make ==MFFile== and ==MFDirectory== inherit from ==MFElement== and  step by step we migrate the common state and behavior to the superclass,
 - or we define new state and behavior in ==MFElement== and we remove it  from the two classes and when ready we make them inherit from ==MFElement==. 
 
