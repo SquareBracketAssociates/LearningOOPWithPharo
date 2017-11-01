@@ -266,7 +266,7 @@ emitHTML: stream
 
 The problems with such explicit conditions is the following: 
 
-- First, they are cumbersome to write. Even using case statements as in other language the logic can become complex. Imagine for 59 cases of Pillar. Here is a small part of the document hierarchy. 
+- First, they are cumbersome to write. Even using case statements as in other languages, the logic can become complex. Imagine for 59 cases of Pillar. Here is a small part of the document hierarchy. 
 
 [[[
 PRObject #(''properties'')
