@@ -124,7 +124,7 @@ The game should keep the players list since it should compute who is the next pl
 
 !!!! CRC cards
 Some designers use CRC (for Class Responsibility Collaborators) cards: 
-the idea is to take the list of class we identified above. For each of them, they write on a little card: the class name, its responsibility in one or two sentences and list its collaborators. Once this is done, they take a scenario and see how the objects can play such a scenario. Doing so they refine their design by adding more information (collaborators) to a class or merging two classes or splitting a class into multiple ones when they fill that a class has too many responsibilities. 
+the idea is to take the list of classes we identified above. For each of them, they write on a little card: the class name, its responsibility in one or two sentences and list its collaborators. Once this is done, they take a scenario and see how the objects can play such a scenario. Doing so they refine their design by adding more information (collaborators) to a class or merging two classes or splitting a class into multiple ones when they fill that a class has too many responsibilities. 
 
 To improve such process, some designers consider implementation concerns 
 or alternatives and may create objects to represent such variations.
@@ -177,7 +177,7 @@ TestCase subclass: #SLGameTest
 
 One of the first scenario is that a game is composed of a certain number of tiles. 
 
-We can write a test as follows but it does not have a lot of value. At the beginning of the development this is normal to have limited tests because we do not have enough objects to interact with. 
+We can write a test as follows but it does not have a lot of value. At the beginning of the development, this is normal to have limited tests because we do not have enough objects to interact with. 
 
 [[[
 SLGameTest >> testCheckingSimpleGame
@@ -469,7 +469,7 @@ game
 
 Now you can inspect the game either using the inspect command-i or sending the message ==inspect== to the game as in ==game inspect==. You can also use the ''do it and go'' menu item of a playground window.  You should get a picture similar to the one *@fig:ginspector1*.
 
-We see that the object is a ==SLGame== instance and it has an instance variable named ==tiles==. You can navigate on the instance variables as shown in Figure *@fig:ginspector2*. Figure *@fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go to the first tile and see the two players. At each moment you can interact with the selected object dit messages. 
+We see that the object is a ==SLGame== instance and it has an instance variable named ==tiles==. You can navigate on the instance variables as shown in Figure *@fig:ginspector2*. Figure *@fig:ginspector3* shows that we can navigate the object structure: here we start from the game, go to the first tile and see the two players. At any moment you can interact with the selected object sending it messages.
 
 +Inspecting the game: a game instance and its instance variable ==tiles==.>file://figures/inspector1.png|width=70|label=fig:ginspector1+
 
@@ -1118,8 +1118,7 @@ SLGame >> turn: aNumber
 ]]]
 
 !!! How to find the logic of currentPlayer?
-Now we should define the method ==currentPlayer==. We will try to show you how we brainstorm and experiment when we are looking for an algoritm or even 
-the logic of a simple method. 
+Now we should define the method ==currentPlayer==. We will try to show you how we brainstorm and experiment when we are looking for an algorithm or even the logic of a simple method. 
 
 Imagine a moment that we have two players Jack-Jill. The turns are the following ones: Jack 1, Jill 2, Jack 3, Jill 4, Jack 5.....
 
@@ -1381,11 +1380,11 @@ SLGameTest >> testPlayOneStepOnInexactFinish
 
 !!! Variations
 
-As you see this single game has multiple variations. Here are some of the ones you may want to implement. 
+As you see this single game has multiple variations. Here are some of the ones you may want to implement:
 - A player who lands on an occupied tile must go back to its originating tile.
 - If you roll a number higher than the number of tiles needed to reach the last square, you must continue moving backwards from the end. 
 
-You will see that such extensions can be implemented in different manner. We suggest to avoid conditions but define objects responsible for the behavior and its variations. 
+You will see that such extensions can be implemented in different manner. We suggest to avoid conditions but define objects responsible for this behavior and its variations.
 
 !!! Conclusion
 This chapter went step by step to the process of getting from requirements to an actual implementation covered by tests. 
@@ -1394,4 +1393,4 @@ This chapter shows that design is an iterative process. What is also important i
 With tests we were able to change some parts of the design and rapidly make sure that the
 previous specification still hold.
 
-This chapter shows that identifying the objects and their interactions is not always straightforward and multiple design are often valid. 
+This chapter shows that identifying objects and their interactions is not always straightforward and multiple designs are often valid. 
