@@ -377,8 +377,9 @@ KANetworkNode >> send: aPacket
         do: [ :link | self send: aPacket via: link ]
 ]]]
 
-One of the simplest routing algorithm is flooding: just send the packet via every link; this is obviously a waste of bandwidth, but it works.
-We can however make a special case for loopback, when the destination address is the one of the current node. When the address of a packet is the address @@Damien@@
+One of the simplest routing algorithm is ''flooding'': just send the packet via every outgoing link.
+Obviously, this is a waste of bandwidth, but it works without any knowledge of the network topology beyond the list of outgoing links.
+However, there is one case where we know how to route the packet: if the destination address matches the one of the current node, we can select the loopback link alone.
 
 [[[language=smalltalk
 KANetworkNode >> linksTowards: anAddress do: aBlock
