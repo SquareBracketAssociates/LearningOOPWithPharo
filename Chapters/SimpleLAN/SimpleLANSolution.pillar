@@ -143,8 +143,6 @@ KANetworkTest >> buildNetwork
         to: (KANetworkNode withAddress: #pong)
 ]]]
 
-!!! The network class
-
 [[[language=smalltalk
 KANetwork >> initialize
     nodes := Set new.
@@ -187,4 +185,24 @@ KANetwork >> linkFrom: sourceAddress to: destinationAddress
             NotFound
                 signalFor: sourceAddress -> destinationAddress
                 in: self ]
+]]]
+
+!!! Packet delivery with forwarding
+
+[[[language=smalltalk
+KANetworkHub >> forward: aPacket from: arrivalLink
+    self
+        linksTowards: aPacket destinationAddress
+        do: [ :link |
+            link destination == arrivalLink source
+                ifFalse: [ self send: aPacket via: link ] ]
+]]]
+
+[[[language=smalltalk
+KANetworkHub >> forward: aPacket from: arrivalLink
+    self
+        linksTowards: aPacket destinationAddress
+        do: [ :link |
+            link destination == arrivalLink source
+                ifFalse: [ self send: aPacket via: link ] ]
 ]]]

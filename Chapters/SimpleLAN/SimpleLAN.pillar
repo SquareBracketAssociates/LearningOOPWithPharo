@@ -435,8 +435,6 @@ KANetworkTest >> buildNetwork
     ... Your code ...
 ]]]
 
-!!! The network class
-
 The name of the ==connect:to:== message suggests that establishing the bidirectional links is the responsibility of the ==net== object.
 It also has to remember enough info so we can inspect the network topology; we can simply store nodes and links in a couple of sets, even though that representation is a little redundant.
 Let's define the class with two instance variables:
@@ -577,10 +575,10 @@ KANetworkTest >> testDirectSend
     self assert: (pong hasReceived: packet)
 ]]]
 
-Both those tests should pass with no additional work, since they just reproduce what we already tested in ==KANetworkEntitiesTest== and adding ==KANetwork== did not impact the established behavior of nodes, links, and packets.
+Both tests should pass with no additional work, since they just reproduce what we already tested in ==KANetworkEntitiesTest== and adding ==KANetwork== did not impact the established behavior of nodes, links, and packets.
 
 
-!!! Packet delivery in a more realistic network
+!!! Packet delivery with forwarding
 
 Until now, we only tested packet delivery between directly connected nodes; let's try sending a node so that the packet has to be forwarded through the hub.
 
@@ -608,7 +606,7 @@ KANetworkTest >> testSendViaHub
     self assert: (pc1 hasReceived: hello).
 ]]]
 
-If you run this test, you will see that it fails because of the ==notYetImplemented== message we left earlier; it's time to fix that!
+If you run this test, you will see that it fails because of the ==notYetImplemented== message we left earlier in ==receive:from:==; it's time to fix that!
 When a node receives a packet but is not the recipient, it should forward the packet:
 
 [[[language=smalltalk
@@ -623,24 +621,20 @@ KANetworkNode >> receive: aPacket from: aLink
 Now we need to implement packet forwarding, but there is a trap.
 An easy solution would be to simply ==send:== the packet again: the hub would send the packet to all its connected nodes, one of which happens to be ==pc1==, the recipient, so all is good!
 
-''Wrong.''
+''Wrong…''
 
-The packet would be sent back to other nodes than the recipient; what would those nodes do when they receive a packet not addressed to them? Forward it. Where? To all their neighbours, which would forward it again... so when would the forwarding stop?
-
-
-!!!! Differentiating hubs from normal nodes
+The packet would be also sent to other nodes than the recipient; what would those nodes do when they receive a packet not addressed to them? Forward it. Where? To all their neighbours, which would forward it again... so when would the forwarding stop?
 
 To fix this, we need hubs to behave differently from nodes.
-When receiving a packet addressed to another node, a hub should forward it, but a normal node should just ignore it.
+In reality, hubs work at the lower layers of the OSI model, but our simplified model does not have that level of detail.
+We can approximate this by saying that upon reception of a packet addressed to another node, a hub should forward the packet, but a normal node should just ignore it.
 
-Let's first define an empty ==forward:from:== method for nodes:
+Let's first define an empty ==forward:from:== method for nodes, then add a new class for hubs, which will be modeled as nodes with an actual implementation of forwarding:
 
 [[[language=smalltalk
 KANetworkNode >> forward: aPacket from: arrivalLink
     "Do nothing. Normal nodes do not route packets."
 ]]]
-
-Now we can add a new class for hubs, which will have an actual implementation of forwarding:
 
 [[[language=smalltalk
 KANetworkNode subclass: #KANetworkHub
@@ -649,15 +643,11 @@ KANetworkNode subclass: #KANetworkHub
     category: 'NetworkSimulator-Nodes'
 ]]]
 
-A hub does not have routing information, so all we can do is forward the packet on all outbound links, unless the link goes back where the packet arrived from:
+A hub does not have routing information, so all it can do is flood routing, with a catch: the packet must not be sent back from where it arrived, because if that happens to be another hub the packet would bounce back and forth indefinitely.
 
 [[[language=smalltalk
 KANetworkHub >> forward: aPacket from: arrivalLink
-    self
-        linksTowards: aPacket destinationAddress
-        do: [ :link |
-            link destination == arrivalLink source
-                ifFalse: [ self send: aPacket via: link ] ]
+   ... Your code ...
 ]]]
 
 Now we can use a proper hub in our test, replacing the relevant line in ==KANetworkTest >> buildNetwork:==, and check that the ==testSendViaHub== unit test passes.
