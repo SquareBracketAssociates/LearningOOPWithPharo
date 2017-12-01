@@ -435,10 +435,10 @@ KANetworkTest >> buildNetwork
     ... Your code ...
 ]]]
 
-!!!!! The network class
+!!! The network class
 
 The name of the ==connect:to:== message suggests that establishing the bidirectional links is the responsibility of the ==net== object.
-It also has to remember enough info so we can inspect the network topology; we can simply store nodes and links in a couple of sets.
+It also has to remember enough info so we can inspect the network topology; we can simply store nodes and links in a couple of sets, even though that representation is a little redundant.
 Let's define the class with two instance variables:
 
 [[[language=smalltalk
@@ -464,7 +464,6 @@ KANetwork >> add: aNode
 
 However, connecting nodes without ensuring that they are part of the network really does not make any sense.
 Therefore, when connecting nodes, we will first ensure the nodes are added, then we create and attach links in both directions; finally we store both links.
-
 Implement the ==connect:to:== method; for concision, note that the ==attach== method we defined previously effectively returns the link.
 
 [[[language=smalltalk
@@ -472,18 +471,17 @@ KANetwork >> connect: aNode to: anotherNode
     ... Your code ...
 ]]]
 
-!!!!! Looking up nodes
+!!! Looking up nodes
 
-Now we can implement node lookup:
+At this point, the test should run through ==setUp== but fail in the unit test itself, because we still need to implement node lookup.
+The base lookup should find the first node that has the requested address, or evaluate a fall-back block:
 
 [[[language=smalltalk
 KANetwork >> nodeAt: anAddress ifNone: noneBlock
-    ^ nodes
-        detect: [ :any | any address = anAddress ]
-        ifNone: noneBlock
+    ... Your code ...
 ]]]
 
-We can also make a convenience ==nodeAt:== method for node lookup, that will raise an exception if it does not find the node.
+We can also make a convenience ==nodeAt:== method for node lookup, that will raise the predefined ==NotFound== exception if it does not find the node.
 Let's first write a test which validates this behavior:
 
 [[[language=smalltalk
@@ -493,18 +491,17 @@ KANetworkTest >> testNetworkOnlyFindsAddedNodes
         raise: NotFound
 ]]]
 
-Then we can simply express the ==nodeAt:== using the predefined Pharo exception ==NotFound==:
+Then we can simply express ==nodeAt:== by delegating to ==nodeAt:ifAbsent:==:
 
 [[[language=smalltalk
 KANetwork >> nodeAt: anAddress
-    ^ self
-        nodeAt: anAddress
-        ifNone: [ NotFound signalFor: anAddress in: self ]
+    ... Your code ...
 ]]]
 
-!!!!! Looking up links
+!!! Looking up links
 
-And finally, we want to be able to lookup links between two nodes. Again we define a new test:
+Next, we want to be able to lookup links between two nodes.
+Again we define a new test:
 
 [[[language=smalltalk
 KANetworkTest >> testNetworkFindsLinks
@@ -520,21 +517,14 @@ KANetworkTest >> testNetworkFindsLinks
         equals: (net nodeAt: #ping)
 ]]]
 
-And we define the method ==linkFrom:to:== identifying a link between source and destination nodes with matching addresses:
+And we define the method ==linkFrom:to:== returning the link between source and destination nodes with matching addresses, and signalling ==NotFound== if no such link is found:
 
 [[[language=smalltalk
 KANetwork >> linkFrom: sourceAddress to: destinationAddress
-    ^ links
-        detect: [ :anyLink |
-            anyLink source address = sourceAddress
-                and: [ anyLink destination address = destinationAddress ] ]
-        ifNone: [
-            NotFound
-                signalFor: sourceAddress -> destinationAddress
-                in: self ]
+    ... Your code ...
 ]]]
 
-As a final check, let's reproduce some of our previous tests in the network we just built.
+As a final check, let's try some of the previous tests, first on the isolated ==alone== node, showing that loopback works even without a network connection:
 
 [[[language=smalltalk
 KANetworkTest >> testSelfSend
@@ -555,7 +545,8 @@ KANetworkTest >> testSelfSend
     self assert: (alone hasReceived: packet)
 ]]]
 
-You can see that we used new testing methods ==isAddressedTo:== and ==isOriginatingFrom:==; these are just to avoid explicitly comparing addresses, for convenience:
+You can see that we used new convenience testing methods ==isAddressedTo:== and ==isOriginatingFrom:== which help inspect the state of a simulated network without explicitly comparing addresses.
+However, those methods should not take part in network simulation code, since in the real world nodes can never know their peers other than through their addresses.
 
 [[[language=smalltalk
 KANetworkPacket >> isAddressedTo: aNode
@@ -567,7 +558,7 @@ KANetworkPacket >> isOriginatingFrom: aNode
     ^ sourceAddress = aNode address
 ]]]
 
-The second test is transmitting a packet between directly connected nodes:
+The second test attempts transmitting a packet in the network, between the directly connected nodes ==ping== and ==pong==:
 
 [[[language=smalltalk
 KANetworkTest >> testDirectSend
@@ -586,7 +577,7 @@ KANetworkTest >> testDirectSend
     self assert: (pong hasReceived: packet)
 ]]]
 
-Both those tests should pass with no additional work, since they just reproduce what we already tested in ==KANetworkEntitiesTest==.
+Both those tests should pass with no additional work, since they just reproduce what we already tested in ==KANetworkEntitiesTest== and adding ==KANetwork== did not impact the established behavior of nodes, links, and packets.
 
 
 !!! Packet delivery in a more realistic network

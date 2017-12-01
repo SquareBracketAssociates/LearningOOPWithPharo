@@ -143,6 +143,8 @@ KANetworkTest >> buildNetwork
         to: (KANetworkNode withAddress: #pong)
 ]]]
 
+!!! The network class
+
 [[[language=smalltalk
 KANetwork >> initialize
     nodes := Set new.
@@ -155,4 +157,34 @@ KANetwork >> connect: aNode to: anotherNode
     self add: anotherNode.
     links add: (self makeLinkFrom: aNode to: anotherNode) attach.
     links add: (self makeLinkFrom: anotherNode to: aNode) attach
+]]]
+
+!!! Looking up nodes
+
+[[[language=smalltalk
+KANetwork >> nodeAt: anAddress ifNone: noneBlock
+    ^ nodes
+        detect: [ :any | any address = anAddress ]
+        ifNone: noneBlock
+]]]
+
+[[[language=smalltalk
+KANetwork >> nodeAt: anAddress
+    ^ self
+        nodeAt: anAddress
+        ifNone: [ NotFound signalFor: anAddress in: self ]
+]]]
+
+!!! Looking up links
+
+[[[language=smalltalk
+KANetwork >> linkFrom: sourceAddress to: destinationAddress
+    ^ links
+        detect: [ :anyLink |
+            anyLink source address = sourceAddress
+                and: [ anyLink destination address = destinationAddress ] ]
+        ifNone: [
+            NotFound
+                signalFor: sourceAddress -> destinationAddress
+                in: self ]
 ]]]
