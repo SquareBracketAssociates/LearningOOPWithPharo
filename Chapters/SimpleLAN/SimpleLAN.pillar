@@ -406,7 +406,7 @@ TestCase subclass: #KANetworkTest
     category: 'NetworkSimulator-Tests'
 ]]]
 
-Since every test needs to rebuild the whole network from scratch, we specify so in the ==setUp== method:
+Since every test needs to rebuild the whole example network from scratch, we specify so in the ==setUp== method:
 
 [[[language=smalltalk
 KANetworkTest >> setUp
@@ -427,26 +427,19 @@ Let's build network ==net==, with the main part connected in a star shape around
 
 +file://figures/lan-star.pdf|width=50+
 
+Expanding a network implies adding new connections and possibly new nodes to it.
+If the ==net== object understands a ==connect: aNode to: anotherNode== message, you should be able to build nodes and connect them into a network that matches the figure.
+
 [[[language=smalltalk
 KANetworkTest >> buildNetwork
-    alone := KANetworkNode withAddress: #alone.
-
-    net := KANetwork new.
-
-    hub := KANetworkNode withAddress: #hub.
-    #(mac pc1 pc2 prn) do: [ :addr |
-        | node |
-        node := KANetworkNode withAddress: addr.
-        net connect: node to: hub ].
-
-    net
-        connect: (KANetworkNode withAddress: #ping)
-        to: (KANetworkNode withAddress: #pong)
+    ... Your code ...
 ]]]
 
 !!!!! The network class
 
-This method builds nodes as before, but sends ==connect:to:== to the ==net== object instead of creating links explicitly; this is how we tell the network which nodes and links it should remember.
+The name of the ==connect:to:== message suggests that establishing the bidirectional links is the responsibility of the ==net== object.
+It also has to remember enough info so we can inspect the network topology; we can simply store nodes and links in a couple of sets.
+Let's define the class with two instance variables:
 
 [[[language=smalltalk
 Object subclass: #KANetwork
@@ -455,34 +448,28 @@ Object subclass: #KANetwork
     category: 'NetworkSimulator-Core'
 ]]]
 
-Let's not forget about proper initialization:
+Whenever we define an instance variable, initialization comes next:
 
 [[[language=smalltalk
 KANetwork >> initialize
-    nodes := Set new.
-    links := Set new
+    ... Your code ...
 ]]]
 
-Connecting nodes means creating the links in both directions, then adding both nodes and both links in their corresponding collections:
-
-[[[language=smalltalk
-KANetwork >> connect: aNode to: anotherNode
-    self add: aNode.
-    self add: anotherNode.
-    links add: (self makeLinkFrom: aNode to: anotherNode) attach.
-    links add: (self makeLinkFrom: anotherNode to: aNode) attach
-]]]
-
-Note that the ==attach== method we defined previously effectively returns the link.
+Now, we can add isolated nodes to the network, even if it does not seem very useful:
 
 [[[language=smalltalk
 KANetwork >> add: aNode
     nodes add: aNode
 ]]]
 
+However, connecting nodes without ensuring that they are part of the network really does not make any sense.
+Therefore, when connecting nodes, we will first ensure the nodes are added, then we create and attach links in both directions; finally we store both links.
+
+Implement the ==connect:to:== method; for concision, note that the ==attach== method we defined previously effectively returns the link.
+
 [[[language=smalltalk
-KANetwork >> makeLinkFrom: aNode to: anotherNode
-    ^ KANetworkLink from: aNode to: anotherNode
+KANetwork >> connect: aNode to: anotherNode
+    ... Your code ...
 ]]]
 
 !!!!! Looking up nodes
@@ -844,3 +831,8 @@ KARoutingNetworkTest >> buildNetwork
 
 
 @@todo automatic routing?
+
+% [[[language=smalltalk
+% KANetwork >> makeLinkFrom: aNode to: anotherNode
+%     ^ KANetworkLink from: aNode to: anotherNode
+% ]]]
