@@ -18,7 +18,7 @@ ${inputFile:Chapters/Tests/Tests.pillar}$
 ${inputFile:Chapters/Katas/GramKatas.pillar}$
 
 %${inputFile:Chapters/Katas/GramVariation.pillar}$
-
+ 
 ! About objects and classes
 In this section of the book we suggest carefully reading the first chapter before continuing with the rest.
 The other chapters contain extremely simple exercises which may be tedious to read in one sitting.
