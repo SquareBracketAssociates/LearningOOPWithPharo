@@ -52253,7 +52253,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2018-01-28 13:02:20 +0000</string>
+	<string>2018-01-28 12:58:29 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>MovementHandleVisible</key>
@@ -52299,7 +52299,7 @@
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>AAB2E66D-F9E0-4B49-9FBF-9D9EA78F5723</string>
+			<string>13108CC4-3A59-4430-98E8-A0D2399605AA</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -52473,159 +52473,60 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{755.81596728515626, 435.11811418411298}, {151, 74}}</string>
+					<string>{{756.26772341531091, 455.8110280843232}, {144.96045698678392, 82}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
-					<string>YES</string>
+					<string>Vertical</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>FontInfo</key>
 					<dict>
-						<key>Color</key>
-						<dict>
-							<key>b</key>
-							<string>1</string>
-							<key>g</key>
-							<string>1</string>
-							<key>r</key>
-							<string>1</string>
-						</dict>
 						<key>Size</key>
 						<real>23</real>
 					</dict>
 					<key>ID</key>
-					<integer>29</integer>
+					<integer>35</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
 					<dict>
 						<key>fill</key>
 						<dict>
-							<key>Color</key>
-							<dict>
-								<key>a</key>
-								<real>0.44828299999999999</real>
-								<key>b</key>
-								<real>0.17229800000000001</real>
-								<key>g</key>
-								<real>0.36541899999999999</real>
-								<key>r</key>
-								<real>0.91306600000000004</real>
-								<key>space</key>
-								<string>srgb</string>
-							</dict>
 							<key>Draws</key>
 							<string>NO</string>
 						</dict>
 						<key>shadow</key>
 						<dict>
-							<key>Beneath</key>
-							<string>YES</string>
-							<key>Fuzziness</key>
-							<real>14</real>
+							<key>Draws</key>
+							<string>NO</string>
 						</dict>
 						<key>stroke</key>
 						<dict>
 							<key>Draws</key>
 							<string>NO</string>
-							<key>FreeHand</key>
-							<true/>
 						</dict>
 					</dict>
 					<key>Text</key>
 					<dict>
 						<key>Align</key>
 						<integer>0</integer>
+						<key>Pad</key>
+						<real>0.0</real>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-{\fonttbl\f0\fnil\fcharset0 OpenSans;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
-{\*\expandedcolortbl;;\csgenericrgb\c100000\c100000\c100000;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0\fs46 \cf2 S. Ducasse\
-with D. Pollet}</string>
+\f0\fs46 \cf1 S. Ducasse \
+with D. Pollet
+\b\fs44 \
+}</string>
+						<key>VerticalPad</key>
+						<real>0.0</real>
 					</dict>
-					<key>Wrap</key>
-					<string>NO</string>
-				</dict>
-				<dict>
-					<key>Bounds</key>
-					<string>{{756.81596728515626, 436.11811418411298}, {151, 74}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>FitText</key>
-					<string>YES</string>
-					<key>Flow</key>
-					<string>Resize</string>
-					<key>FontInfo</key>
-					<dict>
-						<key>Color</key>
-						<dict>
-							<key>b</key>
-							<string>0</string>
-							<key>g</key>
-							<string>0</string>
-							<key>r</key>
-							<string>0</string>
-						</dict>
-						<key>Size</key>
-						<real>23</real>
-					</dict>
-					<key>ID</key>
-					<integer>28</integer>
-					<key>Layer</key>
-					<integer>2</integer>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Color</key>
-							<dict>
-								<key>a</key>
-								<real>0.44828299999999999</real>
-								<key>b</key>
-								<real>0.17229800000000001</real>
-								<key>g</key>
-								<real>0.36541899999999999</real>
-								<key>r</key>
-								<real>0.91306600000000004</real>
-								<key>space</key>
-								<string>srgb</string>
-							</dict>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Beneath</key>
-							<string>YES</string>
-							<key>Fuzziness</key>
-							<real>14</real>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-							<key>FreeHand</key>
-							<true/>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Align</key>
-						<integer>0</integer>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-{\fonttbl\f0\fnil\fcharset0 OpenSans;}
-{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
-{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-
-\f0\fs46 \cf2 S. Ducasse\
-with D. Pollet}</string>
-					</dict>
-					<key>Wrap</key>
-					<string>NO</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
@@ -52637,7 +52538,7 @@ with D. Pollet}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>27</integer>
+					<integer>34</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -52684,7 +52585,7 @@ with Pharo}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>8</integer>
+					<integer>33</integer>
 					<key>ImageID</key>
 					<integer>122</integer>
 					<key>Layer</key>
@@ -52732,7 +52633,7 @@ with Pharo}</string>
 						<real>14</real>
 					</dict>
 					<key>ID</key>
-					<integer>9</integer>
+					<integer>32</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -52803,7 +52704,7 @@ Square Bracket Associates}</string>
 						<real>14</real>
 					</dict>
 					<key>ID</key>
-					<integer>10</integer>
+					<integer>30</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -52839,100 +52740,11 @@ Square Bracket Associates}</string>
 					<dict>
 						<key>Align</key>
 						<integer>0</integer>
-						<key>RTFD</key>
-						<data>
-						BAtzdHJlYW10eXBlZIHoA4QBQISE
-						hBJOU0F0dHJpYnV0ZWRTdHJpbmcA
-						hIQITlNPYmplY3QAhZKEhIQITlNT
-						dHJpbmcBlIQBK4H1A1RoaXMgYm9v
-						ayB0ZWFjaGVzIHlvdSB0aGUga2V5
-						IGFzcGVjdHMgb2Ygb2JqZWN0LW9y
-						aWVudGVkIHByb2dyYW1taW5nOiBv
-						YmplY3RzLCBjbGFzc2VzLCBtZXNz
-						YWdlcywgbWV0aG9kcyBhbmQgaW5o
-						ZXJpdGFuY2UuIApUaGlzIGJvb2sg
-						aXMgZGlmZmVyZW50IGZyb20gbW9z
-						dCBib29rczoKLSBpdCBmb2N1c2Vz
-						IG9uIFRlc3QgRHJpdmVuIERlc2ln
-						biBmcm9tIGRheSBvbmUuCi0gaXQg
-						dXNlcyBhbiBleHRyZW1lbHkgd2Vs
-						bC1kZXNpZ25lZCwgc2ltcGxlLCBw
-						dXJlIGFuZCBwb3dlcmZ1bGwgb2Jq
-						ZWN0LW9yaWVudGVkIGxhbmd1YWdl
-						LCBQaGFybyAoaHR0cDovL3d3dy5w
-						aGFyby5vcmcpLgoKV2h5IHVzaW5n
-						IFBoYXJvPyBCZWNhdXNlIFBoYXJv
-						4oCZIHN5bnRheCBmaXRzIG9uIGEg
-						cG9zdGNhcmQgYW5kIHdpdGggUGhh
-						cm8geW91IHByb2dyYW0gYSB3b3Js
-						ZCBvZiBpbnRlcmFjdGluZyBvYmpl
-						Y3RzLiBJbiBQaGFybyB0aGVyZSBp
-						cyBub3RoaW5nIGVsc2UgYnV0IG9i
-						amVjdHMgYW5kIG1lc3NhZ2VzLiBF
-						dmVuIEJvb2xlYW5zIGFyZSB0cnVl
-						IG9iamVjdHMuRmluYWxseSBQaGFy
-						byBpcyBmdW4gcHJvZ3JhbSBhbmQg
-						ZnVsbHkgaW50ZXJhY3RpdmUuCgpU
-						aGlzIGJvb2sgaXMgY29tcGxlbWVu
-						dGVkIGJ5IHRoZSB2aWRlb3Mgb2Yg
-						dGhlIHByb2Zlc3Npb25hbCBQaGFy
-						byBNT09DOiAoaHR0cDovL21vb2Mu
-						cGhhcm8ub3JnKS4gVGhpcyBtYXRl
-						cmlhbCBndWlkZXMgeW91IHN0ZXAg
-						Ynkgc3RlcCBpbiB0aGUgZXhjaXRp
-						bmcgd29ybGQgb2YgUGhhcm8gYW5k
-						IG9iamVjdC1vcmllbnRlZCBwcm9n
-						cmFtbWluZy4KWW91IGNhbiBhbHNv
-						IGludGVyYWN0IHdpdGggUGhhcm9l
-						cnMgZnJvbSBhbGwgb3ZlciB0aGUg
-						d29ybGQgdXNpbmcgRGlzY29yZCAo
-						aHR0cDovL2Rpc2NvcmQuZ2cvU2oy
-						cmh4bikuIAoKVGhlIGF1dGhvcnMg
-						aGF2ZSBtb3JlIHRoYW4gMjAgeWVh
-						cnMgZXhwZXJpZW5jZSB0ZWFjaGlu
-						ZyBhZHZhbmNlZCBkZXNpZ24gYW5k
-						IHRoZXkgYXJlIHBhcnQgb2YgdGhl
-						IGNvcmUgUGhhcm8gdGVhbS4ghoQC
-						aUkBgWEDkoSEhAxOU0RpY3Rpb25h
-						cnkAlIQBaQOShJaWB05TQ29sb3KG
-						koSEhAdOU0NvbG9yAJSEAWMDhAJm
-						ZgEBhpKElpYQTlNQYXJhZ3JhcGhT
-						dHlsZYaShISEF05TTXV0YWJsZVBh
-						cmFncmFwaFN0eWxlAISEEE5TUGFy
-						YWdyYXBoU3R5bGUAlIQEQ0NAUwAA
-						hISEB05TQXJyYXkAlJkMkoSEhAlO
-						U1RleHRUYWIAlIQCQ2YAHIaShKOi
-						ADiGkoSjogBUhpKEo6IAcIaShKOi
-						AIGMAIaShKOiAIGoAIaShKOiAIHE
-						AIaShKOiAIHgAIaShKOiAIH8AIaS
-						hKOiAIEYAYaShKOiAIE0AYaShKOi
-						AIFQAYaGAIaShJaWBk5TRm9udIaS
-						hISEBk5TRm9udB6UmRyEBVsyOGNd
-						BgAAABQAAAD//kgAZQBsAHYAZQB0
-						AGkAYwBhAIQBZg6bAJsBmwCbAIaG
-						lwICkoSYmQOSmZKEm5sBhARmZmZm
-						AQEBAYaSnJKdkq+SsIaXAxqShJiZ
-						BJKckoSenwAAhKGZDJKikqSSpZKm
-						kqeSqJKpkqqSq5Kskq2SroYAhpKZ
-						koSbmwGmAQEBAYaSr5KwkoSWlgZO
-						U0tlcm6GkoSEhAhOU051bWJlcgCE
-						hAdOU1ZhbHVlAJSEASqEhAFkqgCG
-						hpcBApcEAZKEmJkDkpmSmpKckp2S
-						r5KEsZkcpAYAAAAUAAAA//5IAGUA
-						bAB2AGUAdABpAGMAYQClEZsAmwGb
-						AJsAhoaXBQGShJiZA5KZkpqSnJKd
-						kq+ShLGZHKQGAAAAFAAAAP/+SABl
-						AGwAdgBlAHQAaQBjAGEApQ+bAJsB
-						mwCbAIaGlwFxlwYBkoSYmQOSmZKa
-						kpySnZKvkoSxmRykBgAAABQAAAD/
-						/kgAZQBsAHYAZQB0AGkAYwBhAKUQ
-						mwCbAZsAmwCGhoY=
-						</data>
 						<key>Text</key>
 						<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
-{\*\expandedcolortbl;;\csgenericrgb\c100000\c100000\c100000;}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red42\green131\blue202;}
+{\*\expandedcolortbl;;\csgenericrgb\c100000\c100000\c100000;\cssrgb\c19608\c59216\c83137;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
 \f0\fs28 \cf1 This book teaches you the key aspects of object-oriented programming: objects, classes, messages, methods and inheritance. \
@@ -52943,7 +52755,7 @@ This book is different from most books:\
 Why using Pharo? Because Pharo\'92 syntax fits on a postcard and with Pharo you program a world of interacting objects. In Pharo there is nothing else but objects and messages. Even Booleans are true objects.Finally Pharo is fun program and fully interactive.\
 \
 This book is complemented by the videos of the professional Pharo MOOC: (http://mooc.pharo.org). This material guides you step by step in the exciting world of Pharo and object-oriented programming.\
-You can also interact with Pharoers from all over the world using Discord\cf2  (\cf2 \expnd0\expndtw0\kerning0
+You can also interact with Pharoers from all over the world using Discord\cf2  (\expnd0\expndtw0\kerning0
 http://discord.gg/Sj2rhxn)\cf1 \kerning1\expnd0\expndtw0 . 
 \fs34 \
 
@@ -52979,7 +52791,7 @@ http://discord.gg/Sj2rhxn)\cf1 \kerning1\expnd0\expndtw0 .
 						<real>46</real>
 					</dict>
 					<key>ID</key>
-					<integer>11</integer>
+					<integer>27</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53037,6 +52849,72 @@ with Pharo}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
+					<string>{{758.26772341531091, 457.8110280843232}, {144.96045698678392, 82}}</string>
+					<key>Class</key>
+					<string>ShapedGraphic</string>
+					<key>FitText</key>
+					<string>Vertical</string>
+					<key>Flow</key>
+					<string>Resize</string>
+					<key>FontInfo</key>
+					<dict>
+						<key>Color</key>
+						<dict>
+							<key>b</key>
+							<string>0</string>
+							<key>g</key>
+							<string>0</string>
+							<key>r</key>
+							<string>0</string>
+						</dict>
+						<key>Size</key>
+						<real>23</real>
+					</dict>
+					<key>ID</key>
+					<integer>24</integer>
+					<key>Layer</key>
+					<integer>2</integer>
+					<key>Style</key>
+					<dict>
+						<key>fill</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>shadow</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+						<key>stroke</key>
+						<dict>
+							<key>Draws</key>
+							<string>NO</string>
+						</dict>
+					</dict>
+					<key>Text</key>
+					<dict>
+						<key>Align</key>
+						<integer>0</integer>
+						<key>Pad</key>
+						<real>0.0</real>
+						<key>Text</key>
+						<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs46 \cf2 S. Ducasse \
+with D. Pollet
+\b\fs44 \
+}</string>
+						<key>VerticalPad</key>
+						<real>0.0</real>
+					</dict>
+				</dict>
+				<dict>
+					<key>Bounds</key>
 					<string>{{763.54348826408386, 371.58551025390625}, {193.99951171875, 54}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
@@ -53045,7 +52923,7 @@ with Pharo}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>13</integer>
+					<integer>23</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53095,7 +52973,7 @@ with Pharo}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>14</integer>
+					<integer>8</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53152,7 +53030,7 @@ with Pharo}</string>
 						<real>18</real>
 					</dict>
 					<key>ID</key>
-					<integer>15</integer>
+					<integer>26</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Rotation</key>
@@ -53197,7 +53075,7 @@ with Pharo}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>16</integer>
+					<integer>22</integer>
 					<key>ImageID</key>
 					<integer>121</integer>
 					<key>Layer</key>
@@ -53223,57 +53101,6 @@ with Pharo}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{538.81596728515626, 75.95275661278896}, {367, 320}}</string>
-					<key>Class</key>
-					<string>ShapedGraphic</string>
-					<key>FitText</key>
-					<string>YES</string>
-					<key>Flow</key>
-					<string>Resize</string>
-					<key>ID</key>
-					<integer>7</integer>
-					<key>Layer</key>
-					<integer>2</integer>
-					<key>Style</key>
-					<dict>
-						<key>fill</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-						<key>shadow</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-						<key>stroke</key>
-						<dict>
-							<key>Draws</key>
-							<string>NO</string>
-						</dict>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Align</key>
-						<integer>0</integer>
-						<key>Text</key>
-						<string>{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
-{\fonttbl\f0\fnil\fcharset0 OpenSans;}
-{\colortbl;\red255\green255\blue255;\red255\green255\blue255;}
-{\*\expandedcolortbl;;\cssrgb\c99990\c100000\c99987;}
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-
-\f0\fs92 \cf2 Learning \
-Object-Oriented \
-Programming, \
-Design and TDD \
-with Pharo}</string>
-					</dict>
-					<key>Wrap</key>
-					<string>NO</string>
-				</dict>
-				<dict>
-					<key>Bounds</key>
 					<string>{{763.54348826408386, 371.58551025390625}, {193.99951171875, 104}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
@@ -53282,7 +53109,7 @@ with Pharo}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>17</integer>
+					<integer>12</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Style</key>
@@ -53334,7 +53161,7 @@ D. Chloupis}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>18</integer>
+					<integer>13</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Style</key>
@@ -53377,7 +53204,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>19</integer>
+					<integer>14</integer>
 					<key>ImageID</key>
 					<integer>112</integer>
 					<key>Layer</key>
@@ -53427,7 +53254,7 @@ D. Chloupis}</string>
 						<real>14</real>
 					</dict>
 					<key>ID</key>
-					<integer>20</integer>
+					<integer>15</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Rotation</key>
@@ -53506,7 +53333,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>21</integer>
+					<integer>16</integer>
 					<key>ImageID</key>
 					<integer>113</integer>
 					<key>Layer</key>
@@ -53536,7 +53363,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>22</integer>
+					<integer>17</integer>
 					<key>ImageID</key>
 					<integer>112</integer>
 					<key>Layer</key>
@@ -53566,7 +53393,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>23</integer>
+					<integer>18</integer>
 					<key>ImageID</key>
 					<integer>67</integer>
 					<key>Layer</key>
@@ -53613,7 +53440,7 @@ D. Chloupis}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>24</integer>
+					<integer>19</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Style</key>
@@ -53659,7 +53486,7 @@ D. Cassou and M. Denker }</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>25</integer>
+					<integer>20</integer>
 					<key>ImageID</key>
 					<integer>115</integer>
 					<key>Layer</key>
@@ -53808,7 +53635,7 @@ D. Cassou and M. Denker }</string>
 		<key>CurrentSheet</key>
 		<integer>0</integer>
 		<key>Frame</key>
-		<string>{{391, 63}, {2003, 1431}}</string>
+		<string>{{706, 146}, {2003, 1431}}</string>
 		<key>ShowInfo</key>
 		<false/>
 		<key>ShowRuler</key>
