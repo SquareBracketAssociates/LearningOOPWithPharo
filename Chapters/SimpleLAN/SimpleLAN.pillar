@@ -657,12 +657,12 @@ Now we can use a proper hub in our test, replacing the relevant line in ==KANetw
 ]]]
 
 
-!!!! Other examples of specialized nodes
+!!! Other examples of specialized nodes
 
 @@todo this is out of place, it's not about packet delivery…
 
 
-!!!!! Workstations count received packets
+!!!!! Workstations counting received packets
 
 When a workstation consumes a packet, it simply increments a packet counter.
 
@@ -694,7 +694,7 @@ KANetworkWorkstation >> consume: aPacket
 @@todo Define accessors and the ==printOn:== method, for debugging. Test the behavior of workstation nodes.
 
 
-!!!!! Printers accumulate printouts
+!!!!! Printers accumulating printouts
 
 When a printer consumes a packet, it prints it; we can model the output tray as a list where packet payloads get queued, and the supply tray as the number of blank sheets it contains.
 
@@ -743,7 +743,7 @@ KANetworkPrinter class >> withAddress: anAddress initialSupply: paperSheets
 @@todo Define accessors and the ==printOn:== method, for debugging. Test the behavior of printer nodes.
 
 
-!!!!! Servers answer requests
+!!!!! Servers answering requests
 
 When a server node consumes a packet, it converts the payload to uppercase, then sends that back to the sender of the request.
 
