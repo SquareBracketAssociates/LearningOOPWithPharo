@@ -268,7 +268,9 @@ anArray at: 1 put: true.
 anArray at: 2 put: false.
 anArray
 >>> #(true false)
+]]]
 
+[[[
 (Array new: 2)
 	at: 1 put: true;
 	at: 2 put: false;
@@ -372,7 +374,7 @@ allSatisfy: aBlock
 ]]]
 
 In a method, the receiver (==self==) is the default return value of the whole method. Using a caret (==\^==) a method returns something else or even return earlier. Here is the code of the method ==allSatify:== on the class ==Collection==.
-	
+
 !!! Resources
 
 This chapter showed you the key syntatic elements. If you want to get a deeper understanding about the syntax please refer to the following mooc videos. The Mooc on Pharo is available at *http://mooc.pharo.org*
@@ -401,8 +403,7 @@ Blocks are anonymous methods that can be pass around and used to define control 
 You now know enough to read 95\% of Pharo code. Remember, it is all just messages being sent to objects.
 
 
-!!! Syntax summary
-
+!! Syntax summary
 
 !!!! Six reserved words only
 
@@ -411,7 +412,7 @@ You now know enough to read 95\% of Pharo code. Remember, it is all just message
 | ==self==| the receiver of the current message
 |==super==| the receiver, in the superclass context
 |==thisContext==| the current invocation on the call stack
-		
+
 !!!! Reserved syntactic constructs
 
 | =="comment"== | comment
@@ -431,11 +432,7 @@ You now know enough to read 95\% of Pharo code. Remember, it is all just message
 | ==\| var1 var2 \|== | declaration of two temporary variables 
 
 
-		
-		
-		
-		
-		
+
 !!!! Message Sending
 When we send a message to an object, the message
 ''receiver'', the method is selected and executed; the message returns an object. Messages syntax mimics natural languages, with a subject, a verb, and complements. 
@@ -583,6 +580,7 @@ In Pharo
 1 to: 11 do: [ :i | Transcript show: i ; cr ] 
 ]]]
 
+In Java
 [[[
 String [] names ={"A", "B", "C"};
 for( String name : names ) { 
@@ -590,6 +588,7 @@ for( String name : names ) {
      System.out.print(","); }  
 ]]]
 
+In Pharo
 [[[
 | names | 
 names := #('A' 'B' 'C').

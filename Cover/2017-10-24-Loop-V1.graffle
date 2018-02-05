@@ -52403,7 +52403,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2018-01-28 13:21:56 +0000</string>
+	<string>2018-01-28 17:55:23 +0000</string>
 	<key>Modifier</key>
 	<string>ducasse</string>
 	<key>MovementHandleVisible</key>
@@ -52449,7 +52449,7 @@
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>AAB2E66D-F9E0-4B49-9FBF-9D9EA78F5723</string>
+			<string>22C54CAA-236E-4632-A940-18F643A72302</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -52627,7 +52627,7 @@
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>30</integer>
+					<integer>6</integer>
 					<key>ImageID</key>
 					<integer>123</integer>
 					<key>Layer</key>
@@ -52648,7 +52648,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{755.81596728515626, 435.11811418411298}, {151, 74}}</string>
+					<string>{{749.81596728515626, 435.11811418411298}, {157, 74}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -52670,7 +52670,7 @@
 						<real>23</real>
 					</dict>
 					<key>ID</key>
-					<integer>29</integer>
+					<integer>7</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -52719,8 +52719,8 @@
 {\*\expandedcolortbl;;\csgenericrgb\c100000\c100000\c100000;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
 
-\f0\fs46 \cf2 S. Ducasse\
-with D. Pollet}</string>
+\f0\fs46 \cf2  S. Ducasse\
+ with D. Pollet}</string>
 					</dict>
 					<key>Wrap</key>
 					<string>NO</string>
@@ -52749,7 +52749,7 @@ with D. Pollet}</string>
 						<real>23</real>
 					</dict>
 					<key>ID</key>
-					<integer>28</integer>
+					<integer>8</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -52804,7 +52804,7 @@ with D. Pollet}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{538.81596728515626, 75.95275661278896}, {367, 320}}</string>
+					<string>{{539.81596728515626, 76.95275661278896}, {367, 320}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -52812,7 +52812,7 @@ with D. Pollet}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>27</integer>
+					<integer>9</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -52859,7 +52859,7 @@ with Pharo}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>8</integer>
+					<integer>10</integer>
 					<key>ImageID</key>
 					<integer>122</integer>
 					<key>Layer</key>
@@ -52907,7 +52907,7 @@ with Pharo}</string>
 						<real>14</real>
 					</dict>
 					<key>ID</key>
-					<integer>9</integer>
+					<integer>11</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -52978,7 +52978,7 @@ Square Bracket Associates}</string>
 						<real>14</real>
 					</dict>
 					<key>ID</key>
-					<integer>10</integer>
+					<integer>12</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53154,7 +53154,7 @@ http://discord.gg/Sj2rhxn)\cf1 \kerning1\expnd0\expndtw0 .
 						<real>46</real>
 					</dict>
 					<key>ID</key>
-					<integer>11</integer>
+					<integer>13</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53220,7 +53220,7 @@ with Pharo}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>13</integer>
+					<integer>14</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53270,7 +53270,7 @@ with Pharo}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>14</integer>
+					<integer>15</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53327,7 +53327,7 @@ with Pharo}</string>
 						<real>18</real>
 					</dict>
 					<key>ID</key>
-					<integer>15</integer>
+					<integer>16</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Rotation</key>
@@ -53372,7 +53372,7 @@ with Pharo}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>16</integer>
+					<integer>17</integer>
 					<key>ImageID</key>
 					<integer>121</integer>
 					<key>Layer</key>
@@ -53406,7 +53406,7 @@ with Pharo}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>7</integer>
+					<integer>18</integer>
 					<key>Layer</key>
 					<integer>2</integer>
 					<key>Style</key>
@@ -53457,7 +53457,7 @@ with Pharo}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>17</integer>
+					<integer>19</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Style</key>
@@ -53509,7 +53509,7 @@ D. Chloupis}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>18</integer>
+					<integer>20</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Style</key>
@@ -53552,7 +53552,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>19</integer>
+					<integer>21</integer>
 					<key>ImageID</key>
 					<integer>112</integer>
 					<key>Layer</key>
@@ -53602,7 +53602,7 @@ D. Chloupis}</string>
 						<real>14</real>
 					</dict>
 					<key>ID</key>
-					<integer>20</integer>
+					<integer>22</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Rotation</key>
@@ -53681,7 +53681,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>21</integer>
+					<integer>23</integer>
 					<key>ImageID</key>
 					<integer>113</integer>
 					<key>Layer</key>
@@ -53711,7 +53711,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>22</integer>
+					<integer>24</integer>
 					<key>ImageID</key>
 					<integer>112</integer>
 					<key>Layer</key>
@@ -53741,7 +53741,7 @@ D. Chloupis}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>23</integer>
+					<integer>25</integer>
 					<key>ImageID</key>
 					<integer>67</integer>
 					<key>Layer</key>
@@ -53788,7 +53788,7 @@ D. Chloupis}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>24</integer>
+					<integer>26</integer>
 					<key>Layer</key>
 					<integer>3</integer>
 					<key>Style</key>
@@ -53834,7 +53834,7 @@ D. Cassou and M. Denker }</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>25</integer>
+					<integer>27</integer>
 					<key>ImageID</key>
 					<integer>115</integer>
 					<key>Layer</key>
@@ -53983,7 +53983,7 @@ D. Cassou and M. Denker }</string>
 		<key>CurrentSheet</key>
 		<integer>0</integer>
 		<key>Frame</key>
-		<string>{{690, 146}, {2003, 1431}}</string>
+		<string>{{557, 146}, {2003, 1431}}</string>
 		<key>ShowInfo</key>
 		<false/>
 		<key>ShowRuler</key>
