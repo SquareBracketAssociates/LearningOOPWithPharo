@@ -81,12 +81,15 @@ Define the following getters:
 
 [[[language=smalltalk
 KANetworkPacket >> sourceAddress
+	... Your code ...
 KANetworkPacket >> destinationAddress
+	... Your code ...
 KANetworkPacket >> payload
+	... Your code ...
 ]]]
 
 Now our test should be running and passing.
-That's enough for our admittedly simplistic model of packets; we completely ignore the layers of the OSI model, but it could be an interesting exercise to model that more precisely.
+That's enough for our admittedly simplistic model of packets; we completely ignore the layers of the OSI model, but it could be an interesting exercise to model them more precisely.
 
 
 !!! Nodes are known by their address
@@ -98,7 +101,6 @@ KANetworkEntitiesTest >> testNodeCreation
     | address node |
     address := Object new.
     node := KANetworkNode withAddress: address.
-
     self assert: node address equals: address
 ]]]
 
@@ -124,7 +126,9 @@ The constructor relies on an instance-side initialization method, and the test a
 
 [[[language=smalltalk
 KANetworkNode >> initializeAddress: aNetworkAddress
+	... Your code ...
 KANetworkNode >> address
+	... Your code ...
 ]]]
 
 Again, our simplistic tests should now pass.
@@ -134,7 +138,7 @@ Again, our simplistic tests should now pass.
 
 After nodes and packets, what about looking at links?
 In the real world, network cables are bidirectional, but that's because they have wires going both ways.
-Here, we're going to keep it simple and define links as simple one-way connections; to make a two-way connection, we will just make two links, one in each direction.
+Here, we're going to keep it simple and define links as simple one-way connections; to make a two-way connection, we will just use two links, one in each direction.
 
 However, creating links that know their source and destination nodes is not sufficient: ''nodes'' also need to know about their outgoing links, otherwise they cannot send packets.
 
