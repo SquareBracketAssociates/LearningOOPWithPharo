@@ -140,7 +140,7 @@ After nodes and packets, what about looking at links?
 In the real world, network cables are bidirectional, but that's because they have wires going both ways.
 Here, we're going to keep it simple and define links as simple one-way connections; to make a two-way connection, we will just use two links, one in each direction.
 
-However, creating links that know their source and destination nodes is not sufficient: ''nodes'' also need to know about their outgoing links, otherwise they cannot send packets.
+However, creating links that know their source and destination nodes is not sufficient: ''nodes'' also need to know about their outgoing links, otherwise they cannot send packets. Let us write a test to cover this.
 
 [[[language=smalltalk
 KANetworkEntitiesTest >> testNodeLinking
@@ -179,8 +179,11 @@ As well as the initialization method and accessors:
 
 [[[language=smalltalk
 KANetworkLink >> initializeFrom: sourceNode to: destinationNode
+	... Your code ...
 KANetworkLink >> source
+	... Your code ...
 KANetworkLink >> destination
+	... Your code ...
 ]]]
 
 The ==attach== method of a link should not (and cannot) directly modify the source node, so it must delegate to it instead.
@@ -212,6 +215,8 @@ And finally the unit test relied on a predicate method to define in ==KANetworkN
 KANetworkNode >> hasLinkTo: anotherNode
     ... Your code ...
 ]]]
+
+The method ==hasLinkTo:== should verify that there is at least one outgoing links whose destination is the node passed as argument.  We suggest to have a look at the iterator ==anySatisfy:== to express this logic.
 
 Again, all the tests should now pass.
 
