@@ -17,12 +17,12 @@ We will therefore probably need to model the nodes, the connection links, and th
 
 - Nodes have addresses, can send and receive packets;
 - Links connect two nodes together, and transmit packets between them;
-- Packets transport a payload and have the address of the node to which it should be delivered; if we want nodes to be able to answer, packets should also have the address of the node which originally sent it.
+- A packet transports a payload and has the address of the node to which it should be delivered; if we want nodes to be able to answer (after reception), packets should also have the address of the node which originally sent it.
 
 
 !!! Packets are simple value objects
 
-Packets seem to be the simplest objects in our model: we need to create them, and ask them about the data they contain, but that's about it.
+Packets seem to be the simplest objects in our model: we need to create them, and ask them about the data they contain, and that's about it.
 Once created, a packet object is merely a passive data structure: it will not change its data, knows nothing of the surrounding network, and has no behavior that we can really talk about.
 
 Let's start by defining a test class and a first test sketching what creating and looking at packets would look like:
