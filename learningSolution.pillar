@@ -67,7 +67,7 @@ ${inputFile:Chapters/Wallet/WalletSolution.pillar}$
 ${inputFile:Chapters/Converter/ConverterSolution.pillar}$
 ${inputFile:Chapters/DSL/DSLSolution.pillar}$
 ${inputFile:Chapters/Expressions/ExpressionsSolution.pillar}$
-${inputFile:Chapters/SimpleLAN/SimpleLANSolution.pillar}$
+% ${inputFile:Chapters/SimpleLAN/SimpleLANSolution.pillar}$
 ${inputFile:Chapters/SnakesAndLadders/SnakesAndLaddersSolution.pillar}$
 
 
