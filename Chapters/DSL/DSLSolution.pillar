@@ -50,6 +50,16 @@ DieHandle >> addDie: aDie
 !!! Rolling a dice handle
 
 [[[
+DieHandleTest >> testRoll
+	| handle |
+	handle := DieHandle new
+		addDie: (Die withFaces: 6);
+		addDie: (Die withFaces: 10);
+		yourself.
+	1000 timesRepeat: [ handle roll between: 2 and: 16 ]
+]]]
+
+[[[
 DieHandle >> roll
 	
 	| res |

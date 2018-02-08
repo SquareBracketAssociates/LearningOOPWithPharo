@@ -270,7 +270,7 @@ KANetworkLink >> printOn: aStream
 
 Now if we rerun the test we obtain a better user experience as shown in Figure *@debuggerXP*: we can see the address of a node and the source and destination of a link.
 
-+Navigating specific objects having a generic presentation.>file://figures/betterDebugerXP.png|width=100|label=debuggerXP+
++Navigating specific objects offering a customized presentation.>file://figures/betterDebugerXP.png|width=100|label=debuggerXP+
 
 
 
@@ -300,8 +300,8 @@ We create and setup two nodes, a link between them, and a packet.
 Now, to control which packets get delivered in which order, we specify that it happens in separate, controlled steps.
 This will allow us to model packet delivery precisely, to simulate latency, out-of-order reception, etc.:
 
-- First, we tell the node to send the packet using ==send:via:==. At that point the packet should be passed to the link for transmission, but not completely delivered yet.
-- Then, we tell the link to actually pass the packet along using ==transmit:==, and thus the packet should be received by the destination node.
+- First, we tell the node to send the packet using the message ==send:via:==. At that point, the packet should be passed to the link for transmission, but not completely delivered yet.
+- Then, we tell the link to actually transmit the packet along using the message ==transmit:==, and thus the packet should be received by the destination node.
 
 !!! Sending a packet
 
@@ -331,6 +331,7 @@ KANetworkLink >> initialize
 KANetworkLink >> emit: aPacket
     "Packets are not transmitted right away, but stored.
     Transmission is explicitly triggered later, by sending #transmit:."
+	
     packetsToTransmit add: aPacket
 ]]]
 
@@ -488,7 +489,7 @@ KANetworkTest >> testNetworkFindsNodesByAddress
 We will have to implement this ==nodeAt:ifNone:== on our ==KANetwork== class; but first we need to decide how its instances are built.
 Let's build network ==net==, with the main part connected in a star shape around a ==hub== node; a pair of nodes ==ping== and ==pong== are part of the network but not connected to ==hub==, and the ==alone== node is just by itself, not even added to the network:
 
-+file://figures/lan-star.pdf|width=50+
++A hub.>file://figures/lan-star.pdf|width=50+
 
 Expanding a network implies adding new connections and possibly new nodes to it.
 If the ==net== object understands a ==connect: aNode to: anotherNode== message, you should be able to build nodes and connect them into a network that matches the figure.
