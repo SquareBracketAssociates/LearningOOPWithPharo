@@ -270,7 +270,7 @@ KANetworkLink >> printOn: aStream
 
 Now if we rerun the test we obtain a better user experience as shown in Figure *@debuggerXP*: we can see the address of a node and the source and destination of a link.
 
-+Navigating specific objects offering a customized presentation.>file://figures/betterDebugerXP.png|width=100|label=debuggerXP+
++Navigating objects offering a customized presentation.>file://figures/betterDebugerXP.png|width=100|label=debuggerXP+
 
 
 
@@ -344,16 +344,7 @@ KANetworkLink >> isTransmitting: aPacket
 
 !!! Transmitting across a link
 
-Transmitting a packet means telling the link's destination node to receive it.
-A link can not transmit packets that have not been sent via it, and once transmitted, the packet should not be on the link anymore:
-
-[[[language=smalltalk
-KANetworkLink >> transmit: aPacket
-    "Transmit aPacket to the destination node of the receiver link."
-    ... Your code ...
-]]]
-
-Nodes only consume packets addressed to them; fortunately this is what will happen in our test, so we can worry about the alternative case later (==notYetImplemented== is a special message that we can use in place of code that we will have to write eventually, but prefer to ignore for now).
+Transmitting a packet means telling the link's destination node to receive it. Nodes only consume packets addressed to them; fortunately this is what will happen in our test, so we can worry about the alternative case later (==notYetImplemented== is a special message that we can use in place of code that we will have to write eventually, but prefer to ignore for now).
 
 [[[language=smalltalk
 KANetworkNode >> receive: aPacket from: aLink
@@ -376,11 +367,23 @@ Don't forget to declare and initialize the ==arrivedPackets== instance variable,
 
 [[[language=smalltalk
 KANetworkNode >> hasReceived: aPacket
-    ^ arrivedPackets includes: aPacket
+	... Your code ...
+]]]
+
+Now we can implement the ==transmit:== message. A link can not transmit packets that have not been sent via it, and once transmitted, the packet should not be on the link anymore. We should remove it from the link list of package to be transmitted
+and tell the destination to receive it using the message ==receive:from:==.
+
+[[[language=smalltalk
+KANetworkLink >> transmit: aPacket
+    "Transmit aPacket to the destination node of the receiver link."
+    ... Your code ...
 ]]]
 
 At that point all our tests should pass.
 Note that the message ==notYetImplemented== is not called, since our tests do not yet require routing.
+Figure *@Api2* shows that the API of our classes is getting richer than before. 
+
++Richer API.>file://figures/API2.pdf|width=90|label=Api2+
 
 
 !!! The loopback link
