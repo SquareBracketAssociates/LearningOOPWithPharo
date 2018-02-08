@@ -9,6 +9,9 @@ In a second step we will extend the basic functionalities by adding extensions s
 Doing so, we will revisit many object-oriented concepts such as polymorphism, encapsulation, hooks and templates.
 Finally this system could be refined to become an experiment platform to explore and understand distributed algorithms.
 
+
++Two little networks composed of nodes and sending packets over links.>file://figures/lan-overview.pdf|width=80+
+
 !!!! Basic definitions and a starting point
 
 We need to establish the basic model; what does the description above tell us?
@@ -219,6 +222,57 @@ KANetworkNode >> hasLinkTo: anotherNode
 The method ==hasLinkTo:== should verify that there is at least one outgoing links whose destination is the node passed as argument.  We suggest to have a look at the iterator ==anySatisfy:== to express this logic.
 
 Again, all the tests should now pass.
+
++Current API of our three main classes.>file://figures/API1.pdf|width=80+
+
+
+
+!!! Making our objects more understandable
+
+When programming we often make mistakes and it is important to help developer to address them. Le us put a breakpoint and 
+try to understand the objects. 
+
+[[[language=smalltalk
+KANetworkEntitiesTest >> testNodeLinking
+	| node1 node2 link |
+	node1 := KANetworkNode withAddress: #address1.
+	node2 := KANetworkNode withAddress: #address2.
+	link := KANetworkLink from: node1 to: node2.
+	link attach.
+	self halt.
+	self assert: (node1 hasLinkTo: node2)
+]]]
+
+Running the test will open a debugger as the one shown in Figure *@debugger*. We get object but their textual representation is too generic to really help us. 
+
++Navigating specific objects having a generic presentation.>file://figures/debugger.png|width=100|label=debugger+
+
+The method ==printOn:== is responsible to the printing of the object representation. We will then redefine this method for the different objects we have.
+
+[[[language=smalltalk
+KANetworkNode >> printOn: aStream
+	aStream nextPutAll: 'Node ('.
+	aStream nextPutAll: address , ')'
+]]]
+
+[[[language=smalltalk
+KANetworkLink >> printOn: aStream
+	aStream nextPutAll: 'Link'.
+	source
+		ifNotNil: [ aStream
+				nextPutAll: ' ';
+				nextPutAll: source address ].
+	destination
+		ifNotNil: [ aStream
+				nextPutAll: ' -> ';
+				nextPutAll: destination address ]
+]]]
+
+Now if we rerun the test we obtain a better user experience as shown in Figure *@debuggerXP*: we can see the address of a node and the source and destination of a link.
+
++Navigating specific objects having a generic presentation.>file://figures/betterDebugerXP.png|width=100|label=debuggerXP+
+
+
 
 
 !!! Simulating the steps of packet delivery
