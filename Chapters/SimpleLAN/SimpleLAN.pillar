@@ -388,9 +388,10 @@ Figure *@Api2* shows that the API of our classes is getting richer than before.
 
 !!! The loopback link
 
-If a node wants to send a packet to itself, it does not need any connection to do so.
+On a real network, when a node wants to send a packet to itself, it does not need any connection to do so.
 In real-world networking stacks, loopback routing shortcuts the lower networking layers; however, this is finer detail than we are modeling here.
-Still, we want to model the fact that the loopback link is a little special, so each node will store its own loopback link, separately from the outgoing links.
+
+Still, we want to model the fact that the loopback link is a little special, so each node will store its own loopback link, separately from the outgoing links. We start to define a test. 
 
 [[[language=smalltalk
 KANetworkEntitiesTest >> testLoopback
@@ -432,7 +433,8 @@ KANetworkNode >> loopback
     ^ loopback
 ]]]
 
-And finally we can focus on the ==send:== method and automatic link selection.
+And finally we can focus on the ==send:== method and automatic link selection. The method ==send:== should be more generic than the method ==send:via:== and will be one exposed as a public entry point.
+
 This method has to rely on some routing algorithm to identify which links will transmit the packet closer to its destination.
 Since some routing algorithms select more than one link, we will implement routing as an ''iteration'' method, which evaluates the given block for each selected link.
 
@@ -446,7 +448,8 @@ KANetworkNode >> send: aPacket
 
 One of the simplest routing algorithm is ''flooding'': just send the packet via every outgoing link.
 Obviously, this is a waste of bandwidth, but it works without any knowledge of the network topology beyond the list of outgoing links.
-However, there is one case where we know how to route the packet: if the destination address matches the one of the current node, we can select the loopback link alone.
+
+However, there is one case where we know how to route the packet: if the destination address matches the one of the current node, we can select the loopback link alone. The logic of ==linksTowards:do:== is then to check is the address we want to send the packet is the one of the node. In that case we execute the block using the loopback link, else we simple iterate on the outgoing links of the receiver. 
 
 [[[language=smalltalk
 KANetworkNode >> linksTowards: anAddress do: aBlock
@@ -490,16 +493,24 @@ KANetworkTest >> testNetworkFindsNodesByAddress
 ]]]
 
 We will have to implement this ==nodeAt:ifNone:== on our ==KANetwork== class; but first we need to decide how its instances are built.
-Let's build network ==net==, with the main part connected in a star shape around a ==hub== node; a pair of nodes ==ping== and ==pong== are part of the network but not connected to ==hub==, and the ==alone== node is just by itself, not even added to the network:
+Let's build network ==net==, with the main part connected in a star shape around a ==hub== node; a pair of nodes ==ping== and ==pong== are part of the network but not connected to ==hub==, and the ==alone== node is just by itself, not even added to the network as shown in Figure *@hub*.
 
-+A hub.>file://figures/lan-star.pdf|width=50+
++A hub.>file://figures/lan-star.pdf|width=50|label=hub+
 
 Expanding a network implies adding new connections and possibly new nodes to it.
 If the ==net== object understands a ==connect: aNode to: anotherNode== message, you should be able to build nodes and connect them into a network that matches the figure.
 
 [[[language=smalltalk
 KANetworkTest >> buildNetwork
-    ... Your code ...
+	alone := KANetworkNode withAddress: #alone.
+	net := KANetwork new.
+	hub := KANetworkNode withAddress: #hub.
+	#(mac pc1 pc2 prn)
+		do: [ :addr | 
+			| node |
+			node := KANetworkNode withAddress: addr.
+			net connect: node to: hub ].
+	net connect: (KANetworkNode withAddress: #ping) to: (KANetworkNode withAddress: #pong)
 ]]]
 
 The name of the ==connect:to:== message suggests that establishing the bidirectional links is the responsibility of the ==net== object.
@@ -520,21 +531,37 @@ KANetwork >> initialize
     ... Your code ...
 ]]]
 
-Now, we can add isolated nodes to the network, even if it does not seem very useful:
+
+Now we can give the network the possibility to create links.  This method we will use to add links to the network link collection.
+
+[[[
+KANetwork >> makeLinkFrom: aNode to: anotherNode
+	^ KANetworkLink from: aNode to: anotherNode
+]]]
+
+
+We add a low level method ==add:== to add a node in a network. 
 
 [[[language=smalltalk
 KANetwork >> add: aNode
-    nodes add: aNode
+	nodes add: aNode
 ]]]
 
-However, connecting nodes without ensuring that they are part of the network really does not make any sense.
-Therefore, when connecting nodes, we will first ensure the nodes are added, then we create and attach links in both directions; finally we store both links.
+Now, we can add isolated nodes to the network, even if it does not seem very useful.
+
+!!!! Connecting nodes.
+
+Connecting nodes without ensuring that they are part of the network really does not make any sense.
+Therefore, when connecting nodes, we will first ensure the nodes are added (by simply adding them in the node Set), then we create and attach links in ''both'' directions; finally we store both links.
 Implement the ==connect:to:== method; for concision, note that the ==attach== method we defined previously effectively returns the link.
 
 [[[language=smalltalk
 KANetwork >> connect: aNode to: anotherNode
     ... Your code ...
 ]]]
+
+
+
 
 !!! Looking up nodes
 
