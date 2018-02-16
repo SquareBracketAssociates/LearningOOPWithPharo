@@ -4,7 +4,7 @@
 Snakes and Ladders is a simple game suitable for teaching children how to apply rules (*http://en.wikipedia.org/wiki/Snakes_and_ladders*). It is dull for adults because there is absolutely no strategy involved, but this makes it easy to implement! 
 In this chapter you will implement SnakesAndLadders and we use it as a pretext to explore design questions.
 
-+Snakes and Ladders: one possible board game with two ladders and one snake.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
++An example Snakes and Ladders board with two ladders and a snake.>file://figures/snakesAndLadders.png|width=70|label=fig:snakes+
 
 
 !!! Game rules
