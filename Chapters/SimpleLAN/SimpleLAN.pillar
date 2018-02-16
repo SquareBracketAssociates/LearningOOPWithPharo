@@ -513,8 +513,7 @@ KANetworkTest >> buildNetwork
 	net connect: (KANetworkNode withAddress: #ping) to: (KANetworkNode withAddress: #pong)
 ]]]
 
-The name of the ==connect:to:== message suggests that establishing the bidirectional links is the responsibility of the ==net== object.
-It also has to remember enough info so we can inspect the network topology; we can simply store nodes and links in a couple of sets, even though that representation is a little redundant.
+The name of the ==connect:to:== message suggests that establishing the bidirectional links is the responsibility of the ==net== object. It also has to remember enough info so we can inspect the network topology; we can simply store nodes and links in a couple of sets, even though that representation is a little redundant.
 Let's define the class with two instance variables:
 
 [[[language=smalltalk
@@ -547,20 +546,45 @@ KANetwork >> add: aNode
 	nodes add: aNode
 ]]]
 
+To be able to test the network construction we add a little test message;
+[[[language=smalltalk
+KANetwork >> doesRecordNode: aNode
+	^ nodes includes: aNode
+]]]
+
 Now, we can add isolated nodes to the network, even if it does not seem very useful.
 
 !!!! Connecting nodes.
+Connecting nodes without ensuring that they are part of the network really does not make sense.
+Therefore, when connecting nodes, we will first ensure the nodes are added (by simply adding them in the node Set of the network), then we create and attach links in ''both'' directions; finally we store both links.
 
-Connecting nodes without ensuring that they are part of the network really does not make any sense.
-Therefore, when connecting nodes, we will first ensure the nodes are added (by simply adding them in the node Set), then we create and attach links in ''both'' directions; finally we store both links.
-Implement the ==connect:to:== method; for concision, note that the ==attach== method we defined previously effectively returns the link.
+Here is a test covering this aspect.
+
+[[[
+KANetworkTest >> testConnect
+	| netw hubb mac pc1 |
+	netw := KANetwork new.
+	hubb := KANetworkNode withAddress: #hub.
+	mac := KANetworkNode withAddress: #mac.
+	pc1 := KANetworkNode withAddress: #pc1.
+
+	netw connect: hubb to: mac.
+	self assert: (hubb hasLinkTo: mac).
+	self assert: (mac hasLinkTo: hubb).
+	self assert: (netw doesRecordNode: hubb).
+	self assert: (netw doesRecordNode: mac).
+
+	netw connect: hubb to: pc1.
+	self assert: (hubb hasLinkTo: pc1).
+	self assert: (mac hasLinkTo: hubb)
+]]]
+
+Now implement the ==connect:to:== method; for concision, note that the ==attach== method we defined previously effectively returns the link.
 
 [[[language=smalltalk
 KANetwork >> connect: aNode to: anotherNode
     ... Your code ...
 ]]]
-
-
 
 
 !!! Looking up nodes
