@@ -586,11 +586,11 @@ KANetwork >> connect: aNode to: anotherNode
     ... Your code ...
 ]]]
 
+The test ==testConnect== should be green.
 
 !!! Looking up nodes
 
-At this point, the test should run through ==setUp== but fail in the unit test itself, because we still need to implement node lookup.
-The base lookup should find the first node that has the requested address, or evaluate a fall-back block:
+At this point, the test ==testNetworkFindsNodesByAddress== should run through ==setUp== but fail in the unit test itself, because we still need to implement node lookup. The base lookup should find the first node that has the requested address, or evaluate a fall-back block (a perfect case for the ==detect:ifNone:== message):
 
 [[[language=smalltalk
 KANetwork >> nodeAt: anAddress ifNone: noneBlock
@@ -607,11 +607,15 @@ KANetworkTest >> testNetworkOnlyFindsAddedNodes
         raise: NotFound
 ]]]
 
-Then we can simply express ==nodeAt:== by delegating to ==nodeAt:ifAbsent:==:
+Then we can simply express ==nodeAt:== by delegating to ==nodeAt:ifNone:==.
+Note that raise an exception, you simply send the message ==signal== to the exception class. Here we use
+the specific class method ==signalFor:in:== defined on the ==NotFound== class.
 
 [[[language=smalltalk
 KANetwork >> nodeAt: anAddress
-    ... Your code ...
+    ^ self
+        nodeAt: anAddress
+        ifNone: [ NotFound signalFor: anAddress in: self ]
 ]]]
 
 !!! Looking up links
@@ -640,6 +644,7 @@ KANetwork >> linkFrom: sourceAddress to: destinationAddress
     ... Your code ...
 ]]]
 
+!!!! Final check. 
 As a final check, let's try some of the previous tests, first on the isolated ==alone== node, showing that loopback works even without a network connection:
 
 [[[language=smalltalk
@@ -754,35 +759,41 @@ KANetworkNode >> forward: aPacket from: arrivalLink
     "Do nothing. Normal nodes do not route packets."
 ]]]
 
+!!! Introducing a new kind of node
+
+Now we define the class ==KANetworkHub== that will be the recipient of hub specific behavior. 
+
 [[[language=smalltalk
 KANetworkNode subclass: #KANetworkHub
     instanceVariableNames: ''
     classVariableNames: ''
-    category: 'NetworkSimulator-Nodes'
+    category: 'NetworkSimulator'
 ]]]
 
-A hub does not have routing information, so all it can do is flood routing, with a catch: the packet must not be sent back from where it arrived, because if that happens to be another hub the packet would bounce back and forth indefinitely.
+A hub does not have routing information, so all it can do is flood routing, with a catch: the packet must not be sent back from where it arrived, because if that happens to be another hub the packet would bounce back and forth indefinitely. We suggest to take advantage of the message ==linksTowards:do:== that performs an action for all given links to one address.
 
 [[[language=smalltalk
 KANetworkHub >> forward: aPacket from: arrivalLink
    ... Your code ...
 ]]]
 
-Now we can use a proper hub in our test, replacing the relevant line in ==KANetworkTest >> buildNetwork:==, and check that the ==testSendViaHub== unit test passes.
+Now we can use a proper hub in our test, replacing the relevant line in ==KANetworkTest >> buildNetwork==, and check that the ==testSendViaHub== unit test passes.
 
 [[[language=smalltalk
     hub := KANetworkHub withAddress: #hub.
 ]]]
 
 
+You have now a nice basis for network simulation. In the following we will present some possible extensions. 
+
+
 !!! Other examples of specialized nodes
+In this section we will present some extensions of the core to support different scenarios. We will propose some tasks to make sure that the extensions are fully working. In addition in this section we do not define tests and we strongly encourage you to start to write tests. At the moment of the book you should be ready to write your own tests and see their values to improve your development process. So take this opportunity to practice.
 
-@@todo this is out of place, it's not about packet delivery…
+!!!! Workstations counting received packets
 
-
-!!!!! Workstations counting received packets
-
-When a workstation consumes a packet, it simply increments a packet counter.
+We would like to know how many packets specific nodes are receiving. 
+In particular when a workstation consumes a packet, it simply increments a packet counter.
 
 Let's start by subclassing ==KANetworkNode==:
 
@@ -794,7 +805,7 @@ KANetworkNode subclass: #KANetworkWorkstation
 ]]]
 
 We need to initialize the ==receivedCount== instance variable.
-Properly redefining ==initialize:== is enough, because the address is initialized separately in the constructor method ==KANetworkNode >> withAddress:==; however, it's really important not to forget the ==super initialize== message, because that method does
+Properly redefining ==initialize== is enough, because the address is initialized separately in the constructor method ==KANetworkNode >> withAddress:==; however, it's really important not to forget the ==super initialize== message, because that method does initialize the default node behavior.
 
 [[[language=smalltalk
 KANetworkWorkstation >> initialize
@@ -809,10 +820,11 @@ KANetworkWorkstation >> consume: aPacket
     receivedCount := receivedCount + 1
 ]]]
 
-@@todo Define accessors and the ==printOn:== method, for debugging. Test the behavior of workstation nodes.
+Define accessors and the ==printOn:== method for debugging. 
+Define a test for the behavior of workstation nodes.
 
 
-!!!!! Printers accumulating printouts
+!!!! Printers accumulating printouts
 
 When a printer consumes a packet, it prints it; we can model the output tray as a list where packet payloads get queued, and the supply tray as the number of blank sheets it contains.
 
@@ -858,10 +870,11 @@ KANetworkPrinter class >> withAddress: anAddress initialSupply: paperSheets
         yourself
 ]]]
 
-@@todo Define accessors and the ==printOn:== method, for debugging. Test the behavior of printer nodes.
+Define accessors and the ==printOn:== method for debugging purpose. 
+Define some test method for the behavior of printer nodes.
 
 
-!!!!! Servers answering requests
+!!!! Servers answering requests
 
 When a server node consumes a packet, it converts the payload to uppercase, then sends that back to the sender of the request.
 
@@ -884,28 +897,17 @@ KANetworkServer >> consume: aPacket
         payload: response)
 ]]]
 
-@@todo Define accessors and the ==printOn:== method, for debugging. Test the behavior of server nodes.
+Define a test for the behavior of server nodes.
 
+!!! Conclusion
 
-!!! Cycles and routing tables
+In this chapter we built step by step a little network simulation system. We show the benefit of good protocol decompositions.
 
-Let's now model a more realistic network with a cycle between three central nodes:
+As future extension we suggest modeling a more realistic network with routing tables as shown in Figure *@routing*.
 
-+file://figures/lan-routes.pdf|width=50+
++A possible extension:a more realistic network with a cycle between three central nodes. >file://figures/lan-routes.pdf|width=50|label=routing+
 
-Since we want to keep the previous tests unchanged, we define a new test class with a different ==buildNetwork== method:
-
-[[[language=smalltalk
-TestCase subclass: #KARoutingNetworkTest
-    instanceVariableNames: 'net'
-    classVariableNames: ''
-    category: 'Kata-NetworkSimulator-Tests'
-]]]
-
-[[[language=smalltalk
-KARoutingNetworkTest >> setUp
-    self buildNetwork
-]]]
+Here is a possible setup for a new family of tests. 
 
 [[[language=smalltalk
 KARoutingNetworkTest >> buildNetwork
@@ -927,11 +929,3 @@ KARoutingNetworkTest >> buildNetwork
     net connect: routers third
         to: (KANetworkNode withAddress: #c1)
 ]]]
-
-
-@@todo automatic routing?
-
-% [[[language=smalltalk
-% KANetwork >> makeLinkFrom: aNode to: anotherNode
-%     ^ KANetworkLink from: aNode to: anotherNode
-% ]]]

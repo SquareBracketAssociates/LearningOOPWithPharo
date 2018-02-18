@@ -171,12 +171,7 @@ KANetwork >> nodeAt: anAddress ifNone: noneBlock
         ifNone: noneBlock
 ]]]
 
-[[[language=smalltalk
-KANetwork >> nodeAt: anAddress
-    ^ self
-        nodeAt: anAddress
-        ifNone: [ NotFound signalFor: anAddress in: self ]
-]]]
+
 
 !!! Looking up links
 
@@ -203,11 +198,3 @@ KANetworkHub >> forward: aPacket from: arrivalLink
                 ifFalse: [ self send: aPacket via: link ] ]
 ]]]
 
-[[[language=smalltalk
-KANetworkHub >> forward: aPacket from: arrivalLink
-    self
-        linksTowards: aPacket destinationAddress
-        do: [ :link |
-            link destination == arrivalLink source
-                ifFalse: [ self send: aPacket via: link ] ]
-]]]
