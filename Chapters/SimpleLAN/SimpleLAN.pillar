@@ -901,11 +901,13 @@ Define a test for the behavior of server nodes.
 
 !!! Conclusion
 
-In this chapter we built step by step a little network simulation system. We show the benefit of good protocol decompositions.
+In this chapter, we built a little network simulation system, step by step.
+We showed the benefit of good protocol decompositions.
 
-As future extension we suggest modeling a more realistic network with routing tables as shown in Figure *@routing*.
+As a further extension, we suggest modeling a more realistic network with cycles, as shown in Figure *@routing*.
+Making this work properly will require replacing hubs with routers and flood routing with more realistic routing algorithms.
 
-+A possible extension:a more realistic network with a cycle between three central nodes. >file://figures/lan-routes.pdf|width=50|label=routing+
++A possible extension: a more realistic network with a cycle between three router nodes. >file://figures/lan-routes.pdf|width=50|label=routing+
 
 Here is a possible setup for a new family of tests. 
 
