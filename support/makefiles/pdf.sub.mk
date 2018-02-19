@@ -3,7 +3,7 @@ export TEXINPUTS=root/support/latex//:
 -include $(wildcard *.d)
 
 %.pdf: root/support/latex/%.pdf
-	ln $<
+	ln -f $< $@
 
 %.pdf: %.tex
 	latexmk -lualatex -use-make -recorder \
