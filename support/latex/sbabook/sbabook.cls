@@ -395,6 +395,20 @@
 \renewcommand\listfigurename{Illustrations}
 \renewcommand\ext@table{lof}
 
+%% Avoid ugly page breaks in contents / list of illustrations
+\newbool{captionsdefinedinchapter}
+\AfterEndEnvironment{figure}{\booltrue{captionsdefinedinchapter}}
+\AfterEndEnvironment{table}{\booltrue{captionsdefinedinchapter}}
+
+\renewcommand\mempreaddparttotochook{\addtocontents{toc}{\protect\needspace{6\baselineskip}}}
+\renewcommand\mempreaddchaptertotochook{\addtocontents{toc}{\protect\needspace{3\baselineskip}}}
+\renewcommand\insertchapterspace{%
+  \ifbool{captionsdefinedinchapter}
+  {%
+    \addtocontents{lof}{\protect\addvspace{10pt}\needspace{3\baselineskip}}%
+    \boolfalse{captionsdefinedinchapter}%
+  }{}}
+
 %% figures & tables, like sections
 \cftsetindents{figure}{0pt}{0em}
 \let\cftfigurefont\cftsectionfont
