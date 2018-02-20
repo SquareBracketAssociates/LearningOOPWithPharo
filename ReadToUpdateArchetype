@@ -1,4 +1,0 @@
-git clone https://github.com/pillar-markup/Pillar-Archetype.git
-
-cp -R Pillar-Archetype/book/support .
-cp -R Pillar-Archetype/book/Makefile .
