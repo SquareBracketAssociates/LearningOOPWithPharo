@@ -60,14 +60,14 @@ ${inputFile:Chapters/TinyChat/TinyChat.pillar}$
 
 % Little collection manager
 
-! Solutions
-${inputFile:Chapters/GettingStarted/ChallengingYourselfSolution.pillar}$
-${inputFile:Chapters/Katas/GramKatasSolution.pillar}$ 
-${inputFile:Chapters/Wallet/WalletSolution.pillar}$
-${inputFile:Chapters/Converter/ConverterSolution.pillar}$
-${inputFile:Chapters/DSL/DSLSolution.pillar}$
-${inputFile:Chapters/Expressions/ExpressionsSolution.pillar}$
-${inputFile:Chapters/SimpleLAN/SimpleLANSolution.pillar}$
-${inputFile:Chapters/SnakesAndLadders/SnakesAndLaddersSolution.pillar}$
+%! Solutions
+%${inputFile:Chapters/GettingStarted/ChallengingYourselfSolution.pillar}$
+%${inputFile:Chapters/Katas/GramKatasSolution.pillar}$ 
+%${inputFile:Chapters/Wallet/WalletSolution.pillar}$
+%${inputFile:Chapters/Converter/ConverterSolution.pillar}$
+%${inputFile:Chapters/DSL/DSLSolution.pillar}$
+%${inputFile:Chapters/Expressions/ExpressionsSolution.pillar}$
+%${inputFile:Chapters/SimpleLAN/SimpleLANSolution.pillar}$
+%${inputFile:Chapters/SnakesAndLadders/SnakesAndLaddersSolution.pillar}$
 
 
