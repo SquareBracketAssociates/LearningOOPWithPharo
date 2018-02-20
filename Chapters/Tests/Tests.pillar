@@ -4,7 +4,7 @@
 In this chapter we start by showing that tests are simple. Second we present test driven design - basically what we will try to do systematically in this book. Then we discuss why we test, and what makes a good test.
 We then present a series of small examples showing how to use SUnit. 
 
-!!! What is a test?
+!!! Writing a test in 2 minutes
 
 A test is a context, a stimulus and an assertion (verification that we get the correct state).
 Here is an example on sets. Remember that sets are mathematical entities having only one occurrence of their elements.
@@ -47,6 +47,8 @@ MyExampleSetTest >> testAddTwice
 ]]]
 
 Then using the Test runner or pressing on icons of the Pharo browser (as shown in Figure *@fig:browsertests*), you will be able to execute the method ==testAddTwice== and it will tell you if it passes or fails (i.e., if its assertions are true). Now that you know that writing a test is not complex. Let us look a bit at the theory before going into more details. 
+
+@@coffee A test is a context, a stimulus and an ''assertion'' (verification that we get the correct state).
 
 !!!Test Driven Design
 
@@ -122,7 +124,7 @@ find that this has happened, take advantage of it! As soon as you uncover the
 bug, write a test that exposes it, run the test, and watch it fail. Now you can
 start to fix the bug: the test will tell you when you are done.
 
-!!!What makes a good test?
+!!! What makes a good test?
 Writing good tests is a skill that you can learn by practicing.
 Let us look at the properties that tests should have to get the maximum benefit.
 
@@ -142,16 +144,16 @@ message than having 10 tests fail. However, it is not always possible to achieve
 this ideal: in particular, if a change breaks the initialization of an object,
 or the set-up of a test, it is likely to cause all of the tests to fail.
 
-!!!! right-Bicep.
-Writing tests is not difficult in itself. Choosing ''what'' to test is much more
-difficult. Some programmers use the "right-BICEP" principle. It stands for:
+%!!!! right-Bicep.
+%Writing tests is not difficult in itself. Choosing ''what'' to test is much more
+%difficult. Some programmers use the "right-BICEP" principle. It stands for:
 
-- Right: Are the results right?
-- B: Are all the boundary conditions correct?
-- I: Can you check inverse relationships?
-- C: Can you cross-check results using other means?
-- E: Can you force error conditions to happen?
-- P: Are performance characteristics within bounds?
+%- Right: Are the results right?
+%- B: Are all the boundary conditions correct?
+%- I: Can you check inverse relationships?
+%- C: Can you cross-check results using other means?
+%- E: Can you force error conditions to happen?
+%- P: Are performance characteristics within bounds?
 
 Now let's go back and write a couple of tests using SUnit.
 

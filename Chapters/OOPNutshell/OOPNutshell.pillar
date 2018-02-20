@@ -100,13 +100,13 @@ square: size
 
 Note that finding the method corresponding to the message is done at runtime and depends on the object receiving the message.
 
-@@important A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
+@@coffee A message represents ''what'' the object should do, while a method specifies ''how'' the behavior is realized. 
 
 An object can also send messages to other objects. For example, when a turtle draws a line, it sends messages to an object representing the line color and its length.
 
 +An object presents to the other objects an interface composed of a set of messages defining ''what'' he can do. This behavior is realized by methods that specify ''how'' the behavior is implemented. When a message is sent to an object a method with the message name (called selector) is looked up and executed. >file://figures/basicMessageMethod.pdf|width=50|label=basicMessageMethod+
 
-@@important An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
+@@coffee An object is an entity that once created receives messages and performs some actions in reaction. When a message is sent to an object, a method with the message name is looked up and executed.
 
 
 !!! An object is a protective entity
@@ -224,7 +224,7 @@ In the expression ==c1 increment==, ==c1== is called the ""receiver"" of the mes
 
 In the method ==increment==,  the variable ==count== refers to the variable of the ""receiver"" of the message. 
 
-@@important A class define methods that specify the behavior of all the instances created by the class.
+@@coffee A class defines methods that specify the behavior of all the instances created by the class.
 
 
 Multiple methods can accessed to the instance variables of the receiver. For example the methods ==increment==, ==count:== ==decrement== and ==printOn:== all access the instance variable ==count== of the receiver to perform different computation. 
@@ -281,7 +281,7 @@ For example, sending ==new== to the ==Counter== class returns a newly created co
 
 A class is a factory of objects. A class creates instances. An instance does not create other instances of the class.
 
-@@important A class describes the structure (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
+@@coffee A class describes the structure (instance variables) and the behavior (methods) of ''all'' its instances. The state of an instance is the value of its instance variables and it is specific to one single object while the behavior is shared by all the instances of a class.
 
 !!! Conclusion
 

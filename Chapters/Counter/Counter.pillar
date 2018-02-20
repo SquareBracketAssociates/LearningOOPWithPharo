@@ -175,7 +175,7 @@ Using Monticello you can save your work:
 Note each time you load or save a package, this package is also be stored in the folder named 'package-cache' on your hard-disk.
 
 
-!!!!! Step 1: Add a repository
+!!!!! Add a repository
 Go to *http://www.smalltalkhub.com/* and create a member account then register a new project. You get an HTTP entry that refers to your project. Define a new HTTP repository using the Monticello Browser as shown by Figures *@figSelectingARepo* and *@figAddingARepo*.
 
 Figure *@figSelectingARepo* shows that you package is dirty: this is indicated with the little '*' in front of the packages. 
@@ -199,7 +199,7 @@ MCHttpRepository
 ]]]
 
 
-!!!! Saving your package
+!!!!! Saving your package
 
 To save your work, simply select your package and the repository you want to save it to and save it using the Save button. This will open a dialog where you can give a comment, version numbers and blessing. From then on, other people can load it from there, in the same way that you would use cvs or other multi-user versioning systems. Saving the image is also a way to save your working environment, but not a way to version and publish it in a way that can be easily shared.
 
