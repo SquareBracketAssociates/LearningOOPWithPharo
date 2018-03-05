@@ -7,7 +7,7 @@ It is a follow up of *Botincs: Learning programming with Squeak*. But its conten
 
 The result from the latest successful Travis build can be found [on Bintray (PDF)](https://bintray.com/squarebracketassociates/wip/download_file?file_path=learningoop-wip.pdf).
 
-Since I'm not a native english speaker, I appreciate pull requests that help me to get the material in better form.
+Since I'm not a native english speaker, I appreciate pull requests that help me get the material in better form.
 
 The associated lectures can be found at [https://squarebracketassociates.github.io/OOProgrammingMooc/](https://squarebracketassociates.github.io/OOProgrammingMooc/).
 
