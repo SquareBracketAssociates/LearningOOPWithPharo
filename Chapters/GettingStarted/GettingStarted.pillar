@@ -478,7 +478,7 @@ A ""keyword"" message can take one or more
 arguments that are inserted in the message name.
 
 [[[
-'Pharo' allButFirst: 2==
+'Pharo' allButFirst: 2
 >>> 'aro'
 ]]]
 [[[
