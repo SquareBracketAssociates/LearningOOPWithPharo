@@ -298,7 +298,7 @@ adder value: 200
 >>> 201
 ]]]
 
-@@important Blocks are technical lexical closures. Now in a first understanding, they represent kind of anonymous methods that can be sorted, passed as arguments and executed on demand using the messages ==value==, ==value:==...
+@@important Technically, blocks are ''lexical closures''. Now in a first understanding, they represent kind of anonymous methods that can be stored, passed as arguments, and executed on demand using the messages ==value==, ==value:==...
 
 !!! Control structures
 
@@ -338,13 +338,12 @@ count
 >>> 5
 ]]]
 
-+Reading or editing a method using a code browser. Topleft pane: list of packages then list of classes then protocols then method lists - middle pane: method definition. Last pane: Quality Assistant.>file://figures/allSatisfy.png|width=95|label=fig:allSatisfy+
-
 !!! Methods
 
-Imagine that we want the following behavior: checking that all the objects of a collection holds the given property. 
++Reading or editing a method using a code browser. Topleft pane: list of packages then list of classes then protocols then method lists - middle pane: method definition. Last pane: Quality Assistant.>file://figures/allSatisfy.png|width=95|label=fig:allSatisfy+
 
-Here we check that all the numbers in the array are even numbers. 
+Imagine that we want to check that all the objects in a collection hold a given property.
+Here we check that all the numbers in the array are even numbers.
 [[[
 #(2 4 8 16 32) allSatisfy: [ :each | each even ]
 >>> true
@@ -356,13 +355,11 @@ But the following is false because not all the numbers are odd.
 >>> false
 ]]]
 
-The message ==allSatisfy:== is one of the many super powerful behavior implemented in Collection. It is called an iterator.
+The message ==allSatisfy:== is one of the many super powerful behaviors implemented in ==Collection==. It is called an iterator.
 
 Methods are edited one by one in a code browser, like the one shown in Figure *@fig:allSatisfy*.
 
-The following code is the definition of the method ==allSatisfy:==. The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes. Inside a method, ==self== refers to the object itself, the receiver.
-
-Let us explain the implementation of such method. Using the message ==do:== we iterate over all elements of the collection. For each element we execute block (a predicate) that returns a boolean value and act accordingly. As soon as we get a false value, we stop and return an overall false value. If every evaluation gave us true, we passed the whole test and can return ==true== as overall result.
+The following code is the definition of the method ==allSatisfy:== in the class ==Collection==. The first line specifies the method name, the selector, with names for all arguments. Comments are surrounded by double quotes. Inside a method, ==self== refers to the object itself, the receiver.
 
 [[[
 allSatisfy: aBlock
@@ -373,11 +370,13 @@ allSatisfy: aBlock
 	^ true
 ]]]
 
-In a method, the receiver (==self==) is the default return value of the whole method. Using a caret (==\^==) a method returns something else or even return earlier. Here is the code of the method ==allSatify:== on the class ==Collection==.
+Let us explain the implementation of this method. Using the message ==do:== we iterate over all elements of the collection. For each element we execute block (a predicate) that returns a boolean value and act accordingly. As soon as we get a false value, we stop and return an overall false value. If every evaluation gave us true, we passed the whole test and can return ==true== as the overall result.
+
+In a method, the receiver (==self==) is the default return value of the whole method. Using a caret (==\^==) in a method allows to return something else, or to return earlier.
 
 !!! Resources
 
-This chapter showed you the key syntatic elements. If you want to get a deeper understanding about the syntax please refer to the following mooc videos. The Mooc on Pharo is available at *http://mooc.pharo.org*
+This chapter showed you the key syntactic elements. If you want to get a deeper understanding about the syntax please refer to the following mooc videos. The Mooc on Pharo is available at *http://mooc.pharo.org*
 
 Here are direct pointers to the videos we believe will help you to understand the Pharo syntax and key messages: 
 - Syntax in a nutshell *http://rmod-pharo-mooc.lille.inria.fr/MOOC/Videos/W1/C019SD-W1-S5-v2.mp4*
