@@ -170,7 +170,7 @@ Use the ""Monticello Browser"" (available in Tools) to save your work. You can s
 !!!! Saving using Monticello
 
 Using Monticello you can save your work:
-- ''Locally''. You can store your packages in a folder on your disc (use directory as a kind of repository below).
+- ''Locally''. You can store your packages in a folder on your disk (use directory as a kind of repository below).
 - ''Remotely''. Using an account on a free server such *http://www.smalltalkhub.com/*. You can save your work and share it with others.
 Note each time you load or save a package, this package is also be stored in the folder named 'package-cache' on your hard-disk.
 
@@ -178,7 +178,7 @@ Note each time you load or save a package, this package is also be stored in the
 !!!!! Add a repository
 Go to *http://www.smalltalkhub.com/* and create a member account then register a new project. You get an HTTP entry that refers to your project. Define a new HTTP repository using the Monticello Browser as shown by Figures *@figSelectingARepo* and *@figAddingARepo*.
 
-Figure *@figSelectingARepo* shows that you package is dirty: this is indicated with the little '*' in front of the packages. 
+Figure *@figSelectingARepo* shows that your package is dirty: this is indicated with the little '*' in front of the packages.
 
 ""Example."" As authors we  are saving the examples for this chapter as a special team named PharoMooc in the Counter project so our information is the following:  
 
