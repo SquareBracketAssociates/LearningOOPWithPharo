@@ -154,12 +154,11 @@ Wait! We do not want to have to check manually all the time!
 
 !!! Defining a test
 
-To define tests we could have extended the ==StringTest== class, but we prefer to define a little class for our own experiment. This way we will create also a package and move the methods we define as class extension to the that package. 
+To define tests we could extend the ==StringTest== class, but we prefer to keep our experiment contained in a package of its own. To achieve this, we will create a package ==LoopStarGram== and define the ==String >> isIsogramSet== method as a class extension of that package.
 
 @@important To define a method as a class extension of package ==Foo==, just name the protocol of the method ==*Foo==.
 
-
-We define the class ==GramCheckerTest== as follow. It inherits from ==TestCase== and belong to the package ==LoopStarGram==.
+We define the class ==GramCheckerTest== as follow. It inherits from ==TestCase== and belongs to the package ==LoopStarGram==.
 
 [[[
 TestCase subclass: #GramCheckerTest
@@ -181,7 +180,6 @@ Here
 - We check (==deny:==) that 'phaoro' is ''not'' an isogram i.e., that =='pharo' isIsogramSet== returns ==false==. 
 [[[
 GramCheckerTest >> testIsogramSetImplementation
-	
 	self assert: 'pharo' isIsogramSet.
 	self deny: 'phaoro' isIsogramSet.
 ]]]
@@ -205,7 +203,7 @@ GramCheckerTest >> isograms
 	^ #('pharo' 'pathfinder' 'xavier' 'francois' 'lumberjacks' 'altruisme' 'antipode')
 ]]]
 
-Then we define a new test method == testAllIsogramSet== that simply iterates over the string array and for each verifies using ==assert:== that the element is indeed an isogram. 
+Then we define a new test method ==testAllIsogramSet== that simply iterates over the string array and for each verifies using ==assert:== that the element is indeed an isogram.
 
 In Pharo, there are multiple ways to express loops on collection, the easiest is to send the message ==do:== to the collection. The ==do:== message executes the block to each element of the collection one by one. 
 
