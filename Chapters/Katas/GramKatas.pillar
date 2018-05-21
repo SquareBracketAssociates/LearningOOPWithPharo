@@ -9,7 +9,7 @@ An isogram is a word or phrase without a repeating letter. The following words a
 - egoism, sea, lumberjacks, background, hacking, pathfinder, pharo
 - antipode, altruisme, absolument, bigornaux
 
-Isograms are interesting words also because they are often the basis of simple cifers. Isograms of length 10 are commonly used to encode numbers. This way salespeople of products can get access to the original cost of the product and control their sale. 
+Isograms are interesting words also because they are often the basis of simple ciphers. For instance, isograms of length 10 are commonly used by salespeople to encode numbers and write down the original cost of their products.
 
 Using the ''pathfinder'' cipher we can decide that ''p'' represents the number 1, ''a'' represents the number 2 and so on. The price tag for an item selling for 1100 Euros may also bear the cryptic letters ''frr'' written on the back or bottom of the tag. A salesman familiar with the pathfinder cipher will know that the original cost of the item is 500 Euros and he can control his sale. 
 
@@ -25,7 +25,7 @@ A string in Pharo is in fact an array of characters. We can access string elemen
 ]]]
 
 [[[
-'coucou'at: 3
+'coucou' at: 3
 >>> $u
 ]]]
 
