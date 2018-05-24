@@ -238,7 +238,7 @@ In the sentence ''A class describes the internal structure of all its instances'
 - but instances have different and independent states, i.e., the  values of the instance variables that represent them change from instance of instance. ==caro== can be at a different position than ==marg==.
 
 
-@@important A class ''describes'' the internal structure of all its instances by means of instance variable.
+@@important A class ''describes'' the internal structure of all its instances by means of instance variables.
 
 
 
