@@ -129,10 +129,10 @@ Again run the tests they should pass again.
 
 What the tests execution proves is that we did not change the structure of the instances of ==MFFile== and ==MFDirectory==. Indeed the structure of an instance is computed from the instance variable lists defined in their class and all the superclasses of that class.
 
-!!!! Moving parent to the superclass
+!!!! Moving parent to superclass
 
 Since parent is defined in both subclasses, we can do the same for the instance variable parent to obtain the situation shown in Figure *@FileDirectoryInhFullStateOnly*.
-You can do it manually as we did for the instance variable ==name== but you can use a ''refactoring'': Refactorings are powerful program transformation. Using the system browser, bring the menu on the class ==MFFile== select refactoring and select the instance variable category and finally pull up as shown in Figure *@Refactoring*. 
+You can do it manually, as we did for the instance variable ==name==, but you can also use a ''refactoring'': Refactorings are powerful program transformations. Using the system browser, bring the menu on the class ==MFFile==, select refactoring, then the instance variable category, and finally pull up, as shown in Figure *@Refactoring*.
 
 +Applying the Pull Up Instance variable refactoring.>file://figures/Refactoring.png|width=60|label=Refactoring+
 
