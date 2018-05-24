@@ -3,7 +3,7 @@
 
 In Chapter *@cha:objectclass*, we presented objects and classes. Objects are entities that communicate exclusively by sending and receiving messages. Objects are described by classes that are factories of objects. Classes define behavior and structure of all their instances: All the instances of a class share the same behavior but have their own private state. 
 
-In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a programmer we do not want to rewrite from scratch a functionality if another class already offers it. A programm specialises the implemented behavior into the new behavior he wants. Inheritance lets us express this concept specialisation.  Using inheritance we create trees of concepts where more precise ones refine more abstract and generic ones. 
+In this chapter we present the fundamental concept of  ''inheritance'' that allows a class to reuse and extend the behavior of another class. The idea is that as a programmer we do not want to rewrite from scratch a functionality if another class already offers it. A program specialises the implemented behavior into the new behavior he wants. Inheritance lets us express this concept specialisation.  Using inheritance we create trees of concepts where more precise ones refine more abstract and generic ones. 
 
 Inheritance is based on dynamic method lookup: a method is looked up dynamically within the inheritance tree starting from the class of the receiver. Once this explained we will show that it is possible to get code of a subclass invoked in place of the one of a superclass. 
 
