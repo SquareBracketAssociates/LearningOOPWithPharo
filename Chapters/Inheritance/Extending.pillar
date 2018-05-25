@@ -151,8 +151,7 @@ What we see is that using ==super==, the programmer can extend the superclass be
 !!! Another example
 Before explaining with a more theoritical scenario ''super'' semantics, we want to show another example that illustrates that super expressions do not have to be the first expression of a method. We can invoke the overridden method at any place inside the overriding method.
 
-The example could be more realistic but it shows that super expression does not have to have 
-to be the first expression of a method. 
+The example could be more realistic but it shows that super expression does not have to be the first expression of a method.
 
 Let us check the two definitions of the two methods ==size== in ==MFDirectory== and ==MFFile==, we see that ==name size== is used in both.
 
