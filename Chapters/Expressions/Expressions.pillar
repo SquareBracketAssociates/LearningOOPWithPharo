@@ -911,7 +911,7 @@ The expression =={ }== creates a dynamic array. Dynamic arrays execute their exp
 
 [[[
 {2 + 3 . 6 - 2 . 7-2 }
->>> ==#(5 4 5)==
+>>> #(5 4 5)
 ]]]
 
 !!!!! Pairs
