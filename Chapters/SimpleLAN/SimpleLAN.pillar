@@ -229,7 +229,7 @@ Again, all the tests should now pass.
 
 !!! Making our objects more understandable
 
-When programming we often make mistakes and it is important to help developer to address them. Le us put a breakpoint and 
+When programming we often make mistakes and it is important to help developer to address them. Let us put a breakpoint and 
 try to understand the objects. 
 
 [[[language=smalltalk
