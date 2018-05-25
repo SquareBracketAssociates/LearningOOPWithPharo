@@ -545,7 +545,7 @@ So think to use them.
 It is quite annoying that we cannot really see an expression when we inspect it. We would like to get something better than =='aEConstant'== and =='anEAddition'== when we debug our programs.
 To display such information the debugger and inspector send to the objects the message ==printString== which by default just prefix the name of the class with 'an' or 'a'. 
 
-Let us change this situation. For this, we will specialize the method ==printOn: aStream==. The message ==printOn:== is called on the object when a program or the system send to the object the message ==printString==. From that perspective ==printOn:== is a system customisation point that developers can take advantage to enhance their programming experience.
+Let us change this situation. For this, we will specialize the method ==printOn: aStream==. The message ==printOn:== is called on the object when a program or the system send to the object the message ==printString==. From that perspective ==printOn:== is a system customization point that developers can take advantage to enhance their programming experience.
 
 Note that we do not redefine the method ==printString== because it is more complex and ==printString== is reused for all the objects in the system. We just have to implement the part that is specific to a given class. In object-oriented design jargon, ==printString== is a template method in the sense that it sets up a context which is shared by other objects and it hosts hook methods which are program customisation points. ==printOn:== is a hook method. The term hook comes from the fact that code of subclasses are invoked in the hook place (see Figure *@fig:ExpressionsHierarchyPrintOn*).
 
