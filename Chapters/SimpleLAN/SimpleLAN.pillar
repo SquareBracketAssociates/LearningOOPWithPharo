@@ -449,7 +449,8 @@ KANetworkNode >> send: aPacket
 One of the simplest routing algorithm is ''flooding'': just send the packet via every outgoing link.
 Obviously, this is a waste of bandwidth, but it works without any knowledge of the network topology beyond the list of outgoing links.
 
-However, there is one case where we know how to route the packet: if the destination address matches the one of the current node, we can select the loopback link alone. The logic of ==linksTowards:do:== is then to check is the address we want to send the packet is the one of the node. In that case we execute the block using the loopback link, else we simple iterate on the outgoing links of the receiver. 
+However, there is one case where we know how to route the packet: if the destination address matches the one of the current node, we can select the loopback link.
+The logic of ==linksTowards:do:== is then: compare the packet's destination address with the one of the node, if it is the same, we execute the block using the loopback link, else we simply iterate on the outgoing links of the receiver.
 
 [[[language=smalltalk
 KANetworkNode >> linksTowards: anAddress do: aBlock
