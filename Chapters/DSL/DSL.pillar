@@ -300,7 +300,7 @@ Die >> printOn: aStream
 	aStream nextPutAll: ')'
 ]]]
 
-As an exercise we let you browse the methods ==printString== on class ==Object== and ==print:== on class ==Stream==. 
+As an exercise we let you browse the methods ==printString== on class ==Object== and ==print:== on class ==Stream==.
 
 
 !!! Rolling a die handle
