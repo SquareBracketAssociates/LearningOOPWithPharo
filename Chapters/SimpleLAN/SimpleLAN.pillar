@@ -872,7 +872,7 @@ KANetworkPrinter class >> withAddress: anAddress initialSupply: paperSheets
 ]]]
 
 Define accessors and the ==printOn:== method for debugging purpose. 
-Define some test method for the behavior of printer nodes.
+Define some test methods for the behavior of printer nodes.
 
 
 !!!! Servers answering requests

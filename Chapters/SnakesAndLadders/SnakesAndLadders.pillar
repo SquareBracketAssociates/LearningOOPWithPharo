@@ -960,7 +960,7 @@ to understand why and do improve the situation.
 
 First it would be good that the behavior to manage the entering and leaving of a tile would be closer to the objects performing it. 
 We have two solutions: we could move it to the tile or to the player class. 
-Second we should take another factor into play: different tiles have different behavior; normal tiles manage players and active tiles are placing players on their target tile and they do not manage players. Therefore it is more interesting to define a variation point on the tile because we will be able to exploit it for normal and active tiles. 
+Second, we should take another factor into play: different tiles have different behaviors; normal tiles manage players, but active tiles do not, instead they place players on their target tile. Therefore it is more interesting to define a variation point on the tile, because we will be able to exploit it for normal and active tiles.
 
 We propose to define two methods on the tile: one to accept a new player named ==acceptPlayer:== and to release a player named ==releasePlayer:==. 
 Let us rewrite ==movePlayer: aPlayer distance: anInteger== with such methods. 
@@ -1384,7 +1384,7 @@ As you see this single game has multiple variations. Here are some of the ones y
 - A player who lands on an occupied tile must go back to its originating tile.
 - If you roll a number higher than the number of tiles needed to reach the last square, you must continue moving backwards from the end. 
 
-You will see that such extensions can be implemented in different manner. We suggest to avoid conditions but define objects responsible for this behavior and its variations.
+You will see that such extensions can be implemented in different ways. We suggest to avoid conditions in favor of defining objects responsible for each behavior variations.
 
 !!! Conclusion
 This chapter went step by step to the process of getting from requirements to an actual implementation covered by tests. 
