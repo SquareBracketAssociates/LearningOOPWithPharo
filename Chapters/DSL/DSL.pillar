@@ -354,15 +354,8 @@ col add: (DieHandle new addDie: (Die withFaces: 4); yourself).
 >>> #(17 3) 
 ]]]
 
-
-
-
 !!!! About composition
 Composite objects such document objects (a book is composed of chapters, a chapter is composed of sections, a section is composed of paragraphs) have often a more complex composition relationship than the composition between die and die handle. Often the composition is recursive in the sense that an element can be the whole: for example, a diagram can be composed of lines, circles, and other diagrams. We will see an example of such composition in the Expression Chapter *@cha:expressions*.
-
-
-
-
 
 !!! Role playing syntax
 
@@ -437,7 +430,7 @@ DieHandleTest >> testSumming
 	self assert: handle diceNumber = 5.
 ]]]
 
-We will define a method ==\+== on the HandleDice class. In other languages this is often not possible or is based on operator overloading. In Pharo ==\+== is just a message as any other, therefore we can define it on the classes we want.
+We will define a method ==\+== on the ==DieHandle== class. In other languages this is often not possible or is based on operator overloading. In Pharo ==\+== is just a message as any other, therefore we can define it on the classes we want.
 
 Now we should ask ourself what is the semantics of adding two handles. Should we modify the receiver of the expression or create a new one. We preferred a more functional style and choose to create a third one. 
 
