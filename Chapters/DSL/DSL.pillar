@@ -282,25 +282,12 @@ Die >> printOn: aStream
 	aStream nextPutAll: ' (', faces printString, ')'
 ]]]
 
-Now in your inspector you can see effectively the number of faces a die handle has as shown by Figure *@diceDetail* and it is now easier to check the dice contained inside a handle (See Figure *@DieHandleDetail*). 
+Now in your inspector you can see effectively the number of faces a die handle has as shown by Figure *@diceDetail* and it is now easier to check the dice contained inside a handle (See Figure *@DieHandleDetail*).
 
 +Die details.>file://figures/DiceDetail.png|width=70|label=diceDetail+ 
 
 +A die handle with more information.>file://figures/DiceHandleDetail.png|width=90|label=DieHandleDetail+ 
 
-!!!! Optimization Remark. 
-Note that this implementation of ==printOn:== is suboptimal since it is creating a separate stream (during the invocation of ==faces printString==) instead of reusing the stream passed as argument. A better solution is to rewrite ==printOn:== as follows: 
-
-[[[
-Die >> printOn: aStream
-
-	super printOn: aStream.
-	aStream nextPutAll: ' ('.
-	aStream print: faces.
-	aStream nextPutAll: ')'
-]]]
-
-As an exercise we let you browse the methods ==printString== on class ==Object== and ==print:== on class ==Stream==.
 
 
 !!! Rolling a die handle
