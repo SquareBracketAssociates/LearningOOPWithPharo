@@ -292,7 +292,15 @@ Now in your inspector you can see effectively the number of faces a die handle h
 ""Note"" This implementation of ==printOn:== is suboptimal. Indeed during the message ==faces printString==, it creates a separate stream instead of using the one pass as argument.
 To understand the problem you can have a look at the implementation of the method ==printString== defined in the class ==Object==. 
 
-
+[[[
+Die >> printOn: aStream
+	
+	super printOn: aStream.
+	aStream 
+		nextPutAll: '(';
+		print: faces; 
+		nextPutAll: ')'
+]]]
 
 !!! Rolling a die handle
 
