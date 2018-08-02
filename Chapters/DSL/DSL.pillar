@@ -134,7 +134,7 @@ Let us explain this method
 Pay really attention that a class method ==withFaces:== is sent to a class, and an instance method sent to the newly created instance ==faces:==. Note that the class method could have also named ==faces:== or any name we want, it does not matter, it is executed when the receiver is the class ==Die==.
 
 
-If you execute it will not work since we did not create yet the method ==faces:==.  This is now the time to define it. Pay attention the method ==faces:== is sent to an instance of the class ==Die== and not the class itself. It is an instance method, therefore make sure that you deselected the class button before editing it.
+This test will not work since we did not create yet the method ==faces:==.  This is now the time to define it. Pay attention the method ==faces:== is sent to an instance of the class ==Die== and not the class itself. It is an instance method, therefore make sure that you deselected the class button before editing it.
 
 [[[
 Die >> faces: aNumber
