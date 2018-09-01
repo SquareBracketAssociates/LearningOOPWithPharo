@@ -56,8 +56,12 @@
   Numbers=OldStyle
 ]{Open Sans}
 \setmonofont[
-  Scale=MatchLowercase
+  Scale=MatchLowercase,
+  HyphenChar={-} % enable hyphenation (disabled by default in mono fonts)
+  % caveat: LuaLaTeX doesn't support changing the actual character
+  % alternative solution: \usepackage[htt]{hyphenat}
 ]{Fira Mono}%{Hack}
+
 \let\codefamily\ttfamily
 \newcommand\textcode[1]{\texttt{#1}}
 
