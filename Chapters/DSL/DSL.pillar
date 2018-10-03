@@ -309,7 +309,7 @@ Die >> printOn: aStream
 Now we can define the rolling of a die handle by simply summing result of rolling each of its dice. 
 Implement the ==roll== method of the ==DieHandle== class. This method must collect the results of rolling each dice of the handle and sum them.
 
-You may want to have a look at the method ==sum== in the class ==Collection== or use a simple loop. 
+You may want to have a look at the method ==sum:== in the class ==Collection== or use a simple loop such as ==do:== to iterate over the dice.
 
 [[[
 DieHandle >> roll
