@@ -168,7 +168,7 @@ The use of ==;== sends the message to the receiver of the previous message (here
 
 !!! First specification of a die handle
 Let us define a new class ==DieHandle== that represents a die handle. 
-Here is the API that we would like to offer for now (as shown in Figure *@fig:DiceDesign*). We create a new handle then add some dice to it.
+The following code snippet shows the API that we would like to offer for now (as shown in Figure *@fig:DiceDesign*). We create a new handle then add some dice to it. We will use this kind of expressions in future tests below.
 
 +A die handle is composed of dice.>file://figures/DiceDesign.pdf|width=60|label=fig:DiceDesign+
 
@@ -179,6 +179,8 @@ DieHandle new
 	addDie: (Die withFaces: 10);
 	yourself
 ]]]
+
+
 
 Of course we will define tests first for this new class. We define the class ==DieHandleTest==.
 
