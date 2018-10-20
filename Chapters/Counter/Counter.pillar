@@ -2,7 +2,14 @@
 
 To get started in Pharo, we invite you to implement a simple counter by following the steps given below. In this exercise you will learn how to create packages classes, methods, instances. You will learn how to define tests and more. This simple tutorial covers most of the important actions that we do when developing in Pharo. 
 
-Note that the development flow promoted by this little tutorial is ''traditional'' in the sense that you will define a package, a class, ''then'' define its instance variable ''then'' define its methods ''and'' finally execute it. The companion video follows also such programming development flow. Now in Pharo, developers often follow a ''totally'' different style (that we call live coding) where they execute an expression that raises errors and they code in the debugger and let the system define some instance variables and methods on the fly for them. Once you will have finished this tutorial, you will feel more confident with Pharo and we strongly suggest you to try the other style by following the second video showing such different development practices.
+Note that the development flow promoted by this little tutorial is ''traditional'' in the sense that you will define a package, a class, ''then'' define its instance variable ''then'' define its methods ''and'' finally execute it (See the companion video below). Now in Pharo, developers often follow a ''totally'' different style (that we call live coding) where they execute an expression that raises errors and they code in the debugger and let the system define some instance variables and methods on the fly for them. Once you will have finished this tutorial, you will feel more confident with Pharo and we strongly suggest you to try the other style (See the second video showing such different development practices).
+
+!!!! Companion videos
+You can find at *http://mooc.pharo.org/*, the mooc videos with french and english voice over and subtitles in different languages (japanese, spanish, french, english).
+Among such videos, two videos are related to the counter exercises. They are called "Redo" because this is left to the reader to follow and redo the 
+videos. 
+- Coding the traditional way: *http://rmod-pharo-mooc.lille.inria.fr/MOOC/Videos/W1/* and *http://rmod-pharo-mooc.lille.inria.fr/MOOC/Videos-EN/W2/*
+- Coding in the debugger: *http://rmod-pharo-mooc.lille.inria.fr/MOOC/Videos/W2/* and *http://rmod-pharo-mooc.lille.inria.fr/MOOC/Videos-EN/W2/*
 
 !!! Our use case
 
