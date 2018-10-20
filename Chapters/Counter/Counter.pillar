@@ -314,4 +314,4 @@ Again save your work
 
 In this chapter you learned how to define packages, classes, methods, and define tests.
 The flow of programming that we chose for this first tutorial is similar to most of programming languages.
-In Pharo you can use a different flow that is based on defining a test first, executing it and when the execution raises error to define the corresponding classes, methods, and instance variables often from inside the debugger. We suggest you now to redo the exercise following the second companion video.
+In Pharo you can use a different flow that is based on defining a test first, executing it and when the execution raises error to define the corresponding classes, methods, and instance variables often from inside the debugger.
