@@ -301,7 +301,7 @@ Now we should define the method ==biggest==.
 
 [[[
 Wallet >> biggest
-	"Returns the biggest coin with a value below anAmount. For example, {(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggest -> 0.5"
+	"Returns the biggest coin. For example, {(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggest -> 0.5"
 
 	^ ... Your solution ...
 ]]]
