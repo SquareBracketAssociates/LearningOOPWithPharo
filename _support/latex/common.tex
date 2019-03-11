@@ -54,10 +54,13 @@
 % highlighted paragraphs
 
 %\usepackage{fontawesome}
+%\newenvironment{coffee}{%
+%  \hangfrom{\llap{\faicon{coffee}\quad}}\sffamily\ignorespaces
+%}{}
+
 \newenvironment{coffee}{%
-  %\hangfrom{\llap{\faicon{coffee}\quad}}\sffamily\ignorespaces
   \begin{leftbar}\textsf{\textbf{Relax}}\quad
-}{}
+}{\end{leftbar}}
 
 \newenvironment{note}{%
   \begin{leftbar}\textsf{\textbf{Note}}\quad
