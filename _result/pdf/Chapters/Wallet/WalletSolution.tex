@@ -1,0 +1,193 @@
+% -*- mode: latex; -*- mustache tags:  
+\documentclass[10pt,twoside,english]{_support/latex/sbabook/sbabook}
+\let\wholebook=\relax
+
+\usepackage{import}
+\subimport{_support/latex/}{common.tex}
+
+%=================================================================
+% Debug packages for page layout and overfull lines
+% Remove the showtrims document option before printing
+\ifshowtrims
+  \usepackage{showframe}
+  \usepackage[color=magenta,width=5mm]{_support/latex/overcolored}
+\fi
+
+
+% =================================================================
+\title{Learning Object-Oriented Programming, Design and TDD with Pharo}
+\author{Stéphane Ducasse}
+\series{The Pharo TextBook Collection}
+
+\hypersetup{
+  pdftitle = {Learning Object-Oriented Programming, Design and TDD with Pharo},
+  pdfauthor = {Stéphane Ducasse},
+  pdfkeywords = {Introduction, programming, design, testing, Pharo, Smalltalk}
+}
+
+
+% =================================================================
+\begin{document}
+
+% Title page and colophon on verso
+\maketitle
+\pagestyle{titlingpage}
+\thispagestyle{titlingpage} % \pagestyle does not work on the first one…
+
+\cleartoverso
+{\small
+
+  Copyright 2017 by Stéphane Ducasse.
+
+  The contents of this book are protected under the Creative Commons
+  Attribution-ShareAlike 3.0 Unported license.
+
+  You are \textbf{free}:
+  \begin{itemize}
+  \item to \textbf{Share}: to copy, distribute and transmit the work,
+  \item to \textbf{Remix}: to adapt the work,
+  \end{itemize}
+
+  Under the following conditions:
+  \begin{description}
+  \item[Attribution.] You must attribute the work in the manner specified by the
+    author or licensor (but not in any way that suggests that they endorse you
+    or your use of the work).
+  \item[Share Alike.] If you alter, transform, or build upon this work, you may
+    distribute the resulting work only under the same, similar or a compatible
+    license.
+  \end{description}
+
+  For any reuse or distribution, you must make clear to others the
+  license terms of this work. The best way to do this is with a link to
+  this web page: \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+
+  Any of the above conditions can be waived if you get permission from
+  the copyright holder. Nothing in this license impairs or restricts the
+  author's moral rights.
+
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{_support/latex/sbabook/CreativeCommons-BY-SA.pdf}
+  \end{center}
+
+  Your fair dealing and other rights are in no way affected by the
+  above. This is a human-readable summary of the Legal Code (the full
+  license): \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+
+  \vfill
+
+  % Publication info would go here (publisher, ISBN, cover design…)
+  Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien
+  Pollet.
+}
+
+
+\frontmatter
+\pagestyle{plain}
+
+\tableofcontents*
+\clearpage\listoffigures
+
+\mainmatter
+
+\chapter{Electronic wallet solution}\label{cha:walletSol}
+Here are the possible solutions of the implementation we asked for the Wallet Chapter \ref{cha:wallet}. 
+\section{Using a bag for a wallet}
+\begin{displaycode}{plain}
+Wallet >> add: anInteger coinsOfValue: aCoin
+	"Add to the receiver, anInteger times a coin of value aNumber"
+
+	bagCoins add: aCoin withOccurrences: anInteger 
+\end{displaycode}
+
+We can add elements one by one to a bag using the message \textcode{add:} or specifying the number of occurences of the element using the message \textcode{add:withOccurrences:}. 
+
+\begin{displaycode}{plain}
+Wallet >> coinsOfValue: aNumber
+
+	^ bagCoins occurrencesOf: aNumber
+\end{displaycode}
+\section{Testing money}
+\begin{displaycode}{plain}
+Wallet >> money
+	"Return the value of the receiver by summing its constituents"
+	| money |
+	money := 0.
+	bagCoins doWithOccurrences:
+			[ :elem : occurrence | 
+				money := money + ( elem * occurrence ) ].
+	^ money
+\end{displaycode}
+\section{Checking to pay an amount}
+\begin{displaycode}{plain}
+Wallet >> canPay: amounOfMoney
+	"returns true when we can pay the amount of money"
+	^ self money >= amounOfMoney
+\end{displaycode}
+\section{Biggest coin}
+\begin{displaycode}{plain}
+Wallet >> biggest
+	"Returns the biggest coin with a value below anAmount. For example, {(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggest -> 0.5"
+
+	^ bagCoins sortedElements last key
+\end{displaycode}
+\section{Biggest below a value}
+\begin{displaycode}{plain}
+Wallet >> biggestBelow: anAmount
+	"Returns the biggest coin with a value below anAmount. For example, {(3 -> 0.5) . (3 -> 0.2) . (5-> 0.1)} biggestBelow: 0.40 -> 0.2"
+	
+	bagCoins doWithOccurrences: [ :elem :occurrences |
+			anAmount > elem ifTrue: [ ^ elem ] ].
+	^ 0
+\end{displaycode}
+\section{Improving the API}
+\begin{displaycode}{plain}
+Wallet >> addCoin: aNumber
+	"Add to the receiver a coin of value aNumber"
+	
+	bagCoins add: aNumber withOccurrences: 1 
+\end{displaycode}
+
+\begin{displaycode}{plain}
+Wallet >> removeCoin: aNumber
+	"Remove from the receiver a coin of value aNumber"
+	
+	bagCoins remove: aNumber ifAbsent: [] 
+\end{displaycode}
+\section{Coins for paying: First version}
+\begin{displaycode}{plain}
+Wallet >> coinsFor: aValue
+	"Returns a wallet with the largest coins to pay a certain amount and an empty wallet if this is not possible"
+	| res |
+	res := self class new.
+	^ (self canPay: aValue)
+		ifFalse: [ res ]
+		ifTrue: [ self coinsFor: aValue into2: res ] 
+\end{displaycode}
+
+\begin{displaycode}{plain}
+Wallet >> coinsFor: aValue into2: accuWallet
+	| accu |
+	[ accu := accuWallet money.
+	accu < aValue ]
+		whileTrue: [
+			| big |
+			big := self biggest.
+			[ big > ((aValue - accu) roundUpTo: 0.1) ] 
+				whileTrue: [ big := self biggestBelow: big ].
+			self removeCoin: big.
+			accuWallet addCoin: big ].
+	^ accuWallet 
+\end{displaycode}
+
+
+% lulu requires an empty page at the end. That's why I'm using
+% \backmatter here.
+\backmatter
+
+% Index would go here
+\bibliographystyle{abbrv}
+\bibliography{others.bib}
+\end{document}

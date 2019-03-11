@@ -1,0 +1,17 @@
+drawOn: aCanvas
+	super drawOn: aCanvas.
+	self isNight
+		ifTrue: [
+				self sleepyEyesOn: aCanvas.
+				self color: Color darkGray ]
+		ifFalse: [
+			self eyesOn: aCanvas.
+			self isHungry
+				ifTrue: [
+					self color: Color red.
+					self hungryMouthOn: aCanvas ]
+				ifFalse: [
+					self color: Color blue.
+					self mouthOn: aCanvas ] ].
+	self bellyOn: aCanvas.
+	self changed.

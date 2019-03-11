@@ -1,0 +1,2 @@
+OrderedCollection new add: #calvin; add: #hobbes; size
+>>> 2

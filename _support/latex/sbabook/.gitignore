@@ -1,0 +1,15 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.gin
+*.lof
+*.log
+*.lol
+*.lot
+*.toc
+*.listing
+*.synctex.gz
+.auctex/
+/auto/
+sbabook*.pdf
+cover-*.pdf

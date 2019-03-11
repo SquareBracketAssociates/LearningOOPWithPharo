@@ -1,0 +1,2 @@
+MFElement >> name
+	^ name

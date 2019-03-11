@@ -1,0 +1,2 @@
+CLP >> sumWithCLP: money
+  ^ CLP new value: self value + money value

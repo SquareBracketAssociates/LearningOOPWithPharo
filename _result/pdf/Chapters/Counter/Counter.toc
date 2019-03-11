@@ -1,0 +1,23 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Developing a simple counter}{1}{chapter.1}
+\contentsline {subsection}{Companion videos}{1}{section*.2}
+\contentsline {section}{\numberline {1.1}Our use case}{2}{section.1.1}
+\contentsline {section}{\numberline {1.2}Create your own class}{3}{section.1.2}
+\contentsline {subsection}{Create a package}{3}{section*.3}
+\contentsline {subsection}{Create a class}{3}{section*.4}
+\contentsline {section}{\numberline {1.3}Define protocols and methods}{4}{section.1.3}
+\contentsline {subsection}{Create a method}{5}{section*.5}
+\contentsline {subsection}{Adding a setter method}{5}{section*.6}
+\contentsline {section}{\numberline {1.4}Define a Test Class}{6}{section.1.4}
+\contentsline {section}{\numberline {1.5}Saving your work}{8}{section.1.5}
+\contentsline {subsection}{Saving using Monticello}{8}{section*.7}
+\contentsline {subsubsection}{Add a repository}{8}{section*.8}
+\contentsline {subsubsection}{Saving your package}{9}{section*.9}
+\contentsline {section}{\numberline {1.6}Adding more messages}{9}{section.1.6}
+\contentsline {section}{\numberline {1.7}Better object description}{10}{section.1.7}
+\contentsline {section}{\numberline {1.8}Instance initialization method}{11}{section.1.8}
+\contentsline {subsection}{Define an initialize method}{11}{section*.10}
+\contentsline {section}{\numberline {1.9}Conclusion}{12}{section.1.9}
+\contentsline {chapter}{Bibliography}{13}{chapter*.11}

@@ -1,0 +1,189 @@
+% -*- mode: latex; -*- mustache tags:  
+\documentclass[10pt,twoside,english]{_support/latex/sbabook/sbabook}
+\let\wholebook=\relax
+
+\usepackage{import}
+\subimport{_support/latex/}{common.tex}
+
+%=================================================================
+% Debug packages for page layout and overfull lines
+% Remove the showtrims document option before printing
+\ifshowtrims
+  \usepackage{showframe}
+  \usepackage[color=magenta,width=5mm]{_support/latex/overcolored}
+\fi
+
+
+% =================================================================
+\title{Learning Object-Oriented Programming, Design and TDD with Pharo}
+\author{Stéphane Ducasse}
+\series{The Pharo TextBook Collection}
+
+\hypersetup{
+  pdftitle = {Learning Object-Oriented Programming, Design and TDD with Pharo},
+  pdfauthor = {Stéphane Ducasse},
+  pdfkeywords = {Introduction, programming, design, testing, Pharo, Smalltalk}
+}
+
+
+% =================================================================
+\begin{document}
+
+% Title page and colophon on verso
+\maketitle
+\pagestyle{titlingpage}
+\thispagestyle{titlingpage} % \pagestyle does not work on the first one…
+
+\cleartoverso
+{\small
+
+  Copyright 2017 by Stéphane Ducasse.
+
+  The contents of this book are protected under the Creative Commons
+  Attribution-ShareAlike 3.0 Unported license.
+
+  You are \textbf{free}:
+  \begin{itemize}
+  \item to \textbf{Share}: to copy, distribute and transmit the work,
+  \item to \textbf{Remix}: to adapt the work,
+  \end{itemize}
+
+  Under the following conditions:
+  \begin{description}
+  \item[Attribution.] You must attribute the work in the manner specified by the
+    author or licensor (but not in any way that suggests that they endorse you
+    or your use of the work).
+  \item[Share Alike.] If you alter, transform, or build upon this work, you may
+    distribute the resulting work only under the same, similar or a compatible
+    license.
+  \end{description}
+
+  For any reuse or distribution, you must make clear to others the
+  license terms of this work. The best way to do this is with a link to
+  this web page: \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+
+  Any of the above conditions can be waived if you get permission from
+  the copyright holder. Nothing in this license impairs or restricts the
+  author's moral rights.
+
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{_support/latex/sbabook/CreativeCommons-BY-SA.pdf}
+  \end{center}
+
+  Your fair dealing and other rights are in no way affected by the
+  above. This is a human-readable summary of the Legal Code (the full
+  license): \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+
+  \vfill
+
+  % Publication info would go here (publisher, ISBN, cover design…)
+  Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien
+  Pollet.
+}
+
+
+\frontmatter
+\pagestyle{plain}
+
+\tableofcontents*
+\clearpage\listoffigures
+
+\mainmatter
+
+\chapter{Some collection katas solutions}\label{cha:katassolution}
+This chapter contains the solution of the exercises presented in Chapter \ref{cha:katas}
+\section{Isogram}
+\begin{displaycode}{plain}
+String >> isIsogramSet
+	"Returns true if the receiver is an isogram, i.e., a word using no repetitive character."
+	"'pharo' isIsogramSet
+	>>> true"
+	"'phaoro' isIsogramSet
+	>>> false"
+	
+	^ self size = self asSet size 
+\end{displaycode}
+\section{Pangrams}
+ 
+
+\begin{displaycode}{plain}
+String >> isPangramIn: alphabet
+	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
+	"'The quick brown fox jumps over the lazy dog' isPangramIn: 'abcdefghijklmnopqrstuvwxyz'
+	>>> true"
+	"'tata' isPangramIn: 'at'
+	>>> true"
+
+	alphabet do: [ :aChar |
+		(self includes: aChar)
+			ifFalse: [ ^ false ]
+		].
+	^ true
+\end{displaycode}
+
+\begin{displaycode}{plain}
+String >> isEnglishPangram
+	"Returns true is the receiver is a pangram i.e., that it uses all the characters of a given alphabet."
+	"'The quick brown fox jumps over the lazy dog' isEnglishPangram
+	>>> true"
+	"'The quick brown fox jumps over the dog' isEnglishPangram
+	>>> false"
+
+	^ self isPangramIn: 'abcdefghijklmnopqrstuvwxyz'
+\end{displaycode}
+\section{Identifying missing letters}
+\begin{displaycode}{plain}
+String >> detectFirstMissingLetterFor: alphabet
+	"Return the first missing letter to make a pangram of the receiver in the context of a given alphabet. 
+	Return '' otherwise"
+	
+	alphabet do: [ :aChar |
+		(self includes: aChar)
+			ifFalse: [ ^ aChar ]
+		].
+	^ ''
+\end{displaycode}
+\subsection{Detecting all the missing letters}
+We create a Set instead of an Array because Arrays in Pharo have a fixed size that should be known at creation time. We could have created an array of size 26. In addition we do not care about the order of the missing letters.
+A Set is a collection whose size can change, and in which we can add the element one by one, therefore it fits our requirements. 
+
+\begin{displaycode}{plain}
+String >> detectAllMissingLettersFor: alphabet
+	
+	| missing |
+	missing := Set new. 
+	alphabet do: [ :aChar |
+		(self includes: aChar)
+			ifFalse: [ missing add: aChar ] ].
+	^ missing
+\end{displaycode}
+\section{Palindrome}
+\begin{displaycode}{plain}
+String >> isPalindrome2
+	"Returns true whether the receiver is an palindrome.
+	'anna' isPalindrome2
+	>>> true
+	'andna' isPalindrome2 
+	>>> true
+	'avdna' isPalindrome2 
+	>>> false
+	"
+	1 
+		to: self size//2 
+		do: [ :i | (self at: i) = (self at: self size + 1 - i)
+						ifFalse: [ ^false ]
+				].
+	^true
+\end{displaycode}
+
+
+% lulu requires an empty page at the end. That's why I'm using
+% \backmatter here.
+\backmatter
+
+% Index would go here
+\bibliographystyle{abbrv}
+\bibliography{others.bib}
+\end{document}

@@ -1,0 +1,23 @@
+SLGameTest >> testPlayOneStepOnInexactFinish
+	
+	| jill jack game |
+	game := SLGame new
+			tileNumber: 12;
+			setLadderFrom: 2 to: 6;
+			setLadderFrom: 7 to: 9;
+			setSnakeFrom: 11 to: 5.
+	jack := SLPlayer new name: 'Jack'.
+	jill := SLPlayer new name: 'Jill'.
+	game addPlayer: jill.
+	game addPlayer: jack.
+    "jill moves"
+	game playOneStepWithRoll: 9.
+	self assert: jill position equals: 10.
+	self assert: ((game tileAt: 10) includesPlayers: jill).
+	"jack moves"
+	game playOneStepWithRoll: 2.
+	"jill tries to move but in fact stays at her place"
+	game playOneStepWithRoll: 5.
+	self assert: jill position equals: 10.
+	self assert: ((game tileAt: 10) includesPlayer: jill).
+	self deny: game isOver.

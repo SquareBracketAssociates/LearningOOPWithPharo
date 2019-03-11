@@ -1,0 +1,20 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Syntax in a nutshell}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Syntactic elements}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Pseudo-variables}{4}{section.1.2}
+\contentsline {section}{\numberline {1.3}Message sends}{5}{section.1.3}
+\contentsline {subsubsection}{Unary messages.}{5}{section*.2}
+\contentsline {subsubsection}{Binary messages.}{5}{section*.3}
+\contentsline {subsubsection}{Keyword message selectors.}{5}{section*.4}
+\contentsline {subsubsection}{Message precedence.}{5}{section*.5}
+\contentsline {subsubsection}{Periods and semi-colons.}{6}{section*.6}
+\contentsline {section}{\numberline {1.4}Method syntax}{6}{section.1.4}
+\contentsline {section}{\numberline {1.5}Block syntax}{7}{section.1.5}
+\contentsline {section}{\numberline {1.6}Some conditionals}{8}{section.1.6}
+\contentsline {section}{\numberline {1.7}Some loops}{9}{section.1.7}
+\contentsline {section}{\numberline {1.8}High-order iterators}{9}{section.1.8}
+\contentsline {section}{\numberline {1.9}Primitives and pragmas}{10}{section.1.9}
+\contentsline {section}{\numberline {1.10}Chapter summary}{11}{section.1.10}
+\contentsline {chapter}{Bibliography}{13}{chapter*.7}

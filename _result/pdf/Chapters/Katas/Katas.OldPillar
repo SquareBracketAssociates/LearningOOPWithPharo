@@ -1,0 +1,385 @@
+!! Some little collection katas
+
+This chapter will propose some little challenges as a way to explore Pharo collections. 
+
+
+!!! Isogram
+An isogram is a word or phrase without a repeating letter. The following are examples of isograms in english and french:
+
+- LUMBERJACKS
+- BACKGROUND
+- DOWNSTREAM
+- PHARO
+- ANTIPODE
+- ALTRUISME
+- ABSOLUMENT
+- BIGORNEAUX
+Isograms are often used in cipher. Isograms of length 10 are commonly used to encode numbers. This way salespeople of products can get access to the original cost of the product and control their sale. 
+
+Using the PATHFINDER cipher we can decide that P represents the number 1, A represents the number 2 and so on. The price tag for an item selling for 1200 Euros may also bear the cryptic letters FRR, written on the back or bottom of the tag. A salesman familiar with the PATHFINDER cipher will know that the original cost of the item was 500 Euros.  
+
+
+Strings in Pharo are equivalent to an array of characters. 
+[[[
+'COUCOU' at: 1
+>>> $C
+]]]
+
+[[[
+'COUCOU'at: 3
+>>> $U
+]]]
+
+
+!!!! A slow solution
+
+A dictionary
+
+!!! A Set Based
+We can do a simple implementation using Sets. Sets are collection that only contains one element. Adding twice the same element only adds one. 
+
+!!!! One Hint
+Now we can give you one hint. 
+[[[
+'COUCOU' size 
+>> 6
+]]]
+
+Now we convert 'COUCOU' into a set using the message ==asSet==.
+
+[[[
+'COUCOU' asSet size
+>> 3
+]]]
+
+The message ==asSet== is equivalent to the following script:
+
+[[[
+| s1 |
+s1 := Set new. 
+'COUCOU' do: [ :aChar | s1 add: aChar ].
+s1 
+>>> a Set($U $C $O)
+]]]
+
+- We define a variable ==s1==
+- We iterate all the characters of the string =='COUCOU'==, and we add each character one by one to the set.
+- We return the set.
+- The set contains only three elements ==$C==, ==$O==, ==$U==
+
+!!!!
+
+[[[
+| s | 
+s := 'Pharo'.
+s size = s asSet size 
+]]]
+
+
+
+
+
+
+!!!! Some Fun
+Now we would like to find some isograms in french. So we would like to get all the lines of *http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt*
+
+This page returns text that is latin1 (iso-8859-1) encoded, but describes it as 'text/plain' without further qualification. Zn then assumes the encoding is utf8 (the most reasonable default today). Mime-types can specify the encoding as follows: 'text/plain;charset=utf8' or 'text/plain;charset=latin1'.
+
+Here is how to override the default in Zn
+
+[[[
+(ZnDefaultCharacterEncoder 
+  value: ZnCharacterEncoder latin1 
+  during: [
+    ZnClient new 
+      get: 'http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt' ]) lines.
+]]]
+
+The above will give you an array of 336531 words (it is a bit slow because it is lot of data).
+
+[[[
+self select: #isIsogramFastest
+
+self select: [:each | each size >= 10 ]
+]]]
+
+!!! Soundex
+
+!!!	Rna transcription
+Write a program that, given a DNA strand, returns its RNA complement (per RNA transcription).
+Both DNA and RNA strands are a sequence of nucleotides.
+
+The four nucleotides found in DNA are adenine (A), cytosine (C), guanine (G) and thymine (T).
+The four nucleotides found in RNA are adenine (A), cytosine (C), guanine (G) and uracil (U).
+Given a DNA strand, its transcribed RNA strand is formed by replacing each nucleotide with its complement:
+
+[[[
+G -> C
+C -> G
+T -> A
+A -> U
+]]]
+
+[[[
+class DNATests(unittest.TestCase):
+
+def test_transcribes_guanine_to_cytosine(self):
+        self.assertEqual('C', to_rna('G'))
+
+def test_transcribes_cytosine_to_guanine(self):
+        self.assertEqual('G', to_rna('C'))
+
+def test_transcribes_thymine_to_adenine(self):
+        self.assertEqual('A', to_rna('T'))
+
+def test_transcribes_adenine_to_uracil(self):
+        self.assertEqual('U', to_rna('A'))
+
+def test_transcribes_all_occurences(self):
+        self.assertMultiLineEqual('UGCACCAGAAUU', to_rna('ACGTGGTCTTAA'))
+]]]
+
+!!! Hamming
+Write a program that can calculate the Hamming difference between two DNA strands.
+
+A mutation is simply a mistake that occurs during the creation or copying of a nucleic acid, in particular DNA. Because nucleic acids are vital to cellular functions, mutations tend to cause a ripple effect throughout the cell. Although mutations are technically mistakes, a very rare mutation may equip the cell with a beneficial attribute. In fact, the macro effects of evolution are attributable by the accumulated result of beneficial microscopic mutations over many generations.
+
+The simplest and most common type of nucleic acid mutation is a point mutation, which replaces one base with another at a single nucleotide.
+
+By counting the number of differences between two homologous DNA strands taken from different genomes with a common ancestor, we get a measure of the minimum number of point mutations that could have occurred on the evolutionary path between the two strands.
+
+This is called the 'Hamming distance'.
+
+It is found by comparing two DNA strands and counting how many of the nucleotides are different from their equivalent in the other string.
+
+[[[
+GAGCCTACTAACGGGAT
+CATCGTAATGACGGCCT
+^ ^ ^  ^ ^    ^^
+]]]
+
+[[[
+def test_no_difference_between_identical_strands(self):
+   self.assertEqual(0, hamming.distance('A', 'A'))
+
+def test_complete_hamming_distance_of_for_single_nucleotide_strand(self):
+   self.assertEqual(1, hamming.distance('A', 'G'))
+
+def test_complete_hamming_distance_of_for_small_strand(self):
+   self.assertEqual(2, hamming.distance('AG', 'CT'))
+
+def test_small_hamming_distance(self):
+   self.assertEqual(1, hamming.distance('AT', 'CT'))
+
+def test_small_hamming_distance_in_longer_strand(self):
+   self.assertEqual(1, hamming.distance('GGACG', 'GGTCG'))
+
+def test_large_hamming_distance(self):
+   self.assertEqual(4, hamming.distance('GATACA', 'GCATAA'))
+
+def test_hamming_distance_in_very_long_strand(self):
+   self.assertEqual(9, hamming.distance('GGACGGATTCTG', 'AGGACGGATTCT'))
+]]]
+
+
+
+!!! Run Length Encoding
+Implement run-length encoding and decoding.
+
+Run-length encoding (RLE) is a simple form of data compression, where runs (consecutive data elements) are replaced by just one data value and count.
+
+For example we can represent the original 53 characters with only 13.
+
+[[[
+"WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB"  ->  "12WB12W3B24WB"
+]]]
+
+RLE allows the original data to be perfectly reconstructed from the compressed data, which makes it a lossless data compression.
+
+[[[
+	"AABCCCDEEEE"  ->  "2AB3CD4E"  ->  "AABCCCDEEEE"
+]]]
+
+[[[
+WordCountTests(unittest.TestCase)
+
+   def test_encode(self):
+     self.assertMultiLineEqual('2A3B4C', encode('AABBBCCCC'))
+
+   def test_decode(self):
+      self.assertMultiLineEqual('AABBBCCCC', decode('2A3B4C'))
+
+   def test_encode_with_single(self):
+       self.assertMultiLineEqual(
+            '12WB12W3B24WB',
+            encode('WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB'))
+
+    def test_decode_with_single(self):
+        self.assertMultiLineEqual(
+            'WWWWWWWWWWWWBWWWWWWWWWWWWBBBWWWWWWWWWWWWWWWWWWWWWWWWB',
+            decode('12WB12W3B24WB'))
+]]]
+
+
+
+
+!!! Allergies
+
+Write a program that, given a person's allergy score, can tell them whether or not they're allergic to a given item, and their full list of allergies.
+
+An allergy test produces a single numeric score which contains the information about all the allergies the person has (that they were tested for).
+
+The list of items (and their value) that were tested are:
+- eggs (1)
+- peanuts (2)
+- shellfish (4)
+- strawberries (8)
+- tomatoes (16)
+- chocolate (32)
+- pollen (64)
+- cats (128)
+
+So if Tom is allergic to peanuts and chocolate, he gets a score of 34.
+
+Now, given just that score of 34, your program should be able to say:
+
+Whether Tom is allergic to any one of those allergens listed above.
+
+All the allergens Tom is allergic to.
+Note: a given score may include allergens not listed above (i.e. allergens that score 256, 512, 1024, etc.). Your program should ignore those components of the score. For example, if the allergy score is 257, your program should only report the eggs (1) allergy.
+
+
+
+
+[[[
+class AllergiesTests(unittest.TestCase):
+
+    def test_no_allergies_means_not_allergic(self):
+        allergies = Allergies(0)
+        self.assertFalse(allergies.is_allergic_to('peanuts'))
+        self.assertFalse(allergies.is_allergic_to('cats'))
+        self.assertFalse(allergies.is_allergic_to('strawberries'))
+
+    def test_is_allergic_to_eggs(self):
+        self.assertTrue(Allergies(1).is_allergic_to('eggs'))
+
+    def test_has_the_right_allergies(self):
+        allergies = Allergies(5)
+        self.assertTrue(allergies.is_allergic_to('eggs'))
+        self.assertTrue(allergies.is_allergic_to('shellfish'))
+        self.assertFalse(allergies.is_allergic_to('strawberries'))
+
+    def test_no_allergies_at_all(self):
+        self.assertEqual([], Allergies(0).lst)
+
+    def test_allergic_to_just_peanuts(self):
+        self.assertEqual(['peanuts'], Allergies(2).lst)
+
+    def test_allergic_to_everything(self):
+        self.assertEqual(
+            sorted(('eggs peanuts shellfish strawberries tomatoes '
+                    'chocolate pollen cats').split()),
+            sorted(Allergies(255).lst))
+]]]
+
+% !! A look at recursion (using Turtle and graphics so what out!)
+% MyBooks/botsinc/BookTwo/BotIntro/
+		
+!!! Robot Simulator
+Write a robot simulator.
+A robot factory's test facility needs a program to verify robot movements.
+
+The robots have three possible movements:
+
+- turn right
+- turn left
+- advance
+
+Robots are placed on a hypothetical infinite grid, facing a particular direction (north, east, south, or west) at a set of =={x,y}== coordinates, e.g., =={3,8}==, with coordinates increasing to the north and east.
+
+The robot then receives a number of instructions, at which point the testing facility verifies the robot's new position, and in which direction it is pointing.
+
+The letter-string "RAALAL" means:
+- Turn right
+- Advance twice
+- Turn left
+- Advance once
+- Turn left yet again
+
+Say a robot starts at =={7, 3}== facing north. Then running this stream of instructions should leave it at =={9, 4}== facing west.	
+
+!!! Atbash Cipher
+Create an implementation of the atbash cipher, an ancient encryption system created in the Middle East.
+
+The Atbash cipher is a simple substitution cipher that relies on transposing all the letters in the alphabet such that the resulting alphabet is backwards. The first letter is replaced with the last letter, the second with the second-last, and so on.
+
+An Atbash cipher for the Latin alphabet would be as follows:
+
+1
+2
+Plain:  abcdefghijklmnopqrstuvwxyz
+Cipher: zyxwvutsrqponmlkjihgfedcba
+It is a very weak cipher because it only has one possible key, and it is a simple monoalphabetic substitution cipher. However, this may not have been an issue in the cipher's time.
+
+Ciphertext is written out in groups of fixed length, the traditional group size being 5 letters, and punctuation is excluded. This is to make it harder to guess things based on word boundaries.
+
+Examples
+
+Encoding test gives gvhg
+Decoding gvhg gives test
+Decoding gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt gives The quick brown fox jumps over the lazy dog.
+
+
+!!! Minesweeper
+Write a program that adds the numbers to a minesweeper board
+Minesweeper is a popular game where the user has to find the mines using numeric hints that indicate how many mines are directly adjacent (horizontally, vertically, diagonally) to a square.
+
+In this exercise you have to create some code that counts the number of mines adjacent to a square and transforms boards like this (where * indicates a mine):
+
++-----+
+| * * |
+|  *  |
+|  *  |
+|     |
++-----+
+into this:
+
++-----+
+|1*3*1|
+|13*31|
+| 2*2 |
+| 111 |
++-----+
+
+!!! Parenthesis matching
+
+[[[
+class BracketPushTests(unittest.TestCase):
+
+def test_input_empty(self):
+   self.assertEqual(check_brackets(""), True)
+
+def test_single(self):
+        self.assertEqual(check_brackets("{}"), True)
+
+def test_unclosed(self):
+        self.assertEqual(check_brackets("{{"), False)
+
+def test_wrong_order(self):
+        self.assertEqual(check_brackets("}{"), False)
+
+def test_mixed_not_nested(self):
+        self.assertEqual(check_brackets("{}[]"), True)
+
+def test_mixed_nested(self):
+        self.assertEqual(check_brackets("{[]}"), True)
+
+def test_improperly_nested(self):
+        self.assertEqual(check_brackets("{[}]"), False)
+
+def test_not_opened_nested(self):
+        self.assertEqual(check_brackets("{[)][]}"), False)
+
+def test_nested_ensemble(self):
+        self.assertEqual(check_brackets("{[]([()])}"), True)
+]]]

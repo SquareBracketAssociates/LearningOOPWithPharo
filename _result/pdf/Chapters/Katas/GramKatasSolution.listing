@@ -1,0 +1,15 @@
+String >> isPalindrome2
+	"Returns true whether the receiver is an palindrome.
+	'anna' isPalindrome2
+	>>> true
+	'andna' isPalindrome2
+	>>> true
+	'avdna' isPalindrome2
+	>>> false
+	"
+	1
+		to: self size//2
+		do: [ :i | (self at: i) = (self at: self size + 1 - i)
+						ifFalse: [ ^false ]
+				].
+	^true

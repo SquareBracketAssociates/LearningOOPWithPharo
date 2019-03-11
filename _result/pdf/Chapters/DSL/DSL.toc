@@ -1,0 +1,24 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Crafting a simple embedded DSL with Pharo}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Getting started}{1}{section.1.1}
+\contentsline {subsection}{Create a test }{1}{section*.2}
+\contentsline {subsection}{Define the class Die}{2}{section*.3}
+\contentsline {section}{\numberline {1.2}Rolling a die}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}Creating another test}{3}{section.1.3}
+\contentsline {section}{\numberline {1.4}Instance creation interface}{4}{section.1.4}
+\contentsline {subsection}{Defining a class method}{4}{section*.4}
+\contentsline {subsection}{{[}Optional{]} Alternate instance creation definition}{5}{section*.5}
+\contentsline {section}{\numberline {1.5}First specification of a die handle}{6}{section.1.5}
+\contentsline {subsection}{Testing a die handle}{6}{section*.6}
+\contentsline {section}{\numberline {1.6}Defining the DieHandle class}{7}{section.1.6}
+\contentsline {section}{\numberline {1.7}Improving programmer experience}{7}{section.1.7}
+\contentsline {section}{\numberline {1.8}Rolling a die handle}{10}{section.1.8}
+\contentsline {section}{\numberline {1.9}About Dice and DieHandle API}{10}{section.1.9}
+\contentsline {subsection}{About composition}{11}{section*.7}
+\contentsline {section}{\numberline {1.10}Role playing syntax}{11}{section.1.10}
+\contentsline {subsection}{About class extensions}{12}{section*.8}
+\contentsline {section}{\numberline {1.11}Handle's addition}{13}{section.1.11}
+\contentsline {section}{\numberline {1.12}Conclusion}{13}{section.1.12}
+\contentsline {chapter}{Bibliography}{15}{chapter*.9}

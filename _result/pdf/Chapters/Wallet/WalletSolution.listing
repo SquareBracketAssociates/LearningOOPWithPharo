@@ -1,0 +1,12 @@
+Wallet >> coinsFor: aValue into2: accuWallet
+	| accu |
+	[ accu := accuWallet money.
+	accu < aValue ]
+		whileTrue: [
+			| big |
+			big := self biggest.
+			[ big > ((aValue - accu) roundUpTo: 0.1) ]
+				whileTrue: [ big := self biggestBelow: big ].
+			self removeCoin: big.
+			accuWallet addCoin: big ].
+	^ accuWallet

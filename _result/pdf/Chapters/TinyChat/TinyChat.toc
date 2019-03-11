@@ -1,0 +1,29 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}TinyChat: a fun and small chat client/server}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Objectives and architecture}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Loading Teapot}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}Message representation}{2}{section.1.3}
+\contentsline {subsection}{Class TCMessage}{2}{section*.2}
+\contentsline {subsection}{Accessor creation}{3}{section*.3}
+\contentsline {section}{\numberline {1.4}Instance initialisation}{3}{section.1.4}
+\contentsline {section}{\numberline {1.5}Converting a message object into a string}{3}{section.1.5}
+\contentsline {section}{\numberline {1.6}Building a message from a string }{4}{section.1.6}
+\contentsline {section}{\numberline {1.7}Starting with the server}{4}{section.1.7}
+\contentsline {subsection}{Storing messages}{4}{section*.4}
+\contentsline {subsection}{Basic operations on message list }{5}{section*.5}
+\contentsline {subsection}{List of messages from a position }{5}{section*.6}
+\contentsline {subsection}{Message formatting}{5}{section*.7}
+\contentsline {section}{\numberline {1.8}The Chat server}{6}{section.1.8}
+\contentsline {subsection}{TCServer class creation}{6}{section*.8}
+\contentsline {section}{\numberline {1.9}Server logic}{7}{section.1.9}
+\contentsline {section}{\numberline {1.10}The client }{9}{section.1.10}
+\contentsline {subsection}{TinyChat class}{9}{section*.9}
+\contentsline {subsection}{HTTP commands}{10}{section*.10}
+\contentsline {section}{\numberline {1.11}Client operations}{10}{section.1.11}
+\contentsline {section}{\numberline {1.12}Client connection parameters}{12}{section.1.12}
+\contentsline {section}{\numberline {1.13}User interface}{13}{section.1.13}
+\contentsline {section}{\numberline {1.14}Now chatting}{14}{section.1.14}
+\contentsline {section}{\numberline {1.15}Conclusion and ideas for future extensions}{15}{section.1.15}
+\contentsline {chapter}{Bibliography}{17}{chapter*.11}

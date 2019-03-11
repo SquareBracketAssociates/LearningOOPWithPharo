@@ -1,0 +1,13 @@
+sizeOfFiles: files
+	| sum |
+	sum := 0.
+	files do: [ :aFile |
+		aFile class = MFFile
+			ifTrue: [ sum := sum + aFile name size + aFile contents size ].
+		aFile class = MFDirectory
+			ifTrue: [
+				| fileSum |
+				fileSum := 0.
+				each files do: [:anInsideFile | fileSum := fileSum + anInsideFile name size + anInsideFile contents size ].
+				sum := sum + fileSum + each name size + 2].
+	^ sum	

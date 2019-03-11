@@ -1,0 +1,277 @@
+% -*- mode: latex; -*- mustache tags:  
+\documentclass[10pt,twoside,english]{_support/latex/sbabook/sbabook}
+\let\wholebook=\relax
+
+\usepackage{import}
+\subimport{_support/latex/}{common.tex}
+
+%=================================================================
+% Debug packages for page layout and overfull lines
+% Remove the showtrims document option before printing
+\ifshowtrims
+  \usepackage{showframe}
+  \usepackage[color=magenta,width=5mm]{_support/latex/overcolored}
+\fi
+
+
+% =================================================================
+\title{Learning Object-Oriented Programming, Design and TDD with Pharo}
+\author{Stéphane Ducasse}
+\series{The Pharo TextBook Collection}
+
+\hypersetup{
+  pdftitle = {Learning Object-Oriented Programming, Design and TDD with Pharo},
+  pdfauthor = {Stéphane Ducasse},
+  pdfkeywords = {Introduction, programming, design, testing, Pharo, Smalltalk}
+}
+
+
+% =================================================================
+\begin{document}
+
+% Title page and colophon on verso
+\maketitle
+\pagestyle{titlingpage}
+\thispagestyle{titlingpage} % \pagestyle does not work on the first one…
+
+\cleartoverso
+{\small
+
+  Copyright 2017 by Stéphane Ducasse.
+
+  The contents of this book are protected under the Creative Commons
+  Attribution-ShareAlike 3.0 Unported license.
+
+  You are \textbf{free}:
+  \begin{itemize}
+  \item to \textbf{Share}: to copy, distribute and transmit the work,
+  \item to \textbf{Remix}: to adapt the work,
+  \end{itemize}
+
+  Under the following conditions:
+  \begin{description}
+  \item[Attribution.] You must attribute the work in the manner specified by the
+    author or licensor (but not in any way that suggests that they endorse you
+    or your use of the work).
+  \item[Share Alike.] If you alter, transform, or build upon this work, you may
+    distribute the resulting work only under the same, similar or a compatible
+    license.
+  \end{description}
+
+  For any reuse or distribution, you must make clear to others the
+  license terms of this work. The best way to do this is with a link to
+  this web page: \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+
+  Any of the above conditions can be waived if you get permission from
+  the copyright holder. Nothing in this license impairs or restricts the
+  author's moral rights.
+
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{_support/latex/sbabook/CreativeCommons-BY-SA.pdf}
+  \end{center}
+
+  Your fair dealing and other rights are in no way affected by the
+  above. This is a human-readable summary of the Legal Code (the full
+  license): \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+
+  \vfill
+
+  % Publication info would go here (publisher, ISBN, cover design…)
+  Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien
+  Pollet.
+}
+
+
+\frontmatter
+\pagestyle{plain}
+
+\tableofcontents*
+\clearpage\listoffigures
+
+\mainmatter
+
+\chapter{Snake and ladder solutions}\section{A first real test}
+\begin{displaycode}{plain}
+SLGame >> tileNumber: aNumber
+
+	tiles := Array new: aNumber.
+	1 to: aNumber do: [ :i |
+		tiles at: i put: (SLTile new position: i) ]
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLGame >> tileNumber
+	
+	^ tiles size
+\end{displaycode}
+\section{Accessing on tile}
+\begin{displaycode}{plain}
+SLGame >> tileAt: aNumber
+
+	^ tiles at: aNumber
+\end{displaycode}
+\section{Adding players}
+\begin{displaycode}{plain}
+SLPlayer >> name: aString 
+	name := aString
+\end{displaycode}
+
+\begin{displaycode}{plain}
+Object subclass: #SLTile
+	instanceVariableNames: 'position players'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLGame >> initialize
+	players := OrderedCollection new. 
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLTile >> addPlayer: aPlayer	
+	players add: aPlayer
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLTile >> players 
+	^ players
+\end{displaycode}
+\section{Displaying players}
+\begin{displaycode}{plain}
+SLPlayer >> printOn: aStream
+	aStream << '<' << name << '>'
+\end{displaycode}
+\section{Avoid leaking implementation information}
+\begin{displaycode}{plain}
+SLTile >> includesPlayer: aPlayer
+	^ players includes: aPlayer
+\end{displaycode}
+\section{Preparing to move players}
+\begin{displaycode}{plain}
+SLPlayer >> position
+	^ position
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLPlayer >> position: anInteger 
+	position := anInteger
+\end{displaycode}
+
+\begin{displaycode}{plain}
+Object subclass: #SLPlayer
+	instanceVariableNames: 'name position'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLGame >> addPlayer: aPlayer
+	aPlayer position: 1.
+	(tiles at: 1) addPlayer: aPlayer
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLGame >> tileFor: aPlayer atDistance: aNumber
+	
+	^ self tileAt: (aPlayer position + aNumber)
+\end{displaycode}
+\section{Finding the tile of a player}
+\begin{displaycode}{plain}
+SLGame >> tileOfPlayer: aSLPlayer 
+	^ tiles at: aSLPlayer position
+\end{displaycode}
+\section{Moving a player}
+\begin{displaycode}{plain}
+SLTile >> removePlayer: aPlayer
+	players remove: aPlayer
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLGame >> movePlayer: aPlayer distance: anInteger 
+	| targetTile | 
+	targetTile := self tileFor: aPlayer atDistance: anInteger.
+	(self tileOfPlayer: aPlayer) removePlayer: aPlayer.
+	targetTile addPlayer: aPlayer. 
+	aPlayer position: targetTile position. 
+\end{displaycode}
+\section{New printing hook}
+\begin{displaycode}{plain}
+SLAbstractTile >> printOn: aStream
+
+	aStream << '['.
+	self printInsideOn: aStream.
+	aStream << ']'	
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLLadderTile >> printInsideOn: aStream
+
+	super printInsideOn: aStream.
+	aStream << '->'.
+	targetTile position printOn: aStream
+\end{displaycode}
+\section{Snake and ladder declaration}
+\begin{displaycode}{plain}
+SLGame >> setSnakeFrom: aSourcePosition to: aTargetPosition
+
+	tiles 
+		at: aSourcePosition 
+		put: (SLSnakeTile new 
+				position: aSourcePosition; 
+				to: (tiles at: aTargetPosition) ; yourself)
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLGame >> setLadderFrom: aSourcePosition to: aTargetPosition
+
+	tiles 
+		at: aSourcePosition 
+		put: (SLLadderTile new 
+				position: aSourcePosition ; 
+				to: (tiles at: aTargetPosition) ; yourself)
+\end{displaycode}
+\section{Active tile actions}
+\begin{displaycode}{plain}
+SLActiveTile >> acceptPlayer: aPlayer
+	targetTile acceptPlayer: aPlayer
+\end{displaycode}
+\section{Player turns and current player}
+\begin{displaycode}{plain}
+Object subclass: #SLGame
+	instanceVariableNames: 'tiles players turn'
+	classVariableNames: ''
+	package: 'SnakesAndLadders'
+\end{displaycode}
+
+\begin{displaycode}{plain}
+SLGame >> initialize
+	players := OrderedCollection new. 
+	turn := 0
+\end{displaycode}
+\section{Game end}
+\begin{displaycode}{plain}
+SLGame >> isOver
+
+	^ players anySatisfy: [ :each | each position = tiles size ]
+\end{displaycode}
+\section{Playing one move}
+\begin{displaycode}{plain}
+SLGame >> canMoveToPosition: aNumber
+	"We can only move if we stay within the game.
+	This implies that the player should draw an exact number to land on the finish tile."
+	
+	^ aNumber <= tiles size
+\end{displaycode}
+
+
+% lulu requires an empty page at the end. That's why I'm using
+% \backmatter here.
+\backmatter
+
+% Index would go here
+\bibliographystyle{abbrv}
+\bibliography{others.bib}
+\end{document}

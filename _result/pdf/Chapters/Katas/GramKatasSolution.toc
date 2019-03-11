@@ -1,0 +1,10 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Some collection katas solutions}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Isogram}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Pangrams}{1}{section.1.2}
+\contentsline {section}{\numberline {1.3}Identifying missing letters}{2}{section.1.3}
+\contentsline {subsection}{Detecting all the missing letters}{2}{section*.2}
+\contentsline {section}{\numberline {1.4}Palindrome}{3}{section.1.4}
+\contentsline {chapter}{Bibliography}{5}{chapter*.3}

@@ -1,0 +1,12 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Electronic wallet solution}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Using a bag for a wallet}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Testing money}{1}{section.1.2}
+\contentsline {section}{\numberline {1.3}Checking to pay an amount}{2}{section.1.3}
+\contentsline {section}{\numberline {1.4}Biggest coin}{2}{section.1.4}
+\contentsline {section}{\numberline {1.5}Biggest below a value}{2}{section.1.5}
+\contentsline {section}{\numberline {1.6}Improving the API}{2}{section.1.6}
+\contentsline {section}{\numberline {1.7}Coins for paying: First version}{2}{section.1.7}
+\contentsline {chapter}{Bibliography}{5}{chapter*.2}

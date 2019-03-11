@@ -1,0 +1,639 @@
+% -*- mode: latex; -*- mustache tags:  
+\documentclass[10pt,twoside,english]{_support/latex/sbabook/sbabook}
+\let\wholebook=\relax
+
+\usepackage{import}
+\subimport{_support/latex/}{common.tex}
+
+%=================================================================
+% Debug packages for page layout and overfull lines
+% Remove the showtrims document option before printing
+\ifshowtrims
+  \usepackage{showframe}
+  \usepackage[color=magenta,width=5mm]{_support/latex/overcolored}
+\fi
+
+
+% =================================================================
+\title{Learning Object-Oriented Programming, Design and TDD with Pharo}
+\author{Stéphane Ducasse}
+\series{The Pharo TextBook Collection}
+
+\hypersetup{
+  pdftitle = {Learning Object-Oriented Programming, Design and TDD with Pharo},
+  pdfauthor = {Stéphane Ducasse},
+  pdfkeywords = {Introduction, programming, design, testing, Pharo, Smalltalk}
+}
+
+
+% =================================================================
+\begin{document}
+
+% Title page and colophon on verso
+\maketitle
+\pagestyle{titlingpage}
+\thispagestyle{titlingpage} % \pagestyle does not work on the first one…
+
+\cleartoverso
+{\small
+
+  Copyright 2017 by Stéphane Ducasse.
+
+  The contents of this book are protected under the Creative Commons
+  Attribution-ShareAlike 3.0 Unported license.
+
+  You are \textbf{free}:
+  \begin{itemize}
+  \item to \textbf{Share}: to copy, distribute and transmit the work,
+  \item to \textbf{Remix}: to adapt the work,
+  \end{itemize}
+
+  Under the following conditions:
+  \begin{description}
+  \item[Attribution.] You must attribute the work in the manner specified by the
+    author or licensor (but not in any way that suggests that they endorse you
+    or your use of the work).
+  \item[Share Alike.] If you alter, transform, or build upon this work, you may
+    distribute the resulting work only under the same, similar or a compatible
+    license.
+  \end{description}
+
+  For any reuse or distribution, you must make clear to others the
+  license terms of this work. The best way to do this is with a link to
+  this web page: \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+
+  Any of the above conditions can be waived if you get permission from
+  the copyright holder. Nothing in this license impairs or restricts the
+  author's moral rights.
+
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{_support/latex/sbabook/CreativeCommons-BY-SA.pdf}
+  \end{center}
+
+  Your fair dealing and other rights are in no way affected by the
+  above. This is a human-readable summary of the Legal Code (the full
+  license): \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+
+  \vfill
+
+  % Publication info would go here (publisher, ISBN, cover design…)
+  Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien
+  Pollet.
+}
+
+
+\frontmatter
+\pagestyle{plain}
+
+\tableofcontents*
+\clearpage\listoffigures
+
+\mainmatter
+
+\chapter{Syntax in a nutshell}\label{cha:syntax}
+Pharo adopts a syntax very close to that of its ancestor, Smalltalk. The syntax
+is designed so that program text can be read aloud as though it were a kind of
+pidgin English. The following method of the class \textcode{Week} shows an example of
+the syntax. It checks whether \textcode{DayNames} already contains the argument, i.e.
+if this argument represents a correct day name. If this is the case, it
+will assign it to the variable \textcode{StartDay}.
+
+\begin{displaycode}{plain}
+startDay: aSymbol
+
+   (DayNames includes: aSymbol)
+      ifTrue: [ StartDay := aSymbol ]
+      ifFalse: [ self error: aSymbol, ' is not a recognised day name' ]
+\end{displaycode}
+
+Pharo's syntax is minimal. Essentially there is syntax only for sending messages
+(i.e. expressions). Expressions are built up from a very small number of
+primitive elements (message sends, assignments, closures, returns...). There are
+only 6 keywords, and there is no syntax for control structures or declaring new
+classes. Instead, nearly everything is achieved by sending messages to objects.
+For instance, instead of an if-then-else control structure, conditionals are
+expressed as messages (such as \textcode{ifTrue:}) sent to Boolean objects. New
+(sub-)classes are created by sending a message to their superclass.
+\section{Syntactic elements}
+Expressions are composed of the following building blocks:
+
+\begin{enumerate}
+\item The six reserved keywords, or \textit{pseudo-variables}: \textcode{self}, \textcode{super}, \textcode{nil}, \textcode{true}, \textcode{false}, and \textcode{thisContext}
+\item Constant expressions for \textit{literal} objects including numbers, characters, strings, symbols and arrays
+\item Variable declarations
+\item Assignments
+\item Block closures
+\item Messages
+\end{enumerate}
+
+We can see examples of the various syntactic elements in the Table below.
+
+\begin{tabular}{ll}
+\toprule
+\textbf{Syntax} & \textbf{What it represents} \\
+\midrule
+\textcode{startPoint} & a variable name \\
+\textcode{Transcript} & a global variable name \\
+self & pseudo-variable \\
+\textcode{1 } & decimal integer \\
+\textcode{2r101} & binary integer \\
+\textcode{1.5} & floating point number \\
+\textcode{2.4e7} & exponential notation \\
+\textcode{\$a} & the character \textcode{'a'} \\
+\textcode{'Hello'} & the string \textcode{'Hello'} \\
+\textcode{\#Hello} & the symbol \textcode{\#Hello} \\
+\textcode{\#(1 2 3)} & a literal array \\
+\textcode{\{ 1 . 2 . 1 + 2 \}} & a dynamic array \\
+\textcode{\symbol{34}a comment\symbol{34}} & a comment \\
+\textcode{\textbar{} x y \textbar{}} & declaration of variables \textcode{x} and \textcode{y} \\
+\textcode{x := 1} & assign 1 to \textcode{x} \\
+\textcode{{[}:x \textbar{} x + 2 {]}} & a block that evaluates to \textcode{x + 2} \\
+\textcode{\textless{}primitive: 1\textgreater{}} & virtual machine primitive or annotation \\
+\textcode{3 factorial} & unary message \textcode{factorial} \\
+\textcode{3 + 4} & binary message \textcode{+} \\
+\textcode{2 raisedTo: 6 modulo: 10} & keyword message \textcode{raisedTo:modulo:} \\
+\textcode{\string^ true} & return the value true \\
+\textcode{x := 2 . x := x + x} & expression separator (\textcode{.}) \\
+\textcode{Transcript show: 'hello'; cr} & message cascade (\textcode{;}) \\
+\bottomrule
+\end{tabular}
+
+\textbf{Local variables.} \textcode{startPoint} is a variable name, or identifier. By
+convention, identifiers are composed of words in \symbol{34}camelCase\symbol{34} (i.e., each word
+except the first starting with an upper case letter). The first letter of an
+instance variable, method or block argument, or temporary variable must be lower
+case. This indicates to the reader that the variable has a private scope.
+
+\textbf{Shared variables.} Identifiers that start with upper case letters are global
+variables, class variables, pool dictionaries or class names. \textcode{Processor} is
+a global variable, an instance of the class \textcode{ProcessScheduler}.
+
+\textbf{The receiver.} \textcode{self} is a keyword that refers to the object inside which
+the current method is executing. We call it \symbol{34}the receiver\symbol{34} because this object has
+received the message that caused the method to execute.
+\textcode{self} is called a \symbol{34}pseudo-variable\symbol{34} since we cannot assign to it.
+
+\textbf{Integers.} In addition to ordinary decimal integers like 42, Pharo also
+provides a radix notation. \textcode{2r101} is 101 in radix 2 (i.e., binary), which is
+equal to decimal 5.
+
+\textbf{Floating point numbers.} can be specified with their base-ten exponent:
+\textcode{2.4e7} is \textcode{2.4 X 10\string^7}.
+
+\textbf{Characters.} A dollar sign introduces a literal character: \textcode{\$a} is the
+literal for the character \textcode{'a'}. Instances of non-printing characters can be
+obtained by sending appropriately named messages to the \textcode{Character} class,
+such as \textcode{Character space} and \textcode{Character tab}.
+
+\textbf{Strings.} Single quotes \textcode{' '} are used to define a literal string. If you
+want a string with a single quote inside, just double the quote, as in
+\textcode{'G''day'}.
+
+\textbf{Symbols.} Symbols are like Strings, in that they contain a sequence of characters.
+However, unlike a string, a literal symbol is guaranteed to be globally unique.
+There is only one \textcode{Symbol} object \textcode{\#Hello} but there may be multiple
+\textcode{String} objects with the value \textcode{'Hello'}.
+
+\textbf{Compile-time arrays.} are defined by \textcode{\#( )}, surrounding space-separated
+literals. Everything within the parentheses must be a compile-time constant. For
+example, \textcode{\#(27 (true false) abc)} is a literal array of three elements: the
+integer 27, the compile-time array containing the two booleans, and the symbol
+\textcode{\#abc}. (Note that this is the same as \textcode{\#(27 \#(true false) \#abc)}.)
+
+\textbf{Run-time arrays.} Curly braces \textcode{\{ \}} define a (dynamic) array at run-time.
+Elements are expressions separated by periods. So \textcode{\{ 1. 2. 1 + 2 \}} defines an
+array with elements 1, 2, and the result of evaluating \textcode{1+2}.
+
+\textbf{Comments.} are enclosed in double quotes \symbol{34} \symbol{34}. \symbol{34}hello\symbol{34} is a comment, not a
+string, and is ignored by the Pharo compiler. Comments may span multiple lines.
+
+\textbf{Local variable definitions.} Vertical bars \textcode{\textbar{} \textbar{}} enclose the declaration of
+one or more local variables in a method (and also in a block).
+
+\textbf{Assignment.} \textcode{:= } assigns an object to a variable.
+
+\textbf{Blocks.} Square brackets \textcode{{[} {]}} define a block, also known as a block
+closure or a lexical closure, which is a first-class object representing a
+function. As we shall see, blocks may take arguments (\textcode{{[}:i \textbar{} ...{]}}) and can
+have local variables.
+
+\textbf{Primitives.} \textcode{\textless{} primitive: ... \textgreater{}} denotes an invocation of a virtual
+machine primitive. For example, \textcode{\textless{} primitive: 1 \textgreater{}} is the VM primitive for
+\textcode{SmallInteger}. Any code following the primitive is executed only if the
+primitive fails. The same syntax is also used for method annotations (pragmas).
+
+\textbf{Unary messages.} These consist of a single word (like \textcode{factorial}) sent to a
+receiver (like 3). In \textcode{3 factorial}, 3 is the receiver, and \textcode{factorial} is
+the message selector.
+
+\textbf{Binary messages.} These are message with an argument and whose selector looks like mathematical expressions (for example: \textcode{+}) sent to a receiver, and taking a single argument. In \textcode{3 + 4}, the receiver is 3, the
+message selector is  \textcode{+}, and the argument is 4.
+
+\textbf{Keyword messages.} They consist of multiple keywords (like \textcode{raisedTo:
+modulo:}), each ending with a colon and taking a single argument. In the
+expression \textcode{2 raisedTo: 6 modulo: 10}, the message selector
+\textcode{raisedTo:modulo:} takes the two arguments 6 and 10, one following each colon.
+We send the message to the receiver 2.
+
+\textbf{Method return.} \textcode{\string^} is used to \textit{return} a value from a method.
+
+\textbf{Sequences of statements.} A period or full-stop (\textcode{.}) is the statement
+separator. Putting a period between two expressions turns them into independent
+statements.
+
+\textbf{Cascades.} Semicolons ( \textcode{;} ) can be used to send a cascade of messages to
+a single receiver. In \textcode{Transcript show: 'hello'; cr} we first send the keyword
+message \textcode{show: 'hello'} to the receiver \textcode{Transcript}, and then we send the
+unary message \textcode{cr} to the same receiver.
+
+The classes \textcode{Number}, \textcode{Character}, \textcode{String} and \textcode{Boolean} are described
+in more detail in Chapter
+\hyperref[cha:basicClasses]{: Basic Classes}.
+\section{Pseudo-variables}
+In Pharo, there are 6 reserved keywords, or pseudo-variables: \textcode{nil}, \textcode{true},
+\textcode{false}, \textcode{self}, \textcode{super}, and \textcode{thisContext}. They are called
+pseudo-variables because they are predefined and cannot be assigned to.
+\textcode{true}, \textcode{false}, and \textcode{nil} are constants, while the values of \textcode{self},
+\textcode{super}, and \textcode{thisContext} vary dynamically as code is executed.
+
+\begin{itemize}
+\item \textcode{true} and \textcode{false} are the unique instances of the Boolean classes \textcode{True} and \textcode{False}. See Chapter \hyperref[cha:basicClasses]{: Basic Classes} for more details.
+\end{itemize}
+
+\begin{itemize}
+\item \textcode{self} always refers to the receiver of the currently executing method.
+\end{itemize}
+
+\begin{itemize}
+\item \textcode{super} also refers to the receiver of the current method, but when you send a message to \textcode{super}, the method-lookup changes so that it starts from the superclass of the class containing the method that uses \textcode{super}. For further details see Chapter \hyperref[cha:model]{: The Pharo Object Model}.
+\end{itemize}
+
+\begin{itemize}
+\item \textcode{nil} is the undefined object. It is the unique instance of the class \textcode{UndefinedObject}. Instance variables, class variables and local variables are initialized to \textcode{nil}.
+\end{itemize}
+
+\begin{itemize}
+\item \textcode{thisContext} is a pseudo-variable that represents the top frame of the execution stack. \textcode{thisContext} is normally not of interest to most programmers, but it is essential for implementing development tools like the debugger, and it is also used to implement exception handling and continuations.
+\end{itemize}
+\section{Message sends}
+There are three kinds of messages in Pharo. This distinction has been made to reduce the number of mandatory parentheses.
+
+\begin{enumerate}
+\item \textit{Unary} messages take no argument. \textcode{1 factorial} sends the message \textcode{factorial} to the object 1.
+\item \textit{Binary} messages take exactly one argument. \textcode{1 + 2} sends the message \textcode{+} with argument 2 to the object 1.
+\item \textit{Keyword} messages take an arbitrary number of arguments. \textcode{2 raisedTo: 6 modulo: 10} sends the message consisting of the message selector \textcode{raisedTo:modulo:} and the arguments 6 and 10 to the object 2.
+\end{enumerate}
+\subsubsection{Unary messages.}
+Unary message selectors consist of alphanumeric characters, and start with a lower case letter.
+\subsubsection{Binary messages.}
+Binary message selectors consist of one or more characters from the following
+set:
+
+\begin{displaycode}{plain}
++ - / \ * ~ < > = @ % | & ? ,
+\end{displaycode}
+\subsubsection{Keyword message selectors.}
+Keyword message selectors consist of a series of alphanumeric keywords, where
+each keyword starts with a lower-case letter and ends with a colon.
+\subsubsection{Message precedence.}
+Unary messages have the highest precedence, then binary messages, and finally
+keyword messages, so:
+
+\begin{displaycode}{plain}
+2 raisedTo: 1 + 3 factorial
+>>> 128
+\end{displaycode}
+
+First we send \textcode{factorial} to 3, then we send \textcode{+ 6} to 1, and finally we
+send \textcode{raisedTo: 7} to 2. Recall that we use the notation expression \textcode{--\textgreater{}}
+to show the result of evaluating an expression.
+
+Precedence aside, execution is strictly from left to right, so:
+
+\begin{displaycode}{plain}
+1 + 2 * 3 
+>>> 9
+\end{displaycode}
+
+return 9 and not 7. Parentheses must be used to alter the order of evaluation:
+
+\begin{displaycode}{plain}
+1 + (2 * 3) 
+>>> 7
+\end{displaycode}
+\subsubsection{Periods and semi-colons.}
+Message sends may be composed with periods and semi-colons. A period separated
+sequence of expressions causes each expression in the series to be evaluated as
+a \textit{statement}, one after the other.
+
+\begin{displaycode}{plain}
+Transcript cr.
+Transcript show: 'hello world'.
+Transcript cr
+\end{displaycode}
+
+This will send \textcode{cr} to the \textcode{Transcript} object, then send it \textcode{show: 'hello world'}, and finally send it another \textcode{cr}.
+
+When a series of messages is being sent to the \textit{same} receiver, then this can
+be expressed more succinctly as a \textit{cascade}. The receiver is specified just
+once, and the sequence of messages is separated by semi-colons:
+
+\begin{displaycode}{plain}
+Transcript
+  cr;
+  show: 'hello world';
+  cr
+\end{displaycode}
+
+This has precisely the same effect as the previous example.
+\section{Method syntax}
+Whereas expressions may be evaluated anywhere in Pharo (for example, in a
+playground, in a debugger, or in a browser), methods are normally defined in a
+browser window, or in the debugger. Methods can also be filed in from an
+external medium, but this is not the usual way to program in Pharo.
+
+Programs are developed one method at a time, in the context of a given class. A
+class is defined by sending a message to an existing class, asking it to create
+a subclass, so there is no special syntax required for defining classes.
+
+Here is the method \textcode{lineCount} in the class \textcode{String}. The usual \textit{convention}
+is to refer to methods as ClassName\textgreater{}\textgreater{}methodName. Here the method is then  String\textgreater{}\textgreater{}lineCount.
+Note that  ClassName\textgreater{}\textgreater{}methodName is not part of the Pharo syntax just
+a convention used in books to clearly define a method.
+
+\begin{displaycode}{plain}
+String >> lineCount
+	"Answer the number of lines represented by the receiver, where every cr adds one line."
+
+	| cr count |
+	cr := Character cr.
+	count := 1 min: self size.
+	self do: [:c | c == cr ifTrue: [count := count + 1]].
+	^ count
+\end{displaycode}
+
+Syntactically, a method consists of:
+
+\begin{enumerate}
+\item the method pattern, containing the name (i.e., \textcode{lineCount}) and any arguments (none in this example)
+\item comments (these may occur anywhere, but the convention is to put one at the top that explains what the method does)
+\item declarations of local variables (i.e., \textcode{cr} and \textcode{count}); and
+\item any number of expressions separated by dots (here there are four)
+\end{enumerate}
+
+The execution of any expression preceded by a \textcode{\string^} (a caret or upper
+arrow, which is Shift-6 for most keyboards) will cause the method to exit at
+that point, returning the value of that expression. A method that terminates
+without explicitly returning some expression will implicitly return \textcode{self}.
+
+Arguments and local variables should always start with lower case letters. Names
+starting with upper-case letters are assumed to be global variables. Class
+names, like \textcode{Character}, for example, are simply global variables referring to
+the object representing that class.
+\section{Block syntax}
+Blocks (lexical closures) provide a mechanism to defer the execution of expressions. A block is
+essentially an anonymous function with a definition context. A block is executed by sending it the
+message \textcode{value}. The block answers the value of the last expression in its
+body, unless there is an explicit return (with \string^) in which case it returns the value of the returned expression.
+
+\begin{displaycode}{smalltalk}
+[ 1 + 2 ] value 
+>>> 3
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+[ 3 = 3 ifTrue: [ ^ 33 ]. 44 ] value
+>>> 33
+\end{displaycode}
+
+Blocks may take parameters, each of which is declared with a leading colon. A
+vertical bar separates the parameter declaration(s) from the body of the block.
+To evaluate a block with one parameter, you must send it the message value: with
+one argument. A two-parameter block must be sent \textcode{value:value:}, and so on, up
+to 4 arguments.
+
+\begin{displaycode}{smalltalk}
+[ :x | 1 + x ] value: 2 
+>>> 3
+[ :x :y | x + y ] value: 1 value: 2 
+>>> 3
+\end{displaycode}
+
+If you have a block with more than four parameters, you must use
+\textcode{valueWithArguments:} and pass the arguments in an array. (A block with a
+large number of parameters is often a sign of a design problem.)
+
+Blocks may also declare local variables, which are surrounded by vertical bars,
+just like local variable declarations in a method. Locals are declared after any
+arguments:
+
+\begin{displaycode}{smalltalk}
+[ :x :y |
+	| z |
+	z := x + y.
+	z ] value: 1 value: 2 
+>>> 3
+\end{displaycode}
+
+Blocks are actually lexical closures, since they can refer to variables of the
+surrounding environment. The following block refers to the variable \textcode{x} of its
+enclosing environment:
+
+\begin{displaycode}{plain}
+| x |
+x := 1.
+[ :y | x + y ] value: 2 
+>>> 3
+\end{displaycode}
+
+Blocks are instances of the class \textcode{BlockClosure}. This means that they are
+objects, so they can be assigned to variables and passed as arguments just like
+any other object.
+\section{Some conditionals}
+Pharo offers no special syntax for control constructs. Instead, these are
+typically expressed by sending messages to booleans, numbers and collections,
+with blocks as arguments.
+
+Conditionals are expressed by sending one of the messages \textcode{ifTrue:},
+\textcode{ifFalse:} or \textcode{ifTrue:ifFalse:} to the result of a boolean expression. See
+Chapter \hyperref[cha:basicClasses]{: Basic Classes},
+for more about booleans.
+
+\begin{displaycode}{plain}
+17 * 13 > 220
+	ifTrue: [ 'bigger' ]
+	ifFalse: [ 'smaller' ] 
+>>>'bigger'
+\end{displaycode}
+\section{Some loops}
+Loops are typically expressed by sending messages to blocks, integers or
+collections. Since the exit condition for a loop may be repeatedly evaluated, it
+should be a block rather than a boolean value. Here is an example of a very
+procedural loop:
+
+\begin{displaycode}{plain}
+n := 1.
+[ n < 1000 ] whileTrue: [ n := n*2 ].
+n 
+>>> 1024
+\end{displaycode}
+
+\textcode{whileFalse:} reverses the exit condition.
+
+\begin{displaycode}{plain}
+n := 1.
+[ n > 1000 ] whileFalse: [ n := n*2 ].
+n 
+>>> 1024
+\end{displaycode}
+
+\textcode{timesRepeat:} offers a simple way to implement a fixed iteration:
+
+\begin{displaycode}{plain}
+n := 1.
+10 timesRepeat: [ n := n*2 ].
+n 
+>>> 1024
+\end{displaycode}
+
+We can also send the message \textcode{to:do:} to a number which then acts as the
+initial value of a loop counter. The two arguments are the upper bound, and a
+block that takes the current value of the loop counter as its argument:
+
+\begin{displaycode}{plain}
+result := String new.
+1 to: 10 do: [:n | result := result, n printString, ' '].
+result 
+>>> '1 2 3 4 5 6 7 8 9 10 '
+\end{displaycode}
+\section{High-order iterators}
+Collections comprise a large number of different
+classes, many of which support the same protocol. The most important messages
+for iterating over collections include \textcode{do:}, \textcode{collect:}, \textcode{select:},
+\textcode{reject:}, \textcode{detect:} and \textcode{inject:into:}. These messages define high-level
+iterators that allow one to write very compact code.
+
+An \textbf{Interval} is a collection that lets one iterate over a sequence of numbers
+from the starting point to the end. \textcode{1 to: 10} represents the interval from 1
+to 10. Since it is a collection, we can send the message \textcode{do:} to it. The argument
+is a block that is evaluated for each element of the collection.
+
+\begin{displaycode}{plain}
+result := String new.
+(1 to: 10) do: [:n | result := result, n printString, ' '].
+result 
+>>> '1 2 3 4 5 6 7 8 9 10 '
+\end{displaycode}
+
+\textcode{collect:} builds a new collection of the same size, transforming each
+element. (You can think of \textcode{collect:} as the Map in the MapReduce
+programming model).
+
+\begin{displaycode}{plain}
+(1 to:10) collect: [ :each | each * each ] 
+>>> #(1 4 9 16 25 36 49 64 81 100)
+\end{displaycode}
+
+\textcode{select:} and \textcode{reject:} build new collections, each containing a subset of
+the elements satisfying (or not) the boolean block condition.
+
+\textcode{detect:} returns the first element satisfying the condition. Don't forget
+that strings are also collections (of characters), so you can iterate over all
+the characters.
+
+\begin{displaycode}{plain}
+'hello there' select: [ :char | char isVowel ] 
+>>> 'eoee'
+'hello there' reject: [ :char | char isVowel ] 
+>>> 'hll thr'
+'hello there' detect: [ :char | char isVowel ] 
+>>> $e
+\end{displaycode}
+
+Finally, you should be aware that collections also support a functional-style
+fold operator in the \textcode{inject:into:} method. You can also think of it as the
+Reduce in the MapReduce programming model. This lets you generate a cumulative
+result using an expression that starts with a seed value and injects each
+element of the collection. Sums and products are typical examples.
+
+\begin{displaycode}{plain}
+(1 to: 10) inject: 0 into: [ :sum :each | sum + each] 
+>>> 55
+\end{displaycode}
+
+This is equivalent to \textcode{0+1+2+3+4+5+6+7+8+9+10}.
+
+More about collections can be found in Chapter
+\hyperref[cha:collections]{: Collections}.
+\section{Primitives and pragmas}
+In Pharo everything is an object, and everything happens by sending messages.
+Nevertheless, at certain points we hit rock bottom. Certain objects can only get
+work done by invoking virtual machine primitives.
+
+For example, the following are all implemented as primitives: memory allocation
+(\textcode{new}, \textcode{new:}), bit manipulation (\textcode{bitAnd:}, \textcode{bitOr:}, \textcode{bitShift:}),
+pointer and integer arithmetic (+, -, \textless{}, \textgreater{}, *, /, , =, ==...), and
+array access (\textcode{at:}, \textcode{at:put:}).
+
+Primitives are invoked with the syntax \textcode{\textless{}primitive: aNumber\textgreater{}}. A method that
+invokes such a primitive may also include Pharo code, which will be
+executed only if the primitive fails.
+
+Here we see the code for \textcode{SmallInteger\textgreater{}\textgreater{}+}. If the primitive fails, the
+expression \textcode{super + aNumber} will be executed and returned.
+
+\begin{displaycode}{plain}
++ aNumber
+	"Primitive. Add the receiver to the argument and answer with the result
+	if it is a SmallInteger. Fail if the argument or the result is not a
+	SmallInteger Essential No Lookup. See Object documentation whatIsAPrimitive."
+
+	<primitive: 1>
+	^ super + aNumber
+\end{displaycode}
+
+In Pharo, the angle bracket syntax is also used for method annotations called pragmas.
+\section{Chapter summary}
+\begin{itemize}
+\item Pharo has only six reserved identifiers (also called pseudo-variables): \textcode{true}, \textcode{false}, \textcode{nil}, \textcode{self}, \textcode{super}, and \textcode{thisContext}.
+\item There are five kinds of literal objects: numbers (5, 2.5, 1.9e15, 2r111), characters (\textcode{\$a}), strings (\textcode{'hello'}), symbols (\textcode{\#hello}), and arrays (\textcode{\#('hello' \#hi)} or \textcode{\{ 1 . 2 . 1 + 2 \}} )
+\item Strings are delimited by single quotes, comments by double quotes. To get a quote inside a string, double it.
+\item Unlike strings, symbols are guaranteed to be globally unique.
+\item Use \textcode{\#( ... )} to define a literal array. Use \textcode{\{ ... \}} to define a dynamic array.  
+\end{itemize}
+
+\begin{displaycode}{smalltalk}
+#(1+2) size
+>>> 3
+{1+2} size
+>>>1
+\end{displaycode}
+
+\begin{itemize}
+\item There are three kinds of messages: unary (e.g., \textcode{1 asString}, \textcode{Array new}), binary (e.g., \textcode{3 + 4}, \textcode{'hi', ' there'}), and keyword (e.g., \textcode{'hi' at: 2 put: \$o})
+\item A cascaded message send is a sequence of messages sent to the same target, separated by semi-colons: 
+\end{itemize}
+
+\begin{displaycode}{plain}
+OrderedCollection new add: #calvin; add: #hobbes; size
+>>> 2
+\end{displaycode}
+
+\begin{itemize}
+\item Local variables are declared with vertical bars. Use \textcode{:= } for assignment. \textcode{\textbar{}x\textbar{} x := 1 }
+\item Expressions consist of message sends, cascades and assignments, evaluated left to right (and optionally grouped with parentheses). Statements are expressions separated by periods.
+\item Block closures are expressions enclosed in square brackets. Blocks may take arguments and can contain temporary variables. The expressions in the block are not evaluated until you send the block a value message with the correct number of arguments. \textcode{{[} :x \textbar{} x + 2 {]} value: 4}
+\item There is no dedicated syntax for control constructs, just messages that conditionally evaluate blocks.
+\end{itemize}
+
+
+% lulu requires an empty page at the end. That's why I'm using
+% \backmatter here.
+\backmatter
+
+% Index would go here
+\bibliographystyle{abbrv}
+\bibliography{others.bib}
+\end{document}

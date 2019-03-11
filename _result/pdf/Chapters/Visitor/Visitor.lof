@@ -1,0 +1,10 @@
+\contentsline {figure}{\numberline {1-1}{\ignorespaces A flat collection of classes (with a suspect duplication).}}{3}{figure.1.1}
+\contentsline {figure}{\numberline {1-2}{\ignorespaces Expressions are composed of trees.}}{5}{figure.1.2}
+\contentsline {figure}{\numberline {1-3}{\ignorespaces Evaluation: one message and multiple method implementations.}}{6}{figure.1.3}
+\contentsline {figure}{\numberline {1-4}{\ignorespaces Code repetition is a bad smell.}}{9}{figure.1.4}
+\contentsline {figure}{\numberline {1-5}{\ignorespaces Introducing a common superclass.}}{10}{figure.1.5}
+\contentsline {figure}{\numberline {1-6}{\ignorespaces printOn: and printString a \char 34\relax hooks and template\char 34\relax in action.}}{15}{figure.1.6}
+\contentsline {figure}{\numberline {1-7}{\ignorespaces The message \texttt {negated} is overridden in the class \texttt {ENegation}.}}{19}{figure.1.7}
+\contentsline {figure}{\numberline {1-8}{\ignorespaces Factoring instance variables.}}{20}{figure.1.8}
+\contentsline {figure}{\numberline {1-9}{\ignorespaces Factoring instance variables and behavior.}}{21}{figure.1.9}
+\contentsline {figure}{\numberline {1-10}{\ignorespaces Better design: Declaring an abstract method as a way to document a hook method.}}{23}{figure.1.10}

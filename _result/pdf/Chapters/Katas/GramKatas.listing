@@ -1,0 +1,1 @@
+	self assert: 'Elu par cette crapule' isPalindrome.

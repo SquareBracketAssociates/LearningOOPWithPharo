@@ -1,0 +1,4 @@
+('http://www.pharo.org' asUrl) retrieveContents
+
+
+ ...

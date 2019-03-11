@@ -1,0 +1,45 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Objects and classes}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Objects: Entities reacting to messages}{1}{section.1.1}
+\contentsline {subsection}{Turtles as an example}{2}{section*.2}
+\contentsline {subsection}{Creating an object}{2}{section*.3}
+\contentsline {subsection}{Sending messages}{2}{section*.4}
+\contentsline {subsection}{Multiple instances: each with its own state. }{3}{section*.5}
+\contentsline {section}{\numberline {1.2}Messages and Methods}{3}{section.1.2}
+\contentsline {subsection}{Message: what should be executed}{3}{section*.6}
+\contentsline {subsection}{Method: how we execute it}{3}{section*.7}
+\contentsline {section}{\numberline {1.3}An object is a protective entity}{4}{section.1.3}
+\contentsline {section}{\numberline {1.4}An object protects its data}{5}{section.1.4}
+\contentsline {section}{\numberline {1.5}With counters}{6}{section.1.5}
+\contentsline {section}{\numberline {1.6}A class: blueprint or factory of objects}{7}{section.1.6}
+\contentsline {subsection}{Object structure}{7}{section*.8}
+\contentsline {subsection}{Object behavior}{8}{section*.9}
+\contentsline {subsection}{Self is the message receiver}{9}{section*.10}
+\contentsline {section}{\numberline {1.7}Class and instances are really different}{9}{section.1.7}
+\contentsline {section}{\numberline {1.8}Conclusion}{10}{section.1.8}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {2}Revisiting objects and classes}{11}{chapter.2}
+\contentsline {section}{\numberline {2.1}A simple and naive file system}{11}{section.2.1}
+\contentsline {section}{\numberline {2.2}Studying a first scenario}{12}{section.2.2}
+\contentsline {section}{\numberline {2.3}Defining a class}{13}{section.2.3}
+\contentsline {subsection}{A first little analysis}{14}{section*.11}
+\contentsline {section}{\numberline {2.4}Printing a directory}{15}{section.2.4}
+\contentsline {section}{\numberline {2.5}Adding files}{16}{section.2.5}
+\contentsline {subsection}{An example first}{16}{section*.12}
+\contentsline {subsection}{A new class definition}{17}{section*.13}
+\contentsline {section}{\numberline {2.6}One message and multiple methods}{18}{section.2.6}
+\contentsline {section}{\numberline {2.7}Objects: stepping back}{19}{section.2.7}
+\contentsline {section}{\numberline {2.8}Examples of distribution of responsibilities }{19}{section.2.8}
+\contentsline {subsection}{File size }{20}{section*.14}
+\contentsline {subsection}{Search }{20}{section*.15}
+\contentsline {section}{\numberline {2.9}Important points}{21}{section.2.9}
+\contentsline {subsection}{Modular thinking}{21}{section*.16}
+\contentsline {subsection}{Sending a message is making a choice}{21}{section*.17}
+\contentsline {subsection}{Polymorphic objects }{21}{section*.18}
+\contentsline {section}{\numberline {2.10}Distribution of responsibilities}{22}{section.2.10}
+\contentsline {subsection}{Procedural}{22}{section*.19}
+\contentsline {section}{\numberline {2.11}So far so good? Not fully!}{23}{section.2.11}
+\contentsline {section}{\numberline {2.12}Conclusion}{23}{section.2.12}
+\contentsline {chapter}{Bibliography}{25}{chapter*.20}

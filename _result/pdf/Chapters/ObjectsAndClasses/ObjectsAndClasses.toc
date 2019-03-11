@@ -1,0 +1,21 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Objects and classes}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Objects: Entities reacting to messages}{1}{section.1.1}
+\contentsline {subsection}{Message: the what should be executed}{2}{section*.2}
+\contentsline {subsection}{Method: the how we execute it}{2}{section*.3}
+\contentsline {section}{\numberline {1.2}An object has a unique identity}{3}{section.1.2}
+\contentsline {section}{\numberline {1.3}An object is a protective entity}{3}{section.1.3}
+\contentsline {section}{\numberline {1.4}An object protects its data}{4}{section.1.4}
+\contentsline {subsubsection}{About behavior}{6}{section*.4}
+\contentsline {section}{\numberline {1.5}Some related concepts (to massage)}{6}{section.1.5}
+\contentsline {section}{\numberline {1.6}Collaborators}{7}{section.1.6}
+\contentsline {section}{\numberline {1.7}Classes: Factoring behavior of similar objects}{7}{section.1.7}
+\contentsline {section}{\numberline {1.8}Classes: Factory of objects}{8}{section.1.8}
+\contentsline {section}{\numberline {1.9}Describing object state}{8}{section.1.9}
+\contentsline {section}{\numberline {1.10}Class and instances are different}{11}{section.1.10}
+\contentsline {section}{\numberline {1.11}Objects reacting differently to the same messages}{11}{section.1.11}
+\contentsline {subsection}{Sending a message vs. calling a method}{13}{section*.5}
+\contentsline {section}{\numberline {1.12}Conclusion }{13}{section.1.12}
+\contentsline {chapter}{Bibliography}{15}{chapter*.6}

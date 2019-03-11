@@ -1,0 +1,29 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Pharo's syntax overview}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Minimal}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Literal objects}{2}{section.1.2}
+\contentsline {subsection}{Comments}{2}{section*.2}
+\contentsline {subsection}{Characters, Strings and Symbols}{2}{section*.3}
+\contentsline {subsection}{Booleans}{2}{section*.4}
+\contentsline {subsection}{Arrays}{2}{section*.5}
+\contentsline {section}{\numberline {1.3}Key expressions}{3}{section.1.3}
+\contentsline {subsection}{Variable definition and assignment}{3}{section*.6}
+\contentsline {subsection}{Special variables}{3}{section*.7}
+\contentsline {subsection}{Returning an object}{4}{section*.8}
+\contentsline {subsection}{Sequence of expressions}{4}{section*.9}
+\contentsline {section}{\numberline {1.4}Message structure}{4}{section.1.4}
+\contentsline {section}{\numberline {1.5}Three kind of Messages}{4}{section.1.5}
+\contentsline {section}{\numberline {1.6}Unary messages}{5}{section.1.6}
+\contentsline {section}{\numberline {1.7}Binary messages}{5}{section.1.7}
+\contentsline {section}{\numberline {1.8}Keyword messages}{6}{section.1.8}
+\contentsline {section}{\numberline {1.9}Execution order and parentheses}{6}{section.1.9}
+\contentsline {section}{\numberline {1.10}Sending multiple messages to the same object}{7}{section.1.10}
+\contentsline {section}{\numberline {1.11}Blocks}{7}{section.1.11}
+\contentsline {section}{\numberline {1.12}Method syntax}{8}{section.1.12}
+\contentsline {section}{\numberline {1.13}Some conditionals}{9}{section.1.13}
+\contentsline {section}{\numberline {1.14}Some loops}{10}{section.1.14}
+\contentsline {section}{\numberline {1.15}Iterators}{11}{section.1.15}
+\contentsline {section}{\numberline {1.16}Chapter summary}{11}{section.1.16}
+\contentsline {chapter}{Bibliography}{13}{chapter*.10}

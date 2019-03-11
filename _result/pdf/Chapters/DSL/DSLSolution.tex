@@ -1,0 +1,197 @@
+% -*- mode: latex; -*- mustache tags:  
+\documentclass[10pt,twoside,english]{_support/latex/sbabook/sbabook}
+\let\wholebook=\relax
+
+\usepackage{import}
+\subimport{_support/latex/}{common.tex}
+
+%=================================================================
+% Debug packages for page layout and overfull lines
+% Remove the showtrims document option before printing
+\ifshowtrims
+  \usepackage{showframe}
+  \usepackage[color=magenta,width=5mm]{_support/latex/overcolored}
+\fi
+
+
+% =================================================================
+\title{Learning Object-Oriented Programming, Design and TDD with Pharo}
+\author{Stéphane Ducasse}
+\series{The Pharo TextBook Collection}
+
+\hypersetup{
+  pdftitle = {Learning Object-Oriented Programming, Design and TDD with Pharo},
+  pdfauthor = {Stéphane Ducasse},
+  pdfkeywords = {Introduction, programming, design, testing, Pharo, Smalltalk}
+}
+
+
+% =================================================================
+\begin{document}
+
+% Title page and colophon on verso
+\maketitle
+\pagestyle{titlingpage}
+\thispagestyle{titlingpage} % \pagestyle does not work on the first one…
+
+\cleartoverso
+{\small
+
+  Copyright 2017 by Stéphane Ducasse.
+
+  The contents of this book are protected under the Creative Commons
+  Attribution-ShareAlike 3.0 Unported license.
+
+  You are \textbf{free}:
+  \begin{itemize}
+  \item to \textbf{Share}: to copy, distribute and transmit the work,
+  \item to \textbf{Remix}: to adapt the work,
+  \end{itemize}
+
+  Under the following conditions:
+  \begin{description}
+  \item[Attribution.] You must attribute the work in the manner specified by the
+    author or licensor (but not in any way that suggests that they endorse you
+    or your use of the work).
+  \item[Share Alike.] If you alter, transform, or build upon this work, you may
+    distribute the resulting work only under the same, similar or a compatible
+    license.
+  \end{description}
+
+  For any reuse or distribution, you must make clear to others the
+  license terms of this work. The best way to do this is with a link to
+  this web page: \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+
+  Any of the above conditions can be waived if you get permission from
+  the copyright holder. Nothing in this license impairs or restricts the
+  author's moral rights.
+
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{_support/latex/sbabook/CreativeCommons-BY-SA.pdf}
+  \end{center}
+
+  Your fair dealing and other rights are in no way affected by the
+  above. This is a human-readable summary of the Legal Code (the full
+  license): \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+
+  \vfill
+
+  % Publication info would go here (publisher, ISBN, cover design…)
+  Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien
+  Pollet.
+}
+
+
+\frontmatter
+\pagestyle{plain}
+
+\tableofcontents*
+\clearpage\listoffigures
+
+\mainmatter
+
+\chapter{Die DSL }\label{cha:dslsolution}
+Here are the possible solutions of the implementation we asked for the DSL Chapter \ref{cha:dsl}. 
+\subsection{Define class Die}
+\begin{displaycode}{plain}
+Object subclass: #Die
+	instanceVariableNames: 'faces'
+	classVariableNames: ''
+	package: 'Dice'
+\end{displaycode}
+
+\begin{displaycode}{plain}
+Die >> initialize
+	super initialize.
+	faces := 6
+\end{displaycode}
+\subsection{Rolling a die}
+\begin{displaycode}{plain}
+Die >> roll
+    ^ faces atRandom
+\end{displaycode}
+\subsection{Define class DieHandle}
+\begin{displaycode}{plain}
+Object subclass: #DieHandle
+	instanceVariableNames: 'dice'
+	classVariableNames: ''
+	package: 'Dice'
+\end{displaycode}
+
+\begin{displaycode}{plain}
+DieHandle >> initialize
+	super initialize.
+	dice := OrderedCollection new.
+\end{displaycode}
+\subsection{Die addition}
+\begin{displaycode}{plain}
+DieHandle >> addDie: aDie 
+	dice add: aDie
+\end{displaycode}
+\section{Rolling a dice handle}
+\begin{displaycode}{plain}
+DieHandleTest >> testRoll
+	| handle |
+	handle := DieHandle new
+		addDie: (Die withFaces: 6);
+		addDie: (Die withFaces: 10);
+		yourself.
+	1000 timesRepeat: [ handle roll between: 2 and: 16 ]
+\end{displaycode}
+
+\begin{displaycode}{plain}
+DieHandle >> roll
+	
+	| res |
+	res := 0.
+	dice do: [ :each | res := res + each roll ].
+	^ res
+\end{displaycode}
+\section{Role playing syntax}
+\begin{displaycode}{plain}
+Integer >> D20
+	| handle |
+	handle := DieHandle new.
+	self timesRepeat: [ handle addDie: (Die withFaces: 20)].
+	^ handle
+\end{displaycode}
+
+\begin{displaycode}{plain}
+Integer >> D: anInteger
+	
+	| handle |
+	handle := DieHandle new.
+	self timesRepeat: [ handle addDie: (Die withFaces: anInteger)].
+	^ handle
+\end{displaycode}
+\section{Adding DieHandles}
+\begin{displaycode}{plain}
+DieHandle >> + aDieHandle
+	"Returns a new handle that represents the addition of the receiver and the argument."
+	| handle |
+	handle := self class new.
+	self dice do: [ :each | handle addDie: each ].
+	aDieHandle dice do: [ :each | handle addDie: each ].
+	^ handle
+\end{displaycode}
+
+This definition only works if the method \textcode{dice} defined below has been defined
+
+\begin{displaycode}{plain}
+DieHandle >> dice
+	^ dice 
+\end{displaycode}
+
+Indeed the first expression \textcode{self dice do: } could be rewritten as \textcode{dice do: } because dice is an instance variable of the class \textcode{DieHandle}. Now the expression \textcode{aDieHandle dice do: } cannot. Why? Because in Pharo you cannot access the state of another object directly. Here \textcode{2 D20}  is one handle and \textcode{3 D10} another one. The first one cannot access the dice of the second one directly (while it can accessed its own). Therefore there is a need to define a message that provide access to the dice. 
+
+
+% lulu requires an empty page at the end. That's why I'm using
+% \backmatter here.
+\backmatter
+
+% Index would go here
+\bibliographystyle{abbrv}
+\bibliography{others.bib}
+\end{document}

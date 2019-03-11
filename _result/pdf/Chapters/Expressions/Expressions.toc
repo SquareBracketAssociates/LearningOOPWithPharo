@@ -1,0 +1,49 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}A little expression interpreter}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Starting with constant expression and a test}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Negation}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}Adding expression addition}{3}{section.1.3}
+\contentsline {section}{\numberline {1.4}Multiplication}{4}{section.1.4}
+\contentsline {section}{\numberline {1.5}Stepping back }{5}{section.1.5}
+\contentsline {subsection}{Messages and methods}{6}{section*.2}
+\contentsline {subsection}{About common superclass}{6}{section*.3}
+\contentsline {subsection}{Design corner: About addition and multiplication model }{6}{section*.4}
+\contentsline {section}{\numberline {1.6}Negated as a message}{7}{section.1.6}
+\contentsline {subsection}{negated message for constants}{7}{section*.5}
+\contentsline {subsection}{negated message for negations}{8}{section*.6}
+\contentsline {subsection}{negated message for additions}{8}{section*.7}
+\contentsline {subsection}{negated message for multiplications}{8}{section*.8}
+\contentsline {section}{\numberline {1.7}Annoying repetition}{9}{section.1.7}
+\contentsline {section}{\numberline {1.8}Introducing Expression class}{10}{section.1.8}
+\contentsline {section}{\numberline {1.9}Class creation messages}{11}{section.1.9}
+\contentsline {subsection}{Better instance creation for constants}{11}{section*.9}
+\contentsline {subsection}{Better instance creation for negations}{12}{section*.10}
+\contentsline {subsection}{Better instance creation for additions}{12}{section*.11}
+\contentsline {subsection}{Better instance creation for multiplications}{12}{section*.12}
+\contentsline {section}{\numberline {1.10}Introducing examples as class messages}{13}{section.1.10}
+\contentsline {section}{\numberline {1.11}Printing}{14}{section.1.11}
+\contentsline {subsection}{A word about streams}{15}{section*.13}
+\contentsline {subsection}{Printing constant}{16}{section*.14}
+\contentsline {subsection}{Printing negation}{16}{section*.15}
+\contentsline {subsection}{Printing addition}{17}{section*.16}
+\contentsline {subsection}{Printing multiplication}{17}{section*.17}
+\contentsline {section}{\numberline {1.12}Revisiting negated message for Negation}{17}{section.1.12}
+\contentsline {subsection}{Understanding method override}{18}{section*.18}
+\contentsline {section}{\numberline {1.13}Introducing BinaryExpression class}{18}{section.1.13}
+\contentsline {subsection}{Creating a template and hook method}{20}{section*.19}
+\contentsline {section}{\numberline {1.14}What did we learn}{21}{section.1.14}
+\contentsline {section}{\numberline {1.15}About hook methods}{22}{section.1.15}
+\contentsline {subsection}{Creating hooks is always good}{22}{section*.20}
+\contentsline {subsection}{Avoid not documenting hooks}{22}{section*.21}
+\contentsline {section}{\numberline {1.16}Variables}{23}{section.1.16}
+\contentsline {subsection}{Some technical points}{24}{section*.22}
+\contentsline {subsubsection}{Dictionaries}{24}{section*.23}
+\contentsline {subsubsection}{Dynamic Arrays}{24}{section*.24}
+\contentsline {subsubsection}{Pairs}{25}{section*.25}
+\contentsline {subsection}{Back to variable expressions}{25}{section*.26}
+\contentsline {subsection}{Non working approaches}{26}{section*.27}
+\contentsline {subsection}{The solution: adding evaluateWith:}{26}{section*.28}
+\contentsline {section}{\numberline {1.17}Conclusion}{27}{section.1.17}
+\contentsline {chapter}{Bibliography}{29}{chapter*.29}

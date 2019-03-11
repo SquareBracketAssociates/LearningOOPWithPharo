@@ -1,0 +1,16 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Variations around Isograms}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}A dictionary-based solution}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}A Bag-based solution}{1}{section.1.2}
+\contentsline {section}{\numberline {1.3}A solution using the String API}{2}{section.1.3}
+\contentsline {section}{\numberline {1.4}A recursive approach}{2}{section.1.4}
+\contentsline {section}{\numberline {1.5}A low-level solution}{3}{section.1.5}
+\contentsline {section}{\numberline {1.6}Are all solutions finding the same?}{3}{section.1.6}
+\contentsline {section}{\numberline {1.7}Comparing solutions}{4}{section.1.7}
+\contentsline {subsection}{Some observations and comments}{4}{section*.2}
+\contentsline {section}{\numberline {1.8}Handling french and the lesson behind}{4}{section.1.8}
+\contentsline {section}{\numberline {1.9}So Watch out}{5}{section.1.9}
+\contentsline {subsection}{Variations}{5}{section*.3}
+\contentsline {chapter}{Bibliography}{7}{chapter*.4}

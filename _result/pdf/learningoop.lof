@@ -1,0 +1,96 @@
+\contentsline {figure}{\numberline {1-1}{\ignorespaces Reading maps.}}{2}{figure.1.1}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {2-1}{\ignorespaces Executing an expression in Playground.}}{10}{figure.2.1}
+\contentsline {figure}{\numberline {2-2}{\ignorespaces Reading or editing a method using a code browser. Topleft pane: list of packages then list of classes then protocols then method lists - middle pane: method definition. Last pane: Quality Assistant.}}{17}{figure.2.2}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {5-1}{\ignorespaces Package created and class creation template.}}{32}{figure.5.1}
+\contentsline {figure}{\numberline {5-2}{\ignorespaces Class created.}}{34}{figure.5.2}
+\contentsline {figure}{\numberline {5-3}{\ignorespaces Selecting a new kind of repository to the list of possible places to commit the package.}}{37}{figure.5.3}
+\contentsline {figure}{\numberline {5-4}{\ignorespaces Editing the repository information.}}{37}{figure.5.4}
+\contentsline {figure}{\numberline {5-5}{\ignorespaces Class with green tests.}}{40}{figure.5.5}
+\contentsline {figure}{\numberline {5-6}{\ignorespaces Better description doing a Print It (cmd + P).}}{41}{figure.5.6}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {6-1}{\ignorespaces Running SUnit tests from the System Browser: Just click on the round little button close to the class or method.}}{48}{figure.6.1}
+\contentsline {figure}{\numberline {6-2}{\ignorespaces Running SUnit tests using the \textit {TestRunner}.}}{49}{figure.6.2}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {8-1}{\ignorespaces An object presents to the other objects an interface composed of a set of messages defining \textit {what} he can do. This behavior is realized by methods that specify \textit {how} the behavior is implemented. When a message is sent to an object a method with the message name (called selector) is looked up and executed. }}{76}{figure.8.1}
+\contentsline {figure}{\numberline {8-2}{\ignorespaces The message \texttt {square:} can be implemented differently. This different implementation does not impact the sender of the message who is not concerned by the internals of the object.}}{77}{figure.8.2}
+\contentsline {figure}{\numberline {8-3}{\ignorespaces A turtle is an object which has an interface, i.e., a set of messages to which it can reply and a private state that only its methods can access.}}{78}{figure.8.3}
+\contentsline {figure}{\numberline {8-4}{\ignorespaces Two turtles have the same interface, i.e., set of messages being understood but they have \textit {different} private state representing their direction, position and pen status.}}{78}{figure.8.4}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {9-1}{\ignorespaces Some directories and files organised in a file system.}}{83}{figure.9.1}
+\contentsline {figure}{\numberline {9-2}{\ignorespaces Inspecting \texttt {dOldComics} and clicking on the \texttt {parent} variable. }}{84}{figure.9.2}
+\contentsline {figure}{\numberline {9-3}{\ignorespaces The \texttt {Directory} class and some instances (directories).}}{85}{figure.9.3}
+\contentsline {figure}{\numberline {9-4}{\ignorespaces Navigating an object graph by sending message to different objects. }}{88}{figure.9.4}
+\contentsline {figure}{\numberline {9-5}{\ignorespaces A graph of objects to represent our file system. }}{88}{figure.9.5}
+\contentsline {figure}{\numberline {9-6}{\ignorespaces A new class and its instances.}}{89}{figure.9.6}
+\contentsline {figure}{\numberline {9-7}{\ignorespaces Printing a file: Sending messages inside a graph of different objects. }}{90}{figure.9.7}
+\contentsline {figure}{\numberline {9-8}{\ignorespaces Two classes understanding similar sets of message.}}{91}{figure.9.8}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {12-1}{\ignorespaces A single class with a couple of messages. Note that the method \texttt {withFaces:} is a class method.}}{122}{figure.12.1}
+\contentsline {figure}{\numberline {12-2}{\ignorespaces Inspecting and interacting with a die.}}{123}{figure.12.2}
+\contentsline {figure}{\numberline {12-3}{\ignorespaces A die handle is composed of dice.}}{126}{figure.12.3}
+\contentsline {figure}{\numberline {12-4}{\ignorespaces Inspecting a DieHandle.}}{128}{figure.12.4}
+\contentsline {figure}{\numberline {12-5}{\ignorespaces Die details.}}{129}{figure.12.5}
+\contentsline {figure}{\numberline {12-6}{\ignorespaces A die handle with more information.}}{129}{figure.12.6}
+\contentsline {figure}{\numberline {12-7}{\ignorespaces A polymorphic API supports the \textit {Don't ask, tell} principle.}}{131}{figure.12.7}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {13-1}{\ignorespaces The two classes \texttt {True} and \texttt {False} and their respective unique instances \texttt {true} and \texttt {false}.}}{139}{figure.13.1}
+\contentsline {figure}{\numberline {13-2}{\ignorespaces Two methods for one message.}}{139}{figure.13.2}
+\contentsline {figure}{\numberline {13-3}{\ignorespaces Two methods for one message each one returning the other instance.}}{139}{figure.13.3}
+\contentsline {figure}{\numberline {13-4}{\ignorespaces Sending a message selects the method in the class of the receiver.}}{140}{figure.13.4}
+\contentsline {figure}{\numberline {13-5}{\ignorespaces Disjunction implementation: two methods.}}{142}{figure.13.5}
+\contentsline {figure}{\numberline {13-6}{\ignorespaces Conditional implementation: again two methods and no explicit tests.}}{143}{figure.13.6}
+\contentsline {figure}{\numberline {13-7}{\ignorespaces One single class vs. a nice hierarchy.}}{145}{figure.13.7}
+\contentsline {figure}{\numberline {13-8}{\ignorespaces One single class vs. a nice hierarchy.}}{145}{figure.13.8}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {14-1}{\ignorespaces Two classes understanding similar sets of messages and structuring their instances in a similar way.}}{150}{figure.14.1}
+\contentsline {figure}{\numberline {14-2}{\ignorespaces Two class taking advantages of inheriting from a common superclass.}}{152}{figure.14.2}
+\contentsline {figure}{\numberline {14-3}{\ignorespaces Moving the instance variable name to the superclass.}}{153}{figure.14.3}
+\contentsline {figure}{\numberline {14-4}{\ignorespaces Applying the Pull Up Instance variable refactoring.}}{154}{figure.14.4}
+\contentsline {figure}{\numberline {14-5}{\ignorespaces State factored between the two classes and their superclass.}}{155}{figure.14.5}
+\contentsline {figure}{\numberline {14-6}{\ignorespaces State and Methods factored out in the superclass.}}{155}{figure.14.6}
+\contentsline {figure}{\numberline {14-7}{\ignorespaces When an object receives a message, the corresponding method is looked up in its class and if necessary its superclasses (Step 1 and 2). Then the method is executed on the message receiver (Step 3).}}{156}{figure.14.7}
+\contentsline {figure}{\numberline {14-8}{\ignorespaces A self-send creates a hook (\texttt {kind}) that subclasses override. The method \texttt { describe} is called a template because it creates a context.}}{160}{figure.14.8}
+\contentsline {figure}{\numberline {14-9}{\ignorespaces Self semantics abstractly explained.}}{161}{figure.14.9}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {15-1}{\ignorespaces \texttt {MFFile} and \texttt {MFDirectory} contain duplicated logic in \texttt {printOn:}.}}{164}{figure.15.1}
+\contentsline {figure}{\numberline {15-2}{\ignorespaces Improving the logic (but not fully).}}{165}{figure.15.2}
+\contentsline {figure}{\numberline {15-3}{\ignorespaces Using \texttt {super} to invoke the overridden method \texttt {printOn:}.}}{166}{figure.15.3}
+\contentsline {figure}{\numberline {15-4}{\ignorespaces Using \texttt {super} to invoke the overridden method \texttt {size}.}}{168}{figure.15.4}
+\contentsline {figure}{\numberline {15-5}{\ignorespaces Example to understand \texttt {super}.}}{170}{figure.15.5}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {16-1}{\ignorespaces A flat collection of classes (with a suspect duplication).}}{173}{figure.16.1}
+\contentsline {figure}{\numberline {16-2}{\ignorespaces Expressions are composed of trees.}}{175}{figure.16.2}
+\contentsline {figure}{\numberline {16-3}{\ignorespaces Evaluation: one message and multiple method implementations.}}{176}{figure.16.3}
+\contentsline {figure}{\numberline {16-4}{\ignorespaces Code repetition is a bad smell.}}{179}{figure.16.4}
+\contentsline {figure}{\numberline {16-5}{\ignorespaces Introducing a common superclass.}}{180}{figure.16.5}
+\contentsline {figure}{\numberline {16-6}{\ignorespaces printOn: and printString a \char 34\relax hooks and template\char 34\relax in action.}}{185}{figure.16.6}
+\contentsline {figure}{\numberline {16-7}{\ignorespaces The message \texttt {negated} is overridden in the class \texttt {ENegation}.}}{189}{figure.16.7}
+\contentsline {figure}{\numberline {16-8}{\ignorespaces Factoring instance variables.}}{190}{figure.16.8}
+\contentsline {figure}{\numberline {16-9}{\ignorespaces Factoring instance variables and behavior.}}{191}{figure.16.9}
+\contentsline {figure}{\numberline {16-10}{\ignorespaces Better design: Declaring an abstract method as a way to document a hook method.}}{193}{figure.16.10}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {17-1}{\ignorespaces Two little networks composed of nodes and sending packets over links.}}{202}{figure.17.1}
+\contentsline {figure}{\numberline {17-2}{\ignorespaces Current API of our three main classes.}}{206}{figure.17.2}
+\contentsline {figure}{\numberline {17-3}{\ignorespaces Navigating specific objects having a generic presentation.}}{207}{figure.17.3}
+\contentsline {figure}{\numberline {17-4}{\ignorespaces Navigating objects offering a customized presentation.}}{208}{figure.17.4}
+\contentsline {figure}{\numberline {17-5}{\ignorespaces Richer API.}}{210}{figure.17.5}
+\contentsline {figure}{\numberline {17-6}{\ignorespaces A hub.}}{213}{figure.17.6}
+\contentsline {figure}{\numberline {17-7}{\ignorespaces A possible extension: a more realistic network with a cycle between three router nodes. }}{221}{figure.17.7}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {18-1}{\ignorespaces An example Snakes and Ladders board with two ladders and a snake.}}{223}{figure.18.1}
+\contentsline {figure}{\numberline {18-2}{\ignorespaces Playground in action. Use Do it and go - to get an embedded inspector.}}{234}{figure.18.2}
+\contentsline {figure}{\numberline {18-3}{\ignorespaces Inspecting the game: a game instance and its instance variable \texttt {tiles}.}}{236}{figure.18.3}
+\contentsline {figure}{\numberline {18-4}{\ignorespaces Navigating inside the game: getting inside the tiles and checking the players.}}{236}{figure.18.4}
+\contentsline {figure}{\numberline {18-5}{\ignorespaces Navigating the objects using the navigation facilities of the inspector.}}{237}{figure.18.5}
+\contentsline {figure}{\numberline {18-6}{\ignorespaces Current simple design: three classes with a player acting a simple object.}}{241}{figure.18.6}
+\contentsline {figure}{\numberline {18-7}{\ignorespaces A hierarchy of tiles.}}{242}{figure.18.7}
+\contentsline {figure}{\numberline {18-8}{\ignorespaces Introducing \texttt {printInsideOn:} as a new hook.}}{245}{figure.18.8}
+\contentsline {figure}{\numberline {18-9}{\ignorespaces acceptPlayer: and releasePlayer: new message.}}{249}{figure.18.9}
+\contentsline {figure}{\numberline {18-10}{\ignorespaces Playing step by step inside the inspector.}}{255}{figure.18.10}
+\contentsline {figure}{\numberline {18-11}{\ignorespaces Automated play.}}{256}{figure.18.11}
+\addvspace {10pt}\begingroup \dimen@ 3\baselineskip \relax \vskip \z@ plus\dimen@ \penalty -100\vskip \z@ plus-\dimen@ \vskip \dimen@ \penalty 9999\vskip -\dimen@ \vskip \z@skip \endgroup 
+\contentsline {figure}{\numberline {19-1}{\ignorespaces Chatting with TinyChat.}}{260}{figure.19.1}
+\contentsline {figure}{\numberline {19-2}{\ignorespaces Testing the server.}}{266}{figure.19.2}
+\contentsline {figure}{\numberline {19-3}{\ignorespaces Server access.}}{273}{figure.19.3}

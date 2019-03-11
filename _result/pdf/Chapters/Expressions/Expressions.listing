@@ -1,0 +1,2 @@
+ENegation >> evaluateWith: anObject
+	^ (expression evaluateWith: anObject) negated

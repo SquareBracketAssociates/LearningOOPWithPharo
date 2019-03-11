@@ -1,0 +1,280 @@
+% -*- mode: latex; -*- mustache tags:  
+\documentclass[10pt,twoside,english]{_support/latex/sbabook/sbabook}
+\let\wholebook=\relax
+
+\usepackage{import}
+\subimport{_support/latex/}{common.tex}
+
+%=================================================================
+% Debug packages for page layout and overfull lines
+% Remove the showtrims document option before printing
+\ifshowtrims
+  \usepackage{showframe}
+  \usepackage[color=magenta,width=5mm]{_support/latex/overcolored}
+\fi
+
+
+% =================================================================
+\title{Learning Object-Oriented Programming, Design and TDD with Pharo}
+\author{Stéphane Ducasse}
+\series{The Pharo TextBook Collection}
+
+\hypersetup{
+  pdftitle = {Learning Object-Oriented Programming, Design and TDD with Pharo},
+  pdfauthor = {Stéphane Ducasse},
+  pdfkeywords = {Introduction, programming, design, testing, Pharo, Smalltalk}
+}
+
+
+% =================================================================
+\begin{document}
+
+% Title page and colophon on verso
+\maketitle
+\pagestyle{titlingpage}
+\thispagestyle{titlingpage} % \pagestyle does not work on the first one…
+
+\cleartoverso
+{\small
+
+  Copyright 2017 by Stéphane Ducasse.
+
+  The contents of this book are protected under the Creative Commons
+  Attribution-ShareAlike 3.0 Unported license.
+
+  You are \textbf{free}:
+  \begin{itemize}
+  \item to \textbf{Share}: to copy, distribute and transmit the work,
+  \item to \textbf{Remix}: to adapt the work,
+  \end{itemize}
+
+  Under the following conditions:
+  \begin{description}
+  \item[Attribution.] You must attribute the work in the manner specified by the
+    author or licensor (but not in any way that suggests that they endorse you
+    or your use of the work).
+  \item[Share Alike.] If you alter, transform, or build upon this work, you may
+    distribute the resulting work only under the same, similar or a compatible
+    license.
+  \end{description}
+
+  For any reuse or distribution, you must make clear to others the
+  license terms of this work. The best way to do this is with a link to
+  this web page: \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+
+  Any of the above conditions can be waived if you get permission from
+  the copyright holder. Nothing in this license impairs or restricts the
+  author's moral rights.
+
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{_support/latex/sbabook/CreativeCommons-BY-SA.pdf}
+  \end{center}
+
+  Your fair dealing and other rights are in no way affected by the
+  above. This is a human-readable summary of the Legal Code (the full
+  license): \\
+  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+
+  \vfill
+
+  % Publication info would go here (publisher, ISBN, cover design…)
+  Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien
+  Pollet.
+}
+
+
+\frontmatter
+\pagestyle{plain}
+
+\tableofcontents*
+\clearpage\listoffigures
+
+\mainmatter
+
+\chapter{Network simulator solutions}\section{Packets}
+\begin{displaycode}{smalltalk}
+KANetworkPacket class >> from: sourceAddress to: destinationAddress payload: anObject
+    ^ self new
+        initializeSource: sourceAddress
+        destination: destinationAddress
+        payload: anObject
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkPacket >> initializeSource: source destination: destination payload: anObject
+    sourceAddress := source.
+    destinationAddress := destination.
+    payload := anObject
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkPacket >> sourceAddress
+    ^ sourceAddress
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkPacket >> destinationAddress
+    ^ destinationAddress
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkPacket >> payload
+    ^ payload
+\end{displaycode}
+\section{Nodes}
+\begin{displaycode}{smalltalk}
+KANetworkNode >> initializeAddress: aNetworkAddress
+    address := aNetworkAddress
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkNode >> address
+    ^ address
+\end{displaycode}
+\section{Links}
+\begin{displaycode}{smalltalk}
+KANetworkLink >> initializeFrom: sourceNode to: destinationNode
+    source := sourceNode.
+    destination := destinationNode.
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkLink >> source
+    ^ source
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkLink >> destination
+    ^ destination
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+Object subclass: #KANetworkNode
+    instanceVariableNames: 'address outgoingLinks'
+    classVariableNames: ''
+    category: 'NetworkSimulator-Core'
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkNode >> hasLinkTo: anotherNode
+    ^ outgoingLinks
+        anySatisfy: [ :any | any destination == anotherNode ]
+\end{displaycode}
+\section{Sending a packet}
+\begin{displaycode}{smalltalk}
+KANetworkLink >> isTransmitting: aPacket
+    ^ packetsToTransmit includes: aPacket
+\end{displaycode}
+\section{Transmitting a packet}
+\begin{displaycode}{smalltalk}
+KANetworkLink >> transmit: aPacket
+    "Transmit aPacket to the destination node of the receiver link."
+    (self isTransmitting: aPacket)
+        ifTrue: [
+            packetsToTransmit remove: aPacket.
+            destination receive: aPacket from: self ]
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+Object subclass: #KANetworkNode
+    instanceVariableNames: 'address outgoingLinks arrivedPackets'
+    classVariableNames: ''
+    category: 'NetworkSimulator-Core'
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkNode >> initialize
+    outgoingLinks := Set new.
+    arrivedPackets := OrderedCollection new
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkNode >> hasReceived: aPacket
+    ^ arrivedPackets includes: aPacket
+\end{displaycode}
+\section{The loopback link}
+\begin{displaycode}{smalltalk}
+KANetworkNode >> initialize
+    loopback := KANetworkLink from: self to: self.
+    outgoingLinks := Set new.
+    arrivedPackets := OrderedCollection new
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetworkNode >> linksTowards: anAddress do: aBlock
+    "Simple flood algorithm: route via all outgoing links.
+    However, just loopback if the receiver node is the routing destination."
+    anAddress = address
+        ifTrue: [ aBlock value: self loopback ]
+        ifFalse: [ outgoingLinks do: aBlock ]
+\end{displaycode}
+\section{Modeling the network itself}
+\begin{displaycode}{smalltalk}
+KANetworkTest >> buildNetwork
+    alone := KANetworkNode withAddress: #alone.
+
+    net := KANetwork new.
+
+    hub := KANetworkNode withAddress: #hub.
+    #(mac pc1 pc2 prn) do: [ :addr |
+        | node |
+        node := KANetworkNode withAddress: addr.
+        net connect: node to: hub ].
+
+    net
+        connect: (KANetworkNode withAddress: #ping)
+        to: (KANetworkNode withAddress: #pong)
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetwork >> initialize
+    nodes := Set new.
+    links := Set new
+\end{displaycode}
+
+\begin{displaycode}{smalltalk}
+KANetwork >> connect: aNode to: anotherNode
+    self add: aNode.
+    self add: anotherNode.
+    links add: (self makeLinkFrom: aNode to: anotherNode) attach.
+    links add: (self makeLinkFrom: anotherNode to: aNode) attach
+\end{displaycode}
+\section{Looking up nodes}
+\begin{displaycode}{smalltalk}
+KANetwork >> nodeAt: anAddress ifNone: noneBlock
+    ^ nodes
+        detect: [ :any | any address = anAddress ]
+        ifNone: noneBlock
+\end{displaycode}
+\section{Looking up links}
+\begin{displaycode}{smalltalk}
+KANetwork >> linkFrom: sourceAddress to: destinationAddress
+    ^ links
+        detect: [ :anyLink |
+            anyLink source address = sourceAddress
+                and: [ anyLink destination address = destinationAddress ] ]
+        ifNone: [
+            NotFound
+                signalFor: sourceAddress -> destinationAddress
+                in: self ]
+\end{displaycode}
+\section{Packet delivery with forwarding}
+\begin{displaycode}{smalltalk}
+KANetworkHub >> forward: aPacket from: arrivalLink
+    self
+        linksTowards: aPacket destinationAddress
+        do: [ :link |
+            link destination == arrivalLink source
+                ifFalse: [ self send: aPacket via: link ] ]
+\end{displaycode}
+
+
+% lulu requires an empty page at the end. That's why I'm using
+% \backmatter here.
+\backmatter
+
+% Index would go here
+\bibliographystyle{abbrv}
+\bibliography{others.bib}
+\end{document}

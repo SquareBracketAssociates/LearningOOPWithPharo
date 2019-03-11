@@ -1,0 +1,8 @@
+DieHandleTest >> testAddingAnHandleWithADie
+	| handle res |
+	handle := DieHandle new
+		addDie: (Die faces: 6);
+		addDie: (Die faces: 10);
+		yourself.
+	res := handle + (Die faces: 20).
+	self assert: res diceNumber equals: 3

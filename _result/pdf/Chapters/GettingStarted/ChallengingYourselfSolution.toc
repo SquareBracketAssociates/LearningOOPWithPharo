@@ -1,0 +1,10 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Solution of challenge yourself}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Challenge: Message identification}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Challenge: Literal objects}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}Challenge: Kind of messages}{3}{section.1.3}
+\contentsline {section}{\numberline {1.4}Challenge: Results}{4}{section.1.4}
+\contentsline {section}{\numberline {1.5}Challenge: unneeded parentheses }{5}{section.1.5}
+\contentsline {chapter}{Bibliography}{7}{chapter*.2}

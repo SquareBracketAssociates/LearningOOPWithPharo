@@ -1,0 +1,13 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Extending superclass behavior}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Revisiting printOn:}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Improving the situation}{2}{section.1.2}
+\contentsline {subsection}{Why self does not work!}{3}{section*.2}
+\contentsline {section}{\numberline {1.3}Extending superclass behavior using super}{4}{section.1.3}
+\contentsline {section}{\numberline {1.4}Another example}{6}{section.1.4}
+\contentsline {section}{\numberline {1.5}Really understanding super}{7}{section.1.5}
+\contentsline {subsection}{Solution }{7}{section*.3}
+\contentsline {section}{\numberline {1.6}Conclusion}{8}{section.1.6}
+\contentsline {chapter}{Bibliography}{9}{chapter*.4}

@@ -1,0 +1,8 @@
+\contentsline {figure}{\numberline {1-1}{\ignorespaces The two classes \texttt {True} and \texttt {False} and their respective unique instances \texttt {true} and \texttt {false}.}}{3}{figure.1.1}
+\contentsline {figure}{\numberline {1-2}{\ignorespaces Two methods for one message.}}{3}{figure.1.2}
+\contentsline {figure}{\numberline {1-3}{\ignorespaces Two methods for one message each one returning the other instance.}}{3}{figure.1.3}
+\contentsline {figure}{\numberline {1-4}{\ignorespaces Sending a message selects the method in the class of the receiver.}}{4}{figure.1.4}
+\contentsline {figure}{\numberline {1-5}{\ignorespaces Disjunction implementation: two methods.}}{6}{figure.1.5}
+\contentsline {figure}{\numberline {1-6}{\ignorespaces Conditional implementation: again two methods and no explicit tests.}}{7}{figure.1.6}
+\contentsline {figure}{\numberline {1-7}{\ignorespaces One single class vs. a nice hierarchy.}}{9}{figure.1.7}
+\contentsline {figure}{\numberline {1-8}{\ignorespaces One single class vs. a nice hierarchy.}}{9}{figure.1.8}

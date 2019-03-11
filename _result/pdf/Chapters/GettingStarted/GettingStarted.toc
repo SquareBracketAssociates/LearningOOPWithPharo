@@ -1,0 +1,35 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}Pharo syntax in a nutshell}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Simplicity and elegance of messages}{1}{section.1.1}
+\contentsline {subsection}{Sending a message \& the receiver}{1}{section*.2}
+\contentsline {subsection}{Evaluating code and convention for showing results}{2}{section*.3}
+\contentsline {subsection}{Other messages \& return values}{2}{section*.4}
+\contentsline {subsection}{The selector \& unary messages}{3}{section*.5}
+\contentsline {subsection}{A first keyword-based message}{3}{section*.6}
+\contentsline {subsection}{Keyword-based messages with multiple arguments}{3}{section*.7}
+\contentsline {subsection}{Binary messages}{4}{section*.8}
+\contentsline {section}{\numberline {1.2}Which message is executed first?}{4}{section.1.2}
+\contentsline {section}{\numberline {1.3}Sending messages to classes}{5}{section.1.3}
+\contentsline {section}{\numberline {1.4}Local variables and statement sequences}{6}{section.1.4}
+\contentsline {section}{\numberline {1.5}About literal objects}{6}{section.1.5}
+\contentsline {section}{\numberline {1.6}Sending multiple messages to the same object}{7}{section.1.6}
+\contentsline {section}{\numberline {1.7}Blocks}{8}{section.1.7}
+\contentsline {section}{\numberline {1.8}Control structures}{8}{section.1.8}
+\contentsline {section}{\numberline {1.9}Methods}{9}{section.1.9}
+\contentsline {section}{\numberline {1.10}Resources}{10}{section.1.10}
+\contentsline {section}{\numberline {1.11}Conclusion }{11}{section.1.11}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {2}Syntax summary}{13}{chapter.2}
+\contentsline {subsection}{Six reserved words only}{13}{section*.9}
+\contentsline {subsection}{Reserved syntactic constructs}{13}{section*.10}
+\contentsline {subsection}{Message Sending}{14}{section*.11}
+\contentsline {subsection}{Three Types of Messages: Unary, Binary, and Keyword}{14}{section*.12}
+\contentsline {subsection}{Message Precedence}{14}{section*.13}
+\contentsline {subsection}{Cascade: Sending Muliple Messages to the Same Object}{15}{section*.14}
+\contentsline {subsection}{Blocks}{15}{section*.15}
+\contentsline {subsection}{Common Constructs: Conditionals}{15}{section*.16}
+\contentsline {subsection}{Common Constructs: Loops/Iterators}{16}{section*.17}
+\contentsline {subsection}{Files and Streams}{16}{section*.18}
+\contentsline {chapter}{Bibliography}{17}{chapter*.19}

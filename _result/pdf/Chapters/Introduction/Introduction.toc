@@ -1,0 +1,14 @@
+\changetocdepth {1}
+\contentsline {chapter}{Illustrations}{ii}{section*.1}
+\needspace {3\baselineskip }
+\contentsline {chapter}{\chapternumberline {1}About this book }{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}A word of presentation}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Structure of the book}{2}{section.1.2}
+\contentsline {subsection}{Fast track}{2}{section*.2}
+\contentsline {section}{\numberline {1.3}What you will learn}{3}{section.1.3}
+\contentsline {subsection}{Growing software}{4}{section*.3}
+\contentsline {subsection}{Syntax, blocks and iterators}{4}{section*.4}
+\contentsline {section}{\numberline {1.4}Typographic conventions}{4}{section.1.4}
+\contentsline {section}{\numberline {1.5}Videos }{5}{section.1.5}
+\contentsline {section}{\numberline {1.6}Thanks}{5}{section.1.6}
+\contentsline {chapter}{Bibliography}{7}{chapter*.5}

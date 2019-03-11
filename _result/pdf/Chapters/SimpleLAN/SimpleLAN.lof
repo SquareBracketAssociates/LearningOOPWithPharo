@@ -1,0 +1,7 @@
+\contentsline {figure}{\numberline {1-1}{\ignorespaces Two little networks composed of nodes and sending packets over links.}}{2}{figure.1.1}
+\contentsline {figure}{\numberline {1-2}{\ignorespaces Current API of our three main classes.}}{6}{figure.1.2}
+\contentsline {figure}{\numberline {1-3}{\ignorespaces Navigating specific objects having a generic presentation.}}{7}{figure.1.3}
+\contentsline {figure}{\numberline {1-4}{\ignorespaces Navigating objects offering a customized presentation.}}{8}{figure.1.4}
+\contentsline {figure}{\numberline {1-5}{\ignorespaces Richer API.}}{10}{figure.1.5}
+\contentsline {figure}{\numberline {1-6}{\ignorespaces A hub.}}{13}{figure.1.6}
+\contentsline {figure}{\numberline {1-7}{\ignorespaces A possible extension: a more realistic network with a cycle between three router nodes. }}{21}{figure.1.7}

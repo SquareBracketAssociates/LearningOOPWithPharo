@@ -1,0 +1,18 @@
+captchaIsAnagram
+	"Returns true whether the receiver is an anagram.
+	'anna' captchaIsAnagram
+		true
+	'andna' captchaIsAnagram
+		true
+	'avdna' captchaIsAnagram
+		false
+	"
+	| n |
+	n := self size + 1.
+	1
+		to: self size//2
+		do: [ :i |
+			( self at:  i ) = ( self at:  n - i)
+				ifFalse: [ ^false ]
+				].
+	^true
