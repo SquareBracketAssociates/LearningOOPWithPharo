@@ -1,7 +1,0 @@
-\changetocdepth {1}
-\contentsline {chapter}{Illustrations}{ii}{section*.1}
-\needspace {3\baselineskip }
-\contentsline {chapter}{\chapternumberline {1}Converter solution}{1}{chapter.1}
-\contentsline {section}{\numberline {1.1}Converting from Farhenheit to Celsius}{1}{section.1.1}
-\contentsline {section}{\numberline {1.2}Adding logging behavior}{1}{section.1.2}
-\contentsline {chapter}{Bibliography}{3}{chapter*.2}

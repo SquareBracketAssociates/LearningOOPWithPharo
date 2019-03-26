@@ -1,7 +1,0 @@
-\contentsline {figure}{\numberline {1-1}{\ignorespaces A single class with a couple of messages. Note that the method \texttt {withFaces:} is a class method.}}{2}{figure.1.1}
-\contentsline {figure}{\numberline {1-2}{\ignorespaces Inspecting and interacting with a die.}}{3}{figure.1.2}
-\contentsline {figure}{\numberline {1-3}{\ignorespaces A die handle is composed of dice.}}{6}{figure.1.3}
-\contentsline {figure}{\numberline {1-4}{\ignorespaces Inspecting a DieHandle.}}{8}{figure.1.4}
-\contentsline {figure}{\numberline {1-5}{\ignorespaces Die details.}}{9}{figure.1.5}
-\contentsline {figure}{\numberline {1-6}{\ignorespaces A die handle with more information.}}{9}{figure.1.6}
-\contentsline {figure}{\numberline {1-7}{\ignorespaces A polymorphic API supports the \textit {Don't ask, tell} principle.}}{11}{figure.1.7}

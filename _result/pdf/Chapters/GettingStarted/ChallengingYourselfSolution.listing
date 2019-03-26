@@ -1,5 +1,0 @@
-('http://www.pharo.org' asUrl) retrieveContents
-
-is equivalent to
-
-'http://www.pharo.org' asUrl retrieveContents

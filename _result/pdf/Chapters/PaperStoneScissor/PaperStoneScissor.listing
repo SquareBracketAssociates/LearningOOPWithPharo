@@ -1,2 +1,0 @@
-Paper >> playAgainstPaper: anElement onDraw: aDrawBlock onReceiverWin: aWinBlock onReceiverLose: aLoseBlock
-	^ aDrawBlock value

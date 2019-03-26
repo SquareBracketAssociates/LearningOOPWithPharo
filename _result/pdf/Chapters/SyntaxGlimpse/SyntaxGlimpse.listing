@@ -1,6 +1,0 @@
-'hello there' select: [ :char | char isVowel ]
->>> 'eoee'
-'hello there' reject: [ :char | char isVowel ]
->>> 'hll thr'
-'hello there' detect: [ :char | char isVowel ]
->>> $e

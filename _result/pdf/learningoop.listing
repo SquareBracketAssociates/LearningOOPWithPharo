@@ -1,7 +1,0 @@
-| tco tcs |
-TCServer stopAll.
-TCServer startOn: 8080.
-tco := TinyChat connect: 'localhost' port: 8080 login: 'olivier'.
-tco send: 'hello'.
-tcs := TinyChat connect: 'localhost' port: 8080 login: 'Stef'.	
-tcs send: 'salut olivier'

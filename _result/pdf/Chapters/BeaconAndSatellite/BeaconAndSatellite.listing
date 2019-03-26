@@ -1,2 +1,0 @@
-Satelitte >> when: anEventClass send: aSelector to: anObserver
-	self announcer when: anEventClass send: aSelector to: anObserver

@@ -1,9 +1,0 @@
-\contentsline {figure}{\numberline {1-1}{\ignorespaces Two classes understanding similar sets of messages and structuring their instances in a similar way.}}{2}{figure.1.1}
-\contentsline {figure}{\numberline {1-2}{\ignorespaces Two class taking advantages of inheriting from a common superclass.}}{3}{figure.1.2}
-\contentsline {figure}{\numberline {1-3}{\ignorespaces Moving the instance variable name to the superclass.}}{5}{figure.1.3}
-\contentsline {figure}{\numberline {1-4}{\ignorespaces Applying the Pull Up Instance variable refactoring.}}{6}{figure.1.4}
-\contentsline {figure}{\numberline {1-5}{\ignorespaces State factored between the two classes and their superclass.}}{7}{figure.1.5}
-\contentsline {figure}{\numberline {1-6}{\ignorespaces State and Methods factored out in the superclass.}}{7}{figure.1.6}
-\contentsline {figure}{\numberline {1-7}{\ignorespaces When an object receives a message, the corresponding method is looked up in its class and if necessary its superclasses (Step 1 and 2). Then the method is executed on the message receiver (Step 3).}}{8}{figure.1.7}
-\contentsline {figure}{\numberline {1-8}{\ignorespaces A self-send creates a hook (\texttt {kind}) that subclasses override. The method \texttt { describe} is called a template because it creates a context.}}{11}{figure.1.8}
-\contentsline {figure}{\numberline {1-9}{\ignorespaces Self semantics abstractly explained.}}{13}{figure.1.9}

@@ -1,2 +1,0 @@
-TemperatureConverter >> measureFahrenheit: aTemp
-    measures add: DateAndTime now -> (self convertFahrenheit: aTemp)

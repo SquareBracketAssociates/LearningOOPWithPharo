@@ -1,5 +1,0 @@
-Turtle >> square: anInteger
-   "make the receiver draw a square of size anInteger"
-
-   4 timesRepeat: [ self go: anInteger.
-                   self turnLeft: 90 ]

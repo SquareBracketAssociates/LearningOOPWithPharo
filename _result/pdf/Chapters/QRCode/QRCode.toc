@@ -1,3 +1,0 @@
-\changetocdepth {1}
-\contentsline {chapter}{Illustrations}{ii}{section*.1}
-\contentsline {chapter}{Bibliography}{3}{chapter*.2}

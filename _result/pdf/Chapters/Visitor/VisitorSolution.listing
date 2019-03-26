@@ -1,2 +1,0 @@
-EMultiplication >> evaluateWith: anObject
-	^ (right evaluateWith: anObject) + (left evaluateWith: anObject)

@@ -1,6 +1,0 @@
-Box >> grow: increment
-   "grow the receiver's size from increment"
-
-   self undraw.
-   size := size + increment.
-   self draw
