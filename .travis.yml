@@ -24,19 +24,11 @@ install:
 script:
   - ./pillar/build/pillar build pdf
 
-deploy:
-- provider: bintray
-  file: .bintray.json
-  on:
-    repo: SquareBracketAssociates/LearningOOPWithPharo
-  skip_cleanup: true
-  user: ducasse
-  key:
-    secure: DLT5e+3+U3jaooTLVN6JPcavMS+5XzFwNIfsK7QLYefzOZfBR8lt2vHtX2OxcdyKNfuzh0EaIDUR9a6+/Eg/wAcxjFDEO94ftb7rD7YHJ1Tc7r4AaeKwrdwyL6VgbN0ZNZqtXsTWGg+4XgHvSq0KVAR9K1IKSwJYPWwjJwDexakY2/ZpRg6R0OgaZwhtTEbbUn/pnoVQl3VfNlCjiI+ZLDqPKf/UfovVv7tzqdHeLK73MJN36Ri8IGTP5QaSYHBBko8mTv4EoVH7HuuSLAa60NBOScksYY5LjsS7OdzIwipmk4xwxcp2QXtVjf2uNKCKIISVRMzesdmUnsuL/qReJh7pfn21a38ZEEjJPPWSnwA8iI+GHUiCcLuHdw1+ilmIqxF3w8gSunM3aUv4a/qQm641DpGPawnYBbnFGPyEkxpCB1HXIsRRJeBs2UEkFmhOHyGWGl0+jx3iihwe72HMKRYeXcDHKOn1gU+pJQ50PBXFsTotOr7wkZ6OGsKO0XecNsZGodsQ4lPVxfJolnKhkxIouzCagd3wO0iseG1vOyi5JrRT+NPsZp7TKBrHIDAUb0LG+F8qC/IXHhTYo7ZywF5ZjIV9UZo/kZP0EQ8pstUlD4V4DWRYV1KQSpORM01wpdcZFDb5ExLvEck6Sv1cuW9QYBst+lDVpoSpbXSnSDc=
-- provider: releases
-  file: build/learningoop.pdf
-  on:
-    tags: true
-  skip_cleanup: true
-  api_key:
-    secure: pRfu3fr35BzqQDi1ul0SubPSwO8zcyIidqLRZPz3XIrH4qoy1Zgnq785dmB7ziNQqH+VJyh7askSFY3JLxL0d4P0eUgj2ZDIOhJsUQQ/ihevOBWbxlMOoEPjQfzA11l8WrNCQ566KrcYiISRi7bCg698kPTWSRwOmmvqXOJe5zGkuUbVmMNUV2oxaNV4JC8kVyVWHYy0nNMLEX/hzRZRh1+8K34/ds+fZ7irLrbDWMbKGHCyuLCSqv+zJJdu99nWLTclrCxFzK4DEHaMlFiO7wkUpyQLwZ38EDnb3E7iv045jSqCx3XB+DMRG1Da2/9BIXl0mho5ELdEvfGVAbjI2no5FWd0H1cs4/banAePCFnM7ZscJBaPWgVajB7EzrcADJUoxpmU6+6n1aIC3CnjscfAHqSAKGv8CO/Jh+Uirc8ATRpSqa73f2Nnj9tRCqwCOnFOCEzu0w5l3Ppz2Qpif04P+QbebZehSVaBJ4W01R2i8Rac3IuZDhZVaek1X24HFxUOd/rvHpbhz8eeANdnsWCTkAm+0sD+iKsWKICRMxFZfCK/SPldAcjXZsOsEMTqfx7ZWyCc7GeesQWcmW+z3shziyQd9tdeArJWLwacly3hH3WeyuUD5JyPF9klvDBtHgTVajdU4yp+3oXsrtTmetnBz+RESxQGdLgZRlQBQog=
+after_success:
+  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - mv _result/pdf/learningoop.pdf learningoop-wip.pdf
+  - bash upload.sh learningoop-wip.pdf
+
+branches:
+  except:
+    - /^(?i:continuous)$/
