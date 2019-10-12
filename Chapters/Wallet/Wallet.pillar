@@ -275,7 +275,7 @@ WalletTest >> testCanPay
 Define the message ==canPay:==.
 
 [[[
-Wallet >> canPay: amounOfMoney
+Wallet >> canPay: amountOfMoney
 	"returns true when we can pay the amount of money"
 	
 	^ ... Your solution ...
