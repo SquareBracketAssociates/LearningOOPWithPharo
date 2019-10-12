@@ -34,9 +34,9 @@ Wallet >> money
 
 !!! Checking to pay an amount
 [[[
-Wallet >> canPay: amounOfMoney
+Wallet >> canPay: amountOfMoney
 	"returns true when we can pay the amount of money"
-	^ self money >= amounOfMoney
+	^ self money >= amountOfMoney
 ]]]
 
 !!! Biggest coin
