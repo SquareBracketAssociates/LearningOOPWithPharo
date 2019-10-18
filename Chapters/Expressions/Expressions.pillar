@@ -446,8 +446,8 @@ Of course, since we are addicted to tests, we add a new test.
 [[[
 EEAdditionTest >> testEvaluateWithClassCreationMessage
 	| ep1 ep2 |
-	ep1 := EConstant constant5.
-	ep2 := EConstant constant3.
+	ep1 := EConstant value: 5.
+	ep2 := EConstant value: 3.
 	self assert: (EAddition left: ep1 right: ep2) evaluate equals: 8
 ]]]
 
