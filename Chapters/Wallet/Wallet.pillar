@@ -81,10 +81,17 @@ WalletTest >> testCoins
 	self assert: w coinNumber = 5
 ]]]
 
-The test adds several coins of different values and verifies that we did not lose any coins.
+The test creates a wallet and uses the method ==add:coinsOfValue:== to add several coins of different values.
+Here we add 2 coins of 0.50 cents and 3 of 0.20 cents. 
+Finally the test verifies that we did not lose any coins: i.e., that we have effectively 5 coins in our wallet. 
+Doing so the test specifies the behavior of the method ==add:coinsOfValue:== that you 
+ will have to define later.
 
-Now we should think how we will represent our wallet. We need to count how many coins of a given 
-values are added or removed to a wallet. If we use an array or an ordered collection, we will have to maintain a mapping between the index and its corresponding value. Using a set will not really work since we will lose the occurrence of each coins.
+Now we should think how we will represent our wallet. 
+We need to count how many coins of a given 
+values are added or removed to a wallet. 
+If we use an array or an ordered collection, we will have to maintain a mapping between the index and its corresponding value. 
+Using a set will not really work since we will lose the occurrence of each coins.
 
 !!! Looking at Bag
 
