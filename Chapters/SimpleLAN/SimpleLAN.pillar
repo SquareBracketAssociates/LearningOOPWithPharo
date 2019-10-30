@@ -1,4 +1,4 @@
-!! A simple network simulator 
+!! A simple network simulator
 @ch:lan
 
 In this chapter, we develop a simulator for a computer network, step by step from scratch.
@@ -229,8 +229,8 @@ Again, all the tests should now pass.
 
 !!! Making our objects more understandable
 
-When programming we often make mistakes and it is important to help developer to address them. Let us put a breakpoint and 
-try to understand the objects. 
+When programming we often make mistakes and it is important to help developer to address them. Let us put a breakpoint and
+try to understand the objects.
 
 [[[language=smalltalk
 KANetworkEntitiesTest >> testNodeLinking
@@ -243,7 +243,7 @@ KANetworkEntitiesTest >> testNodeLinking
 	self assert: (node1 hasLinkTo: node2)
 ]]]
 
-Running the test will open a debugger as the one shown in Figure *@debugger*. We get object but their textual representation is too generic to really help us. 
+Running the test will open a debugger as the one shown in Figure *@debugger*. We get object but their textual representation is too generic to really help us.
 
 +Navigating specific objects having a generic presentation.>file://figures/debugger.png|width=100|label=debugger+
 
@@ -331,7 +331,7 @@ KANetworkLink >> initialize
 KANetworkLink >> emit: aPacket
     "Packets are not transmitted right away, but stored.
     Transmission is explicitly triggered later, by sending #transmit:."
-	
+
     packetsToTransmit add: aPacket
 ]]]
 
@@ -381,7 +381,7 @@ KANetworkLink >> transmit: aPacket
 
 At that point all our tests should pass.
 Note that the message ==notYetImplemented== is not called, since our tests do not yet require routing.
-Figure *@Api2* shows that the API of our classes is getting richer than before. 
+Figure *@Api2* shows that the API of our classes is getting richer than before.
 
 +Richer API.>file://figures/API2.pdf|width=90|label=Api2+
 
@@ -391,7 +391,7 @@ Figure *@Api2* shows that the API of our classes is getting richer than before.
 On a real network, when a node wants to send a packet to itself, it does not need any connection to do so.
 In real-world networking stacks, loopback routing shortcuts the lower networking layers; however, this is finer detail than we are modeling here.
 
-Still, we want to model the fact that the loopback link is a little special, so each node will store its own loopback link, separately from the outgoing links. We start to define a test. 
+Still, we want to model the fact that the loopback link is a little special, so each node will store its own loopback link, separately from the outgoing links. We start to define a test.
 
 [[[language=smalltalk
 KANetworkEntitiesTest >> testLoopback
@@ -484,7 +484,7 @@ KANetworkTest >> setUp
     self buildNetwork
 ]]]
 
-Before anything else, let's write a test that will pass once we've made progress; we want to access network nodes given only their addresses. Here we check that we get a hub node based on its address: 
+Before anything else, let's write a test that will pass once we've made progress; we want to access network nodes given only their addresses. Here we check that we get a hub node based on its address:
 
 [[[language=smalltalk
 KANetworkTest >> testNetworkFindsNodesByAddress
@@ -507,7 +507,7 @@ KANetworkTest >> buildNetwork
 	net := KANetwork new.
 	hub := KANetworkNode withAddress: #hub.
 	#(mac pc1 pc2 prn)
-		do: [ :addr | 
+		do: [ :addr |
 			| node |
 			node := KANetworkNode withAddress: addr.
 			net connect: node to: hub ].
@@ -540,7 +540,7 @@ KANetwork >> makeLinkFrom: aNode to: anotherNode
 ]]]
 
 
-We add a low level method ==add:== to add a node in a network. 
+We add a low level method ==add:== to add a node in a network.
 
 [[[language=smalltalk
 KANetwork >> add: aNode
@@ -645,7 +645,7 @@ KANetwork >> linkFrom: sourceAddress to: destinationAddress
     ... Your code ...
 ]]]
 
-!!!! Final check. 
+!!!! Final check.
 As a final check, let's try some of the previous tests, first on the isolated ==alone== node, showing that loopback works even without a network connection:
 
 [[[language=smalltalk
@@ -762,7 +762,7 @@ KANetworkNode >> forward: aPacket from: arrivalLink
 
 !!! Introducing a new kind of node
 
-Now we define the class ==KANetworkHub== that will be the recipient of hub specific behavior. 
+Now we define the class ==KANetworkHub== that will be the recipient of hub specific behavior.
 
 [[[language=smalltalk
 KANetworkNode subclass: #KANetworkHub
@@ -785,7 +785,7 @@ Now we can use a proper hub in our test, replacing the relevant line in ==KANetw
 ]]]
 
 
-You have now a nice basis for network simulation. In the following we will present some possible extensions. 
+You have now a nice basis for network simulation. In the following we will present some possible extensions.
 
 
 !!! Other examples of specialized nodes
@@ -793,7 +793,7 @@ In this section we will present some extensions of the core to support different
 
 !!!! Workstations counting received packets
 
-We would like to know how many packets specific nodes are receiving. 
+We would like to know how many packets specific nodes are receiving.
 In particular when a workstation consumes a packet, it simply increments a packet counter.
 
 Let's start by subclassing ==KANetworkNode==:
@@ -821,7 +821,7 @@ KANetworkWorkstation >> consume: aPacket
     receivedCount := receivedCount + 1
 ]]]
 
-Define accessors and the ==printOn:== method for debugging. 
+Define accessors and the ==printOn:== method for debugging.
 Define a test for the behavior of workstation nodes.
 
 
@@ -871,7 +871,7 @@ KANetworkPrinter class >> withAddress: anAddress initialSupply: paperSheets
         yourself
 ]]]
 
-Define accessors and the ==printOn:== method for debugging purpose. 
+Define accessors and the ==printOn:== method for debugging purpose.
 Define some test methods for the behavior of printer nodes.
 
 
@@ -910,7 +910,7 @@ Making this work properly will require replacing hubs with routers and flood rou
 
 +A possible extension: a more realistic network with a cycle between three router nodes. >file://figures/lan-routes.pdf|width=50|label=routing+
 
-Here is a possible setup for a new family of tests. 
+Here is a possible setup for a new family of tests.
 
 [[[language=smalltalk
 KARoutingNetworkTest >> buildNetwork
