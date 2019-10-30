@@ -5,7 +5,7 @@ os:
   - linux
 
 smalltalk:
-  - Pharo-7.0
+  - Pharo64-7.0
 
 # Unit tests run the normal pillar tests
 # Integration tests test that pillar itself can interact with generated files, pdf generation, etc.
@@ -16,11 +16,11 @@ env:
 
 install:
   # Pillar installation
-  - git clone https://github.com/pillar-markup/pillar.git -b v7.4.1 # Clone pillar before worked with dev-7 
+  - git clone https://github.com/pillar-markup/pillar.git -b v7.7.1 # Clone pillar before worked with dev-7
   - cd pillar && ./scripts/build.sh && cd ..                              # Run pillar build script. Pillar will be built in `pwd`/build!
   - . pillar/scripts/ci/ensure_latex.sh                                   # Install latex
   - ./pillar/scripts/ci/ensure_book_dependencies.sh                       # Install latex dependencies required by pillar
-  
+
 script:
   - ./pillar/build/pillar build pdf
 
