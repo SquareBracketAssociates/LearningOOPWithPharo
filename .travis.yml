@@ -5,7 +5,7 @@ os:
   - linux
 
 smalltalk:
-  - Pharo-stable
+  - Pharo64-7.0
 
 env:
   global:
