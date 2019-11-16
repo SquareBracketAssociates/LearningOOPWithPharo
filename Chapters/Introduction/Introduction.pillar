@@ -110,5 +110,5 @@ While reading this book, you can also use some of the videos produced for the Ph
 I strongly suggest to watch the videos explaining how to use and interact with the environment. 
 
 !!! Thanks
-I would like to thanks Morgane Pigny, Anne Etien, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Herby Vojcik, Denis Kudriashov, Holger Freyther, Dimitris Chloupis, Amal Noussi, René Paul Mages, Hannes Hirsel, Lorenzo Solano Martinez for their great feedback.
+I would like to thanks Morgane Pigny, Anne Etien, Quentin Ducasse, Sven van Caekenberghe, Hayatou Oumarou, Kateryna Aloshkina, Ricardo Pacheco, Olivier Auverlot, Mariette Biernacki, Herby Vojcik, Denis Kudriashov, Holger Freyther, Dimitris Chloupis, Amal Noussi, René Paul Mages, Hannes Hirsel, Lorenzo Solano Martinez, Ludvik Galois for their great feedback.
 Alexandre Bergel for his examples on messages. Olivier Auverlot for his constant enthousiam and for TinyChat. Guillermo Polito for the idea of file and directory example. Damien Pollet for this great template and the new LAN implementation and the numerous makefile implementation and Pillar help.
