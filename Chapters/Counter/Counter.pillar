@@ -144,14 +144,14 @@ TestCase subclass: #CounterTest
 Now we can write a first test by defining one method. Test methods should start with ''test'' to be automatically executed by the TestRunner or when you press on the icon of the method. Now to make sure that you understand in which class we define the method we prefix the method body with the class name and ==>>==.
 ==CounterTest>>== means that the method is defined in the class ==CounterTest==.
 
-Define the following method. It first creates an instance, sets its value and verifies that the value is correct. The message ==assert:== is a special message verifying if the test passed or not.
+Define the following method. It first creates an instance, sets its value and verifies that the value is correct. The message ==assert:equals:== is a special message verifying if the test passed or not.
 
 [[[
 CounterTest >> testCountIsSetAndRead
    | c |
    c := Counter new.
    c count: 7.
-   self assert: c count = 7
+   self assert: c count equals: 7
 ]]]
 
 Verify that the test passes by executing either pressing the icon in front of the method or using the TestRunner available in the Tools menu (selecting your package).
@@ -221,7 +221,7 @@ CounterTest >> testIncrement
    | c |
    c := Counter new.
    c count: 0 ; increment; increment.
-   self assert: c count = 2
+   self assert: c count equals: 2
 ]]]
 Here we create a counter, set its value to 0, send it the message increment two times and verify that we get a counter of value 2. 
 
@@ -247,30 +247,6 @@ Counter >> decrement
 Run your tests they should pass (as shown in Figure *@figclassTestCreated*). Again this is a good moment to save your work. Saving at point where tests are green
 is always a good process. 
 
-
-
-!!! Better object description
-
-When you select the expression ==Counter new== and print its result (using the Print it menu of the editor) you obtain a simple string =='a Counter'==.
-
-[[[
-Counter new
->>> a Counter
-]]]
-
-We would like to get a much richer information for example knowing the counter value. Implement the following methods in the protocol ==printing==
-
-[[[
-Counter >> printOn: aStream
-   super printOn: aStream.
-   aStream nextPutAll: ' with value: ', self count printString.
-]]]
-
-Note that the method ==printOn:== is used when you print an object using print it (See Figure *@figBetterDescription*). In addition this method is invoked when you click on ==self== in an inspector. An inspector is an object to interact and modify objects. It is really powerful during development.
-
-+Better description doing a Print It (cmd \+ P).>file://figures/CounterBetterDescription.png|label=figBetterDescription+
-
-
 !!! Instance initialization method
 Right now the initial value of our counter is not set as the following expression shows it.
 
@@ -283,10 +259,13 @@ Let us write a test checking that a newly created instance has 0 as a default va
 
 [[[
 CounterTest >> testValueAtCreationTimeIsZero
-   self assert: Counter new count = 0
+   self assert: Counter new count equals: 0
 ]]]
 
 If you run it, it will turn yellow indicating a failure (a situation that you anticipated but that is not correct) - by opposition to an error which is an anticipated situation leading to failed assertion. 
+
+
+
 
 !!!! Define an initialize method
 
@@ -315,7 +294,43 @@ Counter new increment; increment; count
 >>> 2
 ]]]
 
+
+But better write a test since we will execute it all the time. 
+
+[[[
+TestCounter >> testCounterWellInitialized
+	self 
+		assert: Counter new increment; increment; count 
+		equals: 2
+]]]
+
+
+
 Again save your work
+
+
+!!! Better object description
+
+When you select the expression ==Counter new== and print its result (using the Print it menu of the editor) you obtain a simple string =='a Counter'==.
+
+[[[
+Counter new
+>>> a Counter
+]]]
+
+We would like to get a much richer information for example knowing the counter value. Implement the following methods in the protocol ==printing==
+
+[[[
+Counter >> printOn: aStream
+   super printOn: aStream.
+   aStream nextPutAll: ' with value: ', self count printString.
+]]]
+
+Note that the method ==printOn:== is used when you print an object using print it (See Figure *@figBetterDescription*). In addition this method is invoked when you click on ==self== in an inspector. An inspector is an object to interact and modify objects. It is really powerful during development.
+
++Better description doing a Print It (cmd \+ P).>file://figures/CounterBetterDescription.png|label=figBetterDescription+
+
+
 
 !!! Conclusion
 
