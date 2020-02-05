@@ -98,7 +98,7 @@ Replace the template with the following method definition:
 
 [[[
 count
-   "return the current value of the value instance variable"
+   "Return the current value of the receiver"
    ^ count
 ]]]
 
