@@ -19,14 +19,14 @@ more structured elements such as JSON or STON (the Pharo object format), ==TCMes
 messages, and ==TCConsole== the graphical interface.
 
 !!! Loading Teapot
-We can load Teapot using the Configuration Browser, which you can find in the Tools menu item of the main menu.
-Select Teapot and click "Install Stable". Another solution is to use the following script:
 
+Teapot is hosted on github at *https://github.com/zeroflag/Teapot*
+Use the following script to load it.
 [[[
-Gofer it
-    smalltalkhubUser: 'zeroflag' project: 'Teapot';
-    configuration;
-    loadStable.
+Metacello new
+	baseline: 'Teapot';
+	repository: 'github://zeroflag/Teapot/source';
+	load.
 ]]]
 
 Now we are ready to start.
@@ -116,7 +116,7 @@ First we create the method ==fromString:== filling up the instance variables of 
 TCMessage >> fromString: aString
 	"Compose a message from a string of this form 'sender>message'."
 	| items |
-	items := aString subStrings: separator.
+	items := aString substrings: separator.
 	self sender: items first.
 	self text: items second.
 ]]]
@@ -437,7 +437,7 @@ TinyChat >> readMissingMessages
 	^ response 
 		ifNil: [ 0 ]
 		ifNotNil: [  
-			receivedMessages := response subStrings: (String crlf).
+			receivedMessages := response substrings: String crlf.
 			receivedMessages do: [ :msg | messages add: (TCMessage fromString: msg) ].
 			receivedMessages size.
 		].
@@ -536,7 +536,7 @@ TinyChat >> start
 The user interface is composed of a window with a list and an input field as shown in Figure *@tinychatclient*. 
 
 [[[
-ComposableModel subclass: #TCConsole
+ComposablePresenter subclass: #TCConsole
 	instanceVariableNames: 'chat list input'
 	classVariableNames: ''
 	category: 'TinyChat-client'
