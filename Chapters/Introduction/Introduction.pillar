@@ -63,6 +63,12 @@ In addition, we will also present
 - Tests
 - Software refactorings
 
+!!! Pharo version
+
+The current book was written with Pharo 6.0 as support. Only some exercises such as TinyChat depends on Pharo 6.0. 
+We suggest to use it as much as possible. We know that Pharo 6.0 is not working on 64 bits only architecture.
+We are working on a new version for Pharo 8.0.
+
 
 !!!! Growing software
 
