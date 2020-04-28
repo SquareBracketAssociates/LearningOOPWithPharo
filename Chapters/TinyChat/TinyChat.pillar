@@ -542,7 +542,7 @@ ComposablePresenter subclass: #TCConsole
 	category: 'TinyChat-client'
 ]]]
 
-Note that the class ==TCConsole== inherits from ==ComposableModel==. This class is the root of the user interface logic classes.
+Note that the class ==TCConsole== inherits from ==ComposablePresenter==. This class is the root of the user interface logic classes.
  ==TCConsole== defines the logic of the client interface (i.e. what happens when we enter text in the input field...). Based on the information given in this class, the Spec user interface builder automatically builds the visual representation. 
 The ==chat== instance variable is a reference to an instance of the client model ==TinyChat== and requires a setter method (==chat:==). The ==list== and ==input== instance variables both require an accessor. This is required by the User Interface builder.
 
