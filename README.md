@@ -7,6 +7,9 @@ It is a follow up of *Botincs: Learning programming with Squeak*. But its conten
 
 Since I'm not a native english speaker, I appreciate pull requests that help me get the material in better form.
 
+The version tagged v1.0 is based on Pharo6.0.
+A new version for Pharo 8.0 is under cooking. 
+
 Stef
 
 [travis]: https://travis-ci.org/SquareBracketAssociates/LearningOOPWithPharo
