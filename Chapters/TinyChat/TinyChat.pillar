@@ -25,7 +25,7 @@ Use the following script to load it.
 [[[
 Metacello new
 	baseline: 'Teapot';
-	repository: 'github://zeroflag/Teapot/source';
+	repository: 'github://zeroflag/teapot:master/source';
 	load.
 ]]]
 
