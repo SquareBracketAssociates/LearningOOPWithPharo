@@ -9,6 +9,7 @@ Since I'm not a native english speaker, I appreciate pull requests that help me 
 
 The version tagged v1.0 is based on Pharo6.0.
 A new version for Pharo 8.0 is under cooking. 
+- Counter should be taken from the Mooc
 
 Stef
 
