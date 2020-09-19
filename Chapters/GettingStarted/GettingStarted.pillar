@@ -502,7 +502,7 @@ left to right.
 Messages ==\+== and ==\*== are sent first, then ==between:and:== is sent, and ==not==.
 The rule suffers no exception: operators are just binary messages with ''no notion of mathematical precedence''. 2 + 4 * 3 reads left-to-right and gives 18, not 14!
 
-!!!! Cascade: Sending Muliple Messages to the Same Object
+!!!! Cascade: Sending Multiple Messages to the Same Object
 Multiple messages can be sent to the same receiver with ;.
 [[[
 OrderedCollection new
