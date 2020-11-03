@@ -9,7 +9,7 @@ smalltalk:
 
 env:
   global:
-    - PILLAR_RELEASE=v8.0.0
+    - PILLAR_RELEASE=v8.0.12
     - PATH="$HOME/texlive/bin/x86_64-linux:$HOME/pillar/build:$PATH"
 
 install:
