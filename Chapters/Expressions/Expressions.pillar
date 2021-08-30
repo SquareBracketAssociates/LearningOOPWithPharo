@@ -4,10 +4,11 @@
 In this chapter you will build a small mathematical expression interpreter. You will be able to build an expression such as ==(3 + 4) * 5== and then ask the interpreter to compute its value. You will revisit tests, classes, messages, methods, and inheritance. You will also see an example of expression trees similar to the ones that are used to manipulate programs. Compilers and code refactorings as offered in Pharo and many modern IDEs work by performing manipulations on these trees. In volume two of this book, we will extend this example to present the Visitor design pattern. 
 
 
-!!! Starting with constant expression and a test
+!!! Starting with constant expressions and a test
 We start with constant expressions. A constant expression is an expression whose value is always the same, obviously.
 
-Let us start by defining a test case class as follows: 
+Let us start by defining a test case class as follows:
+
 [[[
 TestCase subclass: #EConstantTest
 	instanceVariableNames: ''
@@ -15,20 +16,18 @@ TestCase subclass: #EConstantTest
 	package: 'Expressions'
 ]]]
 
- We decided to define one test case class per expression class, even if the classes will not contain many tests to begin with. It is easier to define new tests and navigate them.
+We decided to define one test case class per expression class, even if the classes will not contain many tests to begin with. This way makes it easier to define new tests and navigate them.
  
-Let us write a first test making sure that when we get a value, sending it the ==evaluate== message returns its value. 
+Let us write a first test making sure that when we create a constant, sending it the ==evaluate== message returns its value:
 
 [[[
 EConstantTest >> testEvaluate 
 	self assert: (EConstant new value: 5) evaluate equals: 5
 ]]]
 
-When you compile such a test method, the system should prompt you define the class ==EConstant==. 
-Let the system drive you. Since we need to store the value of a constant expression, let us add an instance variable ==value==
-to the class definition. 
+When you compile such a test method, the system should prompt you define the class ==EConstant==. Let the system drive you. Since we need to store the value of a constant expression, let us add an instance variable ==value== to the class definition. 
 
-At the end you should have the following definition for the class ==EConstant==.
+At the end you should have the following definition for the class ==EConstant==:
 
 [[[
 Object subclass: #EConstant
@@ -38,25 +37,25 @@ Object subclass: #EConstant
 ]]]
 
 We define the method ==value:== to set the value of the instance variable ==value==.
-It is simply a method taking one argument and storing it in the ==value== instance variable.
+It is simply a method that takes one argument and stores it in the ==value== instance variable:
 
 [[[
 EConstant >> value: anInteger
 	value := anInteger
 ]]]
 
-You should define the method ==evaluate==: it should return the value of the constant. 
+You should define the method ==evaluate== to return the value of the constant. 
 
 [[[
 EConstant >> evaluate
 	... Your code ...
 ]]]
 
-Your test should pass. 
+Your test should now pass. 
 
 !!! Negation
 
-Now we can start to work on expression negation. Let us write a test: define a new test case class named ==ENegationTest==. 
+Now we can start to work on negation of expressions. Let us write a test. Define a new test case class named ==ENegationTest==. 
 
 [[[
 TestCase subclass: #ENegationTest
@@ -65,14 +64,17 @@ TestCase subclass: #ENegationTest
 	package: 'Expressions'
 ]]]
 
-The test ==testEvaluate== shows that negation applies to an expression (here a constant), and when we evalute it we get the negated value of the constant. 
+The test ==testEvaluate== shows that negation applies to an expression (here a constant), and that when we evalute it we get the negated value of the constant:
 
 [[[
 ENegationTest >> testEvaluate 
-	self assert: (ENegation new expression: (EConstant new value: 5)) evaluate equals: -5
+	self
+        assert:
+        (ENegation new expression: (EConstant new value: 5)) evaluate
+        equals: -5
 ]]]
 
-Let us execute the test and let the system help us to define the class. A negation defines an instance variable to hold the expression that it negates.
+Let us execute the test and let the system help us to define the class. A negation defines an instance variable to hold the expression that it negates:
 
 [[[
 Object subclass: #ENegation
@@ -81,7 +83,7 @@ Object subclass: #ENegation
 	package: 'Expressions'
 ]]]
 
-We define a setter method to be able to set the negated expression.
+We define a setter method to be able to set the negated expression:
 
 [[[
 ENegation >> expression: anExpression 
@@ -89,7 +91,7 @@ ENegation >> expression: anExpression
 ]]]
 
 Now the ==evaluate== method should request the evaluation of the expression and negate it. 
-To negate a number we would suggest sending the message ==negated==. 
+To negate a number we would suggest sending the message ==negated==:
 
 [[[
 ENegation >> evaluate
@@ -98,12 +100,11 @@ ENegation >> evaluate
 
 +A flat collection of classes (with a suspect duplication).>file://figures/Expressions.png|width=70|label=figExpression+
 
-Following the same steps as above, we will add expression addition and multiplication. Then we will make the system a bit more easy to manipulate, and revisit its design. 
+Following the same steps as above, we will now add addition and multiplication of expressions. Then we will make the system a bit more easy to manipulate, and revisit its design. 
 
 !!! Adding expression addition
-To be able to do more than negate constants we will add two extra expressions: addition and multiplication. Then we will discuss our approach and see how we can improve it.  
 
-To add an expression that supports addition we start by defining a test case class and a simple test. 
+To add an expression that supports addition we start by defining a test case class and a simple test:
 
 [[[
 TestCase subclass: #EAdditionTest
@@ -112,7 +113,7 @@ TestCase subclass: #EAdditionTest
 	package: 'Expressions'
 ]]]
 
-A simple test for addition is to make sure that we add correctly two constants. 
+A simple test for addition is to make sure that we add correctly two constants:
 
 [[[
 EAdditionTest >> testEvaluate
@@ -122,7 +123,7 @@ EAdditionTest >> testEvaluate
 	self assert: (EAddition new right: ep1; left: ep2) evaluate equals: 8
 ]]]	
 	
-You should define the class ==EAddition==: it has two instance variables for the two subexpressions it adds. 
+You should define the class ==EAddition==. It will have two instance variables for the two subexpressions it adds:
 
 [[[
 EExpression subclass: #EAddition
@@ -133,27 +134,28 @@ EExpression subclass: #EAddition
 
 Define the two corresponding setter methods ==right:== and ==left:==. 
 
-Now you can define the ==evaluate== method for addition. 
+Now you can define the ==evaluate== method for addition:
 
 [[[
 EAddition >> evaluate
 	... Your code ...
 ]]]	
 	
-To make sure that our implementation is correct we can also test that we can add negated expressions. 
-It is always good to add tests that cover ''different'' scenario. 
+To make sure that our implementation is correct we can also test that we can add negated expressions. It is always good to add tests that cover ''different'' scenarios:
 	
 [[[
 EAdditionTest >> testEvaluateWithNegation
 	| ep1 ep2 |
 	ep1 := ENegation new expression: (EConstant new value: 5).
-	ep2 := (EConstant new value: 3).
-	self assert: (EAddition new right: ep1; left: ep2) evaluate equals: -2
+	ep2 := EConstant new value: 3.
+	self
+        assert: (EAddition new right: ep1; left: ep2) evaluate
+        equals: -2
 ]]]	
 	
 	
 !!! Multiplication
-We do the same for multiplication: create a test case class named ==EMultiplicationTest==, a test, a new class ==EMultiplication==, a couple of setter methods and finally a new ==evaluate== method. Let us do it quickly and without comment. 
+We do the same for multiplication. Create a test case class named ==EMultiplicationTest==, a test, a new class ==EMultiplication==, a couple of setter methods and finally a new ==evaluate== method. Let us do so quickly and without further comment:
 
 [[[
 TestCase subclass: #EMultiplicationTest
@@ -167,7 +169,10 @@ EMultiplicationTest >> testEvaluate
 	| ep1 ep2 |
 	ep1 := (EConstant new value: 5).
 	ep2 := (EConstant new value: 3).
-	self assert: (EMultiplication new right: ep1; left: ep2) evaluate equals: 15
+	self
+        assert:
+        (EMultiplication new right: ep1; left: ep2) evaluate
+        equals: 15
 ]]]
 
 [[[
@@ -195,7 +200,7 @@ EMultiplication >> evaluate
 
 !!! Stepping back 
 
-It is interesting to look at what we have built so far. We have a group of classes whose instances can be combined to create complex expressions. Each expression is, in fact, a tree of subexpressions as shown in Figure *@fig:ExpressionTrees*. The figure shows two main trees: one for the constant expression ==5== and one for the expression ==-5 + 3==. Note that the diagram represents the number 5 as an object because in Pharo even small integers are objects, in the same way that the instances of ==EConstant== are objects. 
+It is interesting to look at what we have built so far. We have a group of classes whose instances can be combined to create complex expressions. Each expression is, in fact, a tree of subexpressions as shown in Figure *@fig:ExpressionTrees*. The figure shows two main trees: one for the constant expression ==5==, and one for the expression ==-5 + 3==. Note that the diagram represents the number 5 as an object because in Pharo even small integers are objects, in the same way that the instances of ==EConstant== are objects. 
 
 +Expressions are composed of trees.>file://figures/ExpressionTrees.pdf|width=60|label=fig:ExpressionTrees+
 
@@ -210,7 +215,7 @@ What we see is that sending the message ==evaluate== to an expression is making 
 
 !!!! About common superclass
 
-Up until now we did not see the need to have an inheritance hierarchy, because there is not much that can be shared or reused. But at this point adding a common superclass would be useful to convey to the reader of the code, or someone who wanted to extend the library, that some concepts are related and are variations of a general idea. 
+Up until now we did not see the need to have an inheritance hierarchy, because there is not much that can be shared or reused. But at this point adding a common superclass would be useful to convey to the reader of the code, or someone who wanted to extend the library, that some concepts in our package, represented as messages, are related, and are variations of a general idea. 
 
 +Evaluation: one message and multiple method implementations.>file://figures/ExpressionsEvaluate.pdf|width=80|label=figExpressionEvaluate+
 
@@ -219,7 +224,7 @@ Up until now we did not see the need to have an inheritance hierarchy, because t
 
 We could have just one class called, for example, ==BinaryOperation==, and it could have an ==operator== instance variable, either addition or multiplication. This solution would work but, as usual, having a working program does not mean that its design is any good. 
 
-In particular having a single class would force us to start to write conditional logic in ==evaluate== based on the operator as follows
+In particular having a single class would force us to start to write conditional logic in ==evaluate== based on the operator as follows:
 
 [[[
 BinaryExpression >> evaluate
@@ -232,11 +237,11 @@ There are ways in Pharo to make such code more compact but we do not want to use
 
 This is annoying because the execution engine itself is made to select methods for us so we want to bypass it using an explicit conditional. In addition when we add power, division, and subtraction we will also have to add more cases to our conditional, making the code less readable and more fragile. 
 
-As we will see as a general message in this book, ''sending a message is making a choice'' between different implementations. To be able to choose we should have different implementations, which implies having different classes. 
+As we will see as we read further, one of the key messages of this book is ''sending a message is making a choice'' between different implementations. To be able make that choice we should have different implementations, which implies having different classes. 
 
 @@important Classes represent choices whose methods can be selected in reaction to a message. Having many little classes is better than few large ones.
 
-What we could do is to introduce a common superclass between ==EAddition== and ==EMultiplication== but keep the two subclasses. We will probably do it in the future.
+What we could do is to introduce a common superclass between ==EAddition== and ==EMultiplication== but keep the two subclasses. We will do this later in the chapter.
 
 !!! Negated as a message
 
