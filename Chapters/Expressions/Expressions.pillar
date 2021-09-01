@@ -90,8 +90,7 @@ ENegation >> expression: anExpression
 	expression := anExpression
 ]]]
 
-Now the ==evaluate== method should request the evaluation of the expression and negate it. 
-To negate a number we would suggest sending the message ==negated==:
+Now the ==evaluate== method should request the evaluation of the expression and negate it. To negate a number we would suggest sending the message ==negated==:
 
 [[[
 ENegation >> evaluate
@@ -100,7 +99,7 @@ ENegation >> evaluate
 
 +A flat collection of classes (with a suspect duplication).>file://figures/Expressions.png|width=70|label=figExpression+
 
-Following the same steps as above, we will now add addition and multiplication of expressions. Then we will make the system a bit more easy to manipulate, and revisit its design. 
+Following the same steps as above, we will now add addition and multiplication of expressions. Then we will make the system a bit easier to manipulate, and revisit its design. 
 
 !!! Adding expression addition
 
@@ -209,9 +208,9 @@ The implementation of the ==evaluate== message is worth discussing. What we can 
 
 @@important A message represents an intent: it represents ''what'' should be done. A method represents a specification of ''how'' something should be executed.
 
-What we see is that sending the message ==evaluate== to an expression is making a choice from the different implementations of the message. This point is central to object-oriented programming. 
+What we see is that sending the message ==evaluate== to an expression is making a choice out of the different available implementations of the message. This point is central to object-oriented programming. 
 
-@@important Sending a message is making a choice among all the methods with the same name. 
+@@important Sending a message is making a choice from among all the methods with the same name. 
 
 !!!! About common superclass
 
@@ -220,7 +219,7 @@ Up until now we did not see the need to have an inheritance hierarchy, because t
 +Evaluation: one message and multiple method implementations.>file://figures/ExpressionsEvaluate.pdf|width=80|label=figExpressionEvaluate+
 
 
-!!!! Design corner: About addition and multiplication model 
+!!!! Design corner: About the addition and multiplication model 
 
 We could have just one class called, for example, ==BinaryOperation==, and it could have an ==operator== instance variable, either addition or multiplication. This solution would work but, as usual, having a working program does not mean that its design is any good. 
 
@@ -257,7 +256,7 @@ We propose defining a message ==negated== on the expressions themselves that wil
 (EConstant new value: 5) negated
 ]]]
 
-!!!! negated message for constants
+!!!! ==negated== message for constants
 Let us write a test to make sure that we capture what we want. 
 
 [[[
@@ -273,7 +272,7 @@ EConstant >> negated
 ]]]
 
 
-!!!! negated message for negations
+!!!! ==negated== message for negations
 
 [[[
 ENegationTest >> testNegationNegated
@@ -292,9 +291,9 @@ ENegation >> negated
 	^ self class new expression: self
 ]]]
 
-But for now we keep the first one for the sake of simplicity.
+But for now we will keep the first one for the sake of simplicity.
 
-!!!! negated message for additions
+!!!! ==negated== message for additions
 We proceed similarly for additions: 
 
 [[[
@@ -311,7 +310,7 @@ EAddition >> negated
 ]]]
 
 
-!!!! negated message for multiplications
+!!!! ==negated== message for multiplications
 And finally for multiplications:
 
 [[[
@@ -328,12 +327,11 @@ EMultiplication >> negated
 ]]]
 
 Now all your tests should pass, and it is a good moment to save your package. 
-
 !!! Annoying repetition
 
-Let us step back and look at what we have. We have a working program - but object-oriented design is meant to bring the code up to a higher standard. 
+Let us step back and look at what we have. We have a working program - but object-oriented design is meant to bring the code up to a higher standard than merely working!
 
-Similar to the situation with the ==evaluate== message and methods, we see that the functionality of ==negated== is distributed over different classes. What is annoying is that we repeat the exact ''same'' code over and over (see Figure *@fig:ExpressionsNegatedRepeated*). This is poor design because, if tomorrow we want to change the behavior of negation, we will have to change it four times while really one time should be enough. 
+Similar to the situation with the ==evaluate== message and methods, we see that the functionality of ==negated== is distributed over different classes. What is annoying is that we repeat the exact ''same'' code over and over (see Figure *@fig:ExpressionsNegatedRepeated*). This is a poor design because, if we want to change the behavior of negation tomorrow, we will have to change it four times while really only once should be enough. 
 
 +Code repetition is a bad smell.>file://figures/ExpressionsNegatedRepeated.pdf|width=70|label=fig:ExpressionsNegatedRepeated+
 
@@ -342,7 +340,7 @@ What are the solutions?
 - If we  define the method ==negated== in the superclass (==Object==) we only need one definition and it will work. Indeed, when we send the message ==negated== to an instance of ==EConstant== or ==EAddition== the system will not find it locally but in the superclass ==Object==. So no need to define it four times but only once in class ==Object==. This solution is nice because it reduces the number of similar definitions of the method ==negated==, but it is not good because, even if we can add methods to the class ==Object==, this is really not a good idea; ==Object== is a class shared by the entire system and so we should take care not to add behavior that only makes sense for a single application. 
 - The solution is to introduce a new superclass between our classes and the class ==Object==. It will have the same properties of the above solution using ==Object==, but without polluting it (see Figure *@figExpressionHierar*). This is what we do in the next section. 
 
-!!! Introducing Expression class
+!!! Introducing the Expression class
 
 +Introducing a common superclass.>file://figures/ExpressionsHierarchy.png|width=70|label=figExpressionHierar+
 
@@ -356,7 +354,7 @@ Object subclass: #EExpression
 	package: 'Expressions'
 ]]]
 
-and changing all the previous definitions to inherit from ==EExpression== instead of ==Object==.For example the class ==EConstant== is then defined as follows:
+and changing all the previous definitions to inherit from ==EExpression== instead of ==Object==. For example the class ==EConstant== is then defined as follows:
 
 [[[
 EExpression subclass: #EConstant
@@ -365,7 +363,7 @@ EExpression subclass: #EConstant
 	package: 'Expressions'
 ]]]
 
-For the first transformation we could also use the class refactor ''Insert superclass''. Refactors are code transformations that do not change the behavior of a program. You can find it under the ''Refactorings'' list when you open the context menu on a class. In this case it is only useful for the first change, creating the ==EExpression== class. 
+For the first transformation we could also use the class refactor ''Insert superclass''. Refactorings are code transformations that do not change the behavior of a program. You can find it under the ''Refactorings'' list when you open the context menu on a class. In this case it is only useful for the first change, creating the ==EExpression== class. 
 
 Once the classes ==EConstant==, ==ENegation==, ==EAddition==, and ==EMultiplication== are subclasses of ==EEXpression==, we should focus on the method ==negated==. Now the method refactoring ''Push up'' will really help us. 
 
@@ -374,7 +372,7 @@ Once the classes ==EConstant==, ==ENegation==, ==EAddition==, and ==EMultiplicat
 
 The system will define the method ==negated== in the superclass (==EExpression==) and remove all the negated methods in the classes. Now achieved the hierarchy described in Figure *@figExpressionHierar*. It is a good time to run all your tests again; they should all pass. 
 
-Now you may also be thinking that we could introduce a new class named ==ArithmeticExpression== as a superclass of ==EAddition== and ==EMultiplication==. Indeed this is something that we could do to factor out common structure and behavior between the two classes. We will do so later as it would be repetitive to do it now.
+Now you may also be thinking that we could introduce a new class named ==ArithmeticExpression== as a superclass of ==EAddition== and ==EMultiplication==. Indeed this is something that we could do to factor out common structure and behavior between the two classes. But we will do so later as it would be repetitive to do it now.
 
 !!! Class creation messages
 So far to create an instance we have always sent a class the message ==new==, followed by a setter method, as shown below:
@@ -383,15 +381,15 @@ So far to create an instance we have always sent a class the message ==new==, fo
 EConstant new value: 5
 ]]]
 
-This is a good opportunity to demonstrate that we can define simple ""class"" methods that improve the class instance creation interface. While this case is simple, and has few benefits, we think that it makes a nice example. With this in mind the previous example can now be written as follows: 
+This is a good opportunity to demonstrate that we can define simple ""class"" methods that improve the class instance creation interface. While this case is simple, and has few benefits, we think that it makes a nice example. With this in mind we can write the previous example in the following way:
+
 [[[
 EConstant value: 5
 ]]]
 
-Notice the important difference that in the first case the message is sent to the newly created instance while in the second case it is sent to the class itself. 
+Notice the important difference: in the first case the message is sent to the newly created instance while in the second case it is sent to the class itself. 
 
-We define a class method in the same as we define an instance method. The only difference is that using the code browser you should click on the ''Class side'' button to indicate that you are defining a method that should be executed in response
-to a message sent to a class itself. 
+We define a class method in the same as we define an instance method. The only difference is that using the code browser you should click on the ''Class side'' button to indicate that you are defining a method that should be executed in response to a message sent to the class. 
 
 !!!! Better instance creation for constants
 Define the following method on the class ==EConstant==. Notice the definition now uses ==EConstant class== and not just ==EConstant== to stress that we are defining the class method:
@@ -410,7 +408,7 @@ EConstantTest >> testCreationWithClassCreationMessage
 	self assert: (EConstant value: 5) evaluate equals: 5
 ]]]
 
-!!!!  Better instance creation for  negations
+!!!! Better instance creation for negations
 
 We do the same for the class ==ENegation==:
 
@@ -427,7 +425,7 @@ ENegationTest >> testEvaluateWithClassCreationMessage
 ]]]
 
 
-!!!!  Better instance creation for additions
+!!!! Better instance creation for additions
 
 For addition we shall add a class method ==left:right:== that takes two arguments:
 
@@ -445,7 +443,7 @@ EEAdditionTest >> testEvaluateWithClassCreationMessage
 	self assert: (EAddition left: ep1 right: ep2) evaluate equals: 8
 ]]]
 
-!!!!  Better instance creation for multiplications
+!!!! Better instance creation for multiplications
 
 We will let you do the same for multiplication:
 
@@ -467,7 +465,7 @@ Run your tests! They should all pass.
 
 !!! Introducing examples as class messages
 
-As you saw when writing the tests, it is quite annoying to repeat all the time the expressions to get a given tree. This is especially the case in the tests related to addition and multiplication as the one below: 
+As you saw when writing the tests, it is quite annoying to repeat all the expressions to generate a given tree. This is especially the case in the tests related to addition and multiplication as we can see below: 
 
 [[[
 EEAdditionTest >> testNegated
@@ -477,7 +475,7 @@ EEAdditionTest >> testNegated
 	self assert: (EAddition new right: ep1; left: ep2) negated evaluate equals: -8
 ]]]
 
-One simple solution is to define some class methods returning typical instances of their classes. To define a class method remember that you should click the class side button. 
+One simple solution is to define some class methods returning typical instances of their classes. To define a class method remember that you should click the ''Class side'' button. 
 
 [[[
 EConstant class >> constant5
@@ -496,10 +494,12 @@ EEAdditionTest >> testNegated
 	| ep1 ep2 |
 	ep1 := EConstant constant5.
 	ep2 := EConstant constant3.
-	self assert: (EAddition new right: ep1; left: ep2) negated evaluate equals: -8
+	self
+        assert: (EAddition new right: ep1; left: ep2) negated evaluate
+        equals: -8
 ]]]
 
-The tools in Pharo support such a practice. If we tag a class method with the special annotation ==<sampleInstance>== the browser will show a little icon on the side and when we click on it, it will open an inspector on the new instance:
+The tools in Pharo support such a practice. If we tag a class method with the special annotation ==<sampleInstance>==, the browser will show a little icon on the side and, when we click on it, it will open an inspector on the new instance:
 
 [[[
 EConstant class >> constant3
@@ -507,7 +507,13 @@ EConstant class >> constant3
 	^ self new value: 3
 ]]]
 
-Using the same idea we can define the following class methods to return examples of our classes.
+[[[
+EConstant class >> constant3
+	<sampleInstance>
+	^ self new value: 3
+]]]
+
+Using the same idea we can define the following class methods to return examples of our classes:
 
 [[[
 EAddition class >> fivePlusThree
@@ -527,7 +533,7 @@ EMultiplication class >> fiveTimesThree
    ^ EMultiplication new left: ep1 ; right: ep2 
 ]]]
 
-What is nice about these sample instances is that they
+What is nice about these sample instances is that they:
 
 - help document the class by providing objects that we can directly use.
 - support the creation of tests by providing objects that can serve as input for tests.
@@ -651,10 +657,9 @@ EMultiplication >> printOn: aStream
 	... Your code ...
 ]]]
 
-!!! Revisiting the negated message for Negation
+!!! Revisiting the ==negated== message for Negation
 
-Now we can go back on negating an expression. Our implementation is not nice even if we can negate any expression and get the correct value. If you look at it carefully negating a negation could be better. 
-Printing a negated negation illustrates well the problem: we get two minuses instead of none. 
+Now we can go back on negating an expression. Our implementation is not nice even if we can negate any expression and get the correct value. If you look at it carefully negating a negation could be better. Printing a negated negation illustrates well the problem: we get two minuses instead of none. 
 
 [[[
 (EConstant value: 11) negated 
@@ -664,11 +669,11 @@ Printing a negated negation illustrates well the problem: we get two minuses ins
 >> '- - 11'
 ]]]
 
-One way to fix this would be to change the ==printOn:== definition to check if the expression that is negated is an ==ENegation==, and not to print the =='-'== if it is. This solution is not ideal as we do not want to write code explicitly checks if an object is of a given class in a conditional. Remember: we just want to send messages and then let the object perform some actions. 
+One way to fix this would be to change the ==printOn:== definition to check if the expression that is negated is an ==ENegation==, and not to print the =='-'== if it is. This solution is not ideal as we do not want to write code that explicitly checks if an object is of a given class in a conditional. Remember: we just want to send messages and then let receiving objects perform actions. 
 
 A good solution is to ''specialize'' the message ==negated== so that when it is sent to a ''negation'' it does not create a new ==ENegation== that wraps the receiver, but instead returns the original negated expression. If ==negated== is sent to any of our other expressions, the method implemented in ==EExpression== will be executed. This way the trees created by a ==negated== message can never contain a "negated negation", but the arithmetic values obtained are still correct. To implement this solution, we just need to implement a different version of the method ==negated== for ==ENegation==. 
 
-Let us write a test! Since evaluating a single expression or a double negated one gives the same results, we need to define a structural test. This is what we do with the expression ==exp negated class = ENegation== below.
+Let's write a test! Since evaluating a single expression or a double negated one gives the same results, we need to define a structural test. This is what we do with the expression ==exp negated class = ENegation== below.
 
 [[[
 NegationTest >> testNegatedStructureIsCorrect
@@ -701,7 +706,6 @@ It works in following way:
 @secBinaryExpression
 Now we will take a moment to improve our first design. We will factor out the behavior of ==EAddition== and ==EMultiplication==. 
 
-
 [[[
 EExpression subclass: #EBinaryExpression
 	instanceVariableNames: ''
@@ -725,7 +729,7 @@ EBinaryExpression subclass: #EMultiplication
 
 Now we can use again a refactoring to pull up the instance variables ==left== and ==right==, as well as the methods ==left:== and ==right:==.
 
-Select the class ==EMuplication==, bring the menu and select in the Refactoring menu the instance variables refactoring ''Push Up''. Then select the instance variables.
+Select the class ==EMuplication==, bring up the menu and, under the ''Refactoring'' menu, select the instance variable refactoring ''Push Up''. Then select the instance variables you want to push up.
 
 Now you should get the following class definitions, where the instance variables are defined in the new class and removed from the two subclasses. 
 
@@ -758,7 +762,7 @@ Now we can move the methods up in the same way. Select the method ==left:== and 
 
 !!!! Creating a template and hook method
 
-Now we can look at the method ==printOn:== in additions and multiplications. They are really similar: only the operator changes. We cannot simply copy one of the definitions because it will not work for the other one, but what we can do is to apply the same design point worked for ==printString== and ==printOn:==: we can create a template and hooks that will be specialized in the subclasses. 
+Now we can look at the method ==printOn:== in additions and multiplications. The definitions are very similar, only the operator changes. We cannot simply copy one of the definitions because it will not work for the other one, but what we can do is to apply the same design idea that worked between ==printString== and ==printOn:==: we can create a template and hooks that will be specialized in the subclasses. 
 
 We will use the method ==printOn:== as a template with a hook redefined in each subclass.
 
@@ -773,7 +777,7 @@ EBinaryExpression >> printOn: aStream
 	aStream nextPutAll: ' )'
 ]]]
 
-You you can do the next bit manually or use the ''Extract Method'' Refactoring, which creates a new method from a part of an existing method and sends a message to the new created method: select the ==' + '== inside the method pane and bring the menu and select the Extract Method refactoring, and when prompt give the name ==operatorString==. 
+You you can do the next bit manually or use the ''Extract Method'' refactoring, which creates a new method from a part of an existing method and sends a message to the new created method: select the ==' + '== inside the method pane and bring the menu and select the Extract Method refactoring, and when prompt give the name ==operatorString==. 
 
 Here is the result you should get:  
 
@@ -791,7 +795,7 @@ EBinaryExpression >> operatorString
 	^ ' + '
 ]]]
 
-Now we can just redefine this method in the ==EMultiplication== class to return the adequate string.
+Now we can just redefine this method in the ==EMultiplication== class to return the required string.
 
 [[[
 EMultiplication >> operatorString
@@ -799,8 +803,6 @@ EMultiplication >> operatorString
 ]]]
 
 +Factoring instance variables and behavior.>file://figures/ExpressionsHierarchyStateBehaviorFactored.png|width=70|label=figExpressionsHierarchyStateBehaviorFactored+
-
-
 
 !!! What did we learn
 
@@ -846,7 +848,6 @@ EMultiplication >> operatorString
 
 +Better design: Declaring an abstract method as a way to document a hook method.>file://figures/ExpressionsHierarchyBinaryAbstract.pdf|width=70|label=figExpressionsHierarchyBinaryAbstract+
 
-
 But such a design is not great because, when extending from the class, developers will have to guess by reading the subclass definitions that they should also define a method ==operatorString==. A better solution would be to define an ''abstract'' method in the superclass: 
 
 [[[
@@ -854,15 +855,14 @@ EBinaryExpression >> operatorString
 	^ self subclassResponsibility
 ]]]
 
-Using the message ==subclassResponsibility== declares that a method is abstract and does nothing except force its redefinition in subclasses: a subclass must redefine it explicitly. Using such an approach we get the final situation represented in Figure *@figExpressionsHierarchyBinaryAbstract*. 
+Using the message ==subclassResponsibility== declares that a method is abstract and does nothing except force its redefinition in subclasses; a subclass must redefine it explicitly. Using this approach we get the final situation represented in Figure *@figExpressionsHierarchyBinaryAbstract*. 
 
-In the solution presented before (section *@secBinaryExpression*) we decided to go for the simplest fix, using one of the operator strings (==' + '==) as a default definition for the hook in the superclass ==EExpression==. We did it on purpose to be able to have this discussion. It was not a good solution since it was using the value of a specific subclass. It is better to define a default value for a hook in the superclass when this default value makes sense in the class itself.
+In the solution presented before (section *@secBinaryExpression*) we decided to go for the simplest fix by using one of the operator strings (==' + '==) as a default definition for the hook in the superclass ==EExpression==. We did this on purpose in order to have this discussion. It was not a good solution since it used a value only useful to a specific subclass in the superclass. It is better to define a default value for a hook in the superclass only when this default value can be used in subclasses, both now and in the future.
 
 Note that we should also define ==evaluate== as an abstract method in ==EExpression== to indicate clearly that each subclass should define an ==evaluate==.
 
 !!! Variables
-Up until now our mathematical expressions have been rather limited. We have only manipulated constant-based expressions. What we would like is to be able to manipulate variables too. 
-Here is a simple test to show what we mean: we define a variable named =='x'== and then we can later specify that =='x'== should take a given value. 
+Up until now our mathematical expressions have been rather limited. We have only manipulated constant-based expressions. What we would like is to be able to manipulate variables too. Here is a simple test to show what we mean: we define a variable named =='x'== and then we can later specify that =='x'== should take a given value. 
 
 Let us create a new test class named ==EVariableTest== and define a first test ==testValueOfx==.
 
@@ -1054,7 +1054,7 @@ ENegation >> evaluateWith: anObject
 !!! Conclusion
 This little exercise was full of learning potential. Here is a little summary: 
 
-- A ''message'' specifies an intent while a ''method'' is a named list of Pharo expressions. We often have one message and many methods with the same name. 
+- A ''message'' specifies an intent while a ''method'' is a named list of Pharo instructions. We often have one message and many methods with the same name. 
 - ''Sending a message'' is finding the method corresponding to the message selector: this selection is based on the class of the object receiving the message. When we look for a method we start in the class of the receiver and go up through the inheritance chain. 
 - Tests are a good way to specify what we want to achieve and then to verify after each change that we did not break something. Tests do not prevent bugs, but they help build confidence in the changes we make. 
 - ''Refactorings'' are more than simple code transformations. Usually refactorings sufficiently aware of their context that their application does not change the behavior of the program. As we saw, refactorings are powerful operations that really help us perform complex changes. 
