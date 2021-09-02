@@ -389,7 +389,7 @@ EConstant value: 5
 
 Notice the important difference: in the first case the message is sent to the newly created instance while in the second case it is sent to the class itself. 
 
-We define a class method in the same as we define an instance method. The only difference is that using the code browser you should click on the ''Class side'' button to indicate that you are defining a method that should be executed in response to a message sent to the class. 
+We define a class method in the same way we define an instance method. The only difference is that, using the code browser, you need to click on the ''Class side'' button to define the method on the class itself instead of an instance of the class. The class itself is an object, it can be sent messages and have methods in the same way as its instances. 
 
 !!!! Better instance creation for constants
 Define the following method on the class ==EConstant==. Notice the definition now uses ==EConstant class== and not just ==EConstant== to stress that we are defining the class method:
