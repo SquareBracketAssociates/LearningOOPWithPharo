@@ -1,27 +1,24 @@
 !! A simple network simulator
 @ch:lan
 
-In this chapter, we will develop a simulator for a computer network, step by step from scratch. The program starts with a simplistic model of a computer network, made of objects that represent different parts of a local network such as packets, nodes, workstations, routers and hubs.
+In this chapter we will develop a simulator for a computer network, from scratch, step by step. The program starts with a simplistic model of a computer network, made of objects that represent different parts of a local network such as packets, nodes, links, workstations, and hubs.
 
-At first, we will just simulate the different steps of packet delivery and have fun with the system. As a second step, we will extend the basic functionalities by adding extensions such as a hub and different packet routing strategies. Doing so, we will revisit many object-oriented concepts such as polymorphism, encapsulation, hooks and templates.
-Finally, this system could be refined to become an experimentation platform to explore and understand distributed algorithms.
+At first we will just simulate the different steps of packet delivery and have fun with the system. As a second step, we will extend the basic functionalities by adding extensions such as a hub and different packet routing strategies. In doing so we will revisit many object-oriented concepts such as polymorphism, encapsulation, and hooks and templates. Finally, this system could be further refined to become an experimentation platform to explore and understand networking and distributed algorithms.
 
 +Two little networks composed of nodes and sending packets over links.>file://figures/lan-overview.pdf|width=80+
 
 !!!! Basic definitions and a starting point
 
-We need to establish the basic model; what does the description above tell us?
-A ''network'' is a number of interconnected ''nodes'', which exchange ''data packets''.
-We will therefore probably need to model the nodes, the connection links, and the packets:
+We need to establish a basic mental model, so what does the description above tell us about a network? A ''network'' is a number of interconnected ''nodes'', which exchange ''data packets''. We will therefore probably need to model the nodes, the connection links, and the packets. Let's fill out a little more detail:
 
 - Nodes have ''addresses'', and can send and receive packets.
-- ''Links'' connect two nodes together, and transmit packets between them.
+- ''Links'' connect two nodes together, and transmit the packets between them.
 - A ''packet'' transports a payload and includes the address of the node to which it should be delivered; if we want nodes to be able to answer (after they receive the packet), packets should also have the address of the node which originally sent it.
 
 
 !!! Packets are simple value objects
 
-Packets seem to be the simplest objects in our model: we only need to create them, ask them about the data they contain, and... that's about it. Once created, a packet object is a passive data structure; it will not change its data, knows nothing of the surrounding network, and has no real behavior to speak of.
+Packets seem to be the simplest objects in our model: we only need to create them, ask them about the data they contain, and... that's about it. Once created, a packet object is a passive data structure; it will not change its data, knows nothing of the surrounding network, and has no real behavior to speak of. This sort of object is often referred to as a ''value object''.
 
 Let's start by defining a test class and a first test, sketching out what creating and looking at packets should look like:
 
@@ -46,10 +43,9 @@ KANetworkEntitiesTest >> testPacketCreation
     self assert: packet payload equals: payload
 ]]]
 
-By writing this unit test, we have described how we think packets should be created, using a ==from:to:payload:== constructor message, and how they should be accessed, using three messages: ==sourceAddress==, ==destinationAddress==, and ==payload==. Since we have not yet decided what addresses and payloads should look like, we just pass arbitrary objects as parameters; all that matters is that when we ask the packet, it returns the correct object back.
+By writing this unit test, we have described how we think packets should be created, using a ==from:to:payload:== constructor message, and how they should be accessed, using three messages: ==sourceAddress==, ==destinationAddress==, and ==payload==. Since we have not yet decided what addresses and payloads should look like, we will just pass arbitrary objects as parameters. All that matters is that when we tell the packet to give us one of those three pieces of information, it returns the correct object back.
 
-Of course, if we now compile and run this test method, it will fail, because the class ==KANetworkPacket== has not been created yet, nor any of the four above messages.
-You can either execute and let the system prompt you when needed or we can define the class:
+Of course, if we compile and run this test method, it will fail because the class ==KANetworkPacket== has not been created yet, nor have any of the four above messages. You can either execute the test and let the system prompt you to define the missing objects and messages when needed, or we can define the class from the start:
 
 [[[language=smalltalk
 Object subclass: #KANetworkPacket
@@ -58,15 +54,14 @@ Object subclass: #KANetworkPacket
     category: 'NetworkSimulator-Core'
 ]]]
 
-The class-side constructor method creates an instance which it returns after sending it an initialization message; nothing too original as far as constructors go:
+The class-side constructor method creates an instance which it returns after sending it an initialization message, so nothing too original as far as constructors go:
 
 [[[language=smalltalk
 KANetworkPacket class >> from: sourceAddress to: destinationAddress payload: anObject
     ... Your code ...
 ]]]
 
-That constructor will need to pass the initialization parameters to the new instance.
-It's preferable to define a single initialization method that takes all needed parameters at once, since it is only supposed to be called when creating packets and should not be confused with a setter:
+That constructor will need to pass the initialization parameters to the new instance. It's preferable to define a single initialization method that takes all needed parameters at once, since it is only supposed to be called when creating packets and should not be confused with a setter:
 
 [[[language=smalltalk
 KANetworkPacket >> initializeSource: *sourceAddress destination: destinationAddress payload: aPayload
@@ -115,16 +110,19 @@ KANetworkNode class >> withAddress: aNetworkAddress
         initializeAddress: aNetworkAddress
 ]]]
 
-The constructor relies on an instance-side initialization method, and the test asserts that the ==address== accessor works; define them:
+The constructor relies on an instance-side initialization method, and the test asserts that the ==address== accessor works as expected. Let's define them:
 
 [[[language=smalltalk
 KANetworkNode >> initializeAddress: aNetworkAddress
 	... Your code ...
+]]]
+
+[[[
 KANetworkNode >> address
 	... Your code ...
 ]]]
 
-Again, our simplistic tests should now pass.
+Again, our tests should now pass.
 
 !!! Links are one-way connections between nodes
 
