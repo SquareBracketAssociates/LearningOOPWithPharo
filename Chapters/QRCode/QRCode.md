@@ -1,0 +1,1 @@
+Gofer new      smalltalkhubUser: 'JochenRick' project: 'QRCode';      version: 'QRCode-JochenRick.2';      update.  qrcode := 'http://car.mines-douai.fr/luc' asQRCode.qrcode backgroundColor: Color white.qrcode foregroundColor: Color black.\(qrcode formWithQuietZone magnifyBy: 15\) asMorph openInWorld.

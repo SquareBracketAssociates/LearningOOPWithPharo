@@ -247,13 +247,13 @@ the methods as if they were defined in the method body. For example,
 we are assigning ==50== in the instance variable ==size==. The instance 
 variable ==size== is accessible from any method of the class ==Box==.
 
-Contrary to the \index{local variables}  of a
+Contrary to the local variables  of a
 script  (==| caro |== for example) which do not exist after the script execution, instance
 variables last the complete object life-time.  We propose you some
 experiments to really understand this phenomena below.  Note that this
 behavior is not new, we used it constantly with the turtle.  For
 example, we changed the direction of the turtle using the method
-\ct{north} which was somehow changing the internal turtle state representing its direction, then later used the direction to perform some other actions.
+==north== which was somehow changing the internal turtle state representing its direction, then later used the direction to perform some other actions.
 
 We propose you to do some experiments to really understand this notion. 
 Define the methods \ct{size} (\mthref{mt:size}) which returns the value 
@@ -552,17 +552,3 @@ BoxT>>drawWithColor: aColor
                   turtle turnLeft: 90]
 \end{method}
 
-
-
-
-\section{What you should have learned}
-Blabla here...
-
-
-
-
-
-
-
-\ifx\wholebook\relax\else
-\end{document}\fi
