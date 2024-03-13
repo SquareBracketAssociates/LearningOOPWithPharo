@@ -1,4 +1,4 @@
-name: Centralized book generation
+name: Book generation
 
 on:
   push:
