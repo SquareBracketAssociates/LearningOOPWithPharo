@@ -11,7 +11,7 @@ In the simulator, we will present how we can implement communication between loo
 ### Description
 
 
-![Beacons and Satelittes. % width=70&label=fig:Beacon ](figures/Beacons.png)
+![Beacons and Satelittes. % width=70&anchor=fig:Beacon ](figures/Beacons.png)
 
 A beacon is inside the sea and it collects data. It is fully autonomous. After a certain period of time it migrates to the surface waiting to send the data it collected.
 To communicate with satellites, a satellite should be available, i.e., within the zone where the beacon is.
