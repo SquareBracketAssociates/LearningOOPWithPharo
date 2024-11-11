@@ -9,3 +9,15 @@ The version tagged v1.0 is based on Pharo6.0.
 A new version for Pharo 8.0 is under cooking. 
 
 Stef
+
+
+## Todo
+
+- Make sure that the book compiles
+- label to anchor
+- Convert to class syntax
+- Check Counter chapter in companion mooc book 
+- Remove Support for Monticello
+- Migrate tinyChat to github
+
+
