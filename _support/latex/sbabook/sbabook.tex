@@ -1,5 +1,7 @@
-\documentclass[english,twoside,openany,showtrims]{sbabook}
+\documentclass[twoside,openany,showtrims]{sbabook}
 
+% Setup paper format.
+% Defaults to US trade paperback unless another format is already setup (see sbabook.*.tex)
 \pagelayout{\paperbackpage}
 
 \usepackage[useregional]{datetime2}
@@ -37,6 +39,7 @@
 \urlstyle{sf}
 \usepackage[unicode,breaklinks,hidelinks]{hyperref} % undecorated hyperlinks
 
+
 \title{the Square Bracket Associates\titlebreak{}
   \texorpdfstring{\protect\LaTeX}{LaTeX} book class}
 \author{Damien Pollet}
@@ -68,7 +71,7 @@
 \cleartoverso
 {\small
 
-  Copyright 2015 by Damien Pollet.
+  Copyright 2015--2019 by Damien Pollet.
 
   The contents of this book are protected under the Creative Commons
   Attribution-ShareAlike 3.0 Unported license.
@@ -211,13 +214,13 @@ SIL Open Font License]{https://mozilla.github.io/Fira/}{Fira Mono}.
 
 \begin{table}
   \caption{Fonts used in the document, and their roles}
-  \begin{tabular}{ll}
+  \begin{fullwidthtabular}{ll}
     \toprule
     \textnormal{Gentium -- \textit{Italic}} & Primary, paragraph text \\
     \textsf{Open Sans -- \textbf{Bold}}     & Structural and secondary text: titles, captions \\
     \texttt{Fira Mono}                      & Verbatim text and code \\
     \bottomrule
-  \end{tabular}
+  \end{fullwidthtabular}
   \label{tab:fontRoles}
 \end{table}
 
@@ -256,7 +259,7 @@ convenient as delimiters.
 
 \begin{table}
   \caption{Some convenient delimiters for inline code}
-  \begin{tabular}{ll@{\qquad}ll}
+  \begin{fullwidthtabular}{ll@{\qquad}ll}
     \toprule
     \code_\code|...|_ & pipe                      & \code¶\code§...§¶ & section sign \\
     \code|\code_..._| & underscore                & \code§\code¶...¶§ & pilcrow      \\
@@ -265,7 +268,7 @@ convenient as delimiters.
     \code¿\code?...?¿ & question mark             & \code`\code^...^` & circumflex   \\
     \code?\code¿...¿? & inverse question mark     & \code^\code`...`^ & backquote    \\
     \bottomrule
-  \end{tabular}
+  \end{fullwidthtabular}
   \label{tab:codeDelims}
 \end{table}
 
@@ -275,11 +278,13 @@ For multi-line excerpts of source code that should appear in the flow of the
 text, use the \code{displaycode} environment.
 You have to specify the language each excerpt of code is written in, as an
 argument; any language known to the \code{listings} package works.
+Also, as that example shows, some extended characters are supported in source code, provided they are encoded in precomposed form.
 
 \begin{displaycode}{[Visual]Basic}
 10 PRINT "Hello SBAbook!"
 20 PRINT "This is a paragraph-level listing."
-25 PRINT "UTF-8 in Basic: élèves français, Ελλάδα, Здравствуй, мир!"
+25 PRINT "UTF-8: € Œuf cœur écrit en Français, izvršavanja, ελληνική γλώσσα, Здравствуй, мир!"
+26 PRINT "ankaŭ vi povas skribi esperante: ĈĉĜĝĤĥĴĵŬŭ"
 30 GOTO 10
 \end{displaycode}
 

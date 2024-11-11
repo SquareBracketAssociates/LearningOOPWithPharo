@@ -5,6 +5,11 @@
 \usepackage{import}
 \subimport{_support/latex/}{common.tex}
 
+% to have the bod format
+% normally common.tex already sets the pagelayout using \pagelayout{\bodpage}
+\providecommand{\setuppage}{\bodpage}
+
+
 %=================================================================
 % Debug packages for page layout and overfull lines
 % Remove the showtrims document option before printing
@@ -28,7 +33,14 @@
 
 % =================================================================
 \begin{document}
-\batchmode
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
 % Title page and colophon on verso
 \maketitle
 \pagestyle{titlingpage}
@@ -37,50 +49,43 @@
 \cleartoverso
 {\small
 
-  Copyright 2017 by «& attribution».
+  Copyright 2024 by «& attribution».
 
   The contents of this book are protected under the Creative Commons
-  Attribution-ShareAlike 3.0 Unported license.
+  Attribution-NonCommercial-NoDerivs 
+  CC BY-NC-ND\\
+You are free to:
+\begin{description}
+\item Share --- copy and redistribute the material in any medium or format
+\end{description}
 
-  You are \textbf{free}:
-  \begin{itemize}
-  \item to \textbf{Share}: to copy, distribute and transmit the work,
-  \item to \textbf{Remix}: to adapt the work,
-  \end{itemize}
-
+The licensor cannot revoke these freedoms as long as you follow the license terms.
   Under the following conditions:
   \begin{description}
-  \item[Attribution.] You must attribute the work in the manner specified by the
-    author or licensor (but not in any way that suggests that they endorse you
-    or your use of the work).
-  \item[Share Alike.] If you alter, transform, or build upon this work, you may
-    distribute the resulting work only under the same, similar or a compatible
-    license.
+  \item[Attribution.] ---  You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+\item[NonCommercial.] ---  You may not use the material for commercial purposes.
+\item [NoDerivatives.] ---  If you remix, transform, or build upon the material, you may not distribute the modified material.
+\item [No additional restrictions.] ---  You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
   \end{description}
 
-  For any reuse or distribution, you must make clear to others the
-  license terms of this work. The best way to do this is with a link to
-  this web page: \\
-  \url{http://creativecommons.org/licenses/by-sa/3.0/}
+\url{https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode}
 
-  Any of the above conditions can be waived if you get permission from
-  the copyright holder. Nothing in this license impairs or restricts the
-  author's moral rights.
+Any of the above conditions can be waived if you get permission from
+the copyright holder. Nothing in this license impairs or restricts the
+author's moral rights.
 
-  \begin{center}
-    \includegraphics[width=0.2\textwidth]{_support/latex/sbabook/CreativeCommons-BY-SA.pdf}
-  \end{center}
-
-  Your fair dealing and other rights are in no way affected by the
-  above. This is a human-readable summary of the Legal Code (the full
-  license): \\
-  \url{http://creativecommons.org/licenses/by-sa/3.0/legalcode}
+\begin{center}
+    \includegraphics[width=0.2\textwidth]{_support/latex/CreativeCommons-BY-NC-ND.pdf}
+\end{center}
 
   \vfill
-
-  % Publication info would go here (publisher, ISBN, cover design…)
-  Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien
-  Pollet.
+Keepers of the lighthouse\\
+Édition : BoD - Books on Demand,\\
+12/14 rond-point des Champs-Élysées,75008 Paris\\
+Impression : Books on Demand GmbH, Norderstedt, Allemagne\\
+ISBN: 9782322506187\\
+Dépôt légal : 11/2024\\
+Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien Pollet.
 }
 
 
@@ -88,17 +93,19 @@
 \pagestyle{plain}
 
 \tableofcontents*
-\clearpage\listoffigures
+%\clearpage\listoffigures
 
 \mainmatter
 
 «& content»
 
-% lulu requires an empty page at the end. That's why I'm using
-% \backmatter here.
-\backmatter
+
 
 % Index would go here
 \bibliographystyle{abbrv}
 \bibliography{«& bibFile»}
+
+\backmatter
+
+
 \end{document}

@@ -1,0 +1,104 @@
+#!/bin/bash
+set -euo pipefail
+trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
+IFS=$'\n\t'
+# preamble from https://disconnected.systems/blog/another-bash-strict-mode/
+
+: "${TEXLIVE_TARBALL:=install-tl-unx.tar.gz}"
+
+function die() {
+    echo "$@" >&2
+    exit 1
+}
+
+function texlive-repo() {
+    [[ $# -eq 1 ]] || die "${FUNCNAME[0]}: No release specified (YYYY or rolling)"
+    local release="$1" url
+
+    if [[ "$release" = rolling ]]; then
+        url='http://mirror.ctan.org/systems/texlive/tlnet'
+    else
+        [[ "$release" = [0-9][0-9][0-9][0-9] ]] || die "${FUNCNAME[0]}: incorrect release '$release'"
+        url="https://ftp.tu-chemnitz.de/pub/tug/historic/systems/texlive/${release}/tlnet-final/"
+        # the rolling release is missing the shasum, and the tlnet directory
+        # US mirror: http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/${release}/
+    fi
+
+    # resolve possible mirror to fixed URL
+    curl -LIs -o /dev/null -w '%{url_effective}' "$url"
+}
+
+function get-texlive-installer() {
+    [[ $# -eq 1  ]] || die "Usage: ${FUNCNAME[0]} texlive-repo-url"
+    local repo="$1"
+
+    # download, checksum, extract
+    curl --silent --location --remote-name-all "${repo}/${TEXLIVE_TARBALL}"{,.sha512}
+    sha512sum --check "${TEXLIVE_TARBALL}.sha512"
+    tar --extract --gzip --file "${TEXLIVE_TARBALL}"
+}
+
+function texlive-profile() {
+    cat <<EOF
+selected_scheme scheme-infraonly
+
+TEXDIR          $HOME/texlive
+TEXMFLOCAL      \$TEXDIR/texmf-local
+TEXMFSYSCONFIG  \$TEXDIR/texmf-config
+TEXMFSYSVAR     \$TEXDIR/texmf-var
+TEXMFCONFIG     \$TEXMFSYSCONFIG
+TEXMFHOME       \$TEXMFLOCAL
+TEXMFVAR        \$TEXMFSYSVAR
+
+instopt_adjustpath 0
+instopt_adjustrepo 0
+instopt_letter 0
+instopt_portable 0
+instopt_write18_restricted 1
+
+# set repository:
+tlpdbopt_autobackup 0
+tlpdbopt_create_formats 1
+tlpdbopt_generate_updmap 0
+tlpdbopt_install_docfiles 0
+tlpdbopt_install_srcfiles 0
+tlpdbopt_post_code 1
+tlpdbopt_sys_bin /usr/local/bin
+tlpdbopt_sys_info /usr/local/info
+tlpdbopt_sys_man /usr/local/man
+EOF
+}
+
+function install-texlive() {
+    [[ $# -eq 2 ]] || die "Usage: ${FUNCNAME[0]} (YYYY | rolling) texlive-repository-url"
+    local release="$1" repo="$2"
+
+    echo "Downloading TeXlive..."
+    echo "  release ${release}"
+    echo "  from ${repo}"
+
+    get-texlive-installer "$repo"
+
+    # find installer path from archive listing, sanity check
+    local installer
+    installer="$(tar --list --gzip --file "${TEXLIVE_TARBALL}" | grep '/install-tl$' )"
+    [[ -x "$installer" ]] || die "can not find TeXlive installer at ${installer}";
+
+    texlive-profile >> texlive.profile
+    "$installer" --repository "$repo" --profile texlive.profile
+    tlmgr option repository "$repo"
+
+    tlmgr update --self --all
+    tlmgr install latex-bin latexmk bibtex
+}
+
+# Only call the main function if this script was called as a command. This makes
+# it possible to source this script as a library.
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+    # Override the full repository URL or set TEXLIVE_RELEASE to pick that year's frozen release.
+    # Defaults to the current rolling release.
+    release="${1:-${TEXLIVE_RELEASE:-rolling}}"
+    repo="${2:-${TEXLIVE_REPOSITORY:-$(texlive-repo "$release")}}"
+
+    install-texlive "$release" "$repo"
+fi

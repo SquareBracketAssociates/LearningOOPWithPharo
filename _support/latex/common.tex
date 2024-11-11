@@ -1,4 +1,4 @@
-\pagelayout{\paperbackpage}
+\pagelayout{\bodpage}
 
 \usepackage{_support/latex/sbabook/pharo-titlepage}
 
@@ -51,26 +51,14 @@
 }
 
 % highlighted paragraphs
-% highlighted paragraphs
-
-%\usepackage{fontawesome}
-%\newenvironment{coffee}{%
-%  \hangfrom{\llap{\faicon{coffee}\quad}}\sffamily\ignorespaces
-%}{}
-
-\newenvironment{coffee}{%
-  \begin{leftbar}\textsf{\textbf{Relax}}\quad
-}{\end{leftbar}}
-
 \newenvironment{note}{%
   \begin{leftbar}\textsf{\textbf{Note}}\quad
-}{\end{leftbar}}
-
-\newenvironment{important}{%
-  \begin{leftbar}\textsf{\textbf{Important}}\quad
 }{\end{leftbar}}
 
 \newenvironment{todo}{%
   \begin{leftbar}\textsf{\textbf{To do}}\quad
 }{\end{leftbar}}
 
+\newenvironment{important}{%
+  \begin{leftbar}\textsf{\textbf{Important}}\quad
+}{\end{leftbar}}
