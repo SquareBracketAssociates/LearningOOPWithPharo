@@ -14,6 +14,7 @@ Stef
 ## Todo
 
 - Make sure that the book compiles
+- Extract LAN into a separate chapter
 - label to anchor
 - Convert to class syntax
 - Check Counter chapter in companion mooc book 
