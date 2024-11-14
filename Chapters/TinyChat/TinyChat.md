@@ -9,12 +9,12 @@ TinyChat has been developed by O. Auverlot and S. Ducasse with a lot of fun.
 
 We are going to build a chat server and one graphical client as shown in Figure *@tinychatclient@*. 
 
-![Chatting with TinyChat.](figures/tinychatclient.png width=80&anchor=tinychatclient)
+![Chatting with TinyChat. %width=80&anchor=tinychatclient](figures/tinychatclient.png)
 
 The communication between the client and the server will be based on HTTP and REST.
-In addition to the classes `TCServer` and `TinyChat` \(the client\), we will define three other classes: 
-`TCMessage` which represents exchanged messages \(as a future exercise you could extend TinyChat to use 
-more structured elements such as JSON or STON \(the Pharo object format\), `TCMessageQueue` which stores
+In addition to the classes `TCServer` and `TinyChat` (the client), we will define three other classes: 
+`TCMessage` which represents exchanged messages (as a future exercise you could extend TinyChat to use 
+more structured elements such as JSON or STON (the Pharo object format), `TCMessageQueue` which stores
 messages, and `TCConsole` the graphical interface.
 
 ### Loading Teapot
@@ -42,10 +42,9 @@ A message is a really simple object with a text and sender identifier.
 We define the class `TCMessage` in the package `TinyChat`.
 
 ```
-Object subclass: #TCMessage
-	instanceVariableNames: 'sender text separator'
-	classVariableNames: ''
-	category: 'TinyChat'
+Object << #TCMessage
+	slots: { #sender . #text . #separator};
+	package: 'TinyChat'
 ```
 
 
@@ -85,7 +84,7 @@ TCMessage >> initialize
 ```
 
 
-Now we create a class method named `from:text:` to instantiate a message \(a class method is a method that will be executed on a class and not on an instance of this class\):
+Now we create a class method named `from:text:` to instantiate a message (a class method is a method that will be executed on a class and not on an instance of this class):
 
 ```
 TCMessage class >> from: aSender text: aText
@@ -125,7 +124,7 @@ TCMessage >> printOn: aStream
 
 We also define two methods to create a message object from a plain string of the form: `'olivier>tinychat is cool'`.
 
-First we create the method `fromString:` filling up the instance variables of an instance. It will be invoked like this: `TCMessage new fromString: 'olivier>tinychat is cool'`, then the class method `fromString:` which will first create the instance.
+First, we create the method `fromString:` filling up the instance variables of an instance. It will be invoked like this: `TCMessage new fromString: 'olivier>tinychat is cool'`, then the class method `fromString:` which will first create the instance.
 
 ```
 TCMessage >> fromString: aString
@@ -152,7 +151,6 @@ We are now ready to work on the server.
 
 ### Starting with the server
 
-
 For the server, we are going to define a class to manage a message queue. This is not really mandatory but it allows
 us to separate responsibilities. 
 
@@ -161,10 +159,9 @@ us to separate responsibilities.
 Create the class `TCMessageQueue` in the package _TinyChat-Server_. 
 
 ```
-Object subclass: #TCMessageQueue
-	instanceVariableNames: 'messages'
-	classVariableNames: ''
-	category: 'TinyChat-server'
+Object << #TCMessageQueue
+	slots: { #messages};
+	package: 'TinyChat-server'
 ```
 
 
@@ -211,7 +208,7 @@ TCMessageQueue >> listFrom: aIndex
 #### Message formatting
 
 The server should be able to transfer a list of messages to its client given an index.
-We add the possibility to format a list of messages \(given an index\).
+We add the possibility to format a list of messages (given an index).
 We define the method `formattedMessagesFrom:` using the formatting of a single message as follows:
 
 ```
@@ -219,8 +216,7 @@ TCMessageQueue >> formattedMessagesFrom: aMessageNumber
 	
 	^ String streamContents: [ :formattedMessagesStream |  
 		(self listFrom: aMessageNumber) 
-			do: [ :m | formattedMessagesStream << m printString ] 
-		]
+			do: [ :m | formattedMessagesStream << m printString ] ]
 ```
 
 
@@ -230,7 +226,7 @@ Note how the `streamContents:` lets us manipulate a stream of characters.
 ### The Chat server
 
 The core of the server is based on the Teapot REST framework. It supports the sending and receiving of messages.
-In addition this server keeps a list of messages that it communicates to clients. 
+In addition, this server keeps a list of messages that it communicates to clients. 
 
 
 #### TCServer class creation
@@ -239,10 +235,9 @@ In addition this server keeps a list of messages that it communicates to clients
 We create the class `TCServer` in the _TinyChat-Server_ package. 
 
 ```
-Object subclass: #TCServer
-	instanceVariableNames: 'teapotServer messagesQueue'
-	classVariableNames: ''
-	category: 'TinyChat-Server'
+Object << #TCServer
+	slots: { #teapotServer . #messagesQueue};
+	package: 'TinyChat-Server'
 ```
 
 
@@ -330,7 +325,7 @@ TCServer class >> stopAll
 ### Server logic
 
 Now we should define the logic of the server.
-We define a method `addMessage` that extracts the message from the request. It adds a newly created message \(instance of class `TCMessage`\) to the list of messages.
+We define a method `addMessage:` that extracts the message from the request. It adds a newly created message (instance of class `TCMessage`) to the list of messages.
 
 ```
 TCServer >> addMessage: aRequest
@@ -346,7 +341,7 @@ TCServer >> messageCount
 ```
 
 
-The method `messageFrom:` gives the list of messages received by the server since a given index \(specified by the client\).
+The method `messageFrom:` gives the list of messages received by the server since a given index (specified by the client).
 The messages returned to the client are a string of characters. This is definitively a point to improve - using string is a poor choice here. 
 
 ```
@@ -356,14 +351,14 @@ TCServer >> messagesFrom: request
 
 
 Now the server is finished and we can test it. 
-First let us begin by starting it:  
+First, let us begin by starting it:  
 
 ```
 	TCServer startOn: 8181
 ```
 
 
-Now we can verify that it is running either with a web browser \(Figure *@running@*\), or with a Zinc expression as follows: 
+Now we can verify that it is running either with a web browser (Figure *@running@*), or with a Zinc expression as follows: 
 
 ```
 ZnClient new url: 'http://localhost:8181/messages/count' ; get
@@ -394,12 +389,12 @@ ZnClient new
 
 Now we can concentrate on the client part of TinyChat. We decomposed the client into two classes:
 
-- `TinyChat` is the class that defines the connection logic \(connection, send, and message reception\),
+- `TinyChat` is the class that defines the connection logic (connection, send, and message reception),
 - `TCConsole` is a class defining the user interface. 
 
 
 The logic of the client is: 
-- During client startup, it asks the server the index of the last received message, 
+- During client startup, it asks the server for the index of the last received message, 
 - Every two seconds, it requests from the server the messages exchanged since its last connection. To do so, it passes to the server the index of the last message it got. 
 
 
@@ -408,10 +403,9 @@ The logic of the client is:
 We now define the class `TinyChat` in the package `TinyChat-client`. 
 
 ```
-Object subclass: #TinyChat
-	instanceVariableNames: 'url login exit messages console lastMessageIndex'
-	classVariableNames: ''
-	category: 'TinyChat-client'
+Object << #TinyChat
+	slots: {#url . #login . #exit . #messages . #console . #lastMessageIndex};
+	package: 'TinyChat-client'
 ```
 
 
@@ -504,7 +498,7 @@ TinyChat >> readMissingMessages
 
 We are now ready to define the refresh behavior of the client via the method `refreshMessages`.
 It uses a light process to read the messages received from the server at a regular interval. 
-The delay is set to 2 seconds. \(The message `fork` sent to a block \(a lexical closure in Pharo\) executes this block in a light process\). The logic of this method is to loop as long as the client does not specify to stop via the state of the `exit` variable. 
+The delay is set to 2 seconds. (The message `fork` sent to a block (a lexical closure in Pharo) executes this block in a light process). The logic of this method is to loop as long as the client does not specify to stop via the state of the `exit` variable. 
 
 The expression `(Delay forSeconds: 2) wait` suspends the execution of the process in which it is executed for a given number of seconds. 
 
@@ -585,7 +579,7 @@ TinyChat >> host: aHost port: aPort login: aLogin
 
 
 
-Finally we define a method `start`: which creates a graphical console \(that we will define later\), tells the server
+Finally, we define a method `start`: which creates a graphical console (that we will define later), tells the server
 that there is a new client, and gets the last message received by the server. 
 Note that a good evolution would be to decouple the model from its user interface by using notifications. 
 
@@ -604,16 +598,15 @@ TinyChat >> start
 The user interface is composed of a window with a list and an input field as shown in Figure *@tinychatclient@*. 
 
 ```
-ComposablePresenter subclass: #TCConsole
-	instanceVariableNames: 'chat list input'
-	classVariableNames: ''
-	category: 'TinyChat-client'
+ComposablePresenter <<  #TCConsole
+	slots: {#chat . #list . #input};
+	package: 'TinyChat-client'
 ```
 
 
 Note that the class `TCConsole` inherits from `ComposablePresenter`. This class is the root of the user interface logic classes.
- `TCConsole` defines the logic of the client interface \(i.e. what happens when we enter text in the input field...\). Based on the information given in this class, the Spec user interface builder automatically builds the visual representation. 
-The `chat` instance variable is a reference to an instance of the client model `TinyChat` and requires a setter method \(`chat:`\). The `list` and `input` instance variables both require an accessor. This is required by the User Interface builder.
+ `TCConsole` defines the logic of the client interface (i.e. what happens when we enter text in the input field...). Based on the information given in this class, the Spec user interface builder automatically builds the visual representation. 
+The `chat` instance variable is a reference to an instance of the client model `TinyChat` and requires a setter method (`chat:`). The `list` and `input` instance variables both require an accessor. This is required by the User Interface builder.
 
 ```
 TCConsole >> input
@@ -710,14 +703,14 @@ tcs send: 'salut olivier'
 ### Conclusion and ideas for future extensions
 
 
-We show that creating a REST server is really simple with Teapot. 
+We show that creating a REST server is simple with Teapot. 
 TinyChat provides a fun context to explore programming in Pharo and we hope that you like it. 
 We designed TinyChat so that it favors extensions and exploration. Here is a list of possible extensions.
 
 - Using JSON or STON to exchange information and not plain strings.
 - Making sure that the clients can handle a failure of the server.
 - Adding only the necessary messages to the list in the graphical client. 
-- Managing concurrent access in the server message collection \(if the server should handle concurrent requests the current implementation is not correct\).
+- Managing concurrent access in the server message collection (if the server should handle concurrent requests the current implementation is not correct).
 - Managing connection errors. 
 - Getting the list of connected users. 
 - Editing the delay to check for new messages. 
