@@ -183,10 +183,14 @@ We should be able to add, clear the list, and count the number of messages, so w
 ```
 TCMessageQueue >> add: aMessage
 	messages add: aMessage 
+```
 
+```
 TCMessageQueue >> reset
 	messages removeAll
+```
 
+```
 TCMessageQueue >> size
 	^ messages size
 ```
@@ -354,7 +358,7 @@ Now the server is finished and we can test it.
 First, let us begin by starting it:  
 
 ```
-	TCServer startOn: 8181
+TCServer startOn: 8181
 ```
 
 
@@ -390,7 +394,7 @@ ZnClient new
 Now we can concentrate on the client part of TinyChat. We decomposed the client into two classes:
 
 - `TinyChat` is the class that defines the connection logic (connection, send, and message reception),
-- `TCConsole` is a class defining the user interface. 
+- `TCConsolePresenter` is a class defining the user interface. 
 
 
 The logic of the client is: 
@@ -451,10 +455,12 @@ Now that we have these low-level operations we can define the three HTTP command
 ```
 TinyChat >> cmdLastMessageID
 	^ self command: '/messages/count'
-
+```
+```
 TinyChat >> cmdNewMessage
 	^self command: '/messages/add'
-
+```
+```
 TinyChat >> cmdMessagesFromLastIndexToEnd
 	"Returns the server messages from my current last index to the last one on the server."
 	^ self command: '/messages' argument: lastMessageIndex
@@ -585,7 +591,7 @@ Note that a good evolution would be to decouple the model from its user interfac
 
 ```
 TinyChat >> start
-	console := TCConsole attach: self.
+	console := TCConsolePresenter attach: self.
 	self sendNewMessage: (TCMessage from: login text: 'I joined the chat room').
 	lastMessageIndex := self readLastMessageID.
 	self refreshMessages.
@@ -598,24 +604,28 @@ TinyChat >> start
 The user interface is composed of a window with a list and an input field as shown in Figure *@tinychatclient@*. 
 
 ```
-ComposablePresenter <<  #TCConsole
+SpPresenter <<  #TCConsolePresenter
 	slots: {#chat . #list . #input};
 	package: 'TinyChat-client'
 ```
 
 
-Note that the class `TCConsole` inherits from `ComposablePresenter`. This class is the root of the user interface logic classes.
- `TCConsole` defines the logic of the client interface (i.e. what happens when we enter text in the input field...). Based on the information given in this class, the Spec user interface builder automatically builds the visual representation. 
-The `chat` instance variable is a reference to an instance of the client model `TinyChat` and requires a setter method (`chat:`). The `list` and `input` instance variables both require an accessor. This is required by the User Interface builder.
+Note that the class `TCConsolePresenter` inherits from `SpPresenter`. This class is the root of the user interface logic classes.
+ `TCConsolePresenter` defines the logic of the client interface (i.e. what happens when we enter text in the input field...).
+  Based on the information given in this class, the Spec user interface builder automatically builds the visual representation. 
+The `chat` instance variable is a reference to an instance of the client model `TinyChat` and requires a setter method (`chat:`). The `list` and `input` instance variables both require an accessor.
+ This is required by the User Interface builder.
 
 ```
-TCConsole >> input
+TCConsolePresenter >> input
 	^ input
-
-TCConsole >> list
+```
+```
+TCConsolePresenter >> list
 	^ list
-
-TCConsole >> chat: anObject
+```
+```
+TCConsolePresenter >> chat: anObject
 	chat := anObject
 ```
 
@@ -623,21 +633,22 @@ TCConsole >> chat: anObject
 We set the title of the window by defining the method `title`.
 
 ```
-TCConsole >> title
+TCConsolePresenter >> title
 	^ 'TinyChat'
 ```
 
 
 Now we should specify the layout of the graphical elements that compose the client.
-To do so we define the class method `TCConsole class>>defaultSpec`. Here we need a column with a list and an input field placed right below. 
+To do so we define the class method `TCConsolePresenter>>defaultLayout`. Here we need a column with a list and an input field placed right below. 
 
 ```
-TCConsole class >> defaultSpec
-	<spec: #default>
+TCConsolePresenter >> defaultLayout
 
-	^ SpecLayout composed
-		newColumn: [ :c | 
-			c add: #list; add: #input height: 30 ]; yourself
+	^ SpBoxLayout newTopToBottom
+			add: list;
+			add: input ;
+			yourself
+
 ```
 
 
@@ -647,13 +658,14 @@ The message `acceptBlock:` defines the action to be executed then the text is en
 Here we send it to the chat model and empty it.
 
 ```
-TCConsole >> initializeWidgets
+TCConsolePresenter >> initializeWidgets
 
-	list := ListModel new.
-	input := TextInputFieldModel new 
-		ghostText: 'Type your message here...';
-		enabled: true;
-		acceptBlock: [ :string |  
+	list := self newList.
+
+	input := self newTextInput.
+	input 
+		placeholder: 'Type your message here...';
+		whenSubmitDo: [ :string |  
 			chat send: string. 
 			input text: '' ].
 	self focusOrder add: input.
@@ -673,14 +685,12 @@ Finally we need to define the class method `TCConsole class>>attach:` that gets 
 This method opens the graphical elements and puts in place a mechanism that will close the connection as soon as the client closes the window.
  
 ```
-TCConsole class >> attach: aTinyChat
+TCConsolePresenter class >> attach: aTinyChat
 	| window |
 	window := self new chat: aTinyChat.
-	window openWithSpec whenClosedDo: [ aTinyChat disconnect ].
+	window open whenClosedDo: [ aTinyChat disconnect ].
 	^ window
 ```
-
-
 
 ### Now chatting
 
