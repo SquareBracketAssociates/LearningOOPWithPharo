@@ -1,5 +1,6 @@
 ## A basic LAN application
 @cha:basicLan
+
 The purpose of this mini-project is to define a little network simulator. 
  If you understand well basic object-oriented concepts, you can skip this part of the book even if it is fun to code a little simulator and in particular its less guided extensions.
  
