@@ -55,7 +55,7 @@ The other chapters contain extremely simple exercises which may be tedious to re
 # Little projects
 
 
-<!inputFile|path=Chapters/SimpleLAN/Simple-LAN-Definition.md!>
+<!inputFile|path=Chapters/SimpleLan/Simple-LAN-Definition.md!>
 <!inputFile|path=Chapters/SnakesAndLadders/SnakesAndLadders.md!>
 <!inputFile|path=Chapters/TinyChat/TinyChat.md!>
 
