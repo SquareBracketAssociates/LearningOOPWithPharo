@@ -380,7 +380,7 @@ What are the solutions?
 ### Introducing the Expression class
 
 
-![Introducing a common superclass.  %width=70&anchor=figExpressionHiera](figures/ExpressionsHierarchy.pngr)
+![Introducing a common superclass.  %width=70&anchor=figExpressionHiera](figures/ExpressionsHierarchy.png)
 
 Let us introduce a new class to obtain the situation depicted by Figure *@figExpressionHierar@*. 
 We can simply do it by adding a new class:
