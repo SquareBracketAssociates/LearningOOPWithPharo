@@ -39,7 +39,7 @@ game play
 
 Since we want to focus on the game logic, you will develop a textual version of the game and avoid any lengthy user interface descriptions.
 
-The following is an example of game execution: Two players are on the first tile. The board contains two ladders, \[2->6] and [7->9], and one snake [5<-11].
+The following is an example of game execution: Two players are on the first tile. The board contains two ladders, [2->6] and [7->9], and one snake [5<-11].
 
 Jill rolls a die, throws a 3, and moves to the corresponding tile.
 Jack rolls a die, throws a 6, moves to the corresponding tile, and follows its effect, climbing the ladder at tile 7 up to tile 9.
@@ -675,7 +675,7 @@ SLTile >> removePlayer: aPlayer
 
 
 Now propose an implementation of the method `movePlayer: aPlayer distance: anInteger`.
-You should get the destination tile for the player, remove the player from its current tile, add it to the destination tile and change the position of the player to reflect its new position.
+You should get the destination tile for the player, remove the player from its current tile, add it to the destination tile, and change the position of the player to reflect its new position.
 
 ```
 SLGame >> movePlayer: aPlayer distance: anInteger
@@ -688,7 +688,7 @@ We suspect that when we will introduce ladder and snake tiles, we will have to r
 #### About our implementation
 
 
-The implementation  that we propose below for the  method `movePlayer: aPlayer distance: anInteger` is not as nice as we would like it to be. Why? Because it does not give a chance to the tiles to extend this behavior and our experience tells us that we will need it when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
+The implementation that we propose below for the method `movePlayer: aPlayer distance: anInteger` is not as nice as we would like it to be. Why? Because it does not give a chance to the tiles to extend this behavior and our experience tells us that we will need it when we will introduce the snake and ladder. We will discuss that when we will arrive there. 
 
 ```
 SLGame >> movePlayer: aPlayer distance: anInteger 
@@ -950,7 +950,7 @@ SLSnakeTile >> printInsideOn: aStream
 #### super does not have to be the first expression
 
 
-Now we show you our definition of `printInsideOn:` for the class `SLSnakeTile`. Why do we show it? Because it shows you that an expression invoking an overriden method can be placed anywhere. It does not have to be the first expression of a method. Here it is the last one. 
+Now we show you our definition of `printInsideOn:` for the class `SLSnakeTile`. Why do we show it? Because it shows you that an expression invoking an overridden method can be placed anywhere. It does not have to be the first expression of a method. Here it is the last one. 
 
 ```
 SLSnakeTile >> printInsideOn: aStream

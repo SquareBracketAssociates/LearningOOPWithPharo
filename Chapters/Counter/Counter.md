@@ -62,9 +62,8 @@ Creating a class requires four steps. They consist basically in editing the clas
 You should get the following class definition.
 
 ```
-Object subclass: #Counter
-   instanceVariableNames: 'count'
-   classVariableNames: ''
+Object << #Counter
+   slots: { #count }; 
    package: 'MyCounter'
 ```
 
@@ -157,9 +156,7 @@ Writing tests is an important activity that will support the evolution of your a
 To define a test case we will define a class that inherits from `TestCase`. Therefore define a class named `CounterTest` as follows:
 
 ```
-TestCase subclass: #CounterTest
-   instanceVariableNames: ''
-   classVariableNames: ''
+TestCase << #CounterTest
    package: 'MyCounter'
 ```
 
@@ -167,7 +164,7 @@ TestCase subclass: #CounterTest
 Now we can write a first test by defining one method. Test methods should start with _test_ to be automatically executed by the TestRunner or when you press on the icon of the method. Now to make sure that you understand in which class we define the method we prefix the method body with the class name and `>>`.
 `CounterTest>>` means that the method is defined in the class `CounterTest`.
 
-Define the following method. It first creates an instance, sets its value and verifies that the value is correct. The message `assert:equals:` is a special message verifying if the test passed or not.
+Define the following method. It first creates an instance, sets its value, and verifies that the value is correct. The message `assert:equals:` is a special message verifying if the test passed or not.
 
 ```
 CounterTest >> testCountIsSetAndRead
@@ -310,7 +307,7 @@ If you run it, it will turn yellow indicating a failure \(a situation that you a
 #### Define an initialize method
 
 
-Now we have to write an initialization method that sets a default value of the `count` instance variable. However, as we mentioned the `initialize` message is sent to the newly created instance. This means that the `initialize` method should be defined at the instance side as any method that is sent to an instance of `Counter` \(like `increment`\) and `decrement`. The `initialize` method is responsible to set up the default value of instance variables.
+Now we have to write an initialization method that sets a default value of the `count` instance variable. However, as we mentioned the `initialize` message is sent to the newly created instance. This means that the `initialize` method should be defined at the instance side as any method that is sent to an instance of `Counter` (like `increment`) and `decrement`. The `initialize` method is responsible to set up the default value of instance variables.
 
 Therefore at the instance side, you should create a protocol `initialization`, and create the following method \(the body of this method is left blank. Fill it in!\).
 

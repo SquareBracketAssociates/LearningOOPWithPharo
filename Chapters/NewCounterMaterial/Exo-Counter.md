@@ -40,9 +40,8 @@ The lower pane of the Browser should now be open with a tab showing the template
 You should get the following class definition:
 
 ```
-Object subclass: #Counter
-      instanceVariableNames: 'count'
-      classVariableNames: ''
+Object << #Counter
+      slots: { #count };
       package: 'MyCounter'
 ```
 
@@ -73,6 +72,8 @@ The class we have defined has one instance variable named `count`, and we're goi
 
 And so there is no other mechanism to access our instance variable from outside of our counter than by sending a message to the object. What must do is define a method that returns the value of the instance variable. Such methods are called _getter_ methods. So, let's define an accessor method for our instance variable `count`.
 A method is usually placed into a _protocol_. These protocols are just a group of methods - they have no meaning in Pharo, but they do convey important information to the readers of your class. Although protocols can have any name, Pharo programmers follow certain conventions when naming protocols. If you define a method and are not sure what protocol it should be in, first take a look through existing code and see if you can find an appropriate protocol that already exists.
+
+
 ### Create a method
 
 Now let us create the getter method for the instance variable `count`. Start by selecting the class `Counter` in a Browser, and make sure you are editing the instance side of the class (i.e., we define methods on _instances_ of our class) by selecting the instance side tab. Then define your method.
@@ -110,21 +111,23 @@ c count
 ```
 
 The setter method does not currently exist, so as an exercise create the method `count:` such that, when invoked on an instance of `Counter`, the instance variable is set to the argument of the message. Test your method by evaluating the example above in a Playground.
+
 ### Define a Test Class
 
 Writing tests - whether you do it before or after you write your code - isn't really optional these days. A collection of well-written tests will support the evolution of your application, and give you confidence that your program does the things you expect it to do. Writing tests for your code is a good investment; test code is written once and executed a million times. For example, if we turned the example above into a test we could have checked automatically that our new setter method is working as expected. 
+
 Our test cases, written as methods, need to live inside a test class that inherits from `TestCase`. So we define a class named `CounterTest` as follows:
 
 ```
-TestCase subclass: #CounterTest
-      instanceVariableNames: ''
-      classVariableNames: ''
+TestCase << #CounterTest
       package: 'MyCounter'
 ```
 
 Now we can write our first test by defining a method. Test methods should start with _test_ to be automatically executed by the Test Runner or to get the little clickable circle next to the method name that lets you run the test.
 Figure *@FirstGreenTest@* shows the definition of the method `testCountIsSetAndRead` in the class `CounterTest`.
-![A first test is defined and it passes.](figures/FirstGreenTest.png label=FirstGreenTest)
+
+![A first test is defined and it passes. % anchor=FirstGreenTest](figures/FirstGreenTest.png)
+
 Define the following method for our test case. It first creates an instance of a `Counter`, sets its value and then verifies that the value has been set. The message `assert:equals:` is a message implemented in our test class. It verifies a fact (in this case that two objects are equal), and will fail the test if the fact isn't true.
 
 ```
@@ -138,19 +141,26 @@ CounterTest >> testCountIsSetAndRead
 #### A typographic convention
 
 Pharoers frequently use the notation `ClassName >> methodName` to identify the class to which a method belongs. For example, the `count` method we wrote above in our class `Counter` would be referred to as `Counter >> count`. Just keep in mind that this is not _exactly_ Pharo syntax, but more like a convenient notation we use to indicate "the instance method `count` which belongs to the class `Counter`".
+
 From now on, when we show a method in this book, we will write the name of the method in this form. Of course, when you actually type the code into the browser, you don't have to type the class name or the `>>`; instead, you just make sure that the appropriate class is selected in the class pane.
 Verify that the test passes by executing either pressing the circle icon in front of the method (as shown by Figure *@FirstGreenTest@*) or using the Test Runner.
 As you now have your first green test, it's a good time to save your work.
+
+
 ### Saving your code as a git repository with Iceberg
 
 Saving your work in the Pharo image is good, but it's not ideal for sharing your work or collaborating with others. Much of modern software development is mediated through git, an open-source version control system. Services such as GitHub are built on top of git, providing places where developers can work together building open source projects - like Pharo!
 Pharo works with git through the tool **Iceberg**. This section will show you how to create a local git repository for your code, commit your changes to it, and also push those changes to a remote repository such as GitHub.
+
 #### Open Iceberg
 
 Open Iceberg through the **Sources** menu, or by hitting `Cmd-O,I`.
-![Iceberg _Repositories_ browser on a fresh image indicates that if you want to version modifications to Pharo itself you will have to tell Iceberg where the Pharo clone is located. But you do not care.](figures/Save1-EmptyIceberg.png width=75&label=EmptyIceberg)
+
+![Iceberg _Repositories_ browser on a fresh image indicates that if you want to version modifications to Pharo itself you will have to tell Iceberg where the Pharo clone is located. But you do not care. %width=75&anchor=EmptyIceberg](figures/Save1-EmptyIceberg.png )
+
 You should now see something similar to Figure *@EmptyIceberg@* which shows the top-level Iceberg pane. It shows the Pharo project, and a few other projects that also come with your image, and indicates that it could not find a local repository for them by showing 'Local repository missing'. You do not have to worry about the Pharo project or having a local repository if you do not want to contribute to Pharo.
 We're going to create a new project of our own.
+
 #### Add and configure a project
 
 Press the button `Add` to create a new project. Select 'New Repository' from the left and you should see a configuration pane similar to the one in Figure *@CreateProject@*. Here we name our project, declare a directory on our local disk where the project's source should be saved, and also a subdirectory in the project itself which will be used to keep the Pharo code in -  conventionally this is the `src` directory.
@@ -227,11 +237,13 @@ CounterTest >> testInitialize
 ```
 
 This time the test will turn _yellow_, indicating a test failure - the test ran fine, but the assertion did not pass. This is different to the _red_ tests we've seen so far, where the tests have failed because an error occurred (when a method has not been implemented, for instance).
+
 ### Define an initialize method
 
 Now we have to write an initialization method that sets a default value of the `count` instance variable.
 In Pharo, when creating a new object sending the message `new` to a class, the newly created instance is sent a message `initialize`. This gives the opportunity to the instance to initialize itself. 
-Therefore we will define a `initialize` method that will correctly initialize the default value of a counter.
+
+Therefore we will define an `initialize` method that will correctly initialize the default value of a counter.
 
 Since the `initialize` message is sent to a new instance, it means that the `initialize` method should be defined on the _instance side_, just like any method that is sent to an instance of `Counter` (`increment` and `decrement`). The `initialize` method is responsible for setting up the default values of instance variables.
 And so, on the instance side of `Counter`, and in the `initialization` protocol, write the following method (the body of this method is left blank. Fill it in!).
@@ -250,6 +262,7 @@ As always, save your work before moving on to the next step.
 
 We just discussed how the `initialize` method is defined on the _instance side_ of our class, as it is responsible for altering an instance of `Counter`. Now let's take a look at defining a method on the _class side_ of a class. Class methods will be executed as a result of sending messages to the class itself, rather than to instances of the class. To define the method on the class, we need to toggle the Code Browser over to the class side by selecting **Class side**.
 Define a new instance creation method called `startingAt:`. This method receives an integer as an argument and returns a new instance of `Counter` with the count set to the specified value.
+
 What do we do first? Why, we define a test of course:
 
 ```
@@ -266,6 +279,7 @@ Counter class >> startingAt: anInteger
 ```
 
 Here we see the notation for identifying a _class side_ method in our text: `ClassName class >> methodName` just means "the class side method `startingAt:` on the class `Counter`".
+
 What does `self` refer to here? As always, `self` refers to the object that the method is defined in, and so here it refers to the `Counter` class itself. 
 Let's write another test just to make sure that everything is working:
 

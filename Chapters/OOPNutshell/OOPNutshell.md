@@ -360,7 +360,7 @@ What the diagram shows is that we have:
 - directories that have a name and can contain other files or directories. Here we get the `manga`, `comics`, `oldcomics`, and `belgiumSchool` directories. Directories can be nested: `comics` contains three repositories. The `belgiumSchool` directory contains `tintinEtLesPicaros`. 
 
 
-![Some directories and files organised in a file system. % width=50&anchor=figdirectories](figures/comicsFileTree.png)
+![Some directories and files organized in a file system. % width=50&anchor=figdirectories](figures/comicsFileTree.png)
 
 
 ### Studying a first scenario
@@ -370,6 +370,7 @@ In the rest of this book, we will code such examples as tests that can automatic
 For now, it would make the discourse too complex, so we just use little code examples. 
 
 We create two directories.
+
 ```
 | dComics dOldComics dManga |
 dComics := MFDirectory new name: 'comics'.
@@ -377,7 +378,7 @@ dOldComics := MFDirectory new name: 'oldcomics'.
 ```
 
 
-We add the oldcomics folder to comics and we check that the parent children relationship is well set. 
+We add the oldcomics folder to comics and we check that the parent-child relationship is well set. 
 
 ```
 	...
@@ -407,7 +408,7 @@ dComics parent
 ```
 
 
-Here we verify that `dOldComics` is comprised in the children of `dComics`. 
+Here we verify that `dOldComics` is comprised of the children of `dComics`. 
 ```
 	...
 dComics children includes: dOldComics. 
@@ -578,7 +579,7 @@ MFDirectory >> printOn: aStream
 Try it and it should print the expected results.
 What do we see with this definition: it is a kind of recursive definition. The name of a directory is in fact the concatenation (here we just add in the stream but this is the same. ) of the name of its parents (as shown in Figure *@InstancesRecursion@*).
 
-Similar to a recursive function navigating a structure composed of similar elements (like a linked-list or any structure defined by induction), each parent receives and executes another time the `printOn:` method and returns the name for its part.
+Similar to a recursive function navigating a structure composed of similar elements (like a linked list or any structure defined by induction), each parent receives and executes another time the `printOn:` method and returns the name for its part.
 
 ### Adding files
 

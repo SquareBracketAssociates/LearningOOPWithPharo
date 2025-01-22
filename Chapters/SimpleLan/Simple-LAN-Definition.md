@@ -9,7 +9,7 @@ From an object-oriented point of view, it is really interesting because it shows
 
 You will define step by step an application that simulates a simple Local Area Network (LAN).  You will create several classes: `LNPacket`, `LNNode`, `LNWorkstation`, and `LNPrintServer`. We start with the simplest version of a LAN. In subsequent exercises, we will add new requirements and modify the proposed implementation to take them into account.
 
-![An example of a LAN with packets.](figures/lan-simple width=60)
+![An example of a LAN with packets. % width=60](figures/lan-simple)
 
 
 ###  Creating the class `LNNode`
@@ -39,7 +39,6 @@ To help you write tests, we will define a test class.
 
 ```
 TestCase << #LNNodeTest
-	slots: {};
 	package: 'SimpleLAN'
 ```
 
@@ -51,6 +50,7 @@ Create a subclass of `Object` called `LNNode`, with two instance variables: `nam
 
 
 #### Exercise: Accessors
+
 Create accessors and mutators for the two instance variables. Document the mutators to inform users that the argument passed to `name:` should be a `Symbol`, and the arguments passed to `nextNode:` should be a `LNNode`. 
 Define the following test to validate such a simple behavior.
 
@@ -108,7 +108,7 @@ Note that:
 
 ##### A little example. 
 
-The following snippet shows basic behavior of an open LAN composed of two nodes, Mac and PC1. 
+The following snippet shows the basic behavior of an open LAN composed of two nodes, Mac and PC1. 
 
 ```
 (LNNode new
