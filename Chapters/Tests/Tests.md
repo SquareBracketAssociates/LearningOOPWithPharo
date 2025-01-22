@@ -33,9 +33,7 @@ Here the class `MyExampleSetTest` should inherit from `TestCase`. It is the plac
 related to the class `Set`. 
 
 ```
-TestCase subclass: #MyExampleSetTest
-	instanceVariableNames: ''
-	classVariableNames: ''
+TestCase << #MyExampleSetTest
 	package: 'MySetTest'
 ```
 
