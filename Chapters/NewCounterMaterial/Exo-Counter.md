@@ -26,15 +26,26 @@ We will write all of the necessary classes and methods to support this example.
 In this part, you will create your first class. In Pharo, a class is defined in a package, so we'll need to create a package first to put the class in. The steps are the same every time we create a class, so pay attention.
 #### Create a package
 
-Use the Browser to create a package (right-click in the package pane, select **New Package**). The system will ask you for a name, write `MyCounter`. This new package is then created, added to the package list, and selected by default. Figure *@figpackageCreated@* shows the expected result.
-![Package created and class creation template.](figures/CounterPackageCreated.png label=figpackageCreated)
+Use the Browser to create a package (right-click in the package pane, select **New Package**). The system will ask you for a name, write `MyCounter`. This new package is then created, added to the package list, and selected by default. 
+
+%Figure *@figpackageCreated@* shows the expected result.
+%![Package created and class creation template.](figures/CounterPackageCreated.png label=figpackageCreated)
+
 #### Create a class
 
-The lower pane of the Browser should now be open with a tab showing the template for a class definition. To create a new class, you just need to edit this template and compile the class. There are **five** parts you might want to change:
+
+
+The lower pane of the Browser should now be open with a tab showing the template for a class definition. To create a new class, you just need to edit this template and compile the class. 
+
+```
+Object << #MyClass	slots: {};	package: 'MyCounter'
+```
+
+There are three parts you might want to change:
 - **Superclass**. This describes the superclass of the class you're creating. It defaults to `Object`, the least specialized of all classes in Pharo, which is what we want for our new Counter class. This won't always be the case: often you'll want to base a class on a more specific class.
+
 - **Class Name**. Next, you should fill in the name of your class by replacing `#MyClass` with `#Counter`. Take care that the name of the class starts with a capital letter and that you do not remove the `#` sign in front of `#Counter`. This is because we name our classes using a **Symbol**, a unique string in Pharo which we write starting with a `#`. 
-- **Instance Variables**. Then, you should fill in the names of the instance variables of this class next to `instanceVariableNames`. We need only one instance variable called `'count'`. Take care that you leave in the quotes!
-- **Class Variables**. These are declared next to `classVariableNames:`; make sure it's an empty string as we will not need any class variables.
+- **Slots**. Then, you should fill in the names of the instance variables, also called slots, of this class. We need only one instance variable called `#count`.
 - **Package**. Here you specify the package name.
 
 You should get the following class definition:

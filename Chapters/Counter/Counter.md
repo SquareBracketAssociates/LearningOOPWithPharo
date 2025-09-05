@@ -1,4 +1,4 @@
-## Developing a simple counter
+## Developing a simple counter (old version)
 
 
 To get started in Pharo, we invite you to implement a simple counter by following the steps given below. In this exercise you will learn how to create packages classes, methods, instances. You will learn how to define tests and more. This simple tutorial covers most of the important actions that we do when developing in Pharo. 
