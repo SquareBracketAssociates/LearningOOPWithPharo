@@ -1,16 +1,16 @@
-## CATAs and Learning Points Summary
+## Katas and Learning Points Summary
 
-@cha:catasummary
+@cha:katasummary
 
-This chapter provides an overview of all the coding exercises (CATAs - Coding And Testing Activities) included in this book, along with the key learning points from each exercise.
+This chapter provides an overview of all the coding exercises (Katas) included in this book, along with the key learning points from each exercise.
 
-### What is a CATA?
+### What is a Kata?
 
-A CATA is a hands-on coding exercise designed to teach object-oriented programming concepts through practical implementation. Each CATA guides you through building a small project while reinforcing fundamental OOP principles and test-driven development practices.
+A Kata is a hands-on coding exercise designed to teach object-oriented programming concepts through practical implementation. The term comes from martial arts, where a kata is a sequence of movements practiced repeatedly to build muscle memory. In programming, each Kata guides you through building a small project while reinforcing fundamental OOP principles and test-driven development practices.
 
-### Overview of CATAs
+### Overview of Katas
 
-| CATA | Chapter | Key Concepts |
+| Kata | Chapter | Key Concepts |
 |------|---------|--------------|
 | Counter | NewCounterMaterial | Classes, instance variables, methods, TDD basics |
 | Collection Katas | Katas | Collections, iterators, Sets, String manipulation |
@@ -24,7 +24,7 @@ A CATA is a hands-on coding exercise designed to teach object-oriented programmi
 
 ---
 
-### CATA 1: Counter
+### Kata 1: Counter
 
 **Location:** `Chapters/NewCounterMaterial/Exo-Counter.md`
 
@@ -47,7 +47,7 @@ Counter new decrement.      "Decrease by 1"
 
 ---
 
-### CATA 2: Collection Katas (Isograms, Pangrams, Palindromes)
+### Kata 2: Collection Katas (Isograms, Pangrams, Palindromes)
 
 **Location:** `Chapters/Katas/GramKatas.md`
 
@@ -87,7 +87,7 @@ Check if a word/sentence reads the same forwards and backwards.
 
 ---
 
-### CATA 3: Temperature Converter
+### Kata 3: Temperature Converter
 
 **Location:** `Chapters/Converter/Converter.md`
 
@@ -108,7 +108,7 @@ Check if a word/sentence reads the same forwards and backwards.
 
 ---
 
-### CATA 4: Electronic Wallet
+### Kata 4: Electronic Wallet
 
 **Location:** `Chapters/Wallet/Wallet.md`
 
@@ -123,7 +123,7 @@ Check if a word/sentence reads the same forwards and backwards.
 
 ---
 
-### CATA 5: Dice Rolling DSL
+### Kata 5: Dice Rolling DSL
 
 **Location:** `Chapters/DSL/DSL.md`
 
@@ -149,7 +149,7 @@ The polymorphic `roll` API allows clients to treat single dice and dice handles 
 
 ---
 
-### CATA 6: Expression Interpreter
+### Kata 6: Expression Interpreter
 
 **Location:** `Chapters/Expressions/Expressions.md`
 
@@ -170,11 +170,11 @@ The polymorphic `roll` API allows clients to treat single dice and dice handles 
 - Extending behavior through inheritance
 
 **Design Pattern Preview:**
-This CATA sets the foundation for learning the Visitor pattern in advanced chapters.
+This Kata sets the foundation for learning the Visitor pattern in advanced chapters.
 
 ---
 
-### CATA 7: Simple LAN Simulator
+### Kata 7: Simple LAN Simulator
 
 **Location:** `Chapters/SimpleLan/Simple-LAN-Definition.md`
 
@@ -198,7 +198,7 @@ Nodes are connected in a ring, and packets travel until they find their destinat
 
 ---
 
-### CATA 8: Snakes and Ladders
+### Kata 8: Snakes and Ladders
 
 **Location:** `Chapters/SnakesAndLadders/SnakesAndLadders.md`
 
@@ -224,7 +224,7 @@ The chapter teaches how to identify objects by analyzing scenarios and grouping 
 
 ---
 
-### CATA 9: TinyChat
+### Kata 9: TinyChat
 
 **Location:** `Chapters/TinyChat/TinyChat.md`
 
@@ -246,10 +246,10 @@ The chapter teaches how to identify objects by analyzing scenarios and grouping 
 
 ---
 
-### Key Learning Themes Across All CATAs
+### Key Learning Themes Across All Katas
 
 #### 1. Test-Driven Development (TDD)
-Every CATA emphasizes writing tests first:
+Every Kata emphasizes writing tests first:
 - Define expected behavior with tests
 - Implement code to make tests pass
 - Refactor while keeping tests green
@@ -288,7 +288,7 @@ Pharo's rich collection library simplifies many tasks:
 
 ### Progression Path
 
-We recommend working through the CATAs in this order:
+We recommend working through the Katas in this order:
 
 1. **Counter** - Start here to learn basic class creation
 2. **Collection Katas** - Master Pharo's powerful collections
@@ -302,7 +302,7 @@ We recommend working through the CATAs in this order:
 
 ### Conclusion
 
-These CATAs provide a progressive journey through object-oriented programming concepts. Each exercise builds upon previous knowledge while introducing new concepts. By completing all exercises, you will have a solid foundation in:
+These Katas provide a progressive journey through object-oriented programming concepts. Each exercise builds upon previous knowledge while introducing new concepts. By completing all exercises, you will have a solid foundation in:
 
 - Object-oriented design
 - Test-driven development
@@ -310,4 +310,4 @@ These CATAs provide a progressive journey through object-oriented programming co
 - Clean code practices
 - Design patterns fundamentals
 
-The key to learning is practice - work through each CATA, experiment with variations, and don't hesitate to extend the exercises with your own ideas.
+The key to learning is practice - work through each Kata, experiment with variations, and don't hesitate to extend the exercises with your own ideas.
