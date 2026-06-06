@@ -1,0 +1,109 @@
+---
+kind: pipeline
+type: docker
+name: TeXlive
+
+steps:
+  - name: build
+    image: texlive/texlive
+    commands:
+      - tlmgr option repository https://ctan.gutenberg-asso.fr/systems/texlive/tlnet
+      - tlmgr update --self --all
+      - latexmk sbabook
+      - latexmk sbabook.bod
+      - latexmk sbabook.spiral
+
+  - name: build log
+    image: alpine
+    commands:
+      - cat sbabook.log
+      - cat sbabook.bod.log
+      - cat sbabook.spiral.log
+    when:
+      status: [failure, success]
+
+---
+kind: pipeline
+type: docker
+name: minimal TeXlive
+
+steps:
+  - name: build
+    image: texlive/texlive:latest-minimal
+    pull: always
+    commands:
+      - tlmgr option repository https://ctan.gutenberg-asso.fr/systems/texlive/tlnet
+      - tlmgr update --self --all
+      - tlmgr install latex-bin latexmk
+      - xargs tlmgr install < texlive.deps
+      - tlmgr path add
+      - latexmk sbabook
+      - latexmk sbabook.bod
+      - latexmk sbabook.spiral
+
+  - name: build log
+    image: alpine
+    commands:
+      - cat sbabook.log
+      - cat sbabook.bod.log
+      - cat sbabook.spiral.log
+    when:
+      status: [failure, success]
+
+---
+kind: pipeline
+type: docker
+name: Ubuntu + TeXlive 2023
+
+environment:
+  TEXLIVE_RELEASE: 2023
+
+steps:
+  - name: build
+    image: ubuntu
+    commands:
+      - apt update && apt install -y curl perl
+      - export PATH=$HOME/texlive/bin/x86_64-linux:$HOME/texlive/bin/aarch64-linux:$PATH
+      - ./ci/install-texlive
+      - xargs tlmgr install < texlive-2023.deps
+      - latexmk sbabook
+      - latexmk sbabook.bod
+      - latexmk sbabook.spiral
+
+  - name: build log
+    image: alpine
+    commands:
+      - cat sbabook.log
+      - cat sbabook.bod.log
+      - cat sbabook.spiral.log
+    when:
+      status: [failure, success]
+
+---
+kind: pipeline
+type: docker
+name: Ubuntu + TeXlive rolling
+
+environment:
+  TEXLIVE_RELEASE: rolling
+
+steps:
+  - name: build
+    image: ubuntu
+    commands:
+      - apt update && apt install -y curl perl
+      - export PATH=$HOME/texlive/bin/x86_64-linux:$HOME/texlive/bin/aarch64-linux:$PATH
+      - ./ci/install-texlive
+      - xargs tlmgr install < texlive.deps
+      - latexmk sbabook
+      - latexmk sbabook.bod
+      - latexmk sbabook.spiral
+
+  - name: build log
+    image: alpine
+    commands:
+      - cat sbabook.log
+      - cat sbabook.bod.log
+      - cat sbabook.spiral.log
+    when:
+      status: [failure, success]

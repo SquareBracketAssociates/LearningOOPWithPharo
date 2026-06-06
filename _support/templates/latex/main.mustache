@@ -2,13 +2,9 @@
 \documentclass[10pt,twoside,english]{_support/latex/sbabook/sbabook}
 \let\wholebook=\relax
 
+%\usepackage{amsmath}
 \usepackage{import}
 \subimport{_support/latex/}{common.tex}
-
-% to have the bod format
-% normally common.tex already sets the pagelayout using \pagelayout{\bodpage}
-\providecommand{\setuppage}{\bodpage}
-
 
 %=================================================================
 % Debug packages for page layout and overfull lines
@@ -49,7 +45,7 @@
 \cleartoverso
 {\small
 
-  Copyright 2024 by «& attribution».
+  Copyright 2023 by «& attribution».
 
   The contents of this book are protected under the Creative Commons
   Attribution-NonCommercial-NoDerivs 
@@ -75,7 +71,7 @@ the copyright holder. Nothing in this license impairs or restricts the
 author's moral rights.
 
 \begin{center}
-    \includegraphics[width=0.2\textwidth]{_support/latex/CreativeCommons-BY-NC-ND.pdf}
+    \includegraphics[width=0.2\textwidth]{_support/latex/CreativeCommons-BYNOCND.pdf}
 \end{center}
 
   \vfill
@@ -83,8 +79,8 @@ Keepers of the lighthouse\\
 Édition : BoD - Books on Demand,\\
 12/14 rond-point des Champs-Élysées,75008 Paris\\
 Impression : Books on Demand GmbH, Norderstedt, Allemagne\\
-ISBN: 9782322506187\\
-Dépôt légal : 11/2024\\
+ISBN: XXXXXXXXXXXXXXX\\
+Dépôt légal : Month/YEAR\\
 Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien Pollet.
 }
 
@@ -99,13 +95,10 @@ Layout and typography based on the \textcode{sbabook} \LaTeX{} class by Damien P
 
 «& content»
 
-
-
 % Index would go here
 \bibliographystyle{abbrv}
 \bibliography{«& bibFile»}
 
 \backmatter
-
 
 \end{document}

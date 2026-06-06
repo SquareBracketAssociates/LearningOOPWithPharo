@@ -89,7 +89,7 @@ function install-texlive() {
     tlmgr option repository "$repo"
 
     tlmgr update --self --all
-    tlmgr install latex-bin latexmk bibtex
+    tlmgr install latex-bin latexmk
 }
 
 # Only call the main function if this script was called as a command. This makes

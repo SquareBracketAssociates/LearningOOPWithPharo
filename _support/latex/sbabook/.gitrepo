@@ -7,6 +7,6 @@
 	remote = https://github.com/cdlm/sbabook.git
 	branch = v0.2.8
 	commit = ffabafecf60c20d856b706f9377595a45be7704f
-	parent = 516fa928fd5a8f70f1dbbb6ff56d18244d549681
+	parent = 45207449de0cce8a515afcfe358fabf185a14d30
 	method = merge
 	cmdver = 0.4.6
