@@ -16,10 +16,11 @@ function texlive-repo() {
     local release="$1" url
 
     if [[ "$release" = rolling ]]; then
-        url='http://mirror.ctan.org/systems/texlive/tlnet'
+        url='https://mirror.ctan.org/systems/texlive/tlnet'
     else
         [[ "$release" = [0-9][0-9][0-9][0-9] ]] || die "${FUNCNAME[0]}: incorrect release '$release'"
-        url="https://ftp.tu-chemnitz.de/pub/tug/historic/systems/texlive/${release}/tlnet-final/"
+        url="https://mirror.ctan.org/systems/texlive/tlnet"
+		#url="https://ftp.tu-chemnitz.de/pub/tug/historic/systems/texlive/${release}/tlnet-final/"
         # the rolling release is missing the shasum, and the tlnet directory
         # US mirror: http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/${release}/
     fi
@@ -92,13 +93,15 @@ function install-texlive() {
     tlmgr install latex-bin latexmk
 }
 
+install-texlive 2026 https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/systems/texlive/tlnet/
+
 # Only call the main function if this script was called as a command. This makes
 # it possible to source this script as a library.
-if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+#if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
     # Override the full repository URL or set TEXLIVE_RELEASE to pick that year's frozen release.
     # Defaults to the current rolling release.
-    release="${1:-${TEXLIVE_RELEASE:-rolling}}"
-    repo="${2:-${TEXLIVE_REPOSITORY:-$(texlive-repo "$release")}}"
+#    release="${1:-${TEXLIVE_RELEASE:-rolling}}"
+#    repo="${2:-${TEXLIVE_REPOSITORY:-$(texlive-repo "$release")}}"
 
-    install-texlive "$release" "$repo"
-fi
+#    install-texlive "$release" "$repo"
+#fi

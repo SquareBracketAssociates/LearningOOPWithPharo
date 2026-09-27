@@ -1,0 +1,68 @@
+name: Local Book generation
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TEXLIVE_RELEASE: '2026'
+    
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - name: Set PATH
+        run: |
+          echo "${{ github.workspace }}/build" >> $GITHUB_PATH
+          echo "$HOME/texlive/bin/x86_64-linux" >> $GITHUB_PATH
+
+      - name: Prepare Pillar
+        run: |
+          git clone https://github.com/pillar-markup/pillar.git -b v11.2.4
+          ./pillar/scripts/build.sh
+
+      - name: Prepare TeXlive
+        run: |
+          ./_support/latex/sbabook/ci/install-texlive
+
+      - name: Install Bibtex
+        run: |
+          xargs tlmgr install bibtex
+
+
+      - name: Install SBA TeXlive Dependencies
+        run: |
+          xargs tlmgr install < ./_support/latex/sbabook/texlive.deps
+
+      - name: Install Pillar Template TeXlive Dependencies
+        run: |
+          xargs tlmgr install < ./_support/latex/texlive.deps
+
+      - name: Build PDF
+        run: |
+          pillar build pdf index.md
+          mkdir -p artifacts
+          mv _result/pdf/index.pdf "artifacts/index.pdf"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: index.pdf
+          path: artifacts/index.pdf
+
+      - name: Continuous Release
+        if: ${{ (github.event_name == 'push') }}
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            artifacts/*.pdf
