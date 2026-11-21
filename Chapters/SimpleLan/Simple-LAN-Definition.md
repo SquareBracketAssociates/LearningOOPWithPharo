@@ -9,7 +9,7 @@ From an object-oriented point of view, it is really interesting because it shows
 
 You will define step by step an application that simulates a simple Local Area Network (LAN).  You will create several classes: `LNPacket`, `LNNode`, `LNWorkstation`, and `LNPrintServer`. We start with the simplest version of a LAN. In subsequent exercises, we will add new requirements and modify the proposed implementation to take them into account.
 
-![An example of a LAN with packets. % width=60](figures/lan-simple)
+![An example of a LAN with packets. % width=60](figures/lan-simple.pdf)
 
 
 ###  Creating the class `LNNode`
