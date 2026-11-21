@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="_support/html/css/book.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to the text</a>
+  <div class="layout">
+{{#toc}}
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+        <ol>
+          {{#children}}
+          <li>
+            <a href="{{href}}">{{name}}</a>
+            {{#hasChildren}}
+            <ol>
+              {{#children}}
+              <li><a href="{{href}}">{{name}}</a></li>
+              {{/children}}
+            </ol>
+            {{/hasChildren}}
+          </li>
+          {{/children}}
+        </ol>
+    </nav>
+{{/toc}}
+    <main id="content" class="page">
+{{{contents}}}
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+/*
+  Your CSS rules, loaded after _support/html/css/book.css (see _custom/README.md).
+  Remove the comment marks around a rule to use it.
+
+  Width of the text column:
+  :root { --measure: 80ch; }
+
+  Chapter titles in capitals:
+  h2 { text-transform: uppercase; }
+
+  The colors (--accent, --background, --text...) are defined at the top of book.css for each palette
+  ("palette" in pillar.conf) and for the dark mode. To change one, repeat the selector that defines it there, e.g.:
+  :root { --accent: #8a2be2; }
+*/

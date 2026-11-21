@@ -1,0 +1,782 @@
+/* book.css: a plain stylesheet for reading technical books.
+   No JavaScript, no external resources: the fonts come from ../fonts.
+   Used by _support/templates/html/plain.mustache. */
+
+/* ---------- Fonts (local) ---------- */
+
+@font-face {
+  font-family: "Lato";
+  src: url("../fonts/Lato-Regular.woff2") format("woff2"),
+       url("../fonts/Lato-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("../fonts/Lato-Bold.woff2") format("woff2"),
+       url("../fonts/Lato-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("../fonts/RobotoMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("../fonts/RobotoMono-Medium.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Colors ----------
+   Palettes: sky (default: light blue, orange highlights), sunset (orange, blue highlights), classic.
+   Each has a light and a dark variant. site.mustache writes the choice of pillar.conf on <html>:
+     data-palette="sky|sunset|classic"   (missing or empty: sky)
+     data-theme="light|dark"            (missing or empty: follow the reader's system)
+   --accent colors links and the current chapter; --highlight marks code, the current chapter and numbers. */
+
+:root {
+  color-scheme: light;
+
+  /* sky, light */
+  --text: #1b2733;
+  --muted: #5a6b7c;
+  --background: #fbfdff;
+  --surface: #eef5fb;
+  --border: #d5e3ee;
+  --accent: #1a73b8;
+  --accent-visited: #5b55b0;
+  --highlight: #e07b24;
+  --code-background: #f2f7fb;
+  --note: #1a73b8;
+  --important: #d06a17;
+  --warning: #c0392b;
+  --tip: #23845a;
+
+  --measure: 72ch;
+  --toc-width: 17rem;
+  --body-font: "Lato", "Helvetica Neue", Arial, sans-serif;
+  --code-font: "Roboto Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+
+:root[data-palette="sunset"] {
+  --text: #2a2017;
+  --muted: #6f5f50;
+  --background: #fffaf4;
+  --surface: #fbeee1;
+  --border: #eddac6;
+  --accent: #b9570c;
+  --accent-visited: #8a4a8f;
+  --highlight: #2b86c8;
+  --code-background: #fcf4ea;
+  --note: #2b86c8;
+  --important: #b9570c;
+  --warning: #b3302a;
+  --tip: #2f7d4a;
+}
+
+:root[data-palette="classic"] {
+  --text: #1f2328;
+  --muted: #5d6670;
+  --background: #fdfcfa;
+  --surface: #f3f1ec;
+  --border: #dedad2;
+  --accent: #1d5fa8;
+  --accent-visited: #6b4aa0;
+  --highlight: #1d5fa8;
+  --code-background: #f4f2ed;
+  --note: #1d5fa8;
+  --important: #b5521b;
+  --warning: #a32d2d;
+  --tip: #2f7d4a;
+}
+
+/* Dark variants: they apply when the system is dark (unless the book forces light),
+   and when the book forces dark. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --text: #dde7f0;
+    --muted: #93a6b8;
+    --background: #0f1923;
+    --surface: #17242f;
+    --border: #273848;
+    --accent: #7cc3f0;
+    --accent-visited: #b4b2f2;
+    --highlight: #f4a259;
+    --code-background: #13202a;
+    --note: #7cc3f0;
+    --important: #f4a259;
+    --warning: #f08a80;
+    --tip: #77cfa0;
+  }
+
+  :root[data-palette="sunset"]:not([data-theme="light"]) {
+    --text: #f0e6db;
+    --muted: #b5a391;
+    --background: #1c1611;
+    --surface: #271e17;
+    --border: #3b2f24;
+    --accent: #f6a560;
+    --accent-visited: #dba8de;
+    --highlight: #82c2ef;
+    --code-background: #221a14;
+    --note: #82c2ef;
+    --important: #f6a560;
+    --warning: #f08a80;
+    --tip: #7cc994;
+  }
+
+  :root[data-palette="classic"]:not([data-theme="light"]) {
+    --text: #e3e1dc;
+    --muted: #a19d95;
+    --background: #1b1c1e;
+    --surface: #242528;
+    --border: #3a3b3f;
+    --accent: #7fb2ec;
+    --accent-visited: #b9a0e3;
+    --highlight: #7fb2ec;
+    --code-background: #232427;
+    --note: #7fb2ec;
+    --important: #e59a63;
+    --warning: #ec8a8a;
+    --tip: #7cc994;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #dde7f0;
+  --muted: #93a6b8;
+  --background: #0f1923;
+  --surface: #17242f;
+  --border: #273848;
+  --accent: #7cc3f0;
+  --accent-visited: #b4b2f2;
+  --highlight: #f4a259;
+  --code-background: #13202a;
+  --note: #7cc3f0;
+  --important: #f4a259;
+  --warning: #f08a80;
+  --tip: #77cfa0;
+}
+
+:root[data-theme="dark"][data-palette="sunset"] {
+  --text: #f0e6db;
+  --muted: #b5a391;
+  --background: #1c1611;
+  --surface: #271e17;
+  --border: #3b2f24;
+  --accent: #f6a560;
+  --accent-visited: #dba8de;
+  --highlight: #82c2ef;
+  --code-background: #221a14;
+  --note: #82c2ef;
+  --important: #f6a560;
+  --warning: #f08a80;
+  --tip: #7cc994;
+}
+
+:root[data-theme="dark"][data-palette="classic"] {
+  --text: #e3e1dc;
+  --muted: #a19d95;
+  --background: #1b1c1e;
+  --surface: #242528;
+  --border: #3a3b3f;
+  --accent: #7fb2ec;
+  --accent-visited: #b9a0e3;
+  --highlight: #7fb2ec;
+  --code-background: #232427;
+  --note: #7fb2ec;
+  --important: #e59a63;
+  --warning: #ec8a8a;
+  --tip: #7cc994;
+}
+
+/* ---------- Page ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 106.25%; /* 17px */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--body-font);
+  line-height: 1.65;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999rem;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  z-index: 10;
+}
+
+.site-header {
+  padding: 0.9rem 1.5rem;
+  border-top: 4px solid var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-name,
+.site-name:visited {
+  color: var(--text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.site-authors {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: calc(var(--measure) + var(--toc-width) + 6rem);
+  margin: 0 auto;
+}
+
+.page {
+  min-width: 0;
+  max-width: var(--measure);
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+.site-footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ---------- Cover (index page) ---------- */
+
+.cover {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  margin: 1rem 0 2.5rem;
+}
+
+.cover-figure {
+  flex: 0 1 50%;
+  min-width: 12rem;
+  margin: 0;
+}
+
+.cover-figure img {
+  display: block;
+  max-width: 100%;
+  max-height: 75vh;
+  width: auto;
+  height: auto;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+.cover-credit {
+  margin: 1.5rem 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.cover-text {
+  flex: 1 1 14rem;
+}
+
+.cover-title {
+  margin: 0 0 0.5rem;
+  font-size: 2.2rem;
+  line-height: 1.2;
+}
+
+.cover-authors {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+}
+
+.start-reading,
+.start-reading:visited {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--background);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.start-reading:hover {
+  opacity: 0.9;
+}
+
+/* ---------- Table of contents ---------- */
+
+.toc {
+  padding: 1rem 1.25rem 0;
+  font-size: 0.9rem;
+}
+
+.toc-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.toc ol ol {
+  margin: 0.2rem 0 0.4rem 0.9rem;
+  padding-left: 0.6rem;
+  border-left: 1px solid var(--border);
+}
+
+.toc li {
+  margin: 0.25rem 0;
+  line-height: 1.35;
+}
+
+.toc a,
+.toc a:visited {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--accent);
+}
+
+/* The chapter of the page (site.mustache marks it). */
+.toc .current > a {
+  display: inline-block;
+  margin-left: -0.75rem;
+  padding-left: 0.55rem;
+  border-left: 3px solid var(--highlight);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* A part (a # header when chapters are ##): a heading that groups the chapters after it (site.mustache marks it). */
+.toc li[data-part] {
+  margin: 1.1rem 0 0.4rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.toc li[data-part] > a {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Numbers of chapters, sections and figures (MicBookHTMLVisitor, site.mustache). */
+.number {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* In headers and captions, numbers take the highlight color. */
+h1 .number,
+h2 .number,
+h3 .number,
+h4 .number,
+figcaption .number {
+  color: var(--highlight);
+}
+
+figcaption .number {
+  font-weight: 700;
+}
+
+/* ---------- Previous / next chapter (site.mustache) ---------- */
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.pager a {
+  text-decoration: none;
+}
+
+.pager .next {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* A page without contents: the text is centered. */
+.layout:not(:has(.toc)) .page {
+  margin-inline: auto;
+}
+
+/* Wide screens: the contents sit in a sticky column on the left. */
+@media (min-width: 64rem) {
+  .layout:has(.toc) {
+    grid-template-columns: var(--toc-width) minmax(0, 1fr);
+    column-gap: 3rem;
+  }
+
+  .toc {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding: 2rem 0 2rem 1.5rem;
+  }
+
+  .page {
+    padding-top: 2rem;
+  }
+}
+
+/* ---------- Text ---------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.25;
+  font-weight: 700;
+  margin: 2.2em 0 0.6em;
+  scroll-margin-top: 1rem;
+}
+
+/* The chapter title: set by plain.mustache, or the first heading of a page
+   written with the element templates (header.mustache gives it a level-N class). */
+.chapter-title,
+.page > h1:first-child,
+.page > .heading:first-child {
+  border-bottom: 0;
+  margin-top: 0.5rem;
+  font-size: 2.2rem;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; padding-bottom: 0.25rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1.05rem; }
+h5,
+h6 { font-size: 1rem; color: var(--muted); }
+
+/* A paragraph label (a header at the paragraph level of the book or deeper, ##### by default):
+   a bold label just above its paragraph, whatever its level, as \paragraph in the PDF. */
+h1.paragraph,
+h2.paragraph,
+h3.paragraph,
+h4.paragraph,
+h5.paragraph,
+h6.paragraph {
+  margin: 1.4em 0 0.3em;
+  padding: 0;
+  border: none;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+p,
+ul,
+ol,
+dl,
+table,
+figure,
+pre,
+blockquote {
+  margin: 0 0 1.1rem;
+}
+
+.page ul,
+.page ol {
+  padding-left: 1.6rem;
+}
+
+li > ul,
+li > ol {
+  margin-bottom: 0;
+}
+
+li + li {
+  margin-top: 0.2rem;
+}
+
+/* Task items (- [ ] and - [x]): the checkbox replaces the bullet. */
+li:has(> input[type="checkbox"]:first-child) {
+  list-style: none;
+  margin-left: -1.3rem;
+}
+
+li > input[type="checkbox"]:first-child {
+  accent-color: var(--accent);
+  margin: 0 0.35rem 0 0;
+  vertical-align: -0.1em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+a:visited {
+  color: var(--accent-visited);
+}
+
+strong {
+  font-weight: 700;
+}
+
+strike,
+del {
+  color: var(--muted);
+}
+
+hr {
+  margin: 2.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------- Code ---------- */
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--code-font);
+  font-size: 0.86em;
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.12em;
+  border-radius: 4px;
+  background: var(--code-background);
+  overflow-wrap: break-word;
+}
+
+pre {
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--highlight);
+  border-radius: 4px;
+  background: var(--code-background);
+  line-height: 1.5;
+  overflow-x: auto;
+  tab-size: 4;
+}
+
+pre code {
+  padding: 0;
+  font-size: inherit;
+  background: none;
+  white-space: pre;
+}
+
+/* Code blocks written by codeBlock.mustache: <figure class="code"> around the pre, with an optional caption. */
+figure.code {
+  margin: 0 0 1.1rem;
+  text-align: left;
+}
+
+figure.code pre {
+  margin: 0;
+}
+
+figure.code figcaption {
+  margin-top: 0.35rem;
+  text-align: left;
+}
+
+/* ---------- Figures and tables ---------- */
+
+figure {
+  margin: 1.8rem 0;
+  text-align: center;
+}
+
+figure img,
+.page img {
+  max-width: 100%;
+  height: auto;
+}
+
+figcaption {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th,
+td {
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: var(--surface);
+  font-weight: 700;
+}
+
+/* ---------- Quotes and annotated paragraphs ---------- */
+
+blockquote,
+.page > q {
+  display: block;
+  margin: 1.5rem 0;
+  padding: 0.2rem 1.1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
+
+.page q::before,
+.page q::after {
+  content: none;
+}
+
+/* Annotated paragraphs (!!note, !!important, ...) are written as <q id="label">. */
+q[id] {
+  display: block;
+  margin: 1.5rem 0;
+  padding: 0.8rem 1.1rem;
+  border-left: 4px solid var(--note);
+  border-radius: 0 4px 4px 0;
+  background: var(--surface);
+  color: var(--text);
+}
+
+q[id]::before {
+  content: attr(id);
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--note);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+q[id="important"] { border-left-color: var(--important); }
+q[id="important"]::before { color: var(--important); }
+q[id="warning"],
+q[id="caution"] { border-left-color: var(--warning); }
+q[id="warning"]::before,
+q[id="caution"]::before { color: var(--warning); }
+q[id="tip"] { border-left-color: var(--tip); }
+q[id="tip"]::before { color: var(--tip); }
+
+/* ---------- Print ---------- */
+
+@media print {
+  :root {
+    --text: #000;
+    --muted: #444;
+    --background: #fff;
+    --surface: #f2f2f2;
+    --border: #bbb;
+    --code-background: #f5f5f5;
+  }
+
+  html {
+    font-size: 11pt;
+  }
+
+  .site-header,
+  .toc,
+  .site-footer,
+  .skip-link {
+    display: none;
+  }
+
+  .layout {
+    display: block;
+    max-width: none;
+  }
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  pre,
+  figure,
+  table,
+  q[id] {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
+  }
+
+  pre {
+    white-space: pre-wrap;
+  }
+}

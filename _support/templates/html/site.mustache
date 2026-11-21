@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"{{#palette}} data-palette="{{.}}"{{/palette}}{{#theme}} data-theme="{{.}}"{{/theme}}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  {{#attribution}}<meta name="author" content="{{.}}">{{/attribution}}
+  <link rel="stylesheet" href="_support/html/css/book.css">
+  {{#customCss}}<link rel="stylesheet" href="_support/html/css/custom.css">{{/customCss}}
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to the text</a>
+
+  <header class="site-header">
+    <a class="site-name" href="index.html">{{bookTitle}}</a>
+    {{#attribution}}<p class="site-authors">{{.}}</p>{{/attribution}}
+  </header>
+
+  <div class="layout">
+{{#toc}}
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+        <ol>
+          {{#children}}
+          <li{{#isCurrent}} class="current"{{/isCurrent}}{{#isPart}} data-part{{/isPart}}>
+            <a href="{{href}}"{{#isCurrent}} aria-current="page"{{/isCurrent}}>{{#number}}<span class="number">{{.}}</span> {{/number}}{{name}}</a>
+            {{#hasChildren}}
+            <ol>
+              {{#children}}
+              <li><a href="{{href}}">{{#number}}<span class="number">{{.}}</span> {{/number}}{{name}}</a></li>
+              {{/children}}
+            </ol>
+            {{/hasChildren}}
+          </li>
+          {{/children}}
+        </ol>
+    </nav>
+{{/toc}}
+
+    <main id="content" class="page">
+      {{^previous}}
+      <section class="cover">
+        {{#cover}}
+        <figure class="cover-figure">
+          <img src="{{.}}" alt="Book cover">
+        </figure>
+        {{/cover}}
+        <div class="cover-text">
+          <h1 class="cover-title">{{bookTitle}}</h1>
+          {{#attribution}}<p class="cover-authors">{{.}}</p>{{/attribution}}
+          {{#next}}<a class="start-reading" href="{{href}}">Start reading →</a>{{/next}}
+          {{#coverCredit}}<p class="cover-credit">{{.}}</p>{{/coverCredit}}
+        </div>
+      </section>
+      {{/previous}}
+{{{content}}}
+      <nav class="pager" aria-label="Chapters">
+        {{#previous}}<a class="previous" rel="prev" href="{{href}}">← {{title}}</a>{{/previous}}
+        {{#next}}<a class="next" rel="next" href="{{href}}">{{title}} →</a>{{/next}}
+      </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>{{bookTitle}}{{#attribution}} · {{.}}{{/attribution}}{{#generationDate}} · Generated on {{.}}{{/generationDate}}</p>
+  </footer>
+</body>
+</html>

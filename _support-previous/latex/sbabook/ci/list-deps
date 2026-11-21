@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -o nounset
+set -o errexit
+set -o errtrace
+set -o pipefail
+IFS=
+trap 's=$?; echo "$0: Error on line "$LINENO": $BASH_COMMAND"; exit $s' ERR
+
+shopt -s extglob
+declare -A DEPS
+
+: "${TEXLIVE_REPOSITORY:=http://mirror.ctan.org/systems/texlive/tlnet}"
+TEXLIVE_REPOSITORY="$(curl -LIs -o /dev/null -w '%{url_effective}' "$TEXLIVE_REPOSITORY")"
+PREFIX="$(kpsewhich --var-value TEXMFROOT)"
+
+function die {
+    local code="${1:-1}"
+    [[ $# -ge 1 ]] && shift
+
+    printf "$(tput setaf 1)%s$(tput sgr0)\n" "$@" 1>&2
+    exit "$code"
+}
+
+function info-inline {
+    printf "$(tput setaf 3)%s$(tput sgr0)" "$@" 1>&2
+}
+
+function info {
+    info-inline "$@"
+    printf "\n" 1>&2
+}
+
+function texlive-release() {
+    tlmgr --version \
+        | sed '/^tlmgr/d ; s/.*version //'
+}
+
+function filter-inputs {
+    sed -e '\#^INPUT '"$PREFIX"'/texmf-dist#!d' \
+        -e 's#^INPUT '"$PREFIX"'/##' \
+        "$@"
+}
+
+function query-package-containing {
+    local filename="${1?}"
+    tlmgr --repository "$TEXLIVE_REPOSITORY" \
+        search --global --file "$filename" \
+        | sed '/^\t/d ; /^tlmgr:/d ; s/:$//'
+}
+
+function list-package-files {
+    local pkgname="${1?}"
+    tlmgr --repository "$TEXLIVE_REPOSITORY" \
+        info --list "$pkgname" \
+        | sed '/^  /!d ; s/^ *//'
+}
+
+function encache-file {
+    local filename="${1?}" pkgname
+    pkgname="$(query-package-containing "${filename}")"
+    while read -r provided; do
+        DEPS["$provided"]="$pkgname"
+    done < <(list-package-files "$pkgname")
+}
+
+function package-name {
+    local filename="${1?}"
+    info-inline "$filename"
+    if [[ -z "${DEPS["$filename"]+found}" ]]; then
+        info " (querying ${TEXLIVE_REPOSITORY})"
+        encache-file "$filename"
+        echo "${DEPS["$filename"]}" || info "failed to resolve ${filename}"
+    else
+        info " (from ${DEPS[$filename]})"
+    fi
+}
+
+function find-packages {
+    while read -r filename; do
+        package-name "$filename"
+    done
+}
+
+function list-deps {
+    local main="${1:-main}"
+    main="${main%.@(tex|aux|fls)}" # extglob
+    [[ -f "$main.fls" ]] || die 1 "no such file: $main.fls"
+
+    filter-inputs "$main.fls" | sort --unique > "$main.inputs"
+    info "$(wc -l "$main.inputs")"
+
+    find-packages < "$main.inputs" | tee "$main.deps"
+    sort --unique --output "$main.deps" "$main.deps"
+}
+
+# Only call the main function if this script was called as a command. This makes
+# it possible to source this script as a library.
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+    list-deps "$@"
+fi
